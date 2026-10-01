@@ -103,8 +103,49 @@ window.SITE = {
    "titulo": "Geometria da amostra e amostragem aleatória",
    "arquivo": "capitulos/cap-03.html",
    "paginas": "116-156",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "3.1",
+     "titulo": "Duas geometrias da amostra",
+     "livro": "§3.1–3.2"
+    },
+    {
+     "numero": "3.2",
+     "titulo": "A média como projeção",
+     "livro": "§3.2"
+    },
+    {
+     "numero": "3.3",
+     "titulo": "Comprimento e ângulo dos desvios",
+     "livro": "§3.2"
+    },
+    {
+     "numero": "3.4",
+     "titulo": "Amostra aleatória, média e S",
+     "livro": "§3.3"
+    },
+    {
+     "numero": "3.5",
+     "titulo": "Variância generalizada",
+     "livro": "§3.4"
+    },
+    {
+     "numero": "3.6",
+     "titulo": "Quando |S| = 0",
+     "livro": "§3.4"
+    },
+    {
+     "numero": "3.7",
+     "titulo": "|R| e variância total",
+     "livro": "§3.4"
+    },
+    {
+     "numero": "3.8",
+     "titulo": "Média, S e R como operações matriciais",
+     "livro": "§3.5–3.6"
+    }
+   ]
   },
   {
    "id": "cap-04",
