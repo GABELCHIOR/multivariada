@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-01">
+<title>Cap. 1 — Aspectos da análise multivariada</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 1 — Aspectos da análise multivariada</h1>
+<p class="contexto">Onde isso se encaixa: você já sabe resumir uma variável (média, variância). Aqui começa o caso em que cada item tem várias medições ao mesmo tempo, e aparece a ideia que sustenta o livro inteiro: medir distância levando em conta a forma dos dados.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 1.1 ================= -->
+  <div class="secao" data-numero="1.1" data-titulo="Para que serve" data-livro="§1.1–1.2">
+
+  <section class="passo" data-titulo="A pergunta">
+   <div class="texto">
+    <h2>Qual destes pontos é mais estranho?</h2>
+    <p>Este capítulo arruma a casa: como organizar dados com muitas variáveis, resumir, olhar e, o mais importante, <strong>medir distância</strong> entre observações. Começa com uma pergunta que você ainda não tem ferramenta para responder.</p>
+    <p>No gráfico ao lado, cada ponto cinza é um item medido em duas variáveis; $Q$ é o centro da nuvem. Chegaram dois itens novos, A e B.</p>
+    <div class="prever">
+      <p>Qual dos dois parece mais atípico em relação à nuvem?</p>
+      <div class="alts">
+        <button data-op="a">A</button>
+        <button data-op="b" data-certa>B</button>
+        <button data-op="c">Os dois iguais</button>
+      </div>
+      <div class="explica" hidden><p>B. Pela régua comum, A está mais longe de $Q$ (4,2 contra 2,8). Mas a nuvem se estende na direção de A e é estreita na direção de B: um item como A é comum, um como B quase não acontece. Na seção 1.6 você vai medir isso com números.</p></div>
+    </div>
+    <div class="ideia">Em dados multivariados, "longe" depende da forma da nuvem, não só da régua.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-nuvem" data-ref-tipo="exemplo" data-ref-nome="A nuvem e os pontos A e B">
+      <p>60 itens com centro $Q = (0, 0)$, as duas variáveis com variância 2 e correlação 0,8. Itens novos: $A = (-3, -3)$ e $B = (2, -2)$.</p>
+      <svg viewBox="0 0 360 300" class="fig" id="fig-nuvem" role="img" aria-label="Nuvem inclinada de pontos com o centro Q e os pontos A e B"></svg>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Cinco objetivos">
+   <div class="texto">
+    <h2>Toda técnica do livro serve a um de cinco objetivos</h2>
+    <p>Análise multivariada é o conjunto de métodos para dados em que cada item tem <strong>várias medições simultâneas</strong>. Não existe uma classificação perfeita das técnicas; o que decide o método é o objetivo do estudo.</p>
+    <div class="definicao" data-ref-id="d-objetivos" data-ref-tipo="definicao" data-ref-nome="Os cinco objetivos">
+      <p><strong>1. Redução de dados:</strong> representar o fenômeno da forma mais simples sem perder informação valiosa.<br>
+      <strong>2. Ordenação e agrupamento:</strong> formar grupos de itens parecidos, ou criar regras para classificar itens em grupos já definidos.<br>
+      <strong>3. Dependência entre variáveis:</strong> as variáveis são independentes, ou umas dependem de outras? Como?<br>
+      <strong>4. Previsão:</strong> prever umas variáveis a partir de outras.<br>
+      <strong>5. Construção e teste de hipóteses:</strong> testar afirmações sobre parâmetros da população.</p>
+    </div>
+    <p>Dois avisos que o livro faz logo de saída: quase todos os dados aqui são <strong>observacionais</strong> (ninguém controlou as variáveis; planejamento de experimentos só nos caps. 6 e 7), e muitos métodos se apoiam na <strong>normal multivariada</strong> (cap. 4).</p>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Com os recordes nacionais de vários países em 8 provas de atletismo, um pesquisador constrói um único índice de desempenho por país. Qual objetivo da análise multivariada é esse?</p>
+      <div class="alts">
+        <button data-op="a">(a) Ordenação e agrupamento, porque no fim os países podem ser ordenados pelo índice.</button>
+        <button data-op="b">(b) Previsão, porque o índice permite prever o desempenho em provas futuras.</button>
+        <button data-op="c">(c) Redução de dados, porque 8 medições viram um número que guarda o essencial.</button>
+        <button data-op="d">(d) Dependência entre variáveis, porque o índice depende das 8 provas.</button>
+      </div>
+      <div class="fb" data-op="a">Ordenar é uma consequência possível, mas o que o pesquisador fez foi condensar 8 variáveis em 1. Agrupamento seria formar grupos de países parecidos.</div>
+      <div class="fb" data-op="b">Nada no estudo prevê uma variável a partir de outras; o índice resume as 8 que já existem.</div>
+      <div class="fb" data-op="c">Isso. Trocar muitas variáveis por poucas combinações delas, perdendo pouco, é redução de dados (o caminho da PCA, no cap. 8).</div>
+      <div class="fb" data-op="d">Todo resumo "depende" das variáveis de origem. O objetivo de dependência pergunta como as variáveis se relacionam entre si, e não é isso que o índice responde.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Desconfie do número">
+   <div class="texto">
+    <h2>O computador faz a conta; você decide se acredita</h2>
+    <p>Toda técnica multivariada roda no computador, e o software sempre devolve um número. O livro cita uma regra de bolso do estatístico F. H. C. Marriott que vale para o resto do curso:</p>
+    <div class="ideia">Se o resultado contradiz quem conhece o assunto, não tem interpretação lógica e não aparece num gráfico, ele provavelmente está errado.</div>
+    <p>Métodos numéricos ajudam a interpretar dados; não são máquinas que transformam números em fatos. Por isso este capítulo dá tanto espaço a gráficos.</p>
+    <div class="pare">
+      <p>O software diz que duas variáveis têm correlação 0,95. No gráfico de dispersão, você vê uma nuvem redonda e um único ponto muito longe de todos. Em que acreditar?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>No gráfico. A nuvem redonda indica pouca associação; o 0,95 vem quase todo do ponto isolado. O próximo passo é investigar esse ponto (erro de registro? item de outra população?) e calcular a correlação com e sem ele. Você vai ver esse efeito numa simulação na seção 1.4.</p></div>
+    </div>
+   </div>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 1.2 ================= -->
+  <div class="secao" data-numero="1.2" data-titulo="Os dados como arranjo" data-livro="§1.3">
+
+  <section class="passo" data-titulo="O arranjo X">
+   <div class="texto">
+    <h2>Item na linha, variável na coluna</h2>
+    <p>Mede-se $p \ge 1$ variáveis em cada um de $n$ itens (pessoas, empresas, amostras de papel). O livro guarda tudo num arranjo retangular:</p>
+    <div class="definicao" data-ref-id="d-xjk" data-ref-tipo="definicao" data-ref-nome="Notação x_jk e o arranjo X">
+      <p>$x_{jk}$ = medição da variável $k$ no item $j$. <strong>O primeiro índice é o item (linha), o segundo é a variável (coluna).</strong></p>
+      $$\mathbf{X} = \begin{bmatrix} x_{11} & x_{12} & \cdots & x_{1p} \\ x_{21} & x_{22} & \cdots & x_{2p} \\ \vdots & \vdots & & \vdots \\ x_{n1} & x_{n2} & \cdots & x_{np} \end{bmatrix}\quad (n \times p)$$
+    </div>
+    <p>A ordem dos índices é a primeira armadilha do livro: $x_{32}$ é o item 3 na variável 2, e não o contrário. Negrito indica arranjo (vetor ou matriz).</p>
+    <div class="ideia">$\mathbf{X}$ tem uma linha por item e uma coluna por variável; $x_{jk}$ lê-se "item $j$, variável $k$".</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-livraria" data-ref-tipo="exemplo" data-ref-nome="Recibos da livraria (Ex. 1.1)">
+      <p>Quatro recibos de uma livraria universitária. Variável 1: valor da venda (US\$); variável 2: número de livros.</p>
+      <div class="escala"><table class="tab">
+        <tr><th>Recibo $j$</th><th>$x_{j1}$ (US\$)</th><th>$x_{j2}$ (livros)</th></tr>
+        <tr><td>1</td><td>42</td><td>4</td></tr>
+        <tr><td>2</td><td>52</td><td>5</td></tr>
+        <tr><td>3</td><td>48</td><td>4</td></tr>
+        <tr><td>4</td><td>58</td><td>3</td></tr>
+      </table></div>
+      <p>$$\mathbf{X} = \begin{bmatrix} 42 & 4 \\ 52 & 5 \\ 48 & 4 \\ 58 & 3 \end{bmatrix}$$</p>
+    </div>
+    <div class="lacunas">
+      <p>No arranjo da livraria: $n =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="n"> · $p =$ <input class="lacuna" data-resp="2" data-tol="0" aria-label="p"></p>
+      <p>$x_{31} =$ <input class="lacuna" data-resp="48" data-tol="0" aria-label="x 3 1"> · $x_{22} =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="x 2 2"> · $x_{42} =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="x 4 2"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: primeiro índice = linha (recibo), segundo = coluna (variável).</p>
+      <div class="resolucao" hidden><p>4 recibos e 2 variáveis. $x_{31}$ é o recibo 3 na variável 1 (48); $x_{22}$, o recibo 2 na variável 2 (5); $x_{42}$, o recibo 4 na variável 2 (3).</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Linhas e colunas">
+   <div class="texto">
+    <h2>Dois jeitos de transformar o arranjo em pontos</h2>
+    <p><strong>Pelas linhas:</strong> cada item é um ponto num espaço com um eixo por variável. São $n$ pontos em $p$ dimensões, o diagrama de dispersão generalizado. É a visão natural para ver grupos e itens atípicos.</p>
+    <p><strong>Pelas colunas:</strong> cada variável é um ponto num espaço com um eixo por item. São $p$ pontos em $n$ dimensões. Parece estranho, mas no cap. 3 essa visão vai mostrar que a correlação entre duas variáveis é o cosseno do ângulo entre elas.</p>
+    <p>Na <span class="ref" data-ref="ex-livraria">livraria</span>: 4 recibos viram 4 pontos no plano (valor × livros), ou as 2 variáveis viram 2 pontos num espaço de 4 dimensões.</p>
+    <div class="ideia">O arranjo $\mathbf{X}$ pode ser lido como $n$ pontos em $p$ dimensões (itens) ou como $p$ pontos em $n$ dimensões (variáveis).</div>
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Um arranjo $\mathbf{X}$ guarda as notas de 30 alunos (linhas) em 4 provas (colunas). Qual afirmação está correta?</p>
+      <div class="alts">
+        <button data-op="a">(a) Cada aluno é um ponto num espaço de 4 dimensões, e cada prova é um ponto num espaço de 30 dimensões.</button>
+        <button data-op="b">(b) Cada aluno é um ponto num espaço de 30 dimensões, e cada prova é um ponto num espaço de 4 dimensões.</button>
+        <button data-op="c">(c) $x_{12,3}$ é a nota da prova 12 do aluno 3.</button>
+        <button data-op="d">(d) Alunos e provas são pontos num espaço de 4 dimensões, porque o arranjo tem 4 colunas.</button>
+      </div>
+      <div class="fb" data-op="a">Isso. Um aluno tem 4 notas (4 coordenadas); uma prova tem 30 notas, uma por aluno (30 coordenadas).</div>
+      <div class="fb" data-op="b">Trocou as dimensões. O número de coordenadas de um aluno é o número de provas (4), não o de alunos.</div>
+      <div class="fb" data-op="c">O primeiro índice é o item: $x_{12,3}$ é o aluno 12 na prova 3. Prova 12 nem existe aqui.</div>
+      <div class="fb" data-op="d">Os alunos estão em 4 dimensões, mas cada prova é uma coluna com 30 números, então vive em 30 dimensões.</div>
+    </div>
+   </div>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 1.3 ================= -->
+  <div class="secao" data-numero="1.3" data-titulo="Resumos numéricos" data-livro="§1.3">
+
+  <section class="passo" data-titulo="Média e variância">
+   <div class="texto">
+    <h2>Centro e espalhamento, variável por variável</h2>
+    <p>As estatísticas descritivas resumem localização, variação e associação linear. As duas primeiras são calculadas em cada coluna de $\mathbf{X}$:</p>
+    <div class="formula" data-ref-id="f-media-var" data-ref-tipo="formula" data-ref-nome="Média e variância amostrais (1-1), (1-3)">
+      $$\class{s1}{\bar{x}_k} = \frac{1}{n}\sum_{j=1}^{n} x_{jk}$$
+      $$\class{s2}{s_{kk}} = s_k^2 = \frac{1}{n}\sum_{j=1}^{n}\left(x_{jk} - \class{s1}{\bar{x}_k}\right)^2,\qquad k = 1, \dots, p$$
+      <ul class="legenda">
+        <li><span class="s1">$\bar{x}_k$</span>: média amostral da variável $k$</li>
+        <li><span class="s2">$s_{kk}$</span>: variância amostral (índice duplo)</li>
+      </ul>
+    </div>
+    <p><strong>Divisor $n$.</strong> Muitos livros usam $n-1$. Este usa $n$ por enquanto e sempre deixa o divisor visível; no cap. 3 aparece por que $n-1$ é melhor em amostras pequenas.</p>
+    <p>O índice duplo $s_{kk}$ prepara o terreno: as variâncias vão morar na diagonal de um arranjo. O <strong>desvio padrão</strong> $\sqrt{s_{kk}}$ volta à unidade original.</p>
+    <div class="ideia">Média e variância resumem cada variável sozinha; o livro escreve a variância como $s_{kk}$, com divisor $n$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Na <span class="ref" data-ref="ex-livraria">livraria</span> (Ex. 1.2):</p>
+      <p>$\bar{x}_1 = \tfrac14(42 + 52 + 48 + 58) = 50$ · $\bar{x}_2 = \tfrac14(4 + 5 + 4 + 3) = 4$</p>
+      <p>$s_{11} = \tfrac14\left[(-8)^2 + 2^2 + (-2)^2 + 8^2\right] = 34$</p>
+      <p>$s_{22} = \tfrac14\left[0^2 + 1^2 + 0^2 + (-1)^2\right] = 0{,}5$</p>
+    </div>
+    <div class="pare">
+      <p>Na livraria, $s_{11} = 34$ e $s_{22} = 0{,}5$. Dá para concluir que o valor da venda "varia mais" que o número de livros?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Não. As unidades são diferentes (dólares² contra livros²). Se o valor estivesse em centavos, $s_{11}$ seria 340 000. Variâncias só se comparam diretamente na mesma unidade; é por isso que a correlação, que não tem unidade, vai ser útil.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Covariância">
+   <div class="texto">
+    <h2>Covariância: as duas variáveis sobem juntas?</h2>
+    <div class="formula" data-ref-id="f-cov" data-ref-tipo="formula" data-ref-nome="Covariância amostral (1-4)">
+      $$\class{s2}{s_{ik}} = \frac{1}{n}\sum_{j=1}^{n}\left(x_{ji} - \bar{x}_i\right)\left(x_{jk} - \bar{x}_k\right)$$
+    </div>
+    <p>Cada item contribui com o produto dos seus dois desvios. Se valores altos de uma variável aparecem com valores altos da outra (e baixos com baixos), os produtos são quase todos positivos e $s_{ik} \gt 0$. Se alto vem com baixo, $s_{ik} \lt 0$. Sem padrão, $s_{ik} \approx 0$.</p>
+    <p>Dois detalhes: $s_{ik} = s_{ki}$, e com $i = k$ a covariância é a própria variância $s_{kk}$. Na <span class="ref" data-ref="ex-livraria">livraria</span>, $s_{12} = \tfrac14[(-8)(0) + (2)(1) + (-2)(0) + (8)(-1)] = -1{,}5$: vendas maiores vieram com menos livros (livros mais caros).</p>
+    <div class="ideia">O sinal da covariância diz se as variáveis tendem a andar juntas (+) ou em sentidos opostos (−); o tamanho depende das unidades.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-cov">
+      <p>Se a nuvem inclinar para baixo, onde fica a maioria dos pontos em relação às linhas das médias?</p>
+      <div class="alts">
+        <button data-op="a">Quadrantes de produto +</button>
+        <button data-op="b" data-certa>Quadrantes de produto −</button>
+        <button data-op="c">Espalhados igualmente</button>
+      </div>
+      <div class="explica" hidden><p>Com inclinação para baixo, quem está acima da média em $x_1$ costuma estar abaixo em $x_2$: os produtos de desvios ficam negativos (pontos laranja) e a soma deles, $s_{12}$, fica negativa. Com $r = 0$ os quatro quadrantes se equilibram.</p></div>
+    </div>
+    <div class="sim" id="sim-cov">
+      <label>Inclinação da nuvem (correlação) <input type="range" id="cov-r" min="-0.9" max="0.9" step="0.05" value="0.6"> <strong id="cov-r-v">0,60</strong></label>
+      <svg viewBox="0 0 360 300" id="cov-svg" role="img" aria-label="Nuvem de pontos com linhas das médias e pontos coloridos pelo sinal do produto dos desvios"></svg>
+      <p id="cov-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Correlação">
+   <div class="texto">
+    <h2>Correlação: a covariância sem unidade</h2>
+    <div class="formula" data-ref-id="f-cor" data-ref-tipo="formula" data-ref-nome="Correlação amostral (1-5)">
+      $$\class{s3}{r_{ik}} = \frac{\class{s2}{s_{ik}}}{\sqrt{\class{s2}{s_{ii}}}\,\sqrt{\class{s2}{s_{kk}}}}$$
+      $$\phantom{r_{ik}} = \frac{\sum_{j}(x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)}{\sqrt{\sum_{j}(x_{ji} - \bar{x}_i)^2}\,\sqrt{\sum_{j}(x_{jk} - \bar{x}_k)^2}}$$
+    </div>
+    <p>É a covariância das variáveis <strong>padronizadas</strong> (centradas e divididas pelo desvio padrão). Como o divisor aparece em cima e embaixo, $r_{ik}$ é o mesmo com $n$ ou $n-1$. Na livraria, $r_{12} = -1{,}5 / (\sqrt{34}\sqrt{0{,}5}) = -0{,}36$.</p>
+    <div class="definicao" data-ref-id="d-props-r" data-ref-tipo="definicao" data-ref-nome="Propriedades da correlação">
+      <p><strong>1.</strong> $-1 \le r \le 1$. <strong>2.</strong> $r$ mede associação <em>linear</em>; o sinal dá a direção. <strong>3.</strong> Trocar $x_{ji}$ por $a x_{ji} + b$ e $x_{jk}$ por $c x_{jk} + d$ não muda $r_{ik}$, <em>se $a$ e $c$ tiverem o mesmo sinal</em> (com sinais opostos, só o sinal de $r$ inverte).</p>
+    </div>
+    <p>Limites: $r$ não enxerga associações não lineares e é sensível a observações discrepantes. Corrija erros de registro e informe $s_{ik}$ e $r_{ik}$ com e sem as observações suspeitas.</p>
+    <div class="ideia">A correlação mede associação linear numa escala de −1 a 1, sem depender de unidade nem do divisor.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Temperaturas diárias (°C) de duas cidades têm $r = 0{,}8$. A cidade 1 é convertida para °F ($y = 1{,}8x + 32$) e a cidade 2 para "graus abaixo de 40 °C" ($y = 40 - x$). Qual é a nova correlação?</p>
+      <div class="alts">
+        <button data-op="a">(a) 0,8, porque a correlação não depende de mudanças de escala.</button>
+        <button data-op="b">(b) −0,8, porque uma das transformações tem coeficiente negativo.</button>
+        <button data-op="c">(c) 1,44, porque a escala da cidade 1 foi multiplicada por 1,8.</button>
+        <button data-op="d">(d) Impossível saber, porque somar constantes muda as médias.</button>
+      </div>
+      <div class="fb" data-op="a">Quase. A invariância vale quando os dois coeficientes ($a = 1{,}8$ e $c = -1$) têm o mesmo sinal. Aqui não têm, então o sinal de $r$ inverte.</div>
+      <div class="fb" data-op="b">Isso. O tamanho da associação não muda; como $c = -1 \lt 0$ e $a = 1{,}8 \gt 0$, a direção inverte.</div>
+      <div class="fb" data-op="c">A correlação nunca passa de 1. Multiplicar por 1,8 multiplica o desvio padrão também, e o fator se cancela.</div>
+      <div class="fb" data-op="d">Somar constantes desloca as médias, mas os desvios $x_{ji} - \bar{x}_i$ ficam iguais, então $r$ não depende disso.</div>
+    </div>
+    <details class="demo">
+      <summary>Demonstração: por que $r$ não muda com $ax + b$, $cx + d$ ($ac \gt 0$)</summary>
+      <p>Com $y_{ji} = a x_{ji} + b$, a média vira $\bar{y}_i = a\bar{x}_i + b$, e o desvio vira $y_{ji} - \bar{y}_i = a(x_{ji} - \bar{x}_i)$. Do mesmo modo, $y_{jk} - \bar{y}_k = c(x_{jk} - \bar{x}_k)$. Então</p>
+      $$r_{ik}^{(y)} = \frac{ac\sum_j (x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)}{|a|\sqrt{\sum_j (x_{ji} - \bar{x}_i)^2}\;|c|\sqrt{\sum_j (x_{jk} - \bar{x}_k)^2}}$$
+      $$\phantom{r_{ik}^{(y)}} = \frac{ac}{|ac|}\, r_{ik}.$$
+      <p>Se $ac \gt 0$, o fator é 1; se $ac \lt 0$, é −1 e só o sinal inverte.</p>
+    </details>
+    <details class="demo">
+      <summary>Demonstração: por que $-1 \le r \le 1$</summary>
+      <p>Chame $u_j = x_{ji} - \bar{x}_i$ e $v_j = x_{jk} - \bar{x}_k$. Para todo número $t$, $\sum_j (u_j - t v_j)^2 \ge 0$. Expandindo:</p>
+      $$\textstyle\sum_j u_j^2 - 2t\sum_j u_j v_j + t^2 \sum_j v_j^2 \ge 0 \quad \text{para todo } t.$$
+      <p>Um polinômio do 2º grau em $t$ que nunca fica negativo tem discriminante $\le 0$:</p>
+      $$\textstyle 4\left(\sum_j u_j v_j\right)^2 - 4\sum_j u_j^2 \sum_j v_j^2 \le 0$$
+      $$\textstyle \Longrightarrow\quad \left(\sum_j u_j v_j\right)^2 \le \sum_j u_j^2 \sum_j v_j^2,$$
+      <p>que é $r_{ik}^2 \le 1$ (desigualdade de Cauchy–Schwarz). A igualdade só ocorre se $u_j = t v_j$ para todo $j$: pontos exatamente sobre uma reta.</p>
+    </details>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Os arranjos">
+   <div class="texto">
+    <h2>Tudo de uma vez: $\bar{\mathbf{x}}$, $\mathbf{S}_n$ e $\mathbf{R}$</h2>
+    <p>Com $p$ variáveis, as estatísticas também viram arranjos:</p>
+    <div class="formula" data-ref-id="f-arranjos" data-ref-tipo="formula" data-ref-nome="Arranjos de estatísticas descritivas (1-8)">
+      $$\bar{\mathbf{x}} = \begin{bmatrix}\bar{x}_1\\ \vdots \\ \bar{x}_p\end{bmatrix}\qquad \mathbf{S}_n = \begin{bmatrix} s_{11} & \cdots & s_{1p}\\ \vdots & \ddots & \vdots \\ s_{p1} & \cdots & s_{pp}\end{bmatrix}$$
+      $$\mathbf{R} = \begin{bmatrix} 1 & \cdots & r_{1p}\\ \vdots & \ddots & \vdots\\ r_{p1} & \cdots & 1\end{bmatrix}$$
+    </div>
+    <p>$\bar{\mathbf{x}}$ tem $p$ linhas; $\mathbf{S}_n$ e $\mathbf{R}$ são $p \times p$ e <strong>simétricos</strong> ($s_{ik} = s_{ki}$). O índice $n$ em $\mathbf{S}_n$ lembra o divisor. As somas sem divisor também aparecem no livro:</p>
+    <div class="formula" data-ref-id="f-w" data-ref-tipo="formula" data-ref-nome="Somas de quadrados e produtos cruzados (1-6), (1-7)">
+      $$w_{ik} = \sum_{j=1}^{n}(x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k) = n\,s_{ik}\qquad (w_{kk}\text{: soma de quadrados})$$
+    </div>
+    <div class="ideia">$\bar{\mathbf{x}}$ empilha as médias; $\mathbf{S}_n$ guarda variâncias na diagonal e covariâncias fora dela; $\mathbf{R}$ faz o mesmo com correlações e tem 1 na diagonal.</div>
+    <div class="pare">
+      <p>Se você tivesse calculado as covariâncias com divisor $n-1$ em vez de $n$, o arranjo $\mathbf{R}$ mudaria?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Não. Trocar o divisor multiplica todas as variâncias e covariâncias por $n/(n-1)$; em $r_{ik} = s_{ik}/\sqrt{s_{ii}s_{kk}}$ o fator aparece em cima e embaixo e se cancela. Só $\mathbf{S}_n$ muda.</p></div>
+    </div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><span class="ref" data-ref="ex-livraria">Livraria</span>, tudo junto:</p>
+      $$\bar{\mathbf{x}} = \begin{bmatrix}50\\ 4\end{bmatrix}\qquad \mathbf{S}_n = \begin{bmatrix} 34 & -1{,}5\\ -1{,}5 & 0{,}5\end{bmatrix}$$
+      $$\mathbf{R} = \begin{bmatrix} 1 & -0{,}36\\ -0{,}36 & 1\end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>Agora você: $n = 4$ itens com $x_1 = (2, 4, 6, 8)$ e $x_2 = (5, 3, 4, 0)$.</p>
+      <p>$\bar{x}_1 =$ <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="média 1"> · $\bar{x}_2 =$ <input class="lacuna" data-resp="3" data-tol="0.001" aria-label="média 2"></p>
+      <p>$s_{11} =$ <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="s11"> · $s_{22} =$ <input class="lacuna" data-resp="3.5" data-tol="0.001" aria-label="s22"> · $s_{12} =$ <input class="lacuna" data-resp="-3.5" data-tol="0.001" aria-label="s12"></p>
+      <p>$r_{12} =$ <input class="lacuna" data-resp="-0.84" data-tol="0.01" aria-label="r12"> (duas casas)</p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: comece pelos desvios. $x_1 - \bar{x}_1 = (-3, -1, 1, 3)$ e $x_2 - \bar{x}_2 = (2, 0, 1, -3)$. Divida por $n = 4$.</p>
+      <div class="resolucao" hidden><p>$s_{11} = (9 + 1 + 1 + 9)/4 = 5$; $s_{22} = (4 + 0 + 1 + 9)/4 = 3{,}5$; $s_{12} = (-6 + 0 + 1 - 9)/4 = -3{,}5$; $r_{12} = -3{,}5/\sqrt{5 \cdot 3{,}5} = -0{,}84$.</p></div>
+    </div>
+    <div class="confira">
+      <ul>
+        <li>$\mathbf{S}_n$ e $\mathbf{R}$ simétricos; diagonal de $\mathbf{R}$ só com 1.</li>
+        <li>$|r_{12}| \le 1$ e com o mesmo sinal de $s_{12}$.</li>
+        <li>Variâncias nunca negativas.</li>
+      </ul>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 1.4 ================= -->
+  <div class="secao" data-numero="1.4" data-titulo="Olhar antes de calcular" data-livro="§1.3">
+
+  <section class="passo" data-titulo="Marginais não bastam">
+   <div class="texto">
+    <h2>Olhar cada variável sozinha esconde a associação</h2>
+    <p>O <strong>diagrama de dispersão</strong> põe cada item como um ponto no plano $(x_1, x_2)$. Os <strong>diagramas de pontos marginais</strong> são as projeções desses pontos em cada eixo: mostram cada variável isolada.</p>
+    <p>Dos marginais dá para tirar $\bar{x}_1$, $\bar{x}_2$, $s_{11}$ e $s_{22}$. Mas não $s_{12}$: a covariância depende de <em>quem está pareado com quem</em>, e essa informação só existe no diagrama de dispersão.</p>
+    <p>Na simulação, os 7 valores de cada variável são sempre os mesmos; o botão troca só o pareamento.</p>
+    <div class="ideia">Marginais iguais podem vir de associações opostas; dispersão e marginais se complementam, não competem.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-repar">
+      <p>Trocar o pareamento, mantendo os mesmos 7 valores de cada variável, muda o quê?</p>
+      <div class="alts">
+        <button data-op="a" data-certa>Só $s_{12}$ e $r_{12}$</button>
+        <button data-op="b">Médias, variâncias e $s_{12}$</button>
+        <button data-op="c">Nada</button>
+      </div>
+      <div class="explica" hidden><p>Médias e variâncias só dependem dos valores de cada coluna, que não mudaram. A covariância soma produtos de desvios do <em>mesmo item</em>; trocando os pares, os produtos mudam, e aqui o sinal inverte (de 0,96 para −0,78).</p></div>
+    </div>
+    <div class="sim" id="sim-repar">
+      <svg viewBox="0 -14 360 334" id="repar-svg" role="img" aria-label="Diagrama de dispersão com diagramas de pontos marginais"></svg>
+      <p id="repar-txt" style="margin:.4rem 0 .5rem;font-size:.93rem"></p>
+      <button class="btn pequeno" id="repar-btn">Trocar o pareamento</button>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Pontos atípicos">
+   <div class="texto">
+    <h2>Um único ponto pode mudar a correlação</h2>
+    <p>O livro mostra dados de 16 editoras: número de funcionários ($x_1$) e lucro por funcionário ($x_2$). Duas se destacam: Dun &amp; Bradstreet, com muito mais funcionários que as outras e lucro típico, e Time Warner, com funcionários típicos e lucro negativo.</p>
+    <div class="escala"><table class="tab">
+      <tr><th>Editoras usadas</th><th>$r_{12}$</th></tr>
+      <tr><td>Todas as 16</td><td>−0,39</td></tr>
+      <tr><td>Sem Dun &amp; Bradstreet</td><td>−0,56</td></tr>
+      <tr><td>Sem Time Warner</td><td>−0,39</td></tr>
+      <tr><td>Sem as duas</td><td>−0,50</td></tr>
+    </table></div>
+    <p>Repare: ser atípico não basta para mexer em $r$. Time Warner é atípica e quase não muda nada; Dun &amp; Bradstreet, longe no eixo $x_1$, muda muito.</p>
+    <div class="ideia">Observações atípicas podem mudar muito a correlação; calcule com e sem elas e investigue a causa antes de excluir.</div>
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Numa amostra de 16 empresas, $r_{12} = -0{,}39$; sem uma empresa com número de funcionários muito acima das outras (e lucro típico), $r_{12} = -0{,}56$. O que fazer?</p>
+      <div class="alts">
+        <button data-op="a">(a) Informar as duas correlações e investigar por que essa empresa é diferente.</button>
+        <button data-op="b">(b) Excluir a empresa, porque um valor tão diferente deve ser erro de registro.</button>
+        <button data-op="c">(c) Usar −0,56, porque é a correlação verdadeira da população.</button>
+        <button data-op="d">(d) Usar −0,39, porque excluir dados nunca é permitido.</button>
+      </div>
+      <div class="fb" data-op="a">Isso. É a recomendação do livro: corrigir erros óbvios de registro e, fora isso, mostrar o resultado com e sem a observação suspeita.</div>
+      <div class="fb" data-op="b">Atípico não é sinônimo de erro: a empresa pode ser real e simplesmente maior. Exclui-se o que se prova ser erro.</div>
+      <div class="fb" data-op="c">Nenhuma das duas é "a verdadeira": são estatísticas de amostras diferentes. Escolher a que agrada esconde a fragilidade do resultado.</div>
+      <div class="fb" data-op="d">Corrigir ou excluir erros óbvios de registro é correto. O problema é excluir só por ser diferente, sem informar.</div>
+    </div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-atip">
+      <p>Levar um ponto para muito longe no eixo $x_1$, com $x_2$ típico, faz $|r_{12}|$...</p>
+      <div class="alts">
+        <button data-op="a" data-certa>diminuir</button>
+        <button data-op="b">aumentar</button>
+        <button data-op="c">ficar igual</button>
+      </div>
+      <div class="explica" hidden><p>Os outros pontos seguem uma tendência de queda; o ponto distante, com $x_2$ no meio, contraria essa tendência e "puxa" a reta para a horizontal. De −0,93 a correlação vai a cerca de −0,36: é o efeito Dun &amp; Bradstreet. Um ponto longe só em $x_2$ também mexe, mas menos.</p></div>
+    </div>
+    <div class="sim" id="sim-atip">
+      <label>Posição do ponto em $x_1$ <input type="range" id="atip-x" min="6" max="30" step="1" value="6"> <strong id="atip-x-v">6</strong></label>
+      <svg viewBox="0 0 360 260" id="atip-svg" role="img" aria-label="Diagrama de dispersão com um ponto que se move no eixo horizontal"></svg>
+      <p id="atip-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Associação e causa">
+   <div class="texto">
+    <h2>Associação não é causa</h2>
+    <p>Em 1977, os seis times da divisão leste da Liga Nacional de beisebol tinham folhas salariais e aproveitamentos que formam uma subida quase reta: $r_{12} = 0{,}89$. Dá vontade de concluir que dinheiro compra campeonato.</p>
+    <p>A estatística não autoriza isso. As folhas salariais não foram sorteadas entre os times; times bons podem atrair mais receita e pagar mais. Sem atribuição aleatória, não dá para responder "o último colocado teria vencido com o dobro do orçamento?".</p>
+    <div class="ideia">Correlação alta descreve associação linear; afirmar causa exige um experimento com atribuição aleatória (ou argumentos fora dos dados).</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Liga Nacional, divisão leste, 1977 (Tabela 1.1 do livro):</p>
+      <div class="escala"><table class="tab">
+        <tr><th>Time</th><th>Folha (US\$ milhões)</th><th>Aproveitamento</th></tr>
+        <tr><td>Phillies</td><td>3,50</td><td>0,623</td></tr>
+        <tr><td>Pirates</td><td>2,49</td><td>0,593</td></tr>
+        <tr><td>Cardinals</td><td>1,78</td><td>0,512</td></tr>
+        <tr><td>Cubs</td><td>1,73</td><td>0,500</td></tr>
+        <tr><td>Expos</td><td>1,65</td><td>0,463</td></tr>
+        <tr><td>Mets</td><td>1,47</td><td>0,395</td></tr>
+      </table></div>
+    </div>
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Seis times têm correlação 0,89 entre folha salarial e aproveitamento. Qual conclusão é adequada?</p>
+      <div class="alts">
+        <button data-op="a">(a) Gastar mais causa mais vitórias, porque a folha é definida antes da temporada.</button>
+        <button data-op="b">(b) A correlação não vale nada, porque com 6 times é preciso ter pelo menos 30 observações.</button>
+        <button data-op="c">(c) Há forte associação linear positiva, mas sem atribuição aleatória não dá para afirmar causa.</button>
+        <button data-op="d">(d) Não há associação linear, porque a relação pode ser não linear.</button>
+      </div>
+      <div class="fb" data-op="a">Vir antes no tempo não basta para causa: times melhores podem ter mais receita e, por isso, pagar mais. Sem sorteio, explicações alternativas continuam abertas.</div>
+      <div class="fb" data-op="b">A correlação descreve esses 6 times sem problema. Amostra pequena pesa na inferência para outras situações, não na descrição.</div>
+      <div class="fb" data-op="c">Isso. É exatamente o comentário do livro: o gráfico sustenta a associação; a causa não pode ser estabelecida porque não houve atribuição aleatória.</div>
+      <div class="fb" data-op="d">$r = 0{,}89$ já indica associação linear forte. A possibilidade de não linearidade não apaga a parte linear.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 1.5 ================= -->
+  <div class="secao" data-numero="1.5" data-titulo="Ver em mais dimensões" data-livro="§1.3–1.4">
+
+  <section class="passo" data-titulo="Dispersões ligadas">
+   <div class="texto">
+    <h2>Marcar um ponto e ver onde ele está em todos os gráficos</h2>
+    <p>Com $p$ variáveis, faz-se um diagrama de dispersão para cada par e arruma-se tudo numa <strong>matriz de dispersões</strong>, na posição que o par ocuparia em $\mathbf{S}_n$. Ao lado estão os dados reais de qualidade de papel do livro: densidade ($x_1$), resistência no sentido da máquina ($x_2$) e no sentido transversal ($x_3$), em 41 corpos de prova.</p>
+    <p>Nos softwares modernos os gráficos são <strong>ligados</strong>: marcar pontos num gráfico destaca os mesmos itens em todos os outros. Varrer uma faixa de valores marcando pontos é o <strong><em>brushing</em></strong>.</p>
+    <div class="ideia">Ligar os gráficos mostra em que combinações de variáveis um item é atípico, e revela grupos escondidos.</div>
+    <div class="pare">
+      <p>Marque o "rolo antigo" na simulação. Por que esse grupo aparece separado no gráfico $(x_2, x_3)$ mas se mistura no de densidade × resistência na máquina?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Porque esses corpos de prova diferem sobretudo na resistência transversal ($x_3$ por volta de 50 a 56, contra 68 a 80 dos outros). Em gráficos sem $x_3$ eles ficam no meio dos demais. Um grupo só "aparece" nas projeções que usam a variável em que ele difere.</p></div>
+    </div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-papel">
+      <p>O corpo de prova 25 tem densidade 0,971, a maior de todas. Ele vai parecer atípico em todos os gráficos de pares?</p>
+      <div class="alts">
+        <button data-op="a">Sim, em todos</button>
+        <button data-op="b" data-certa>Só nos que usam a densidade</button>
+        <button data-op="c">Em nenhum</button>
+      </div>
+      <div class="explica" hidden><p>Nas duas resistências ele é comum (126,1 e 72,1). Por isso só se destaca nos gráficos com $x_1$; no par $(x_2, x_3)$ fica escondido no meio da nuvem.</p></div>
+    </div>
+    <div class="sim" id="sim-papel">
+      <svg viewBox="0 0 360 360" id="papel-svg" role="img" aria-label="Matriz de dispersões dos dados de papel"></svg>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem">
+        <button class="btn pequeno" id="papel-25">Marcar o 25</button>
+        <button class="btn pequeno" id="papel-rolo">Marcar o rolo antigo</button>
+        <button class="btn pequeno" id="papel-limpar">Limpar</button>
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);margin:.4rem 0 0">Dados: Tabela 1.2 do livro (SONOCO Products).</p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Girar em 3D">
+   <div class="texto">
+    <h2>Um gráfico 3D girando mostra e esconde</h2>
+    <p>Com três variáveis dá para ver a nuvem em 3D, mas a tela é plana: o que se vê é sempre uma <strong>projeção</strong>. Softwares giram os eixos continuamente para o analista procurar o ângulo mais informativo.</p>
+    <p>A consequência é importante: um item pode ser claramente atípico num ângulo e ficar escondido em outro. No livro, dois corpos de prova de madeira aparecem ou somem conforme a rotação.</p>
+    <div class="ideia">Toda vista de dados multivariados é uma projeção; um ponto atípico pode estar escondido na projeção que você escolheu.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-3d">
+      <p>Os pontos seguem a regra $x_3 \approx x_1 + x_2$, e um item não segue. Girando os eixos, esse item aparece em todas as vistas?</p>
+      <div class="alts">
+        <button data-op="a">Sim, sempre</button>
+        <button data-op="b" data-certa>Só em algumas</button>
+        <button data-op="c">Em nenhuma</button>
+      </div>
+      <div class="explica" hidden><p>Ele só é atípico na combinação das três variáveis. Na vista em que a regra vira uma faixa estreita (perto de 45°), ele salta para fora; em outras, cai no meio da nuvem. Marque o ponto para conferir onde ele está em cada ângulo.</p></div>
+    </div>
+    <div class="sim" id="sim-3d">
+      <label>Ângulo de rotação <input type="range" id="r3d-a" min="-90" max="90" step="1" value="-40"> <strong id="r3d-a-v">−40°</strong></label>
+      <label style="margin-top:.2rem"><input type="checkbox" id="r3d-marca"> Marcar o item suspeito</label>
+      <svg viewBox="0 0 360 280" id="r3d-svg" role="img" aria-label="Projeção de uma nuvem 3D girando em torno do eixo vertical"></svg>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Estrelas">
+   <div class="texto">
+    <h2>Estrelas: um desenho por item</h2>
+    <p>Para comparar itens com muitas variáveis lado a lado, cada item vira uma <strong>estrela</strong>: um círculo com $p$ raios igualmente espaçados, um por variável, de comprimento proporcional ao valor. Ligando as pontas, cada item tem uma forma.</p>
+    <p>Dois cuidados do livro. Primeiro, <strong>padronizar</strong> as variáveis; depois, como surgem valores negativos, o centro do círculo passa a representar o <em>menor valor padronizado de todo o conjunto</em>. Segundo, cada variável recebe o mesmo peso visual, e a semelhança entre estrelas depende de em quais raios você presta atenção.</p>
+    <div class="ideia">Estrelas comparam itens pela forma; sem padronizar, a variável de maior escala domina o desenho.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-estrela">
+      <p>As variáveis estão em escalas muito diferentes (orçamento em milhões, nota de 0 a 10). Sem padronizar, o que acontece com as estrelas?</p>
+      <div class="alts">
+        <button data-op="a" data-certa>A variável de maior escala domina</button>
+        <button data-op="b">Nada muda</button>
+        <button data-op="c">Ficam mais fáceis de comparar</button>
+      </div>
+      <div class="explica" hidden><p>Sem padronizar, o raio do orçamento é enorme e os outros quase somem: as quatro estrelas viram "palitos" que só diferem no orçamento. Padronizadas, todas as variáveis contribuem e as formas passam a contar uma história.</p></div>
+    </div>
+    <div class="sim" id="sim-estrela">
+      <label><input type="checkbox" id="estrela-pad" checked> Padronizar as variáveis</label>
+      <svg viewBox="0 0 360 230" id="estrela-svg" role="img" aria-label="Estrelas de quatro universidades fictícias"></svg>
+      <p style="font-size:.8rem;color:var(--muted);margin:.3rem 0 0">Raios no sentido horário a partir do topo: alunos, nota média, % de doutores, orçamento, bolsas, idade. Dados fictícios.</p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Faces de Chernoff">
+   <div class="texto">
+    <h2>Faces de Chernoff: as pessoas leem rostos</h2>
+    <p>Chernoff propôs desenhar cada item como um rosto cujas características (largura do rosto, curvatura da boca, tamanho dos olhos, comprimento do nariz…) são determinadas pelas variáveis. O desenho original aceita até 18 variáveis.</p>
+    <p>O ponto delicado: <strong>quem escolhe qual variável vira qual traço é o analista</strong>, e escolhas diferentes produzem impressões diferentes. Por isso as faces servem para <em>confirmar</em> um agrupamento sugerido pelo conhecimento do assunto ou por um método de agrupamento, ou para acompanhar mudanças no tempo; não para provar que existem grupos.</p>
+    <div class="ideia">Faces de Chernoff dependem de uma atribuição subjetiva de variáveis a traços; use-as para confirmar e comunicar, não para descobrir.</div>
+   </div>
+   <aside class="apoio">
+    <div class="sim" id="sim-faces">
+      <svg viewBox="0 0 360 150" id="faces-svg" role="img" aria-label="Quatro faces de Chernoff de empresas fictícias"></svg>
+      <p id="faces-txt" style="font-size:.85rem;margin:.3rem 0 .5rem"></p>
+      <button class="btn pequeno" id="faces-btn">Trocar a atribuição</button>
+    </div>
+    <div class="quiz" data-correta="d">
+      <p class="enunciado">Duas pessoas fazem faces de Chernoff dos mesmos dados, com atribuições diferentes de variáveis a traços, e enxergam agrupamentos diferentes. O que isso indica?</p>
+      <div class="alts">
+        <button data-op="a">(a) Que uma das duas errou, porque os dados são os mesmos.</button>
+        <button data-op="b">(b) Que faltou padronizar as variáveis, o que deixaria as duas atribuições equivalentes.</button>
+        <button data-op="c">(c) Que usaram variáveis demais, já que as faces só funcionam com até 3 variáveis.</button>
+        <button data-op="d">(d) Que a impressão visual depende da atribuição, então as faces servem para confirmar grupos, não para estabelecê-los.</button>
+      </div>
+      <div class="fb" data-op="a">Nenhuma errou: as duas representações são legítimas. A diferença vem da escolha de qual variável vira qual traço.</div>
+      <div class="fb" data-op="b">Padronizar é parte da construção, mas não torna equivalentes atribuições diferentes: a boca chama mais atenção que o nariz qualquer que seja a escala.</div>
+      <div class="fb" data-op="c">O desenho original aceita até 18 variáveis. O problema não é a quantidade, é a subjetividade da atribuição.</div>
+      <div class="fb" data-op="d">Isso. Por depender de uma escolha subjetiva, a técnica é indicada para verificar agrupamentos sugeridos por outra via.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 1.6 ================= -->
+  <div class="secao" data-numero="1.6" data-titulo="Distância estatística" data-livro="§1.5–1.6">
+
+  <section class="passo" data-titulo="Régua comum">
+   <div class="texto">
+    <h2>A régua comum: distância euclidiana</h2>
+    <p>Quase toda técnica multivariada se apoia numa ideia simples: distância. A primeira que vem à cabeça é a de Pitágoras. Para $P = (x_1, \dots, x_p)$ e $Q = (y_1, \dots, y_p)$:</p>
+    <div class="formula" data-ref-id="f-euclid" data-ref-tipo="formula" data-ref-nome="Distância euclidiana (1-12)">
+      $$d(P, Q) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \cdots + (x_p - y_p)^2}$$
+    </div>
+    <p>Com $Q$ na origem $O$, os pontos a uma distância fixa $c$ satisfazem $x_1^2 + \cdots + x_p^2 = c^2$: uma <strong>hiperesfera</strong> (um círculo, se $p = 2$).</p>
+    <p>O problema: cada coordenada pesa igual. Se uma variável flutua muito e a outra pouco, um desvio de 3 unidades na primeira é rotineiro e na segunda é um escândalo, mas a régua trata os dois igual. E ela também ignora a correlação.</p>
+    <div class="ideia">A distância euclidiana dá o mesmo peso a todas as coordenadas, então depende das unidades e ignora variabilidade e correlação.</div>
+    <div class="pare">
+      <p>Duas pessoas são comparadas por altura (cm) e peso (kg). Se a altura passar a ser medida em metros, a distância euclidiana entre elas muda?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Muda, e muito: uma diferença de 10 cm vira 0,1 m, e a distância passa a ser quase só a diferença de peso. Uma distância que muda conforme a unidade escolhida não serve para dizer o que é "parecido" ou "atípico".</p></div>
+    </div>
+   </div>
+  </section>
+
+  <section class="passo" data-titulo="Padronizar">
+   <div class="texto">
+    <h2>Dividir pelo desvio padrão transforma o círculo em elipse</h2>
+    <p>Suponha primeiro as duas variáveis <strong>sem associação</strong> (o livro diz "variam independentemente": uma não ajuda a prever a outra). A saída natural é medir cada coordenada em desvios padrão: $x_1^* = x_1/\sqrt{s_{11}}$, $x_2^* = x_2/\sqrt{s_{22}}$, e só então usar Pitágoras.</p>
+    <div class="formula" data-ref-id="f-dest" data-ref-tipo="formula" data-ref-nome="Distância estatística sem correlação (1-13), (1-16)">
+      $$d^2(P, Q) = \frac{(x_1 - y_1)^2}{s_{11}} + \frac{(x_2 - y_2)^2}{s_{22}} + \cdots + \frac{(x_p - y_p)^2}{s_{pp}}$$
+    </div>
+    <p>É a euclidiana com pesos $1/s_{kk}$: coordenada que varia muito pesa pouco. Os pontos à distância $c$ da origem formam uma <strong>elipse</strong> com eixos sobre os eixos coordenados (em $p$ dimensões, um hiperelipsoide):</p>
+    <div class="formula" data-ref-id="f-elipse" data-ref-tipo="formula" data-ref-nome="Elipse de distância constante (1-14)">
+      $$\frac{x_1^2}{s_{11}} + \frac{x_2^2}{s_{22}} = c^2,\qquad \text{semieixos } c\sqrt{s_{11}} \text{ e } c\sqrt{s_{22}}$$
+    </div>
+    <div class="ideia">Medir cada coordenada em desvios padrão dá a distância estatística; seus pontos equidistantes formam elipses alongadas na direção que varia mais.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-elipse">
+      <p>Se $x_1$ varia muito mais que $x_2$, os pontos à mesma distância estatística da origem formam...</p>
+      <div class="alts">
+        <button data-op="a">um círculo</button>
+        <button data-op="b" data-certa>uma elipse alongada em $x_1$</button>
+        <button data-op="c">uma elipse alongada em $x_2$</button>
+      </div>
+      <div class="explica" hidden><p>Na direção de $x_1$, desvios grandes são comuns, então é preciso ir mais longe para chegar à mesma distância: a elipse se estica em $x_1$. Com desvios padrão iguais, ela vira círculo e a distância estatística é a euclidiana dividida por um número fixo.</p></div>
+    </div>
+    <div class="sim" id="sim-elipse">
+      <label>Desvio padrão de $x_1$ <input type="range" id="el-s1" min="0.5" max="3" step="0.1" value="2"> <strong id="el-s1-v">2,0</strong></label>
+      <label>Desvio padrão de $x_2$ <input type="range" id="el-s2" min="0.5" max="3" step="0.1" value="1"> <strong id="el-s2-v">1,0</strong></label>
+      <svg viewBox="0 0 360 300" id="el-svg" role="img" aria-label="Nuvem sem correlação com círculo euclidiano e elipse de distância estatística passando por um ponto P"></svg>
+      <p id="el-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Contas">
+   <div class="texto">
+    <h2>Calculando a distância estatística</h2>
+    <p>A <span class="ref" data-ref="f-dest">distância estatística</span> vale de qualquer ponto $P$ a um ponto fixo $Q$ (que pode ser a origem ou o centro da nuvem). Duas observações do livro:</p>
+    <p><strong>1.</strong> A distância à origem sai pondo $y_1 = \cdots = y_p = 0$. <strong>2.</strong> Se $s_{11} = s_{22} = \cdots = s_{pp}$, todos os pesos são iguais e dá para usar a euclidiana, que só difere por um fator fixo.</p>
+    <div class="exemplo" data-ref-id="ex-1-11" data-ref-tipo="exemplo" data-ref-nome="Elipse de distância 1 (Ex. 1.11)">
+      <p>Médias zero, $s_{11} = 4$, $s_{22} = 1$, sem associação. Distância ao quadrado: $d^2(O, P) = \dfrac{x_1^2}{4} + \dfrac{x_2^2}{1}$.</p>
+      <p>Pontos a distância 1: $(0, 1)$, $(0, -1)$, $(2, 0)$ e $(1, \sqrt{3}/2)$, porque $\tfrac14 + \tfrac34 = 1$. A elipse tem semieixos $\sqrt4 = 2$ (em $x_1$) e $\sqrt1 = 1$ (em $x_2$).</p>
+    </div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Agora $s_{11} = 9$, $s_{22} = 1$, médias zero, sem associação.</p>
+      <p>$d^2\big(O, (3, 1)\big) =$ <input class="lacuna" data-resp="2" data-tol="0.001" aria-label="d ao quadrado"> · distância euclidiana de $(3, 1)$ à origem $=$ <input class="lacuna" data-resp="3.16" data-tol="0.01" aria-label="euclidiana"> (duas casas)</p>
+      <p>O ponto $(x_1, 0)$ com $x_1 \gt 0$ a distância estatística 1 da origem tem $x_1 =$ <input class="lacuna" data-resp="3" data-tol="0.001" aria-label="x1"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: cada coordenada ao quadrado é dividida pela sua variância. Para o último, resolva $x_1^2/9 = 1$.</p>
+      <div class="resolucao" hidden><p>$d^2 = 3^2/9 + 1^2/1 = 1 + 1 = 2$ (distância $\sqrt2 \approx 1{,}41$). Euclidiana: $\sqrt{9 + 1} = 3{,}16$. Para $x_1^2/9 = 1$, $x_1 = 3$: o semieixo é $\sqrt{s_{11}} = 3$. Pela régua, $(3, 1)$ está longe; em desvios padrão, nem tanto.</p></div>
+    </div>
+    <div class="confira">
+      <ul><li>Os semieixos da elipse de distância 1 são os desvios padrão: $\sqrt{s_{11}}$ e $\sqrt{s_{22}}$.</li></ul>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Com correlação">
+   <div class="texto">
+    <h2>Com correlação, gire os eixos antes de padronizar</h2>
+    <p>Se $x_1$ e $x_2$ são correlacionadas, a nuvem é uma elipse inclinada e dividir por $\sqrt{s_{11}}$ e $\sqrt{s_{22}}$ não basta. O truque do livro: <strong>girar os eixos</strong> por um ângulo $\theta$ até a nuvem ficar "deitada" nos novos eixos $\tilde{x}_1$, $\tilde{x}_2$, e aí medir como antes.</p>
+    <div class="formula" data-ref-id="f-rot" data-ref-tipo="formula" data-ref-nome="Rotação dos eixos (1-17), (1-18)">
+      $$\begin{aligned} \tilde{x}_1 &= \phantom{-}x_1\cos\theta + x_2\sin\theta \\ \tilde{x}_2 &= -x_1\sin\theta + x_2\cos\theta \end{aligned}$$
+      $$d(O, P) = \sqrt{\frac{\tilde{x}_1^2}{\tilde{s}_{11}} + \frac{\tilde{x}_2^2}{\tilde{s}_{22}}}\qquad (\tilde{s}_{kk}\text{: variâncias nas coordenadas giradas})$$
+    </div>
+    <p>Escrevendo de volta nas coordenadas originais, aparece um termo novo, o <strong>produto cruzado</strong>:</p>
+    <div class="formula" data-ref-id="f-geral2" data-ref-tipo="formula" data-ref-nome="Distância estatística com correlação (1-19), (1-20)">
+      $$d(O, P) = \sqrt{\class{s3}{a_{11}}x_1^2 + 2\class{s3}{a_{12}}x_1x_2 + \class{s3}{a_{22}}x_2^2}$$
+      <ul class="legenda"><li><span class="s3">$a_{11}, a_{12}, a_{22}$</span>: pesos que dependem de $\theta$, $s_{11}$, $s_{12}$, $s_{22}$</li></ul>
+    </div>
+    <p>De $P$ a $Q$, troque $x_k$ por $x_k - y_k$. Sem correlação, $a_{12} = 0$ e $a_{kk} = 1/s_{kk}$: volta a <span class="ref" data-ref="f-dest">fórmula anterior</span>. As fórmulas exatas dos $a_{ik}$ não importam agora; no cap. 2 elas saem de forma limpa com matrizes.</p>
+    <div class="ideia">A correlação faz aparecer o termo cruzado $2a_{12}x_1x_2$; as elipses de distância constante ficam inclinadas como a nuvem.</div>
+    <details class="demo">
+      <summary>Demonstração: de onde vêm os $a_{ik}$ (nota de rodapé do livro)</summary>
+      <p>Abreviando $c = \cos\theta$ e $s = \sin\theta$. As variâncias amostrais das coordenadas giradas são variâncias de combinações lineares:</p>
+      $$\begin{aligned} \tilde{s}_{11} &= c^2 s_{11} + 2sc\, s_{12} + s^2 s_{22},\\ \tilde{s}_{22} &= s^2 s_{11} - 2sc\, s_{12} + c^2 s_{22}. \end{aligned}$$
+      <p>(Por exemplo, $\tilde{x}_{j1} - \bar{\tilde{x}}_1 = c(x_{j1} - \bar{x}_1) + s(x_{j2} - \bar{x}_2)$; eleve ao quadrado, some em $j$ e divida por $n$.) Substituindo $\tilde{x}_1$ e $\tilde{x}_2$ em $\tilde{x}_1^2/\tilde{s}_{11} + \tilde{x}_2^2/\tilde{s}_{22}$:</p>
+      $$\frac{(c x_1 + s x_2)^2}{\tilde{s}_{11}} + \frac{(-s x_1 + c x_2)^2}{\tilde{s}_{22}} =$$
+      $$\begin{aligned} &x_1^2\left(\frac{c^2}{\tilde{s}_{11}} + \frac{s^2}{\tilde{s}_{22}}\right) + 2x_1x_2\left(\frac{cs}{\tilde{s}_{11}} - \frac{sc}{\tilde{s}_{22}}\right) \\ &+ x_2^2\left(\frac{s^2}{\tilde{s}_{11}} + \frac{c^2}{\tilde{s}_{22}}\right). \end{aligned}$$
+      <p>Os parênteses são $a_{11}$, $a_{12}$ e $a_{22}$. O ângulo certo é o que zera a covariância entre $\tilde{x}_1$ e $\tilde{x}_2$; com qualquer outro, a fórmula (1-17) não seria a distância estatística.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-gira">
+      <p>Para uma nuvem com correlação, existe um ângulo em que as coordenadas giradas ficam sem correlação?</p>
+      <div class="alts">
+        <button data-op="a" data-certa>Sim, sempre</button>
+        <button data-op="b">Só se $r = 0$</button>
+        <button data-op="c">Nunca</button>
+      </div>
+      <div class="explica" hidden><p>Girando de 0° a 90°, a correlação das coordenadas giradas passa por zero: é o ângulo dos eixos da elipse. Nele, os eixos $\tilde{x}_1$, $\tilde{x}_2$ coincidem com os eixos das elipses de distância constante, e vale a fórmula sem correlação. (Esses eixos voltam no cap. 8, como componentes principais.)</p></div>
+    </div>
+    <div class="sim" id="sim-gira">
+      <label>Correlação $r_{12}$ <input type="range" id="gi-r" min="-0.9" max="0.9" step="0.05" value="0.6"> <strong id="gi-r-v">0,60</strong></label>
+      <label>Ângulo $\theta$ dos novos eixos <input type="range" id="gi-t" min="0" max="180" step="1" value="10"> <strong id="gi-t-v">10°</strong></label>
+      <svg viewBox="0 0 360 300" id="gi-svg" role="img" aria-label="Nuvem correlacionada com eixos girados e elipses de distância constante"></svg>
+      <p id="gi-txt" style="margin:.4rem 0 .5rem;font-size:.93rem"></p>
+      <button class="btn pequeno" id="gi-btn">Achar o ângulo</button>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Pesos válidos">
+   <div class="texto">
+    <h2>Em $p$ dimensões, os pesos não podem ser quaisquer</h2>
+    <p>Com $p$ variáveis correlacionadas, a forma geral tem um termo quadrado por variável e um termo cruzado por par:</p>
+    <div class="formula" data-ref-id="f-geralp" data-ref-tipo="formula" data-ref-nome="Distância estatística geral (1-22)–(1-24)">
+      $$\begin{aligned} d^2(O, P) = {}&a_{11}x_1^2 + a_{22}x_2^2 + \cdots + a_{pp}x_p^2 \\ &+ 2a_{12}x_1x_2 + 2a_{13}x_1x_3 + \cdots + 2a_{p-1,p}\,x_{p-1}x_p \end{aligned}$$
+      <p>Os pesos cabem num arranjo simétrico, que define a distância:</p>
+      $$\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1p} \\ a_{12} & a_{22} & \cdots & a_{2p} \\ \vdots & & \ddots & \vdots \\ a_{1p} & a_{2p} & \cdots & a_{pp}\end{bmatrix}$$
+    </div>
+    <p>A expressão dentro da raiz é uma <strong>forma quadrática</strong>. Para ser distância, ela tem que dar um número $\ge 0$ para <em>todo</em> ponto, e $0$ só na origem. Isso restringe os $a_{ik}$: o arranjo precisa ser <strong>positivo definido</strong>, conceito que o cap. 2 formaliza. Os contornos de distância constante são hiperelipsoides.</p>
+    <div class="ideia">A distância estatística geral é a raiz de uma forma quadrática; ela só vale se os pesos garantirem valor positivo para todo ponto diferente da origem.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Uma colega propõe a "distância" $d^2(O, P) = 2x_1^2 + 6x_1x_2 + 2x_2^2$. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Comparando com a forma geral, a11 = 2, a22 = 2 e 2·a12 = 6, então a12 = 3. Esta linha está certa.">Na forma geral, $a_{11} = 2$, $a_{12} = 3$, $a_{22} = 2$.</li>
+        <li data-fb="2 + 6 + 2 = 10, conta certa. Esta linha está certa.">Para $P = (1, 1)$: $d^2 = 2 + 6 + 2 = 10$.</li>
+        <li data-fb="2 − 6 + 2 = −2, conta certa: o resultado negativo é o sintoma, não o erro.">Para $P = (1, -1)$: $d^2 = 2 - 6 + 2 = -2$.</li>
+        <li data-errada data-fb="Um quadrado de distância negativo mostra que esses pesos não definem distância (o arranjo [[2, 3], [3, 2]] não é positivo definido). Tirar o módulo esconde o defeito: com módulo, o ponto (1; −0,38) teria distância zero sem ser a origem.">Basta tirar o módulo: $d = \sqrt{|{-2}|} = \sqrt2$.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="O que é distância">
+   <div class="texto">
+    <h2>O que qualquer distância precisa cumprir</h2>
+    <p>Elipses não são obrigatórias. Qualquer medida $d(P, Q)$ serve como distância se, para quaisquer pontos $P$, $Q$ e um intermediário $R$:</p>
+    <div class="definicao" data-ref-id="d-distancia" data-ref-tipo="definicao" data-ref-nome="Propriedades de uma distância (1-25)">
+      <p>$d(P, Q) = d(Q, P)$ (simetria) · $d(P, Q) \gt 0$ se $P \ne Q$ · $d(P, Q) = 0$ se $P = Q$ · $d(P, Q) \le d(P, R) + d(R, Q)$ (desigualdade triangular).</p>
+    </div>
+    <p>Dois exemplos dos exercícios do livro: a distância do <strong>máximo</strong>, $d(O, P) = \max(|x_1|, |x_2|)$, cujos pontos de distância 1 formam um quadrado; e a de <strong>quarteirão</strong>, $|x_1| + |x_2|$, a de quem anda numa cidade em grade, cujos pontos de distância 1 formam um losango.</p>
+    <div class="ideia">Distância é qualquer medida simétrica, positiva para pontos diferentes, zero no mesmo ponto e que respeita a desigualdade triangular.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Pontos a distância 1 da origem em três distâncias:</p>
+      <svg viewBox="0 0 360 140" class="fig" id="fig-bolas" role="img" aria-label="Círculo, quadrado e losango: pontos a distância 1 nas distâncias euclidiana, do máximo e de quarteirão"></svg>
+    </div>
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Para $P = (x_1, x_2)$, qual destas expressões define uma distância válida até a origem?</p>
+      <div class="alts">
+        <button data-op="a">(a) $\sqrt{x_1^2 + 4x_2^2 + x_1x_2}$</button>
+        <button data-op="b">(b) $\sqrt{x_1^2 + x_2^2 + 4x_1x_2}$</button>
+        <button data-op="c">(c) $\sqrt{x_1^2 - 2x_2^2}$</button>
+        <button data-op="d">(d) $|x_1| + |x_2| + 1$</button>
+      </div>
+      <div class="fb" data-op="a">Isso. Aqui $a_{11} = 1$, $a_{22} = 4$, $a_{12} = 0{,}5$, e a forma é sempre positiva fora da origem ($a_{11}a_{22} - a_{12}^2 = 3{,}75 \gt 0$).</div>
+      <div class="fb" data-op="b">Parece inofensiva, mas em $(1, -1)$ dá $1 + 1 - 4 = -2$: o termo cruzado é grande demais ($a_{12} = 2$ com $a_{11}a_{22} = 1$).</div>
+      <div class="fb" data-op="c">Em $(0, 1)$ dá $-2$, quadrado negativo. O peso negativo de $x_2^2$ já invalida.</div>
+      <div class="fb" data-op="d">Falha na condição $d(O, O) = 0$: na origem vale 1.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="De volta ao início">
+   <div class="texto">
+    <h2>A resposta da primeira pergunta</h2>
+    <p>Volte à <span class="ref" data-ref="ex-nuvem">nuvem do começo</span>. Pela <span class="ref" data-ref="f-euclid">régua</span>, A está a 4,24 de $Q$ e B a 2,83. Mas a nuvem é inclinada (correlação 0,8): ao longo da diagonal de A, os itens variam muito; na direção de B, quase nada.</p>
+    <p>Com a <span class="ref" data-ref="f-geral2">distância estatística</span> calculada para essa nuvem, A fica a 2,24 e B a 4,47. B está duas vezes mais "longe" em termos do que é comum nos dados. É essa distância, e não a euclidiana, que fundamenta a análise multivariada: ela volta como distância de Mahalanobis, nos testes de médias, na classificação e no agrupamento.</p>
+    <div class="ideia">Atípico é estar longe em relação à variabilidade e à correlação dos dados; a distância estatística mede isso, a régua não.</div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Uma nuvem tem desvio padrão 4 ao longo do seu eixo maior e 1 ao longo do eixo menor. O item A está sobre o eixo maior, a 4 unidades do centro pela régua; B está sobre o eixo menor, a 3 unidades. Qual é mais atípico?</p>
+      <div class="alts">
+        <button data-op="a">(a) A, porque está mais longe do centro.</button>
+        <button data-op="b">(b) B, porque está a 3 desvios padrão na sua direção, contra 1 de A.</button>
+        <button data-op="c">(c) Os dois são igualmente atípicos, porque ambos estão sobre eixos da elipse.</button>
+        <button data-op="d">(d) A, porque dividir pela variância (16) em vez do desvio padrão deixa A mais distante.</button>
+      </div>
+      <div class="fb" data-op="a">Essa é a régua comum. Na direção do eixo maior, 4 unidades é apenas 1 desvio padrão: um item bem comum.</div>
+      <div class="fb" data-op="b">Isso. Nos eixos da elipse, a distância estatística é a régua dividida pelo desvio padrão daquela direção: A está a $4/4 = 1$, B a $3/1 = 3$.</div>
+      <div class="fb" data-op="c">Estar sobre um eixo não diz nada sobre a distância; o que importa é quantos desvios padrão cada um está do centro.</div>
+      <div class="fb" data-op="d">Dividir o <em>quadrado</em> pela variância é o mesmo que dividir a distância pelo desvio padrão: $4^2/16 = 1$ para A e $3^2/1 = 9$ para B. B continua mais atípico.</div>
+    </div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-volta">
+      <p>Trocando os círculos da régua pelas elipses da nuvem, qual ponto passa a estar mais longe de $Q$?</p>
+      <div class="alts">
+        <button data-op="a">A</button>
+        <button data-op="b" data-certa>B</button>
+      </div>
+      <div class="explica" hidden><p>As elipses acompanham a inclinação da nuvem. A, na direção comprida, cai entre as elipses de distância 2 e 3; B, na direção estreita, passa da elipse 4.</p></div>
+    </div>
+    <div class="sim" id="sim-volta">
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+        <button class="btn pequeno" id="volta-reg">Régua (círculos)</button>
+        <button class="btn pequeno" id="volta-est">Distância estatística (elipses)</button>
+      </div>
+      <svg viewBox="0 0 360 300" id="volta-svg" role="img" aria-label="A nuvem do início com contornos de distância euclidiana ou estatística"></svg>
+      <p id="volta-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>Cinco objetivos: redução de dados, ordenação e agrupamento, dependência entre variáveis, previsão, teste de hipóteses.</li>
+    <li>Número que contradiz o conhecimento do assunto e não aparece no gráfico provavelmente está errado.</li>
+    <li>$\mathbf{X}$ ($n \times p$): linha = item, coluna = variável; $x_{jk}$ = item $j$, variável $k$.</li>
+    <li>Linhas de $\mathbf{X}$: $n$ pontos em $p$ dimensões; colunas: $p$ pontos em $n$ dimensões.</li>
+    <li>Variância com divisor $n$ ($s_{kk}$); covariância $s_{ik}$ diz se as variáveis andam juntas; correlação $r_{ik}$ é a covariância sem unidade.</li>
+    <li>$\bar{\mathbf{x}}$, $\mathbf{S}_n$ e $\mathbf{R}$ organizam tudo; $\mathbf{S}_n$ e $\mathbf{R}$ são simétricos.</li>
+    <li>Marginais não determinam a associação; pontos atípicos podem mudar $r$; associação não é causa.</li>
+    <li>Gráficos ligados, rotação 3D, estrelas e faces ajudam a ver dados com muitas variáveis; toda vista é uma projeção.</li>
+    <li>Distância euclidiana ignora variabilidade e correlação; a estatística mede em desvios padrão e, com correlação, ganha o termo cruzado.</li>
+    <li>Uma distância é simétrica, positiva para pontos diferentes, zero no mesmo ponto e cumpre a desigualdade triangular.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$\bar{x}_k = \frac1n\sum_{j=1}^n x_{jk}\qquad s_{ik} = \frac1n\sum_{j=1}^n (x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)\qquad r_{ik} = \frac{s_{ik}}{\sqrt{s_{ii}}\sqrt{s_{kk}}}$$</p>
+  <p>$$d(P,Q) = \sqrt{\sum_{k=1}^p \frac{(x_k - y_k)^2}{s_{kk}}}\ \ \text{(sem correlação)}\qquad d(O,P) = \sqrt{a_{11}x_1^2 + 2a_{12}x_1x_2 + a_{22}x_2^2}$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Correlação $r$ serve quando</strong><ul class="resumo-lista"><li>a associação é aproximadamente linear</li><li>não há pontos discrepantes fortes (ou você mostra com e sem)</li><li>as variáveis têm unidades diferentes</li></ul></div>
+    <div><strong>Distância euclidiana só serve quando</strong><ul class="resumo-lista"><li>as variáveis têm a mesma variância</li><li>e não são correlacionadas</li><li>caso contrário, use a distância estatística</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>$x_{jk}$: o primeiro índice é o item, não a variável.</li>
+    <li>Variância do livro com divisor $n$ (o índice de $\mathbf{S}_n$ lembra isso); $\mathbf{R}$ não muda com o divisor.</li>
+    <li>$r$ é invariante a mudanças de escala só se os dois coeficientes tiverem o mesmo sinal.</li>
+    <li>Atípico não é sinônimo de erro, e nem todo atípico muda $r$.</li>
+    <li>Faces de Chernoff dependem da atribuição de variáveis a traços.</li>
+    <li>Uma forma quadrática com termo cruzado grande pode dar valores negativos e não ser distância.</li>
+    <li>Na distância estatística, divide-se o <em>quadrado</em> pela variância (ou a diferença pelo desvio padrão).</li>
+  </ul>
+  <h3>No livro, vale treinar</h3>
+  <p>Exercícios 1.2 (cálculo e sinal da covariância pelo gráfico), 1.7 (espaço das variáveis × dos itens), 1.8 (euclidiana × estatística), 1.10 (validade de uma distância), 1.12 e 1.13 (distâncias do máximo e de quarteirão).</p>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar. */
+/* ===== Utilitários do capítulo ===== */
+function geradorNormal(seed) {
+  function rnd() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+  return function () { var u = rnd() || 1e-9, v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+}
+/* n pares (z1, z2) com média 0, variância 1 e correlação exatamente 0 (divisor n) */
+function nuvemPadrao(n, seed) {
+  var g = geradorNormal(seed), z1 = [], z2 = [], i;
+  for (i = 0; i < n; i++) { z1.push(g()); z2.push(g()); }
+  function pad(z) { var m = 0, s = 0; z.forEach(function (x) { m += x; }); m /= n; z = z.map(function (x) { return x - m; }); z.forEach(function (x) { s += x * x; }); s = Math.sqrt(s / n); return z.map(function (x) { return x / s; }); }
+  z1 = pad(z1); z2 = pad(z2);
+  var p = 0; for (i = 0; i < n; i++) p += z1[i] * z2[i]; p /= n;
+  z2 = pad(z2.map(function (x, k) { return x - p * z1[k]; }));
+  return { z1: z1, z2: z2 };
+}
+function estat(x, y) {
+  var n = x.length, mx = 0, my = 0, sxx = 0, syy = 0, sxy = 0, i;
+  for (i = 0; i < n; i++) { mx += x[i]; my += y[i]; } mx /= n; my /= n;
+  for (i = 0; i < n; i++) { sxx += (x[i] - mx) * (x[i] - mx); syy += (y[i] - my) * (y[i] - my); sxy += (x[i] - mx) * (y[i] - my); }
+  sxx /= n; syy /= n; sxy /= n;
+  return { mx: mx, my: my, sxx: sxx, syy: syy, sxy: sxy, r: sxy / Math.sqrt(sxx * syy) };
+}
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+/* Elipse { x' S^-1 x = c^2 } para S 2x2, como caminho SVG; px(x), py(y) convertem para a tela */
+function caminhoElipse(s11, s12, s22, c, px, py, cx, cy) {
+  cx = cx || 0; cy = cy || 0;
+  var tr = s11 + s22, det = s11 * s22 - s12 * s12, d = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  var l1 = tr / 2 + d, l2 = tr / 2 - d, ang = 0.5 * Math.atan2(2 * s12, s11 - s22);
+  var e1 = [Math.cos(ang), Math.sin(ang)], e2 = [-Math.sin(ang), Math.cos(ang)], s = '';
+  for (var t = 0; t <= 72; t++) {
+    var a = t / 72 * 2 * Math.PI, u = c * Math.sqrt(l1) * Math.cos(a), v = c * Math.sqrt(l2) * Math.sin(a);
+    s += (t ? 'L' : 'M') + px(cx + u * e1[0] + v * e2[0]).toFixed(1) + ' ' + py(cy + u * e1[1] + v * e2[1]).toFixed(1);
+  }
+  return s + 'Z';
+}
+function eixosCentro(svg, px, py, xmin, xmax, ymin, ymax, rx, ry) {
+  var b = corVar('--border'), m = corVar('--muted');
+  svg.appendChild(svgEl('line', { x1: px(xmin), y1: py(0), x2: px(xmax), y2: py(0), stroke: b }));
+  svg.appendChild(svgEl('line', { x1: px(0), y1: py(ymin), x2: px(0), y2: py(ymax), stroke: b }));
+  svg.appendChild(svgEl('text', { x: px(xmax) - 2, y: py(0) - 6, 'text-anchor': 'end', 'font-size': 13, fill: m }, rx || 'x₁'));
+  svg.appendChild(svgEl('text', { x: px(0) + 6, y: py(ymax) + 14, 'font-size': 13, fill: m }, ry || 'x₂'));
+}
+
+/* ===== Nuvem do início (A, B, Q): S = [[2, 1,6], [1,6, 2]] ===== */
+var NUVEM = (function () {
+  var z = nuvemPadrao(60, 11), l11 = Math.sqrt(2), l21 = 1.6 / Math.sqrt(2), l22 = Math.sqrt(2 - l21 * l21);
+  return { x: z.z1.map(function (a) { return l11 * a; }), y: z.z1.map(function (a, i) { return l21 * a + l22 * z.z2[i]; }),
+           s11: 2, s12: 1.6, s22: 2, A: [-3, -3], B: [2, -2] };
+})();
+function desenharNuvem(svg, modo) {
+  limpar(svg);
+  var k = 25, px = function (x) { return 180 + x * k; }, py = function (y) { return 150 - y * k; };
+  var m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), txt = corVar('--text'), b = corVar('--border');
+  eixosCentro(svg, px, py, -6.3, 6.3, -5.2, 5.2);
+  if (modo === 'reg') for (var c = 1; c <= 5; c++) svg.appendChild(svgEl('circle', { cx: px(0), cy: py(0), r: c * k, fill: 'none', stroke: b, 'stroke-dasharray': '4 4' }));
+  if (modo === 'est') for (c = 1; c <= 4; c++) svg.appendChild(svgEl('path', { d: caminhoElipse(NUVEM.s11, NUVEM.s12, NUVEM.s22, c, px, py), fill: 'none', stroke: roxo, 'stroke-dasharray': '5 4', 'stroke-opacity': 0.8 }));
+  NUVEM.x.forEach(function (x, i) { svg.appendChild(svgEl('circle', { cx: px(x), cy: py(NUVEM.y[i]), r: 3, fill: m, 'fill-opacity': 0.5 })); });
+  svg.appendChild(svgEl('circle', { cx: px(0), cy: py(0), r: 4, fill: txt }));
+  svg.appendChild(svgEl('text', { x: px(0) + 7, y: py(0) - 6, 'font-size': 13, 'font-weight': 600, fill: txt }, 'Q'));
+  [['A', NUVEM.A], ['B', NUVEM.B]].forEach(function (p) {
+    svg.appendChild(svgEl('circle', { cx: px(p[1][0]), cy: py(p[1][1]), r: 6, fill: acc }));
+    svg.appendChild(svgEl('text', { x: px(p[1][0]) + 9, y: py(p[1][1]) + 5, 'font-size': 14, 'font-weight': 700, fill: acc }, p[0]));
+  });
+}
+(function () {
+  var svg = document.getElementById('fig-nuvem');
+  if (!svg) return;
+  function d() { desenharNuvem(svg, ''); }
+  d(); quandoTema(d);
+})();
+
+/* ===== 1.3 Covariância: sinal dos produtos de desvios ===== */
+(function () {
+  var sl = document.getElementById('cov-r');
+  if (!sl) return;
+  var svg = document.getElementById('cov-svg'), z = nuvemPadrao(40, 3);
+  function desenhar() {
+    var r = +sl.value; document.getElementById('cov-r-v').textContent = fmt(r, 2);
+    var x1 = z.z1.map(function (a) { return 5 + 1.4 * a; });
+    var x2 = z.z1.map(function (a, i) { return 5 + 1.2 * (r * a + Math.sqrt(1 - r * r) * z.z2[i]); });
+    var e = estat(x1, x2), px = function (v) { return 30 + v * 30; }, py = function (v) { return 275 - v * 25.5; };
+    var m = corVar('--muted'), b = corVar('--border'), acc = corVar('--accent'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('rect', { x: px(0), y: py(10), width: 300, height: 255, fill: 'none', stroke: b }));
+    svg.appendChild(svgEl('line', { x1: px(e.mx), y1: py(0), x2: px(e.mx), y2: py(10), stroke: m, 'stroke-dasharray': '4 4' }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(e.my), x2: px(10), y2: py(e.my), stroke: m, 'stroke-dasharray': '4 4' }));
+    [['+', 9.3, 9.2], ['−', 0.7, 9.2], ['+', 0.7, 0.5], ['−', 9.3, 0.5]].forEach(function (q) {
+      svg.appendChild(svgEl('text', { x: px(q[1]), y: py(q[2]), 'text-anchor': 'middle', 'font-size': 18, 'font-weight': 700, fill: q[0] === '+' ? acc : lar, 'fill-opacity': 0.6 }, q[0]));
+    });
+    var pos = 0;
+    x1.forEach(function (a, i) {
+      var prod = (a - e.mx) * (x2[i] - e.my); if (prod > 0) pos++;
+      svg.appendChild(svgEl('circle', { cx: px(a), cy: py(x2[i]), r: 4, fill: prod > 0 ? acc : lar, 'fill-opacity': 0.8 }));
+    });
+    svg.appendChild(svgEl('text', { x: px(10) - 4, y: py(e.my) - 5, 'text-anchor': 'end', 'font-size': 12, fill: m }, 'x̄₂'));
+    svg.appendChild(svgEl('text', { x: px(e.mx) + 4, y: py(10) + 13, 'font-size': 12, fill: m }, 'x̄₁'));
+    document.getElementById('cov-txt').innerHTML = 'Produto de desvios positivo: <strong>' + pos + '</strong> de 40 pontos · $s_{12}$ = <strong>' + fmt(e.sxy, 2) + '</strong> · $r_{12}$ = <strong>' + fmt(e.r, 2) + '</strong>';
+    tipografar(document.getElementById('cov-txt'));
+  }
+  sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.4 Marginais não bastam: trocar o pareamento ===== */
+(function () {
+  var btn = document.getElementById('repar-btn');
+  if (!btn) return;
+  var svg = document.getElementById('repar-svg');
+  var x1a = [3, 4, 2, 6, 8, 2, 5], x1b = [5, 4, 6, 2, 2, 8, 3], x2 = [5, 5.5, 4, 7, 10, 5, 7.5], trocado = false, pontos = [];
+  var px = function (v) { return 60 + v * 28; }, py = function (v) { return 255 - v * 23.5; };
+  function montar() {
+    limpar(svg); pontos = [];
+    var m = corVar('--muted'), b = corVar('--border'), acc = corVar('--accent');
+    svg.appendChild(svgEl('rect', { x: px(0), y: py(10.5), width: 294, height: 246.75, fill: 'none', stroke: b }));
+    [0, 2, 4, 6, 8, 10].forEach(function (t) {
+      svg.appendChild(svgEl('text', { x: px(t), y: 312, 'text-anchor': 'middle', 'font-size': 11, fill: m }, String(t)));
+      svg.appendChild(svgEl('text', { x: 10, y: py(t) + 4, 'font-size': 11, fill: m }, String(t)));
+    });
+    svg.appendChild(svgEl('line', { x1: px(0), y1: 290, x2: px(10.5), y2: 290, stroke: b }));
+    svg.appendChild(svgEl('line', { x1: 34, y1: py(0), x2: 34, y2: py(10.5), stroke: b }));
+    svg.appendChild(svgEl('text', { x: px(10.5), y: 283, 'text-anchor': 'end', 'font-size': 12, fill: m }, 'x₁ (marginal)'));
+    svg.appendChild(svgEl('text', { x: 40, y: py(10.5) - 4, 'font-size': 12, fill: m }, 'x₂'));
+    var cont = {};
+    x1a.forEach(function (v) { cont[v] = (cont[v] || 0) + 1; svg.appendChild(svgEl('circle', { cx: px(v), cy: 290 - (cont[v] - 1) * 8 - 4, r: 3.5, fill: m })); });
+    cont = {};
+    x2.forEach(function (v) { cont[v] = (cont[v] || 0) + 1; svg.appendChild(svgEl('circle', { cx: 34 + (cont[v] - 1) * 8 + 4, cy: py(v), r: 3.5, fill: m })); });
+    x2.forEach(function () {
+      var c = svgEl('circle', { r: 6, fill: acc, 'fill-opacity': 0.85 });
+      c.style.transition = 'cx .6s cubic-bezier(.22,1,.36,1)';
+      svg.appendChild(c); pontos.push(c);
+    });
+    posicionar();
+  }
+  function posicionar() {
+    var x1 = trocado ? x1b : x1a, e = estat(x1, x2);
+    pontos.forEach(function (c, i) { c.setAttribute('cy', py(x2[i])); c.style.cx = px(x1[i]) + 'px'; c.setAttribute('cx', px(x1[i])); });
+    document.getElementById('repar-txt').innerHTML = '$\\bar{x}_1$ = ' + fmt(e.mx, 2) + ' · $\\bar{x}_2$ = ' + fmt(e.my, 2) + ' · $s_{11}$ = ' + fmt(e.sxx, 2) + ' · $s_{22}$ = ' + fmt(e.syy, 2) +
+      '<br>$s_{12}$ = <strong>' + fmt(e.sxy, 2) + '</strong> · $r_{12}$ = <strong>' + fmt(e.r, 2) + '</strong>';
+    tipografar(document.getElementById('repar-txt'));
+  }
+  btn.addEventListener('click', function () { trocado = !trocado; posicionar(); });
+  montar(); quandoTema(montar);
+})();
+
+/* ===== 1.4 Um ponto atípico muda r ===== */
+(function () {
+  var sl = document.getElementById('atip-x');
+  if (!sl) return;
+  var svg = document.getElementById('atip-svg');
+  var x = [2, 3, 4, 5, 5.5, 6, 7, 8, 9, 10, 11], y = [9, 7.5, 8, 6, 7, 5.5, 6.5, 4.5, 5, 3.5, 4], yo = 6;
+  var rBase = estat(x, y).r;
+  var px = function (v) { return 30 + v * 10; }, py = function (v) { return 235 - v * 21; };
+  function desenhar() {
+    var xo = +sl.value; document.getElementById('atip-x-v').textContent = xo;
+    var xa = x.concat([xo]), ya = y.concat([yo]), e = estat(xa, ya);
+    var m = corVar('--muted'), b = corVar('--border'), acc = corVar('--accent'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0), x2: px(32), y2: py(0), stroke: b }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0), x2: px(0), y2: py(10.5), stroke: b }));
+    [0, 10, 20, 30].forEach(function (t) { svg.appendChild(svgEl('text', { x: px(t), y: py(0) + 16, 'text-anchor': 'middle', 'font-size': 11, fill: m }, String(t))); });
+    svg.appendChild(svgEl('text', { x: px(32), y: py(0) - 6, 'text-anchor': 'end', 'font-size': 12, fill: m }, 'x₁'));
+    svg.appendChild(svgEl('text', { x: px(0) + 5, y: py(10.5) + 4, 'font-size': 12, fill: m }, 'x₂'));
+    var b1 = e.sxy / e.sxx, b0 = e.my - b1 * e.mx;
+    recorte(svg, px(0), py(10.5), px(32) - px(0), py(0) - py(10.5)).appendChild(svgEl('line', { x1: px(0), y1: py(b0), x2: px(32), y2: py(b0 + b1 * 32), stroke: acc, 'stroke-width': 1.5, 'stroke-opacity': 0.6 }));
+    x.forEach(function (v, i) { svg.appendChild(svgEl('circle', { cx: px(v), cy: py(y[i]), r: 4, fill: m })); });
+    svg.appendChild(svgEl('circle', { cx: px(xo), cy: py(yo), r: 6.5, fill: lar }));
+    document.getElementById('atip-txt').innerHTML = '$r_{12}$ com o ponto laranja: <strong>' + fmt(e.r, 2) + '</strong> · sem ele: ' + fmt(rBase, 2) + '. A reta é a de mínimos quadrados, só para guiar o olho.';
+    tipografar(document.getElementById('atip-txt'));
+  }
+  sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.5 Matriz de dispersões ligada (dados de papel, Tabela 1.2) ===== */
+(function () {
+  var svg = document.getElementById('papel-svg');
+  if (!svg) return;
+  var dens = [.801,.824,.841,.816,.840,.842,.820,.802,.828,.819,.826,.802,.810,.802,.832,.796,.759,.770,.759,.772,.806,.803,.845,.822,.971,.816,.836,.815,.822,.822,.843,.824,.788,.782,.795,.805,.836,.788,.772,.776,.758];
+  var md = [121.41,127.70,129.20,131.80,135.10,131.50,126.70,115.10,130.80,124.60,118.31,114.20,120.30,115.70,117.51,109.81,109.10,115.10,118.31,112.60,116.20,118.00,131.00,125.70,126.10,125.80,125.50,127.80,130.50,127.90,123.90,124.10,120.80,107.40,120.70,121.91,122.31,110.60,103.51,110.71,113.80];
+  var cd = [70.42,72.47,78.20,74.89,71.21,78.39,69.02,73.10,79.28,76.48,70.25,72.88,68.23,68.12,71.62,53.10,50.85,51.68,50.60,53.51,56.53,70.70,74.35,68.29,72.10,70.64,76.33,76.75,80.33,75.68,78.54,71.91,68.22,54.42,70.41,73.68,74.93,53.52,48.93,53.67,52.42];
+  var vars = [{ v: dens, nome: 'Densidade (x₁)', a: 0.74, b: 0.99 }, { v: md, nome: 'Máquina (x₂)', a: 100, b: 138 }, { v: cd, nome: 'Transversal (x₃)', a: 45, b: 83 }];
+  var rolo = [16, 17, 18, 19, 20, 21, 34, 38, 39, 40, 41], marca = [];
+  var T = 110, G = 6, O = 10;
+  function desenhar() {
+    limpar(svg);
+    var m = corVar('--muted'), b = corVar('--border'), acc = corVar('--accent'), txt = corVar('--text');
+    for (var i = 0; i < 3; i++) for (var k = 0; k < 3; k++) {
+      var x0 = O + k * (T + G), y0 = O + i * (T + G);
+      svg.appendChild(svgEl('rect', { x: x0, y: y0, width: T, height: T, fill: 'none', stroke: b, rx: 4 }));
+      if (i === k) {
+        var V = vars[i];
+        svg.appendChild(svgEl('text', { x: x0 + T / 2, y: y0 + T / 2 - 4, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, fill: txt }, V.nome));
+        var mn = Math.min.apply(null, V.v), mx = Math.max.apply(null, V.v);
+        svg.appendChild(svgEl('text', { x: x0 + T / 2, y: y0 + T / 2 + 14, 'text-anchor': 'middle', 'font-size': 11, fill: m }, fmt(mn, i ? 1 : 3) + ' a ' + fmt(mx, i ? 1 : 3)));
+        continue;
+      }
+      var VX = vars[k], VY = vars[i];
+      var fx = function (v) { return x0 + 6 + (v - VX.a) / (VX.b - VX.a) * (T - 12); };
+      var fy = function (v) { return y0 + T - 6 - (v - VY.a) / (VY.b - VY.a) * (T - 12); };
+      var ordem = dens.map(function (_, j) { return j; }).sort(function (p, q) { return (marca.indexOf(p + 1) >= 0) - (marca.indexOf(q + 1) >= 0); });
+      ordem.forEach(function (j) {
+        var on = marca.indexOf(j + 1) >= 0;
+        svg.appendChild(svgEl('circle', { cx: fx(VX.v[j]), cy: fy(VY.v[j]), r: on ? 3.6 : 2.4, fill: on ? acc : m, 'fill-opacity': on ? 1 : (marca.length ? 0.35 : 0.6) }));
+      });
+    }
+  }
+  function marcar(lista) { marca = lista; desenhar(); }
+  document.getElementById('papel-25').addEventListener('click', function () { marcar([25]); });
+  document.getElementById('papel-rolo').addEventListener('click', function () { marcar(rolo); });
+  document.getElementById('papel-limpar').addEventListener('click', function () { marcar([]); });
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.5 Rotação 3D: um ponto atípico só na combinação ===== */
+(function () {
+  var sl = document.getElementById('r3d-a');
+  if (!sl) return;
+  var svg = document.getElementById('r3d-svg'), chk = document.getElementById('r3d-marca');
+  var g = geradorNormal(21), P = [];
+  for (var i = 0; i < 40; i++) { var a = g(), b = g(); P.push([a, b, a + b + 0.25 * g()]); }
+  var susp = [0.9, -0.9, 1.8];
+  function desenhar() {
+    var ang = +sl.value, f = ang * Math.PI / 180, c = Math.cos(f), s = Math.sin(f);
+    document.getElementById('r3d-a-v').textContent = (ang < 0 ? '−' : '') + Math.abs(ang) + '°';
+    var px = function (h) { return 180 + h * 42; }, py = function (v) { return 140 - v * 27; };
+    var m = corVar('--muted'), b = corVar('--border'), acc = corVar('--accent'), roxo = corVar('--roxo');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 20, y1: py(0), x2: 340, y2: py(0), stroke: b }));
+    svg.appendChild(svgEl('line', { x1: 180, y1: 12, x2: 180, y2: 268, stroke: b }));
+    svg.appendChild(svgEl('text', { x: 186, y: 24, 'font-size': 12, fill: m }, 'x₃'));
+    svg.appendChild(svgEl('text', { x: 338, y: py(0) - 6, 'text-anchor': 'end', 'font-size': 12, fill: m }, 'horizontal = x₁·cos + x₂·sen'));
+    /* indicador dos eixos x1 e x2 projetados */
+    var ox = 62, oy = 250;
+    [['x₁', c], ['x₂', s]].forEach(function (e) {
+      svg.appendChild(svgEl('line', { x1: ox, y1: oy, x2: ox + e[1] * 26, y2: oy, stroke: roxo, 'stroke-width': 3 }));
+      svg.appendChild(svgEl('text', { x: ox + e[1] * 26 + (e[1] >= 0 ? 4 : -16), y: oy + (e[0] === 'x₁' ? -6 : 14), 'font-size': 11, fill: roxo }, e[0]));
+    });
+    P.forEach(function (q) { svg.appendChild(svgEl('circle', { cx: px(q[0] * c + q[1] * s), cy: py(q[2]), r: 3.5, fill: m, 'fill-opacity': 0.7 })); });
+    var hx = px(susp[0] * c + susp[1] * s), hy = py(susp[2]);
+    svg.appendChild(svgEl('circle', { cx: hx, cy: hy, r: 3.5, fill: m, 'fill-opacity': 0.7 }));
+    if (chk.checked) {
+      svg.appendChild(svgEl('circle', { cx: hx, cy: hy, r: 9, fill: 'none', stroke: acc, 'stroke-width': 2 }));
+      svg.appendChild(svgEl('text', { x: hx + 12, y: hy - 8, 'font-size': 12, 'font-weight': 600, fill: acc }, 'suspeito'));
+    }
+  }
+  sl.addEventListener('input', desenhar); chk.addEventListener('change', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.5 Estrelas, com e sem padronização ===== */
+(function () {
+  var svg = document.getElementById('estrela-svg');
+  if (!svg) return;
+  var chk = document.getElementById('estrela-pad');
+  var nomes = ['Univ. A', 'Univ. B', 'Univ. C', 'Univ. D'];
+  var dados = [[32, 7.9, 85, 900, 20, 80], [8, 8.6, 92, 150, 35, 40], [18, 6.8, 45, 300, 10, 25], [25, 7.2, 60, 600, 15, 60]];
+  var p = 6, R = 36;
+  function comprimentos() {
+    if (!chk.checked) {
+      var mx = 0; dados.forEach(function (l) { l.forEach(function (v) { mx = Math.max(mx, v); }); });
+      return dados.map(function (l) { return l.map(function (v) { return v / mx; }); });
+    }
+    var z = dados.map(function (l) { return l.slice(); });
+    for (var k = 0; k < p; k++) {
+      var col = dados.map(function (l) { return l[k]; }), e = estat(col, col), sd = Math.sqrt(e.sxx);
+      z.forEach(function (l, i) { l[k] = (dados[i][k] - e.mx) / sd; });
+    }
+    var mn = Infinity, mxz = -Infinity; z.forEach(function (l) { l.forEach(function (v) { mn = Math.min(mn, v); mxz = Math.max(mxz, v); }); });
+    return z.map(function (l) { return l.map(function (v) { return (v - mn) / (mxz - mn); }); });
+  }
+  function desenhar() {
+    limpar(svg);
+    var L = comprimentos(), b = corVar('--border'), acc = corVar('--accent'), txt = corVar('--text'), m = corVar('--muted');
+    L.forEach(function (l, i) {
+      var cx = 46 + i * 89, cy = 100, pts = '';
+      svg.appendChild(svgEl('circle', { cx: cx, cy: cy, r: R, fill: 'none', stroke: b, 'stroke-dasharray': '3 3' }));
+      for (var k = 0; k < p; k++) {
+        var a = -Math.PI / 2 + k * 2 * Math.PI / p, x = cx + Math.cos(a) * R * l[k], y = cy + Math.sin(a) * R * l[k];
+        svg.appendChild(svgEl('line', { x1: cx, y1: cy, x2: cx + Math.cos(a) * R, y2: cy + Math.sin(a) * R, stroke: b }));
+        pts += x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+      }
+      svg.appendChild(svgEl('polygon', { points: pts, fill: acc, 'fill-opacity': 0.25, stroke: acc, 'stroke-width': 2 }));
+      svg.appendChild(svgEl('text', { x: cx, y: cy + R + 26, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, fill: txt }, nomes[i]));
+    });
+    svg.appendChild(svgEl('text', { x: 180, y: 222, 'text-anchor': 'middle', 'font-size': 11, fill: m }, chk.checked ? 'Centro = menor valor padronizado do conjunto' : 'Raio proporcional ao valor bruto'));
+  }
+  chk.addEventListener('change', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.5 Faces de Chernoff com duas atribuições ===== */
+(function () {
+  var svg = document.getElementById('faces-svg');
+  if (!svg) return;
+  var btn = document.getElementById('faces-btn'), alt = false;
+  var dados = [[0.9, 0.2, 0.8], [0.85, 0.8, 0.25], [0.2, 0.25, 0.75], [0.15, 0.85, 0.3]];
+  var nomesVar = ['liquidez', 'crescimento', 'margem'];
+  function desenhar() {
+    limpar(svg);
+    var txt = corVar('--text'), acc = corVar('--accent'), m = corVar('--muted');
+    /* atribuição: [boca, largura do rosto, olhos] = índices das variáveis */
+    var at = alt ? [1, 0, 2] : [0, 1, 2];
+    dados.forEach(function (d, i) {
+      var cx = 46 + i * 89, cy = 62, boca = d[at[0]], larg = d[at[1]], olhos = d[at[2]];
+      svg.appendChild(svgEl('ellipse', { cx: cx, cy: cy, rx: 20 + 14 * larg, ry: 34, fill: 'none', stroke: txt, 'stroke-width': 2 }));
+      [-1, 1].forEach(function (lado) { svg.appendChild(svgEl('circle', { cx: cx + lado * 10, cy: cy - 10, r: 2 + 4 * olhos, fill: txt })); });
+      svg.appendChild(svgEl('line', { x1: cx, y1: cy - 3, x2: cx, y2: cy + 7, stroke: txt, 'stroke-width': 1.5 }));
+      var curva = (boca - 0.5) * 26;
+      svg.appendChild(svgEl('path', { d: 'M' + (cx - 12) + ' ' + (cy + 17) + ' Q' + cx + ' ' + (cy + 17 + curva) + ' ' + (cx + 12) + ' ' + (cy + 17), fill: 'none', stroke: acc, 'stroke-width': 2.5, 'stroke-linecap': 'round' }));
+      svg.appendChild(svgEl('text', { x: cx, y: 128, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, fill: txt }, 'Empresa ' + (i + 1)));
+    });
+    document.getElementById('faces-txt').textContent = 'Boca = ' + nomesVar[at[0]] + ' · largura do rosto = ' + nomesVar[at[1]] + ' · olhos = ' + nomesVar[at[2]] + '. Os sorrisos agrupam ' + (alt ? 'as empresas 2 e 4.' : 'as empresas 1 e 2.');
+  }
+  btn.addEventListener('click', function () { alt = !alt; desenhar(); });
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.6 Padronizar: círculo × elipse ===== */
+(function () {
+  var s1 = document.getElementById('el-s1');
+  if (!s1) return;
+  var s2 = document.getElementById('el-s2'), svg = document.getElementById('el-svg'), z = nuvemPadrao(60, 5), P = [2.4, 1.4];
+  function desenhar() {
+    var a = +s1.value, b = +s2.value;
+    document.getElementById('el-s1-v').textContent = fmt(a, 1); document.getElementById('el-s2-v').textContent = fmt(b, 1);
+    /* a escala encolhe quando os desvios crescem, para nada sair do quadro */
+    var k = Math.min(24, 136 / (3 * Math.max(a, b))), px = function (x) { return 180 + x * k; }, py = function (y) { return 150 - y * k; };
+    var m = corVar('--muted'), bo = corVar('--border'), acc = corVar('--accent'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    eixosCentro(svg, px, py, -172 / k, 172 / k, -144 / k, 144 / k);
+    for (var c = 1; c <= 3; c++) svg.appendChild(svgEl('ellipse', { cx: px(0), cy: py(0), rx: c * a * k, ry: c * b * k, fill: 'none', stroke: roxo, 'stroke-opacity': 0.35, 'stroke-dasharray': '4 4' }));
+    z.z1.forEach(function (u, i) { svg.appendChild(svgEl('circle', { cx: px(a * u), cy: py(b * z.z2[i]), r: 2.8, fill: m, 'fill-opacity': 0.5 })); });
+    var dE = Math.hypot(P[0], P[1]), dS = Math.sqrt(P[0] * P[0] / (a * a) + P[1] * P[1] / (b * b));
+    svg.appendChild(svgEl('circle', { cx: px(0), cy: py(0), r: dE * k, fill: 'none', stroke: m, 'stroke-width': 1.5, 'stroke-dasharray': '2 3' }));
+    svg.appendChild(svgEl('ellipse', { cx: px(0), cy: py(0), rx: dS * a * k, ry: dS * b * k, fill: 'none', stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('circle', { cx: px(P[0]), cy: py(P[1]), r: 6, fill: acc }));
+    svg.appendChild(svgEl('text', { x: px(P[0]) + 9, y: py(P[1]) - 6, 'font-size': 13, 'font-weight': 700, fill: acc }, 'P'));
+    document.getElementById('el-txt').innerHTML = 'Régua: $d$ = ' + fmt(dE, 2) + ' (círculo pontilhado) · Estatística: $d$ = ' + fmt(dS, 2) + ' (elipse roxa). Elipses tracejadas: distâncias 1, 2 e 3.';
+    tipografar(document.getElementById('el-txt'));
+  }
+  s1.addEventListener('input', desenhar); s2.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.6 Com correlação: girar os eixos ===== */
+(function () {
+  var sr = document.getElementById('gi-r');
+  if (!sr) return;
+  var st = document.getElementById('gi-t'), svg = document.getElementById('gi-svg'), z = nuvemPadrao(60, 8), sd2 = 1.5;
+  function estado() {
+    var r = +sr.value; return { r: r, s11: 1, s22: sd2 * sd2, s12: r * sd2 };
+  }
+  function desenhar() {
+    var E = estado(), t = +st.value * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+    document.getElementById('gi-r-v').textContent = fmt(E.r, 2); document.getElementById('gi-t-v').textContent = st.value + '°';
+    var k = 25, px = function (x) { return 180 + x * k; }, py = function (y) { return 150 - y * k; };
+    var m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    eixosCentro(svg, px, py, -6.2, 6.2, -5.2, 5.2);
+    for (var q = 1; q <= 2; q++) svg.appendChild(svgEl('path', { d: caminhoElipse(E.s11, E.s12, E.s22, q, px, py), fill: 'none', stroke: roxo, 'stroke-opacity': 0.7, 'stroke-dasharray': '5 4' }));
+    z.z1.forEach(function (u, i) { svg.appendChild(svgEl('circle', { cx: px(u), cy: py(sd2 * (E.r * u + Math.sqrt(1 - E.r * E.r) * z.z2[i])), r: 2.8, fill: m, 'fill-opacity': 0.5 })); });
+    var L = 5;
+    svg.appendChild(svgEl('line', { x1: px(-L * c), y1: py(-L * s), x2: px(L * c), y2: py(L * s), stroke: acc, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('line', { x1: px(L * s), y1: py(-L * c), x2: px(-L * s), y2: py(L * c), stroke: lar, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('text', { x: px(L * c) + 4, y: py(L * s) - 4, 'font-size': 13, 'font-weight': 700, fill: acc }, 'x̃₁'));
+    svg.appendChild(svgEl('text', { x: px(-L * s) + 4, y: py(L * c) - 4, 'font-size': 13, 'font-weight': 700, fill: lar }, 'x̃₂'));
+    var t11 = c * c * E.s11 + 2 * s * c * E.s12 + s * s * E.s22, t22 = s * s * E.s11 - 2 * s * c * E.s12 + c * c * E.s22;
+    var t12 = (c * c - s * s) * E.s12 + s * c * (E.s22 - E.s11), rt = t12 / Math.sqrt(t11 * t22);
+    document.getElementById('gi-txt').innerHTML = 'Nas coordenadas giradas: $\\tilde{s}_{11}$ = ' + fmt(t11, 2) + ', $\\tilde{s}_{22}$ = ' + fmt(t22, 2) + ', correlação = <strong>' + fmt(rt, 2) + '</strong>' +
+      (Math.abs(rt) < 0.02 ? ' → eixos alinhados com as elipses.' : '.');
+    tipografar(document.getElementById('gi-txt'));
+  }
+  document.getElementById('gi-btn').addEventListener('click', function () {
+    var E = estado(), a = 0.5 * Math.atan2(2 * E.s12, E.s11 - E.s22) * 180 / Math.PI;
+    if (a < 0) a += 180; st.value = Math.round(a); desenhar();
+  });
+  sr.addEventListener('input', desenhar); st.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.6 Três "bolas" de raio 1 ===== */
+(function () {
+  var svg = document.getElementById('fig-bolas');
+  if (!svg) return;
+  function desenhar() {
+    limpar(svg);
+    var b = corVar('--border'), acc = corVar('--accent'), txt = corVar('--text');
+    [['euclidiana', 'c'], ['máximo', 'q'], ['quarteirão', 'l']].forEach(function (f, i) {
+      var cx = 60 + i * 120, cy = 62, R = 40;
+      svg.appendChild(svgEl('line', { x1: cx - 52, y1: cy, x2: cx + 52, y2: cy, stroke: b }));
+      svg.appendChild(svgEl('line', { x1: cx, y1: cy - 52, x2: cx, y2: cy + 52, stroke: b }));
+      var at = { fill: acc, 'fill-opacity': 0.15, stroke: acc, 'stroke-width': 2 };
+      if (f[1] === 'c') { at.cx = cx; at.cy = cy; at.r = R; svg.appendChild(svgEl('circle', at)); }
+      if (f[1] === 'q') { at.x = cx - R; at.y = cy - R; at.width = 2 * R; at.height = 2 * R; svg.appendChild(svgEl('rect', at)); }
+      if (f[1] === 'l') { at.points = [cx, cy - R, cx + R, cy, cx, cy + R, cx - R, cy].join(' '); svg.appendChild(svgEl('polygon', at)); }
+      svg.appendChild(svgEl('text', { x: cx, y: 132, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, fill: txt }, f[0]));
+    });
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 1.6 De volta ao início ===== */
+(function () {
+  var svg = document.getElementById('volta-svg');
+  if (!svg) return;
+  var modo = 'reg';
+  function d() {
+    desenharNuvem(svg, modo);
+    var t = modo === 'reg' ? 'Régua: A a <strong>4,24</strong> e B a <strong>2,83</strong> de Q (círculos de raio 1 a 5).' : 'Estatística: A a <strong>2,24</strong> e B a <strong>4,47</strong> de Q (elipses de distância 1 a 4).';
+    document.getElementById('volta-txt').innerHTML = t;
+  }
+  document.getElementById('volta-reg').addEventListener('click', function () { modo = 'reg'; d(); });
+  document.getElementById('volta-est').addEventListener('click', function () { modo = 'est'; d(); });
+  d(); quandoTema(d);
+})();
+</script>
+</body>
+</html>
