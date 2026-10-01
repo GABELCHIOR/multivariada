@@ -199,8 +199,8 @@ window.MathJax = {
     <div class="exemplo">
       <p>Na <span class="ref" data-ref="ex-livraria">livraria</span> (Ex. 1.2):</p>
       <p>$\bar{x}_1 = \tfrac14(42 + 52 + 48 + 58) = 50$ · $\bar{x}_2 = \tfrac14(4 + 5 + 4 + 3) = 4$</p>
-      <p>$s_{11} = \tfrac14\left[(-8)^2 + 2^2 + (-2)^2 + 8^2\right] = 34$</p>
-      <p>$s_{22} = \tfrac14\left[0^2 + 1^2 + 0^2 + (-1)^2\right] = 0{,}5$</p>
+      <p>$s_{11} = \tfrac14\left[(-8)^2 + 2^2 + (-2)^2 + 8^2\right]$ $= 34$</p>
+      <p>$s_{22} = \tfrac14\left[0^2 + 1^2 + 0^2 + (-1)^2\right]$ $= 0{,}5$</p>
     </div>
     <div class="pare">
       <p>Na livraria, $s_{11} = 34$ e $s_{22} = 0{,}5$. Dá para concluir que o valor da venda "varia mais" que o número de livros?</p>
@@ -217,7 +217,7 @@ window.MathJax = {
       $$\class{s2}{s_{ik}} = \frac{1}{n}\sum_{j=1}^{n}\left(x_{ji} - \bar{x}_i\right)\left(x_{jk} - \bar{x}_k\right)$$
     </div>
     <p>Cada item contribui com o produto dos seus dois desvios. Se valores altos de uma variável aparecem com valores altos da outra (e baixos com baixos), os produtos são quase todos positivos e $s_{ik} \gt 0$. Se alto vem com baixo, $s_{ik} \lt 0$. Sem padrão, $s_{ik} \approx 0$.</p>
-    <p>Dois detalhes: $s_{ik} = s_{ki}$, e com $i = k$ a covariância é a própria variância $s_{kk}$. Na <span class="ref" data-ref="ex-livraria">livraria</span>, $s_{12} = \tfrac14[(-8)(0) + (2)(1) + (-2)(0) + (8)(-1)] = -1{,}5$: vendas maiores vieram com menos livros (livros mais caros).</p>
+    <p>Dois detalhes: $s_{ik} = s_{ki}$, e com $i = k$ a covariância é a própria variância $s_{kk}$. Na <span class="ref" data-ref="ex-livraria">livraria</span>, $s_{12} = \tfrac14[(-8)(0) + (2)(1)$ $+ (-2)(0) + (8)(-1)]$ $= -1{,}5$: vendas maiores vieram com menos livros (livros mais caros).</p>
     <div class="ideia">O sinal da covariância diz se as variáveis tendem a andar juntas (+) ou em sentidos opostos (−); o tamanho depende das unidades.</div>
    </div>
    <aside class="apoio">
@@ -655,7 +655,7 @@ window.MathJax = {
       <summary>Demonstração: de onde vêm os $a_{ik}$ (nota de rodapé do livro)</summary>
       <p>Abreviando $c = \cos\theta$ e $s = \sin\theta$. As variâncias amostrais das coordenadas giradas são variâncias de combinações lineares:</p>
       $$\begin{aligned} \tilde{s}_{11} &= c^2 s_{11} + 2sc\, s_{12} + s^2 s_{22},\\ \tilde{s}_{22} &= s^2 s_{11} - 2sc\, s_{12} + c^2 s_{22}. \end{aligned}$$
-      <p>(Por exemplo, $\tilde{x}_{j1} - \bar{\tilde{x}}_1 = c(x_{j1} - \bar{x}_1) + s(x_{j2} - \bar{x}_2)$; eleve ao quadrado, some em $j$ e divida por $n$.) Substituindo $\tilde{x}_1$ e $\tilde{x}_2$ em $\tilde{x}_1^2/\tilde{s}_{11} + \tilde{x}_2^2/\tilde{s}_{22}$:</p>
+      <p>(Por exemplo, $\tilde{x}_{j1} - \bar{\tilde{x}}_1$ $= c(x_{j1} - \bar{x}_1) + s(x_{j2} - \bar{x}_2)$; eleve ao quadrado, some em $j$ e divida por $n$.) Substituindo $\tilde{x}_1$ e $\tilde{x}_2$ em $\tilde{x}_1^2/\tilde{s}_{11} + \tilde{x}_2^2/\tilde{s}_{22}$:</p>
       $$\frac{(c x_1 + s x_2)^2}{\tilde{s}_{11}} + \frac{(-s x_1 + c x_2)^2}{\tilde{s}_{22}} =$$
       $$\begin{aligned} &x_1^2\left(\frac{c^2}{\tilde{s}_{11}} + \frac{s^2}{\tilde{s}_{22}}\right) + 2x_1x_2\left(\frac{cs}{\tilde{s}_{11}} - \frac{sc}{\tilde{s}_{22}}\right) \\ &+ x_2^2\left(\frac{s^2}{\tilde{s}_{11}} + \frac{c^2}{\tilde{s}_{22}}\right). \end{aligned}$$
       <p>Os parênteses são $a_{11}$, $a_{12}$ e $a_{22}$. O ângulo certo é o que zera a covariância entre $\tilde{x}_1$ e $\tilde{x}_2$; com qualquer outro, a fórmula (1-17) não seria a distância estatística.</p>

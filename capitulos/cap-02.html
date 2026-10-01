@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-02">
+<title>Cap. 2 — Álgebra de matrizes e vetores aleatórios</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 2 — Álgebra de matrizes e vetores aleatórios</h1>
+<p class="contexto">Onde isso se encaixa: no cap. 1 médias, covariâncias e distâncias eram somatórios. Aqui elas viram vetores e matrizes, a língua do resto do livro, e aparece a peça que sustenta PCA, análise fatorial e quase tudo depois: autovalores e autovetores.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 2.1 ================= -->
+  <div class="secao" data-numero="2.1" data-titulo="Vetores" data-livro="§2.2, Supl. 2A">
+
+  <section class="passo" data-titulo="Seta">
+   <div class="texto">
+    <h2>Um vetor é uma lista de números e também uma seta</h2>
+    <p>Um item medido em $n$ variáveis é uma lista de $n$ números. O livro escreve essa lista em pé (coluna) e usa o apóstrofo para deitá-la: é a <strong>transposta</strong>.</p>
+    <div class="definicao" data-ref-id="d-vetor" data-ref-tipo="definicao" data-ref-nome="Vetor e transposta">
+      $$\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix},\qquad \mathbf{x}' = [x_1, x_2, \dots, x_n]$$
+    </div>
+    <p>Geometricamente, $\mathbf{x}$ é uma seta que sai da origem com $x_1$ no primeiro eixo, $x_2$ no segundo, e assim por diante. Duas operações:</p>
+    <p><strong>$c\mathbf{x}$</strong> multiplica cada elemento por $c$: estica se $|c| \gt 1$, encolhe se $|c| \lt 1$ e inverte o sentido se $c \lt 0$. <strong>$\mathbf{x} + \mathbf{y}$</strong> soma elemento a elemento; na figura, é a diagonal do paralelogramo formado por $\mathbf{x}$ e $\mathbf{y}$.</p>
+    <div class="ideia">Vetor é uma lista de $n$ números e uma seta em $n$ dimensões; o apóstrofo ($'$) transforma a coluna em linha.</div>
+   </div>
+   <aside class="apoio">
+    <svg viewBox="0 0 360 210" class="fig" id="fig-vet" role="img" aria-label="Vetores x e y saindo da origem e a soma x + y como diagonal do paralelogramo"></svg>
+    <div class="lacunas">
+      <p>Com $\mathbf{x}' = [1, 3, 2]$, o vetor $-2\mathbf{x}$ tem elementos <input class="lacuna" data-resp="-2" data-tol="0" aria-label="primeiro elemento">, <input class="lacuna" data-resp="-6" data-tol="0" aria-label="segundo elemento"> e <input class="lacuna" data-resp="-4" data-tol="0" aria-label="terceiro elemento">.</p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: multiplique cada elemento por −2, sinal incluído.</p>
+      <div class="resolucao" hidden><p>$-2\mathbf{x} = [-2, -6, -4]'$: a seta aponta para o lado oposto de $\mathbf{x}$ e tem o dobro do comprimento.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Comprimento">
+   <div class="texto">
+    <h2>Comprimento é Pitágoras; produto interno é a soma dos produtos</h2>
+    <div class="formula" data-ref-id="f-comp" data-ref-tipo="formula" data-ref-nome="Comprimento e produto interno (2-1), (2-4), (2-5)">
+      $$\mathbf{x}'\mathbf{y} = x_1y_1 + x_2y_2 + \cdots + x_ny_n$$
+      $$L_{\mathbf{x}} = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2} = \sqrt{\mathbf{x}'\mathbf{x}}$$
+    </div>
+    <p>O <strong>produto interno</strong> $\mathbf{x}'\mathbf{y}$ (que é igual a $\mathbf{y}'\mathbf{x}$) é um número. Com ele, o comprimento é só $\sqrt{\mathbf{x}'\mathbf{x}}$, a hipotenusa de Pitágoras em $n$ dimensões.</p>
+    <p>Multiplicar por $c$ multiplica o comprimento por $|c|$: $L_{c\mathbf{x}} = |c|\,L_{\mathbf{x}}$ (2-2). Escolhendo $c = L_{\mathbf{x}}^{-1}$, sai o <strong>vetor unitário</strong> $L_{\mathbf{x}}^{-1}\mathbf{x}$, de comprimento 1 e mesma direção de $\mathbf{x}$.</p>
+    <div class="ideia">O comprimento é a raiz de $\mathbf{x}'\mathbf{x}$; o produto interno $\mathbf{x}'\mathbf{y}$ é um número que soma os produtos coordenada a coordenada.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-21" data-ref-tipo="exemplo" data-ref-nome="Vetores do Ex. 2.1">
+      <p><strong>Ex. 2.1.</strong> $\mathbf{x}' = [1, 3, 2]$ e $\mathbf{y}' = [-2, 1, -1]$.</p>
+      <p>$\mathbf{x}'\mathbf{x} = 1 + 9 + 4 = 14$ · $\mathbf{y}'\mathbf{y} = 4 + 1 + 1 = 6$ · $\mathbf{x}'\mathbf{y} = -2 + 3 - 2 = -1$</p>
+      <p>$L_{\mathbf{x}} = \sqrt{14} = 3{,}742$ · $L_{\mathbf{y}} = \sqrt{6} = 2{,}449$ · $L_{3\mathbf{x}} = \sqrt{9 + 81 + 36}$ $= \sqrt{126} = 3L_{\mathbf{x}}$</p>
+    </div>
+    <div class="lacunas">
+      <p>Agora $\mathbf{u}' = [2, -1, 2]$ e $\mathbf{v}' = [1, 2, 2]$.</p>
+      <p>$L_{\mathbf{u}} =$ <input class="lacuna" data-resp="3" data-tol="0.01" aria-label="comprimento de u"> · $\mathbf{u}'\mathbf{v} =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="produto interno"></p>
+      <p>Primeiro elemento do vetor unitário na direção de $\mathbf{u}$: <input class="lacuna" data-resp="0.6667" data-tol="0.005" aria-label="primeiro elemento do unitário"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\mathbf{u}'\mathbf{u} = 4 + 1 + 4$; o unitário é $\mathbf{u}/L_{\mathbf{u}}$.</p>
+      <div class="resolucao" hidden><p>$\mathbf{u}'\mathbf{u} = 9$, então $L_{\mathbf{u}} = 3$. $\mathbf{u}'\mathbf{v} = 2 - 2 + 4 = 4$. O unitário é $\mathbf{u}/3 = [2/3, -1/3, 2/3]'$, e o primeiro elemento é $0{,}667$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Ângulo">
+   <div class="texto">
+    <h2>O produto interno guarda o ângulo entre os vetores</h2>
+    <div class="formula" data-ref-id="f-cos" data-ref-tipo="formula" data-ref-nome="Cosseno do ângulo entre vetores (2-6)">
+      $$\cos(\theta) = \frac{\mathbf{x}'\mathbf{y}}{L_{\mathbf{x}}\,L_{\mathbf{y}}} = \frac{\mathbf{x}'\mathbf{y}}{\sqrt{\mathbf{x}'\mathbf{x}}\,\sqrt{\mathbf{y}'\mathbf{y}}}$$
+    </div>
+    <p>Como os comprimentos são positivos, o sinal de $\cos\theta$ é o sinal de $\mathbf{x}'\mathbf{y}$. Quando $\mathbf{x}'\mathbf{y} = 0$, o ângulo é 90° e os vetores são <strong>perpendiculares</strong> (escreve-se $\mathbf{x} \perp \mathbf{y}$).</p>
+    <p>No <span class="ref" data-ref="ex-21">Ex. 2.1</span>: $\cos\theta = -1/(3{,}742 \times 2{,}449)$ $= -0{,}109$, então $\theta = 96{,}3°$, quase perpendiculares. Guarde esta fórmula: no cap. 3, a correlação amostral vai aparecer como um cosseno.</p>
+    <div class="ideia">$\mathbf{x}'\mathbf{y} \gt 0$: ângulo agudo; $\mathbf{x}'\mathbf{y} = 0$: perpendiculares; $\mathbf{x}'\mathbf{y} \lt 0$: ângulo obtuso.</div>
+    <details class="demo">
+      <summary>Demonstração: por que vale no plano</summary>
+      <p>Sejam $\theta_1$ e $\theta_2$ os ângulos de $\mathbf{x}' = [x_1, x_2]$ e $\mathbf{y}' = [y_1, y_2]$ com o primeiro eixo. Pela definição de seno e cosseno, $\cos\theta_1 = x_1/L_{\mathbf{x}}$, $\sin\theta_1 = x_2/L_{\mathbf{x}}$, $\cos\theta_2 = y_1/L_{\mathbf{y}}$, $\sin\theta_2 = y_2/L_{\mathbf{y}}$. O ângulo entre eles é $\theta = \theta_2 - \theta_1$, e</p>
+      $$\cos(\theta_2 - \theta_1) = \cos\theta_2\cos\theta_1 + \sin\theta_2\sin\theta_1 = \frac{y_1x_1 + y_2x_2}{L_{\mathbf{x}}L_{\mathbf{y}}} = \frac{\mathbf{x}'\mathbf{y}}{L_{\mathbf{x}}L_{\mathbf{y}}}$$
+      <p>Em $n$ dimensões, o livro usa essa mesma expressão como definição do ângulo.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-vet">
+      <p>Quando o ângulo entre $\mathbf{x}$ e $\mathbf{y}$ passa de 90°, o produto interno $\mathbf{x}'\mathbf{y}$...</p>
+      <div class="alts">
+        <button data-op="a">Continua positivo</button>
+        <button data-op="b">Fica zero</button>
+        <button data-op="c" data-certa>Fica negativo</button>
+      </div>
+      <div class="explica" hidden><p>$\mathbf{x}'\mathbf{y} = L_{\mathbf{x}}L_{\mathbf{y}}\cos\theta$, e o cosseno é negativo entre 90° e 180°. Note também a sombra laranja: passa para o outro lado da origem, porque a projeção é um múltiplo <em>negativo</em> de $\mathbf{x}$.</p></div>
+    </div>
+    <div class="sim" id="sim-vet">
+      <label>Ângulo de $\mathbf{y}$ com o eixo horizontal <input type="range" id="vet-a" min="0" max="180" step="5" value="60"> <strong id="vet-a-v">60°</strong></label>
+      <label>Comprimento de $\mathbf{y}$ <input type="range" id="vet-l" min="1" max="3.5" step="0.1" value="2.5"> <strong id="vet-l-v">2,5</strong></label>
+      <svg viewBox="0 0 360 250" id="vet-svg" role="img" aria-label="Vetor fixo x, vetor y que gira, e a projeção de y sobre x"></svg>
+      <p id="vet-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Projeção">
+   <div class="texto">
+    <h2>Projeção: a sombra de um vetor sobre outro</h2>
+    <div class="formula" data-ref-id="f-proj" data-ref-tipo="formula" data-ref-nome="Projeção de x em y (2-8), (2-9)">
+      $$\text{projeção de } \mathbf{x} \text{ em } \mathbf{y} = \frac{\mathbf{x}'\mathbf{y}}{\mathbf{y}'\mathbf{y}}\,\mathbf{y} = \frac{\mathbf{x}'\mathbf{y}}{L_{\mathbf{y}}}\,\frac{1}{L_{\mathbf{y}}}\mathbf{y}$$
+      $$\text{comprimento da projeção} = \frac{|\mathbf{x}'\mathbf{y}|}{L_{\mathbf{y}}} = L_{\mathbf{x}}\,|\cos\theta|$$
+    </div>
+    <p>Imagine uma luz perpendicular a $\mathbf{y}$: a sombra de $\mathbf{x}$ sobre a reta de $\mathbf{y}$ é a projeção. Ela é um múltiplo de $\mathbf{y}$ (por isso o fator $\mathbf{y}$ no fim), e o resto, $\mathbf{x}$ menos a projeção, é perpendicular a $\mathbf{y}$. Na simulação do passo anterior, o trecho laranja era a projeção de $\mathbf{y}$ em $\mathbf{x}$.</p>
+    <p>No cap. 3, a média de uma variável vai aparecer exatamente assim: como a projeção da coluna de dados num vetor de uns.</p>
+    <div class="ideia">A projeção de $\mathbf{x}$ em $\mathbf{y}$ é o múltiplo de $\mathbf{y}$ mais perto de $\mathbf{x}$; o que sobra é perpendicular a $\mathbf{y}$.</div>
+    <details class="demo">
+      <summary>Gram–Schmidt: transformar vetores independentes em perpendiculares (Supl. 2A)</summary>
+      <p>Dados $\mathbf{x}_1, \dots, \mathbf{x}_k$ linearmente independentes, tire de cada um a projeção nos anteriores já tratados:</p>
+      $$\mathbf{u}_1 = \mathbf{x}_1,\qquad \mathbf{u}_2 = \mathbf{x}_2 - \frac{\mathbf{x}_2'\mathbf{u}_1}{\mathbf{u}_1'\mathbf{u}_1}\mathbf{u}_1,\qquad \dots,\qquad \mathbf{u}_k = \mathbf{x}_k - \sum_{j=1}^{k-1}\frac{\mathbf{x}_k'\mathbf{u}_j}{\mathbf{u}_j'\mathbf{u}_j}\mathbf{u}_j$$
+      <p>Os $\mathbf{u}$ são perpendiculares entre si e geram o mesmo espaço; dividindo cada um pelo comprimento, ficam unitários. Exemplo do livro: $\mathbf{x}_1' = [4, 0, 0, 2]$, $\mathbf{x}_2' = [3, 1, 0, -1]$. Como $\mathbf{x}_2'\mathbf{u}_1 = 12 - 2 = 10$ e $\mathbf{u}_1'\mathbf{u}_1 = 20$, $\mathbf{u}_2 = \mathbf{x}_2 - 0{,}5\,\mathbf{x}_1$ $= [1, 1, 0, -2]'$. Confira: $\mathbf{u}_1'\mathbf{u}_2 = 4 - 4 = 0$.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Com $\mathbf{x}' = [3, 4]$ e $\mathbf{y}' = [1, 0]$, a projeção de $\mathbf{x}$ em $\mathbf{y}$ é:</p>
+      <div class="alts">
+        <button data-op="a">(a) o vetor $[3, 0]'$.</button>
+        <button data-op="b">(b) o número 3.</button>
+        <button data-op="c">(c) o vetor $[0{,}6;\ 0]'$.</button>
+        <button data-op="d">(d) o vetor $[0, 4]'$.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: $\mathbf{x}'\mathbf{y} = 3$ e $\mathbf{y}'\mathbf{y} = 1$, então a projeção é $3\mathbf{y} = [3, 0]'$, a sombra de $\mathbf{x}$ no eixo horizontal.</div>
+      <div class="fb" data-op="b">3 é o <em>comprimento</em> da projeção. A projeção em si é um vetor, múltiplo de $\mathbf{y}$.</div>
+      <div class="fb" data-op="c">Isso é $\cos\theta \cdot \mathbf{y}$ (dividiu por $L_{\mathbf{x}}L_{\mathbf{y}} = 5$). A projeção divide $\mathbf{x}'\mathbf{y}$ por $\mathbf{y}'\mathbf{y}$, não por $L_{\mathbf{x}}L_{\mathbf{y}}$.</div>
+      <div class="fb" data-op="d">Esse é o resto, $\mathbf{x}$ menos a projeção, que é perpendicular a $\mathbf{y}$. A projeção é a parte na direção de $\mathbf{y}$.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Dependência">
+   <div class="texto">
+    <h2>Vetores dependentes: um deles é feito dos outros</h2>
+    <div class="definicao" data-ref-id="d-dep" data-ref-tipo="definicao" data-ref-nome="Dependência linear (2-7)">
+      <p>$\mathbf{x}_1, \dots, \mathbf{x}_k$ são <strong>linearmente dependentes</strong> se existem constantes $c_1, \dots, c_k$, <strong>não todas nulas</strong>, com</p>
+      $$c_1\mathbf{x}_1 + c_2\mathbf{x}_2 + \cdots + c_k\mathbf{x}_k = \mathbf{0}$$
+      <p>Se a única solução é $c_1 = \cdots = c_k = 0$, são <strong>linearmente independentes</strong> (LI).</p>
+    </div>
+    <p>Dependência quer dizer que pelo menos um vetor é combinação linear dos outros: ele não traz direção nova. No Ex. 2.2, $\mathbf{x}_1' = [1, 2, 1]$, $\mathbf{x}_2' = [1, 0, -1]$ e $\mathbf{x}_3' = [1, -2, 1]$ levam a um sistema cuja única solução é $c_1 = c_2 = c_3 = 0$: são LI.</p>
+    <p>Fatos do Suplemento 2A: um conjunto com o vetor $\mathbf{0}$ é sempre dependente; vetores não nulos e mutuamente perpendiculares são sempre LI; $m$ vetores LI em $m$ dimensões formam uma <strong>base</strong>, e todo vetor se escreve de um único jeito como combinação deles.</p>
+    <div class="ideia">Dependência linear: existe combinação com coeficientes não todos nulos que dá o vetor zero; aí algum vetor é feito dos outros.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Uma colega quer saber se $\mathbf{x}_1' = [1, 2]$, $\mathbf{x}_2' = [2, 4]$ e $\mathbf{x}_3' = [0, 1]$ são LI. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: é o ponto de partida da definição.">Procuro $c_1, c_2, c_3$ com $c_1\mathbf{x}_1 + c_2\mathbf{x}_2 + c_3\mathbf{x}_3 = \mathbf{0}$.</li>
+        <li data-fb="Certo: 2[1, 2] − [2, 4] + 0[0, 1] = [0, 0].">Como $\mathbf{x}_2 = 2\mathbf{x}_1$, $c_1 = 2$, $c_2 = -1$, $c_3 = 0$ resolve.</li>
+        <li data-errada data-fb="Aqui. A definição pede coeficientes NÃO TODOS nulos, e não todos diferentes de zero. Com c1 = 2 e c2 = −1 já basta: os vetores são dependentes (três vetores em 2 dimensões sempre são).">Mas $c_3 = 0$, e a definição exige todos os coeficientes diferentes de zero; essa combinação não serve.</li>
+        <li data-fb="A conclusão está errada, mas o erro nasceu antes: veja a linha anterior.">Logo, os três vetores são LI.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.2 ================= -->
+  <div class="secao" data-numero="2.2" data-titulo="Matrizes" data-livro="§2.2, Supl. 2A">
+
+  <section class="passo" data-titulo="Produto">
+   <div class="texto">
+    <h2>Produto de matrizes: linha da primeira com coluna da segunda</h2>
+    <p>Uma matriz $\mathbf{A}$ ($n \times p$) é um arranjo de números com $n$ linhas e $p$ colunas, $a_{ij}$ na linha $i$, coluna $j$. A <strong>transposta</strong> $\mathbf{A}'$ troca linhas por colunas; $c\mathbf{A}$ multiplica cada entrada por $c$; $\mathbf{A} + \mathbf{B}$ soma entrada a entrada (mesmas dimensões).</p>
+    <div class="formula" data-ref-id="f-prod" data-ref-tipo="formula" data-ref-nome="Produto de matrizes (2-10)">
+      $$\underset{(n\times k)}{\mathbf{A}}\ \underset{(k\times p)}{\mathbf{B}} = \underset{(n\times p)}{\mathbf{AB}},\qquad (\mathbf{AB})_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \cdots + a_{ik}b_{kj} = \sum_{\ell=1}^{k} a_{i\ell}\,b_{\ell j}$$
+    </div>
+    <p>Regra das dimensões: as de dentro precisam ser iguais ($k$) e o resultado fica com as de fora ($n \times p$). Cada entrada é um <span class="ref" data-ref="f-comp">produto interno</span>: a linha $i$ de $\mathbf{A}$ com a coluna $j$ de $\mathbf{B}$.</p>
+    <div class="ideia">$\mathbf{AB}$ existe quando o número de colunas de $\mathbf{A}$ é o número de linhas de $\mathbf{B}$; a entrada $(i, j)$ é a linha $i$ de $\mathbf{A}$ vezes a coluna $j$ de $\mathbf{B}$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><strong>Ex. 2.5.</strong> Uma matriz $2 \times 3$ vezes um vetor $3 \times 1$ dá $2 \times 1$:</p>
+      $$\begin{bmatrix} 3 & -1 & 2 \\ 1 & 5 & 4 \end{bmatrix}\begin{bmatrix} -2 \\ 7 \\ 9 \end{bmatrix} = \begin{bmatrix} 3(-2) + (-1)7 + 2(9) \\ 1(-2) + 5(7) + 4(9) \end{bmatrix} = \begin{bmatrix} 5 \\ 69 \end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>Complete o produto (exemplo do Supl. 2A):</p>
+      $$\begin{bmatrix} 3 & -1 & 2 \\ 4 & 0 & 5 \end{bmatrix}\begin{bmatrix} 3 & 4 \\ 6 & -2 \\ 4 & 3 \end{bmatrix} = \begin{bmatrix} 11 & ? \\ ? & ? \end{bmatrix}$$
+      <p>Entrada $(1,2)$: <input class="lacuna" data-resp="20" data-tol="0" aria-label="entrada 1 2"> · $(2,1)$: <input class="lacuna" data-resp="32" data-tol="0" aria-label="entrada 2 1"> · $(2,2)$: <input class="lacuna" data-resp="31" data-tol="0" aria-label="entrada 2 2"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: entrada $(1,2)$ = linha 1 da primeira $[3, -1, 2]$ com a coluna 2 da segunda $[4, -2, 3]$.</p>
+      <div class="resolucao" hidden><p>$(1,2)$: $3(4) + (-1)(-2) + 2(3) = 20$. $(2,1)$: $4(3) + 0(6) + 5(4) = 32$. $(2,2)$: $4(4) + 0(-2) + 5(3) = 31$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Produtos típicos">
+   <div class="texto">
+    <h2>$\mathbf{b}'\mathbf{c}$ é um número; $\mathbf{b}\mathbf{c}'$ é uma matriz</h2>
+    <p>Com $\mathbf{b}' = [7, -3, 6]$ e $\mathbf{c}' = [5, 8, -4]$ (Ex. 2.6): $\mathbf{b}'\mathbf{c} = (1\times3)(3\times1)$ é $1 \times 1$, o número $35 - 24 - 24 = -13$. Já $\mathbf{b}\mathbf{c}' = (3\times1)(1\times3)$ é uma matriz $3 \times 3$:</p>
+    $$\mathbf{b}\mathbf{c}' = \begin{bmatrix} 35 & 56 & -28 \\ -15 & -24 & 12 \\ 30 & 48 & -24 \end{bmatrix}$$
+    <p>Diferenças em relação aos números: em geral $\mathbf{AB} \ne \mathbf{BA}$ (às vezes um dos dois nem existe), e $\mathbf{AB} = \mathbf{0}$ pode acontecer sem $\mathbf{A}$ nem $\mathbf{B}$ serem nulas. Vale $(\mathbf{AB})' = \mathbf{B}'\mathbf{A}'$, com a ordem trocada.</p>
+    <p>Dois tipos especiais de matriz quadrada: <strong>simétrica</strong>, $\mathbf{A} = \mathbf{A}'$ ($a_{ij} = a_{ji}$), como $\mathbf{S}_n$ e $\mathbf{R}$ do cap. 1; e a <strong>identidade</strong> $\mathbf{I}$, com uns na diagonal e zeros fora, que faz o papel do 1: $\mathbf{AI} = \mathbf{IA} = \mathbf{A}$ (2-11).</p>
+    <div class="ideia">Linha vezes coluna dá um número ($\mathbf{b}'\mathbf{c}$); coluna vezes linha dá uma matriz ($\mathbf{b}\mathbf{c}'$). E a ordem importa: $\mathbf{AB} \ne \mathbf{BA}$ em geral.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Os vetores $\mathbf{a}$ e $\mathbf{b}$ são $3 \times 1$, não nulos, e $\mathbf{a}'\mathbf{b} = 0$. Qual afirmação é verdadeira?</p>
+      <div class="alts">
+        <button data-op="a">(a) $\mathbf{a}\mathbf{b}'$ é a matriz nula $3 \times 3$.</button>
+        <button data-op="b">(b) $\mathbf{b}'\mathbf{a}$ também vale 0.</button>
+        <button data-op="c">(c) $\mathbf{a}$ ou $\mathbf{b}$ tem que ser o vetor nulo.</button>
+        <button data-op="d">(d) $\mathbf{a}\mathbf{b}'$ é um número, igual a $\mathbf{a}'\mathbf{b}$.</button>
+      </div>
+      <div class="fb" data-op="a">$\mathbf{a}\mathbf{b}'$ tem entradas $a_ib_j$, que só somam zero na diagonal (o traço). Com $\mathbf{a}' = [1, 0, 0]$ e $\mathbf{b}' = [0, 1, 0]$, a entrada $(1, 2)$ vale 1.</div>
+      <div class="fb" data-op="b">Isso: o produto interno é simétrico, $\mathbf{b}'\mathbf{a} = \mathbf{a}'\mathbf{b}$. Os vetores são perpendiculares.</div>
+      <div class="fb" data-op="c">Produto interno zero quer dizer perpendiculares, não nulos: $[1, 0, 0]$ e $[0, 1, 0]$ são um exemplo.</div>
+      <div class="fb" data-op="d">$\mathbf{a}\mathbf{b}'$ é $(3\times1)(1\times3) = 3 \times 3$: uma matriz. O número é $\mathbf{a}'\mathbf{b}$.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Inversa">
+   <div class="texto">
+    <h2>A inversa desfaz a matriz, se as colunas forem independentes</h2>
+    <div class="definicao" data-ref-id="d-inv" data-ref-tipo="definicao" data-ref-nome="Matriz inversa (2-12)">
+      <p>$\mathbf{A}^{-1}$ é a matriz com $\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = \mathbf{I}$. Ela existe se e só se as colunas de $\mathbf{A}$ são <span class="ref" data-ref="d-dep">linearmente independentes</span>, o que equivale a $|\mathbf{A}| \ne 0$.</p>
+      $$\mathbf{A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix} \;\Rightarrow\; \mathbf{A}^{-1} = \frac{1}{|\mathbf{A}|}\begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix},\quad |\mathbf{A}| = a_{11}a_{22} - a_{12}a_{21}$$
+    </div>
+    <p>Ex. 2.8: $\mathbf{A}$ com linhas $[3, 2]$ e $[4, 1]$ tem $|\mathbf{A}| = 3 - 8 = -5$ e $\mathbf{A}^{-1}$ com linhas $[-0{,}2;\ 0{,}4]$ e $[0{,}8;\ -0{,}6]$. Matriz diagonal é a mais fácil: a inversa tem $1/a_{ii}$ na diagonal.</p>
+    <p>Geometria: $\mathbf{A}$ leva o quadrado unitário no paralelogramo das suas colunas, e $|\mathbf{A}|$ é a área (com sinal). O livro avisa: se as colunas são <em>quase</em> dependentes, o computador pode errar a inversa por arredondamento. Confira sempre se $\mathbf{AA}^{-1}$ dá $\mathbf{I}$.</p>
+    <div class="ideia">A inversa existe exatamente quando as colunas são LI, isto é, quando $|\mathbf{A}| \ne 0$; perto disso, ela fica instável.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-inv">
+      <p>Quando a segunda coluna fica quase paralela à primeira, as entradas de $\mathbf{A}^{-1}$...</p>
+      <div class="alts">
+        <button data-op="a">Quase não mudam</button>
+        <button data-op="b" data-certa>Ficam enormes</button>
+        <button data-op="c">Vão para zero</button>
+      </div>
+      <div class="explica" hidden><p>$\mathbf{A}^{-1}$ tem $1/|\mathbf{A}|$ na frente, e $|\mathbf{A}|$ é a área do paralelogramo, que some quando as colunas ficam paralelas. Dividir por quase zero explode as entradas: é a instabilidade numérica que o livro mostra no Exercício 2.10.</p></div>
+    </div>
+    <div class="sim" id="sim-inv">
+      <label>Ângulo da 2ª coluna <input type="range" id="inv-f" min="0" max="180" step="1" value="70"> <strong id="inv-f-v">70°</strong></label>
+      <svg viewBox="0 0 360 240" id="inv-svg" role="img" aria-label="Quadrado unitário e o paralelogramo formado pelas colunas da matriz"></svg>
+      <p id="inv-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Determinante e traço">
+   <div class="texto">
+    <h2>Determinante, posto e traço: três números de uma matriz quadrada</h2>
+    <div class="definicao" data-ref-id="d-det-tr" data-ref-tipo="definicao" data-ref-nome="Determinante, posto e traço: propriedades">
+      <p><strong>Determinante</strong> ($\mathbf{A}$ e $\mathbf{B}$ $k \times k$): $|\mathbf{A}'| = |\mathbf{A}|$; linha (ou coluna) de zeros ou duas linhas iguais dão $|\mathbf{A}| = 0$; $|\mathbf{AB}| = |\mathbf{A}||\mathbf{B}|$; $|\mathbf{A}^{-1}| = 1/|\mathbf{A}|$; $|c\mathbf{A}| = c^k|\mathbf{A}|$.</p>
+      <p><strong>Posto:</strong> número máximo de linhas LI, que é igual ao de colunas LI. $\mathbf{A}$ é <strong>não singular</strong> quando o posto é $k$, o que equivale a $|\mathbf{A}| \ne 0$ e à inversa existir.</p>
+      <p><strong>Traço:</strong> $\mathrm{tr}(\mathbf{A}) = \sum_i a_{ii}$, com $\mathrm{tr}(c\mathbf{A}) = c\,\mathrm{tr}(\mathbf{A})$, $\mathrm{tr}(\mathbf{A} \pm \mathbf{B}) = \mathrm{tr}(\mathbf{A}) \pm \mathrm{tr}(\mathbf{B})$, $\mathrm{tr}(\mathbf{AB}) = \mathrm{tr}(\mathbf{BA})$, $\mathrm{tr}(\mathbf{B}^{-1}\mathbf{AB}) = \mathrm{tr}(\mathbf{A})$, $\mathrm{tr}(\mathbf{AA}') = \sum_i\sum_j a_{ij}^2$.</p>
+    </div>
+    <p>Inversas e transpostas trocam a ordem: $(\mathbf{AB})^{-1} = \mathbf{B}^{-1}\mathbf{A}^{-1}$ e $(\mathbf{A}^{-1})' = (\mathbf{A}')^{-1}$. O determinante de uma matriz grande se calcula no computador; à mão, só $2 \times 2$ (e $3 \times 3$ quando inevitável).</p>
+    <div class="ideia">$|\mathbf{A}| \ne 0$ ⇔ posto cheio ⇔ a inversa existe; o traço é a soma da diagonal, e $\mathrm{tr}(\mathbf{AB}) = \mathrm{tr}(\mathbf{BA})$.</div>
+    <details class="demo">
+      <summary>Como se calcula o determinante em geral (cofatores)</summary>
+      <p>Para $k = 1$, $|\mathbf{A}| = a_{11}$. Para $k \gt 1$, expande-se pela primeira linha:</p>
+      $$|\mathbf{A}| = \sum_{j=1}^{k} a_{1j}\,|\mathbf{A}_{1j}|\,(-1)^{1+j}$$
+      <p>em que $\mathbf{A}_{1j}$ é $\mathbf{A}$ sem a linha 1 e a coluna $j$. Exemplos do livro: linhas $[1, 3]$ e $[6, 4]$ dão $1(4) - 3(6) = -14$; linhas $[3, 1, 6]$, $[7, 4, 5]$, $[2, -7, 1]$ dão $3(39) - 1(-3) + 6(-57)$ $= -222$. A inversa geral tem entrada $(j, i)$ igual a $(-1)^{i+j}|\mathbf{A}_{ij}|/|\mathbf{A}|$.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>$\mathbf{A}$ é $3 \times 3$ com $|\mathbf{A}| = 5$. Uma colega calculou $|2\mathbf{A}|$. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: multiplicar a matriz por 2 multiplica cada entrada, logo cada uma das 3 linhas.">$2\mathbf{A}$ é $\mathbf{A}$ com as 3 linhas multiplicadas por 2.</li>
+        <li data-errada data-fb="Aqui. Cada linha multiplicada por 2 dobra o determinante, e são 3 linhas: |2A| = 2³ · 5 = 40. É a regra |cA| = c^k |A|.">Multiplicar uma linha por 2 dobra o determinante; logo $|2\mathbf{A}| = 2 \times 5 = 10$.</li>
+        <li data-fb="Certo: como |2A| é diferente de zero (vale 40), 2A tem inversa. O erro está no valor, não nesta conclusão.">Como $|2\mathbf{A}| \ne 0$, a matriz $2\mathbf{A}$ tem inversa.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Ortogonal">
+   <div class="texto">
+    <h2>Matriz ortogonal: gira sem esticar</h2>
+    <div class="formula" data-ref-id="f-ort" data-ref-tipo="formula" data-ref-nome="Matriz ortogonal (2-13)">
+      $$\mathbf{Q}\mathbf{Q}' = \mathbf{Q}'\mathbf{Q} = \mathbf{I}\qquad\text{ou seja}\qquad \mathbf{Q}' = \mathbf{Q}^{-1}$$
+    </div>
+    <p>$\mathbf{QQ}' = \mathbf{I}$ diz que as linhas de $\mathbf{Q}$ têm comprimento 1 e são perpendiculares entre si; $\mathbf{Q}'\mathbf{Q} = \mathbf{I}$ diz o mesmo das colunas. A inversa sai de graça: é a transposta.</p>
+    <p>O exemplo típico é a rotação no plano, com linhas $[\cos\theta, -\sin\theta]$ e $[\sin\theta, \cos\theta]$. Matriz ortogonal não muda comprimentos: $(\mathbf{Qx})'(\mathbf{Qx}) = \mathbf{x}'\mathbf{Q}'\mathbf{Q}\mathbf{x} = \mathbf{x}'\mathbf{x}$. E $|\mathbf{Q}| = \pm 1$, porque $|\mathbf{Q}|^2 = |\mathbf{QQ}'| = |\mathbf{I}| = 1$.</p>
+    <div class="ideia">$\mathbf{Q}$ ortogonal tem linhas e colunas unitárias e perpendiculares; a inversa é a transposta e $\mathbf{Q}$ não muda comprimentos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">A matriz $\mathbf{Q}$ com linhas $\tfrac{1}{13}[5, 12]$ e $\tfrac{1}{13}[-12, 5]$ é ortogonal (Exercício 2.5 do livro). Quem é $\mathbf{Q}^{-1}$?</p>
+      <div class="alts">
+        <button data-op="a">(a) A transposta $\mathbf{Q}'$, com linhas $\tfrac{1}{13}[5, -12]$ e $\tfrac{1}{13}[12, 5]$.</button>
+        <button data-op="b">(b) A própria $\mathbf{Q}$, porque matriz ortogonal é sua própria inversa.</button>
+        <button data-op="c">(c) $-\mathbf{Q}$, porque o sinal compensa a rotação.</button>
+        <button data-op="d">(d) Só dá para saber com a fórmula da inversa $2 \times 2$.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: para ortogonal, $\mathbf{Q}^{-1} = \mathbf{Q}'$. A rotação inversa gira o mesmo ângulo para o outro lado.</div>
+      <div class="fb" data-op="b">Isso só vale se $\mathbf{Q}$ também for simétrica ($\mathbf{Q} = \mathbf{Q}'$). Esta não é: a entrada $(1,2)$ é $12/13$ e a $(2,1)$ é $-12/13$.</div>
+      <div class="fb" data-op="c">$\mathbf{Q}(-\mathbf{Q}) = -\mathbf{Q}^2$, que não é $\mathbf{I}$ aqui. O que inverte uma ortogonal é a transposta.</div>
+      <div class="fb" data-op="d">A fórmula funciona e dá o mesmo resultado, mas é desnecessária: sendo ortogonal, $\mathbf{Q}^{-1} = \mathbf{Q}'$ direto.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.3 ================= -->
+  <div class="secao" data-numero="2.3" data-titulo="Autovalores e autovetores" data-livro="§2.2, Supl. 2A">
+
+  <section class="passo" data-titulo="Direções especiais">
+   <div class="texto">
+    <h2>Autovetor: a direção que a matriz só estica</h2>
+    <p>Multiplicar um vetor por uma matriz quadrada costuma girar e esticar ao mesmo tempo. Mas há direções especiais em que $\mathbf{A}$ só multiplica o vetor por um número:</p>
+    <div class="definicao" data-ref-id="d-autov" data-ref-tipo="definicao" data-ref-nome="Autovalor e autovetor (2-14)">
+      $$\mathbf{A}\mathbf{x} = \lambda\,\mathbf{x},\qquad \mathbf{x} \ne \mathbf{0}$$
+      <p>$\lambda$ é um <strong>autovalor</strong> de $\mathbf{A}$ e $\mathbf{x}$ um <strong>autovetor</strong> associado. Como qualquer múltiplo de $\mathbf{x}$ também serve, o livro normaliza para comprimento 1 e chama de $\mathbf{e}$ ($\mathbf{e}'\mathbf{e} = 1$).</p>
+    </div>
+    <p>Na simulação, $\mathbf{x}$ percorre o círculo unitário e $\mathbf{Ax}$ percorre uma elipse. Na maior parte das direções, $\mathbf{Ax}$ sai da reta de $\mathbf{x}$.</p>
+    <div class="ideia">Autovetor é uma direção que $\mathbf{A}$ não gira, só multiplica por $\lambda$; o autovalor $\lambda$ é esse fator.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-eig">
+      <p>Girando $\mathbf{x}$ de 0° a 180°, em quantas direções $\mathbf{Ax}$ fica na mesma reta de $\mathbf{x}$?</p>
+      <div class="alts">
+        <button data-op="a">Nenhuma</button>
+        <button data-op="b">Uma</button>
+        <button data-op="c" data-certa>Duas</button>
+      </div>
+      <div class="explica" hidden><p>Duas: perto de 63° ($\mathbf{Ax} = 3\mathbf{x}$) e perto de 153° ($\mathbf{Ax} = 2\mathbf{x}$). São os dois autovetores desta matriz $2 \times 2$ simétrica, e eles são perpendiculares. Também são os eixos da elipse tracejada.</p></div>
+    </div>
+    <div class="sim" id="sim-eig">
+      <label>Direção de $\mathbf{x}$ <input type="range" id="eig-a" min="0" max="180" step="1" value="20"> <strong id="eig-a-v">20°</strong></label>
+      <svg viewBox="0 0 360 300" id="eig-svg" role="img" aria-label="Vetor unitário x, o vetor Ax e a elipse formada pelas imagens do círculo unitário"></svg>
+      <p id="eig-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Como calcular">
+   <div class="texto">
+    <h2>Os autovalores são as raízes de $|\mathbf{A} - \lambda\mathbf{I}| = 0$</h2>
+    <p>$\mathbf{Ax} = \lambda\mathbf{x}$ é o mesmo que $(\mathbf{A} - \lambda\mathbf{I})\mathbf{x} = \mathbf{0}$ com $\mathbf{x} \ne \mathbf{0}$. Isso diz que as colunas de $\mathbf{A} - \lambda\mathbf{I}$ são dependentes, ou seja, que o determinante é zero:</p>
+    <div class="formula" data-ref-id="f-caract" data-ref-tipo="formula" data-ref-nome="Equação característica">
+      $$|\mathbf{A} - \lambda\mathbf{I}| = 0$$
+    </div>
+    <p>Roteiro: (1) resolva a equação característica, que dá os $\lambda$; (2) para cada $\lambda$, resolva $(\mathbf{A} - \lambda\mathbf{I})\mathbf{x} = \mathbf{0}$, que tem infinitas soluções; fixe uma coordenada; (3) divida pelo comprimento.</p>
+    <p>Dois atalhos para conferir: a soma dos autovalores é o traço, e o produto é o determinante (Exercício 2.12).</p>
+    <div class="ideia">Autovalores: raízes de $|\mathbf{A} - \lambda\mathbf{I}| = 0$; para cada um, o autovetor sai de $(\mathbf{A} - \lambda\mathbf{I})\mathbf{x} = \mathbf{0}$ e é normalizado para comprimento 1.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><strong>Supl. 2A.</strong> $\mathbf{A}$ com linhas $[1, 0]$ e $[1, 3]$: $|\mathbf{A} - \lambda\mathbf{I}|$ $= (1 - \lambda)(3 - \lambda) = 0$, então $\lambda_1 = 1$ e $\lambda_2 = 3$.</p>
+      <p>Para $\lambda = 1$: a 2ª equação é $x_1 + 3x_2 = x_2$, logo $x_1 = -2x_2$; com $x_2 = 1$, $\mathbf{e} = [-2/\sqrt5,\ 1/\sqrt5]'$. Para $\lambda = 3$: $x_1 = 0$, $\mathbf{e} = [0, 1]'$.</p>
+    </div>
+    <div class="lacunas">
+      <p>$\mathbf{A}$ com linhas $[9, -2]$ e $[-2, 6]$ (Exercício 2.6). A equação é $\lambda^2 - 15\lambda + 50 = 0$.</p>
+      <p>$\lambda_1 =$ <input class="lacuna" data-resp="10" data-tol="0" aria-label="lambda 1"> (o maior) · $\lambda_2 =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="lambda 2"></p>
+      <p>$\mathbf{e}_1$ é proporcional a $[2, -1]'$. Primeiro elemento de $\mathbf{e}_1$ normalizado: <input class="lacuna" data-resp="0.8944" data-tol="0.005" aria-label="primeiro elemento de e1"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\lambda^2 - 15\lambda + 50 = (\lambda - 10)(\lambda - 5)$; o comprimento de $[2, -1]$ é $\sqrt5$.</p>
+      <div class="resolucao" hidden><p>$|\mathbf{A} - \lambda\mathbf{I}| = (9 - \lambda)(6 - \lambda) - 4$ $= \lambda^2 - 15\lambda + 50$ $= (\lambda - 10)(\lambda - 5)$. Para $\lambda = 10$: $-x_1 - 2x_2 = 0$, logo $x_1 = -2x_2$, e $[2, -1]'$ serve; normalizado, $\mathbf{e}_1 = [2/\sqrt5, -1/\sqrt5]'$ $= [0{,}894;\ -0{,}447]'$. Confira: $10 + 5 = 15 = 9 + 6$ (traço) e $10 \times 5 = 50 = 54 - 4$ (determinante).</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Simétricas">
+   <div class="texto">
+    <h2>Matriz simétrica: autovetores perpendiculares, sempre</h2>
+    <div class="definicao" data-ref-id="d-res21" data-ref-tipo="definicao" data-ref-nome="Autovetores de matriz simétrica (Result 2.1)">
+      <p>Uma matriz $\mathbf{A}$ ($k \times k$) <strong>simétrica</strong> tem $k$ pares $(\lambda_1, \mathbf{e}_1), \dots, (\lambda_k, \mathbf{e}_k)$, com autovalores reais e autovetores que podem ser escolhidos com $\mathbf{e}_i'\mathbf{e}_i = 1$ e $\mathbf{e}_i'\mathbf{e}_j = 0$ para $i \ne j$. Eles são únicos, a não ser que haja autovalores repetidos.</p>
+    </div>
+    <p>Ex. 2.9: $\mathbf{A}$ com linhas $[1, -5]$ e $[-5, 1]$ tem $\lambda_1 = 6$ com $\mathbf{e}_1 = [1/\sqrt2, -1/\sqrt2]'$ e $\lambda_2 = -4$ com $\mathbf{e}_2 = [1/\sqrt2, 1/\sqrt2]'$. Confira: $\mathbf{e}_1'\mathbf{e}_2 = 1/2 - 1/2 = 0$.</p>
+    <p>Por que isso importa: matrizes de covariância são simétricas. Logo seus autovetores formam um sistema de eixos perpendiculares, os eixos da nuvem de dados. É a base da PCA (cap. 8).</p>
+    <div class="ideia">Toda matriz simétrica $k \times k$ tem $k$ autovalores reais e $k$ autovetores unitários mutuamente perpendiculares.</div>
+    <div class="pare">
+      <p>Quais são os autovetores da identidade $2 \times 2$? O que isso tem a ver com "únicos, a não ser que haja autovalores repetidos"?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Todo vetor não nulo, porque $\mathbf{Ix} = 1\mathbf{x}$. O autovalor 1 aparece duas vezes, e qualquer par de direções perpendiculares serve de $\mathbf{e}_1, \mathbf{e}_2$. É o mesmo que acontece no Ex. 2.10 do livro, com autovalores 9, 9 e 18: no plano do 9 repetido, qualquer par perpendicular serve.</p></div>
+    </div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">A matriz simétrica $\mathbf{A}$ com linhas $[1, -5]$ e $[-5, 1]$ tem autovalores 6 e −4. Qual afirmação está correta?</p>
+      <div class="alts">
+        <button data-op="a">(a) O autovetor de $\lambda = -4$ aponta no sentido oposto ao de $\lambda = 6$.</button>
+        <button data-op="b">(b) Os autovetores de 6 e de −4 são perpendiculares.</button>
+        <button data-op="c">(c) Como −4 é negativo, $\mathbf{A}$ não tem inversa.</button>
+        <button data-op="d">(d) $|\mathbf{A}| = 6 + (-4) = 2$.</button>
+      </div>
+      <div class="fb" data-op="a">O sinal do autovalor diz que $\mathbf{A}$ inverte o vetor naquela direção, não que a direção seja oposta à outra. As direções dos dois autovetores são perpendiculares.</div>
+      <div class="fb" data-op="b">Isso: matriz simétrica sempre tem autovetores perpendiculares, quaisquer que sejam os sinais dos autovalores.</div>
+      <div class="fb" data-op="c">A inversa falha quando algum autovalor é <em>zero</em> ($|\mathbf{A}| = 6 \times (-4) = -24 \ne 0$ aqui). Autovalor negativo não impede a inversa.</div>
+      <div class="fb" data-op="d">A soma dos autovalores é o traço ($1 + 1 = 2$). O determinante é o produto: $6 \times (-4) = -24$.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.4 ================= -->
+  <div class="secao" data-numero="2.4" data-titulo="Decomposição espectral e matrizes positivas definidas" data-livro="§2.3">
+
+  <section class="passo" data-titulo="Espectral">
+   <div class="texto">
+    <h2>Uma matriz simétrica é uma soma de peças simples</h2>
+    <div class="formula" data-ref-id="f-espectral" data-ref-tipo="formula" data-ref-nome="Decomposição espectral (2-16)">
+      $$\mathbf{A} = \class{s2}{\lambda_1}\class{s1}{\mathbf{e}_1}\class{s1}{\mathbf{e}_1}' + \class{s2}{\lambda_2}\class{s1}{\mathbf{e}_2}\class{s1}{\mathbf{e}_2}' + \cdots + \class{s2}{\lambda_k}\class{s1}{\mathbf{e}_k}\class{s1}{\mathbf{e}_k}' = \sum_{i=1}^{k} \class{s2}{\lambda_i}\,\class{s1}{\mathbf{e}_i}\class{s1}{\mathbf{e}_i}'$$
+      <ul class="legenda">
+        <li><span class="s2">$\lambda_i$</span>: autovalores de $\mathbf{A}$ ($k \times k$, simétrica)</li>
+        <li><span class="s1">$\mathbf{e}_i$</span>: autovetores normalizados e perpendiculares</li>
+      </ul>
+    </div>
+    <p>Cada $\mathbf{e}_i\mathbf{e}_i'$ é uma matriz $k \times k$ (coluna vezes linha) que "só enxerga" a direção $\mathbf{e}_i$: aplicada a um vetor, devolve a projeção dele em $\mathbf{e}_i$. A matriz inteira é uma soma dessas peças, cada uma pesada pelo seu autovalor.</p>
+    <p>O livro não prova esse resultado (diz que foge do escopo); confira num exemplo, ao lado. É a ferramenta que vai explicar distâncias, a matriz raiz quadrada e a maximização deste capítulo.</p>
+    <div class="ideia">Decomposição espectral: $\mathbf{A} = \sum \lambda_i\mathbf{e}_i\mathbf{e}_i'$; cada autovalor pesa a peça da sua direção.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-22-28" data-ref-tipo="exemplo" data-ref-nome="A com linhas [2,2; 0,4] e [0,4; 2,8]">
+      <p><strong>Supl. 2A.</strong> $\mathbf{A}$ com linhas $[2{,}2;\ 0{,}4]$ e $[0{,}4;\ 2{,}8]$. Equação: $\lambda^2 - 5\lambda + 6 = 0$, então $\lambda_1 = 3$ com $\mathbf{e}_1 = [1/\sqrt5, 2/\sqrt5]'$ e $\lambda_2 = 2$ com $\mathbf{e}_2 = [2/\sqrt5, -1/\sqrt5]'$.</p>
+      $$\mathbf{e}_1\mathbf{e}_1' = \begin{bmatrix} 0{,}2 & 0{,}4 \\ 0{,}4 & 0{,}8 \end{bmatrix},\qquad \mathbf{e}_2\mathbf{e}_2' = \begin{bmatrix} 0{,}8 & -0{,}4 \\ -0{,}4 & 0{,}2 \end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>Monte $3\,\mathbf{e}_1\mathbf{e}_1' + 2\,\mathbf{e}_2\mathbf{e}_2'$.</p>
+      <p>Entrada $(1,2)$ de $3\,\mathbf{e}_1\mathbf{e}_1'$: <input class="lacuna" data-resp="1.2" data-tol="0.01" aria-label="entrada 1 2 da primeira peça"> · entrada $(1,1)$ de $2\,\mathbf{e}_2\mathbf{e}_2'$: <input class="lacuna" data-resp="1.6" data-tol="0.01" aria-label="entrada 1 1 da segunda peça"></p>
+      <p>Entrada $(2,2)$ da soma: <input class="lacuna" data-resp="2.8" data-tol="0.01" aria-label="entrada 2 2 da soma"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: multiplique cada entrada da peça pelo seu autovalor e some as duas matrizes.</p>
+      <div class="resolucao" hidden><p>$3\,\mathbf{e}_1\mathbf{e}_1'$ tem linhas $[0{,}6;\ 1{,}2]$ e $[1{,}2;\ 2{,}4]$; $2\,\mathbf{e}_2\mathbf{e}_2'$ tem linhas $[1{,}6;\ -0{,}8]$ e $[-0{,}8;\ 0{,}4]$. A soma tem linhas $[2{,}2;\ 0{,}4]$ e $[0{,}4;\ 2{,}8]$: é $\mathbf{A}$ de volta.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Positiva definida">
+   <div class="texto">
+    <h2>Positiva definida: $\mathbf{x}'\mathbf{A}\mathbf{x} \gt 0$ para todo $\mathbf{x} \ne \mathbf{0}$</h2>
+    <p>Com $\mathbf{A}$ simétrica, $\mathbf{x}'\mathbf{A}\mathbf{x} = \sum_i\sum_k a_{ik}x_ix_k$ só tem quadrados $x_i^2$ e produtos $x_ix_k$: é uma <strong>forma quadrática</strong>.</p>
+    <div class="definicao" data-ref-id="d-pd" data-ref-tipo="definicao" data-ref-nome="Matriz positiva definida (2-17), (2-18)">
+      <p>$\mathbf{A}$ é <strong>não negativa definida</strong> se $0 \le \mathbf{x}'\mathbf{A}\mathbf{x}$ para todo $\mathbf{x}$, e <strong>positiva definida</strong> se $0 \lt \mathbf{x}'\mathbf{A}\mathbf{x}$ para todo $\mathbf{x} \ne \mathbf{0}$.</p>
+      <p>Equivalente: positiva definida ⇔ todos os autovalores $\gt 0$; não negativa definida ⇔ todos $\ge 0$.</p>
+    </div>
+    <p>Por que os autovalores decidem: pela <span class="ref" data-ref="f-espectral">decomposição espectral</span>, $\mathbf{x}'\mathbf{A}\mathbf{x} = \sum_i \lambda_i(\mathbf{e}_i'\mathbf{x})^2$ $= \sum_i\lambda_iy_i^2$. No Ex. 2.11, $3x_1^2 + 2x_2^2 - 2\sqrt2x_1x_2$ tem $\lambda = 4$ e $1$, e vira $4y_1^2 + y_2^2$, positiva sempre que $\mathbf{x} \ne \mathbf{0}$.</p>
+    <div class="ideia">$\mathbf{A}$ é positiva definida quando $\mathbf{x}'\mathbf{A}\mathbf{x} \gt 0$ para todo $\mathbf{x} \ne \mathbf{0}$, o que equivale a todos os autovalores serem positivos.</div>
+    <details class="demo">
+      <summary>Demonstração: positiva definida ⇔ autovalores positivos</summary>
+      <p>(⇒) Se $\mathbf{A}$ é positiva definida, use $\mathbf{x} = \mathbf{e}_i$: $0 \lt \mathbf{e}_i'\mathbf{A}\mathbf{e}_i = \lambda_i\mathbf{e}_i'\mathbf{e}_i = \lambda_i$ (Exercício 2.17).</p>
+      <p>(⇐) Seja $\mathbf{P} = [\mathbf{e}_1, \dots, \mathbf{e}_k]$, ortogonal, e $\mathbf{y} = \mathbf{P}'\mathbf{x}$, isto é, $y_i = \mathbf{e}_i'\mathbf{x}$. Pela decomposição espectral, $\mathbf{x}'\mathbf{A}\mathbf{x} = \sum_i \lambda_i(\mathbf{x}'\mathbf{e}_i)(\mathbf{e}_i'\mathbf{x})$ $= \sum_i\lambda_iy_i^2$. Como $\mathbf{x} = \mathbf{Py}$, $\mathbf{x} \ne \mathbf{0}$ obriga $\mathbf{y} \ne \mathbf{0}$; com todos os $\lambda_i \gt 0$, a soma é positiva. O mesmo argumento com $\ge$ dá o caso não negativo.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Uma colega verificou se $x_1^2 + x_2^2 + 4x_1x_2$ é positiva definida. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: o termo cruzado 4x1x2 se divide em a12 + a21 = 2 + 2.">Em forma $\mathbf{x}'\mathbf{A}\mathbf{x}$: $a_{11} = a_{22} = 1$ e $a_{12} = a_{21} = 2$.</li>
+        <li data-errada data-fb="Aqui. Diagonal positiva é necessária, mas não basta. Os autovalores são 3 e −1, e x = [1, −1]' dá 1 + 1 − 4 = −2 < 0.">Os elementos da diagonal são positivos; então $\mathbf{A}$ é positiva definida.</li>
+        <li data-fb="A conclusão está errada, mas o erro nasceu antes: veja de onde ela veio.">Logo, essa forma pode ser usada como distância ao quadrado.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Distância">
+   <div class="texto">
+    <h2>Toda distância estatística é uma forma quadrática positiva definida</h2>
+    <p>No cap. 1, a distância geral ao quadrado era $a_{11}x_1^2 + \cdots + a_{pp}x_p^2$ $+ 2(a_{12}x_1x_2 + \cdots)$, e o livro avisou que os pesos $a_{ik}$ não podiam ser quaisquer. Agora dá para dizer exatamente quais servem: arrume os pesos numa matriz simétrica $\mathbf{A}$.</p>
+    <div class="formula" data-ref-id="f-dist" data-ref-tipo="formula" data-ref-nome="Distância como forma quadrática (2-19)">
+      $$0 \lt d^2(O, \mathbf{x}) = \mathbf{x}'\mathbf{A}\mathbf{x}\ \ (\mathbf{x} \ne \mathbf{0}),\qquad d^2(\mathbf{x}, \boldsymbol{\mu}) = (\mathbf{x} - \boldsymbol{\mu})'\mathbf{A}(\mathbf{x} - \boldsymbol{\mu})$$
+    </div>
+    <p>Distância ao quadrado positiva para todo ponto diferente da origem é exatamente a <span class="ref" data-ref="d-pd">definição de positiva definida</span>. E a recíproca vale: toda forma quadrática positiva definida pode ser lida como uma distância ao quadrado.</p>
+    <div class="ideia">Distância ao quadrado é $\mathbf{x}'\mathbf{A}\mathbf{x}$ com $\mathbf{A}$ positiva definida, e toda forma assim pode ser lida como uma distância.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Sem correlação, a distância estatística do cap. 1 é $d^2 = x_1^2/s_{11} + x_2^2/s_{22}$. Escrita como $\mathbf{x}'\mathbf{A}\mathbf{x}$, a matriz $\mathbf{A}$ é:</p>
+      <div class="alts">
+        <button data-op="a">(a) diagonal, com $1/s_{11}$ e $1/s_{22}$.</button>
+        <button data-op="b">(b) diagonal, com $s_{11}$ e $s_{22}$.</button>
+        <button data-op="c">(c) diagonal, com $1/\sqrt{s_{11}}$ e $1/\sqrt{s_{22}}$.</button>
+        <button data-op="d">(d) com $1/s_{11}$ e $1/s_{22}$ na diagonal e $1/\sqrt{s_{11}s_{22}}$ fora dela.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: $\mathbf{x}'\mathbf{A}\mathbf{x} = a_{11}x_1^2 + a_{22}x_2^2$ quando $\mathbf{A}$ é diagonal, e os pesos são os inversos das variâncias.</div>
+      <div class="fb" data-op="b">Invertido: os pesos dividem pela variância. Com $s_{11}$ na matriz, a variável mais espalhada pesaria mais, o contrário da ideia.</div>
+      <div class="fb" data-op="c">Na forma quadrática, $x_1^2$ é multiplicado pelo peso; para obter $x_1^2/s_{11}$ o peso é $1/s_{11}$. O $1/\sqrt{s_{11}}$ aparece quando se divide $x_1$, antes de elevar ao quadrado.</div>
+      <div class="fb" data-op="d">Sem correlação não há termo cruzado: as entradas fora da diagonal são zero.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Elipse">
+   <div class="texto">
+    <h2>Os eixos da elipse são os autovetores; o tamanho é $c/\sqrt{\lambda}$</h2>
+    <p>Em $p = 2$, os pontos a distância $c$ da origem satisfazem $\mathbf{x}'\mathbf{A}\mathbf{x} = c^2$. Pela decomposição espectral, $c^2 = \lambda_1y_1^2 + \lambda_2y_2^2$ com $y_i = \mathbf{x}'\mathbf{e}_i$: é uma elipse nas coordenadas $y_1, y_2$, que são os eixos dos autovetores.</p>
+    <div class="formula" data-ref-id="f-eixos" data-ref-tipo="formula" data-ref-nome="Semi-eixos da elipse de distância c">
+      $$\text{semi-eixo na direção } \class{s1}{\mathbf{e}_i} = \frac{c}{\sqrt{\class{s2}{\lambda_i}}}$$
+    </div>
+    <p>Para conferir: $\mathbf{x} = c\lambda_1^{-1/2}\mathbf{e}_1$ dá $\mathbf{x}'\mathbf{A}\mathbf{x} = \lambda_1(c\lambda_1^{-1/2})^2 = c^2$. Em $p \gt 2$ dimensões, o mesmo vale para um hiperelipsoide com eixos $\mathbf{e}_1, \dots, \mathbf{e}_p$. As elipses inclinadas do cap. 1 eram isto.</p>
+    <div class="ideia">Os pontos a distância $c$ formam uma elipse com eixos nos autovetores de $\mathbf{A}$ e semi-eixos $c/\sqrt{\lambda_i}$: autovalor grande, eixo curto.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-elipse">
+      <p>Se $\lambda_1$ aumenta, o eixo da elipse na direção $\mathbf{e}_1$...</p>
+      <div class="alts">
+        <button data-op="a">Cresce</button>
+        <button data-op="b" data-certa>Encolhe</button>
+        <button data-op="c">Não muda</button>
+      </div>
+      <div class="explica" hidden><p>O semi-eixo é $c/\sqrt{\lambda_1}$. Autovalor grande quer dizer que a distância cresce depressa naquela direção, então basta andar pouco para chegar à distância $c$. Com a matriz $\mathbf{S}^{-1}$ (cap. 4), isso vira: direção de muita variância, eixo longo.</p></div>
+    </div>
+    <div class="sim" id="sim-elipse">
+      <label>$\lambda_1$ <input type="range" id="el-l1" min="0.25" max="4" step="0.05" value="1"> <strong id="el-l1-v">1,00</strong></label>
+      <label>$\lambda_2$ <input type="range" id="el-l2" min="0.25" max="4" step="0.05" value="4"> <strong id="el-l2-v">4,00</strong></label>
+      <label>Direção de $\mathbf{e}_1$ <input type="range" id="el-t" min="0" max="180" step="5" value="30"> <strong id="el-t-v">30°</strong></label>
+      <svg viewBox="0 0 360 300" id="el-svg" role="img" aria-label="Elipses de distância 1 e 2 com os autovetores como eixos"></svg>
+      <p id="el-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.5 ================= -->
+  <div class="secao" data-numero="2.5" data-titulo="Raiz quadrada e SVD" data-livro="§2.4, Supl. 2A">
+
+  <section class="passo" data-titulo="Raiz quadrada">
+   <div class="texto">
+    <h2>Com os autovalores, inverter e tirar raiz vira conta de números</h2>
+    <p>Junte os autovetores nas colunas de $\mathbf{P} = [\mathbf{e}_1, \dots, \mathbf{e}_k]$ (ortogonal) e os autovalores na diagonal de $\boldsymbol{\Lambda}$. Com $\mathbf{A}$ positiva definida ($\lambda_i \gt 0$):</p>
+    <div class="formula" data-ref-id="f-raiz" data-ref-tipo="formula" data-ref-nome="A = PΛP', inversa e raiz quadrada (2-20)–(2-22)">
+      $$\mathbf{A} = \mathbf{P}\boldsymbol{\Lambda}\mathbf{P}' = \sum_{i=1}^{k}\lambda_i\,\mathbf{e}_i\mathbf{e}_i'$$
+      $$\mathbf{A}^{-1} = \mathbf{P}\boldsymbol{\Lambda}^{-1}\mathbf{P}' = \sum_{i=1}^{k}\frac{1}{\lambda_i}\,\mathbf{e}_i\mathbf{e}_i',\qquad \mathbf{A}^{1/2} = \mathbf{P}\boldsymbol{\Lambda}^{1/2}\mathbf{P}' = \sum_{i=1}^{k}\sqrt{\lambda_i}\,\mathbf{e}_i\mathbf{e}_i'$$
+    </div>
+    <p>Os autovetores não mudam; só os autovalores viram $1/\lambda_i$ ou $\sqrt{\lambda_i}$. Propriedades da raiz: $(\mathbf{A}^{1/2})' = \mathbf{A}^{1/2}$ (simétrica); $\mathbf{A}^{1/2}\mathbf{A}^{1/2} = \mathbf{A}$; $(\mathbf{A}^{1/2})^{-1} = \sum \lambda_i^{-1/2}\mathbf{e}_i\mathbf{e}_i'$ $= \mathbf{A}^{-1/2}$; $\mathbf{A}^{1/2}\mathbf{A}^{-1/2} = \mathbf{I}$ e $\mathbf{A}^{-1/2}\mathbf{A}^{-1/2} = \mathbf{A}^{-1}$.</p>
+    <div class="ideia">$\mathbf{A} = \mathbf{P}\boldsymbol{\Lambda}\mathbf{P}'$: $\mathbf{A}^{-1}$ e $\mathbf{A}^{1/2}$ têm os mesmos autovetores, com autovalores $1/\lambda_i$ e $\sqrt{\lambda_i}$.</div>
+    <details class="demo">
+      <summary>Demonstração: por que $\mathbf{P}\boldsymbol{\Lambda}^{-1}\mathbf{P}'$ é a inversa</summary>
+      <p>Como $\mathbf{P}'\mathbf{P} = \mathbf{I}$: $(\mathbf{P}\boldsymbol{\Lambda}^{-1}\mathbf{P}')(\mathbf{P}\boldsymbol{\Lambda}\mathbf{P}')$ $= \mathbf{P}\boldsymbol{\Lambda}^{-1}\boldsymbol{\Lambda}\mathbf{P}'$ $= \mathbf{PP}' = \mathbf{I}$, e o mesmo na outra ordem. Para a raiz: $\mathbf{A}^{1/2}\mathbf{A}^{1/2}$ $= \mathbf{P}\boldsymbol{\Lambda}^{1/2}\mathbf{P}'\mathbf{P}\boldsymbol{\Lambda}^{1/2}\mathbf{P}'$ $= \mathbf{P}\boldsymbol{\Lambda}\mathbf{P}' = \mathbf{A}$. A simetria vem de $(\mathbf{P}\boldsymbol{\Lambda}^{1/2}\mathbf{P}')' = \mathbf{P}\boldsymbol{\Lambda}^{1/2}\mathbf{P}'$, já que $\boldsymbol{\Lambda}^{1/2}$ é diagonal.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Use a matriz do <span class="ref" data-ref="ex-22-28">exemplo da decomposição espectral</span> ($\lambda_1 = 3$, $\lambda_2 = 2$).</p>
+      <p>Maior autovalor de $\mathbf{A}^{-1}$: <input class="lacuna" data-resp="0.5" data-tol="0.005" aria-label="maior autovalor da inversa"> · maior autovalor de $\mathbf{A}^{1/2}$: <input class="lacuna" data-resp="1.732" data-tol="0.005" aria-label="maior autovalor da raiz"></p>
+      <p>Entrada $(1,1)$ de $\mathbf{A}^{-1} = \tfrac13\mathbf{e}_1\mathbf{e}_1' + \tfrac12\mathbf{e}_2\mathbf{e}_2'$: <input class="lacuna" data-resp="0.4667" data-tol="0.005" aria-label="entrada 1 1 da inversa"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: os autovalores da inversa são 1/3 e 1/2; a entrada (1,1) é $\tfrac13(0{,}2) + \tfrac12(0{,}8)$.</p>
+      <div class="resolucao" hidden><p>Autovalores de $\mathbf{A}^{-1}$: $1/2$ (o maior, que vem do $\lambda = 2$) e $1/3$. Autovalores de $\mathbf{A}^{1/2}$: $\sqrt3 = 1{,}732$ e $\sqrt2$. Entrada $(1,1)$: $0{,}0667 + 0{,}4 = 0{,}467$. Confira pela fórmula $2 \times 2$: $|\mathbf{A}| = 6{,}16 - 0{,}16 = 6$ e $(\mathbf{A}^{-1})_{11} = 2{,}8/6 = 0{,}467$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="SVD">
+   <div class="texto">
+    <h2>Matriz retangular também se decompõe: valores singulares</h2>
+    <div class="formula" data-ref-id="f-svd" data-ref-tipo="formula" data-ref-nome="Decomposição em valores singulares (Result 2A.15)">
+      $$\underset{(m\times k)}{\mathbf{A}} = \mathbf{U}\boldsymbol{\Lambda}\mathbf{V}' = \sum_{i=1}^{r}\lambda_i\,\mathbf{u}_i\mathbf{v}_i'$$
+    </div>
+    <p>$\mathbf{U}$ ($m \times m$) e $\mathbf{V}$ ($k \times k$) são ortogonais; $\boldsymbol{\Lambda}$ ($m \times k$) tem os <strong>valores singulares</strong> $\lambda_i \gt 0$ na diagonal e zeros fora; $r$ é o posto. Os $\mathbf{u}_i$ são autovetores de $\mathbf{AA}'$, com autovalores $\lambda_i^2$; os $\mathbf{v}_i$ são autovetores de $\mathbf{A}'\mathbf{A}$, com os mesmos autovalores não nulos, e $\mathbf{v}_i = \lambda_i^{-1}\mathbf{A}'\mathbf{u}_i$.</p>
+    <p>Exemplo do livro: $\mathbf{A}$ com linhas $[3, 1, 1]$ e $[-1, 3, 1]$ tem $\mathbf{AA}'$ com linhas $[11, 1]$ e $[1, 11]$, autovalores 12 e 10. Os valores singulares são $\sqrt{12}$ e $\sqrt{10}$, e $\mathbf{A}'\mathbf{A}$ ($3 \times 3$) tem autovalores 12, 10 e 0.</p>
+    <div class="ideia">SVD: $\mathbf{A} = \sum\lambda_i\mathbf{u}_i\mathbf{v}_i'$; os $\lambda_i^2$ são os autovalores não nulos de $\mathbf{AA}'$ e de $\mathbf{A}'\mathbf{A}$.</div>
+    <div class="pare">
+      <p>$\mathbf{A}$ é $2 \times 3$. Quantos autovalores não nulos $\mathbf{A}'\mathbf{A}$ ($3 \times 3$) pode ter, no máximo? Por quê?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Dois. O posto de $\mathbf{A}$ é no máximo $\min(2, 3) = 2$, e $\mathbf{A}'\mathbf{A}$ tem o mesmo posto. Uma matriz $3 \times 3$ de posto 2 tem pelo menos um autovalor zero, como o 0 do exemplo.</p></div>
+    </div>
+   </div>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.6 ================= -->
+  <div class="secao" data-numero="2.6" data-titulo="Vetores aleatórios, médias e covariâncias" data-livro="§2.5–2.6">
+
+  <section class="passo" data-titulo="Esperança">
+   <div class="texto">
+    <h2>Esperança de um vetor aleatório: elemento por elemento</h2>
+    <p>Um <strong>vetor aleatório</strong> tem variáveis aleatórias como elementos; uma matriz aleatória, idem. A esperança é tomada em cada elemento: $E(\mathbf{X})$ é a matriz dos $E(X_{ij})$ (2-23), cada um calculado como soma $\sum x\,p(x)$ (discreta) ou integral $\int x f(x)\,dx$ (contínua).</p>
+    <p>O livro avisa que o que importa são as propriedades, não as contas de integral. Elas seguem das propriedades de uma variável só:</p>
+    <div class="formula" data-ref-id="f-esp" data-ref-tipo="formula" data-ref-nome="Propriedades da esperança (2-24)">
+      $$E(\mathbf{X} + \mathbf{Y}) = E(\mathbf{X}) + E(\mathbf{Y}),\qquad E(\mathbf{A}\mathbf{X}\mathbf{B}) = \mathbf{A}\,E(\mathbf{X})\,\mathbf{B}$$
+    </div>
+    <p>com $\mathbf{A}$ e $\mathbf{B}$ matrizes de constantes. Constantes saem da esperança, como no caso de uma variável.</p>
+    <div class="ideia">A esperança de um vetor (ou matriz) aleatório é tomada elemento a elemento, e constantes saem: $E(\mathbf{AXB}) = \mathbf{A}\,E(\mathbf{X})\,\mathbf{B}$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-212" data-ref-tipo="exemplo" data-ref-nome="Variáveis discretas do Ex. 2.12">
+      <p><strong>Ex. 2.12.</strong> $\mathbf{X}' = [X_1, X_2]$ com</p>
+      <div class="escala"><table class="tab">
+        <tr><th>$x_1$</th><td>−1</td><td>0</td><td>1</td></tr>
+        <tr><th>$p_1(x_1)$</th><td>0,3</td><td>0,3</td><td>0,4</td></tr>
+      </table></div>
+      <div class="escala"><table class="tab">
+        <tr><th>$x_2$</th><td>0</td><td>1</td></tr>
+        <tr><th>$p_2(x_2)$</th><td>0,8</td><td>0,2</td></tr>
+      </table></div>
+      <p>$E(X_1) = -0{,}3 + 0 + 0{,}4$ $= 0{,}1$ · $E(X_2) = 0{,}2$ · $E(\mathbf{X}) = [0{,}1;\ 0{,}2]'$</p>
+    </div>
+    <div class="lacunas">
+      <p>Com $\mathbf{A}$ de linhas $[1, 1]$ e $[1, -1]$, $E(\mathbf{AX}) = \mathbf{A}\,E(\mathbf{X})$ tem elementos <input class="lacuna" data-resp="0.3" data-tol="0.001" aria-label="E de X1 mais X2"> e <input class="lacuna" data-resp="-0.1" data-tol="0.001" aria-label="E de X1 menos X2">.</p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: o primeiro elemento é $E(X_1 + X_2)$.</p>
+      <div class="resolucao" hidden><p>$\mathbf{AX} = [X_1 + X_2,\ X_1 - X_2]'$, então $E(\mathbf{AX}) = [0{,}1 + 0{,}2;\ 0{,}1 - 0{,}2]'$ $= [0{,}3;\ -0{,}1]'$. Não foi preciso conhecer a distribuição conjunta.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="μ e Σ">
+   <div class="texto">
+    <h2>$\boldsymbol\mu$ e $\boldsymbol\Sigma$: o centro e a forma da população</h2>
+    <div class="formula" data-ref-id="f-mu-sigma" data-ref-tipo="formula" data-ref-nome="Vetor de médias e matriz de covariâncias (2-30)–(2-32)">
+      $$\class{s1}{\boldsymbol{\mu}} = E(\mathbf{X}),\qquad \class{s2}{\boldsymbol{\Sigma}} = E(\mathbf{X} - \boldsymbol{\mu})(\mathbf{X} - \boldsymbol{\mu})' = \begin{bmatrix} \sigma_{11} & \sigma_{12} & \cdots & \sigma_{1p} \\ \sigma_{12} & \sigma_{22} & \cdots & \sigma_{2p} \\ \vdots & \vdots & \ddots & \vdots \\ \sigma_{1p} & \sigma_{2p} & \cdots & \sigma_{pp} \end{bmatrix}$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol{\mu}$</span>: médias $\mu_i = E(X_i)$</li>
+        <li><span class="s2">$\boldsymbol{\Sigma}$</span>: $\sigma_{ii} = E(X_i - \mu_i)^2$ (variâncias) e $\sigma_{ik} = E(X_i - \mu_i)(X_k - \mu_k)$ (covariâncias)</li>
+      </ul>
+    </div>
+    <p>São as versões populacionais de $\bar{\mathbf{x}}$ e $\mathbf{S}_n$: letra grega para a população, latina para a amostra. O livro escreve a variância como $\sigma_{ii}$, e não $\sigma_i^2$, para ela caber na matriz com o mesmo tipo de índice.</p>
+    <p>$(\mathbf{X} - \boldsymbol{\mu})(\mathbf{X} - \boldsymbol{\mu})'$ é coluna vezes linha, uma matriz $p \times p$ com todos os produtos de desvios. A esperança dela é $\boldsymbol\Sigma$, simétrica.</p>
+    <div class="ideia">$\boldsymbol\mu$ guarda as médias e $\boldsymbol\Sigma$ as variâncias (diagonal, $\sigma_{ii}$) e covariâncias (fora dela, $\sigma_{ik}$); letras gregas indicam a população.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-213" data-ref-tipo="exemplo" data-ref-nome="Distribuição conjunta do Ex. 2.13">
+      <p><strong>Ex. 2.13.</strong> Distribuição conjunta $p_{12}(x_1, x_2)$ das variáveis do Ex. 2.12 ($\mu_1 = 0{,}1$, $\mu_2 = 0{,}2$):</p>
+      <div class="escala"><table class="tab">
+        <tr><th>$x_1 \backslash x_2$</th><th>0</th><th>1</th><th>$p_1(x_1)$</th></tr>
+        <tr><th>−1</th><td>0,24</td><td>0,06</td><td>0,3</td></tr>
+        <tr><th>0</th><td>0,16</td><td>0,14</td><td>0,3</td></tr>
+        <tr><th>1</th><td>0,40</td><td>0,00</td><td>0,4</td></tr>
+        <tr><th>$p_2(x_2)$</th><td>0,8</td><td>0,2</td><td>1</td></tr>
+      </table></div>
+    </div>
+    <div class="lacunas">
+      <p>$\sigma_{11} =$ <input class="lacuna" data-resp="0.69" data-tol="0.002" aria-label="sigma 1 1"> · $\sigma_{22} =$ <input class="lacuna" data-resp="0.16" data-tol="0.002" aria-label="sigma 2 2"> · $\sigma_{12} =$ <input class="lacuna" data-resp="-0.08" data-tol="0.002" aria-label="sigma 1 2"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\sigma_{12} = \sum\sum (x_1 - 0{,}1)(x_2 - 0{,}2)$ $\times\, p_{12}(x_1, x_2)$, seis parcelas.</p>
+      <div class="resolucao" hidden>
+      $$\begin{aligned} \sigma_{11} &= (-1{,}1)^2(0{,}3) + (-0{,}1)^2(0{,}3) \\ &\quad + (0{,}9)^2(0{,}4) = 0{,}69 \\ \sigma_{22} &= (-0{,}2)^2(0{,}8) + (0{,}8)^2(0{,}2) \\ &= 0{,}16 \\ \sigma_{12} &= (-1{,}1)(-0{,}2)(0{,}24) \\ &\quad + (-1{,}1)(0{,}8)(0{,}06) \\ &\quad + (-0{,}1)(-0{,}2)(0{,}16) \\ &\quad + (-0{,}1)(0{,}8)(0{,}14) \\ &\quad + (0{,}9)(-0{,}2)(0{,}40) + 0 \\ &= -0{,}08 \end{aligned}$$
+      $$\boldsymbol{\Sigma} = \begin{bmatrix} 0{,}69 & -0{,}08 \\ -0{,}08 & 0{,}16 \end{bmatrix}$$</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Independência">
+   <div class="texto">
+    <h2>Independentes têm covariância zero; a volta não vale</h2>
+    <p>$X_i$ e $X_k$ são <strong>estatisticamente independentes</strong> se $P[X_i \le x_i \text{ e } X_k \le x_k]$ $= P[X_i \le x_i]\,P[X_k \le x_k]$ para todos os pares de valores (2-27); com densidades, $f_{ik}(x_i, x_k) = f_i(x_i)f_k(x_k)$. As $p$ variáveis são mutuamente independentes se a densidade conjunta fatora em $f_1(x_1)\cdots f_p(x_p)$ (2-28).</p>
+    <div class="formula" data-ref-id="f-indep" data-ref-tipo="formula" data-ref-nome="Independência implica covariância zero (2-29)">
+      $$X_i, X_k \text{ independentes} \;\Rightarrow\; \sigma_{ik} = \mathrm{Cov}(X_i, X_k) = 0$$
+    </div>
+    <p>A recíproca é falsa. Exemplo nosso: $X$ vale −1, 0 ou 1 com probabilidade 1/3 cada, e $Y = X^2$. Então $E(X) = 0$ e $\mathrm{Cov}(X, Y) = E(X^3) = 0$, mas $Y$ é função de $X$. A covariância só enxerga associação <em>linear</em>.</p>
+    <p>No <span class="ref" data-ref="ex-213">Ex. 2.13</span>, $\sigma_{12} = -0{,}08 \ne 0$, então $X_1$ e $X_2$ não são independentes (confira: $p_{12}(1, 1) = 0 \ne 0{,}4 \times 0{,}2$).</p>
+    <div class="ideia">Independência implica covariância zero; covariância zero só garante que não há associação linear.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Numa população, $\mathrm{Cov}(X_1, X_2) = 0$. O que se pode concluir com certeza?</p>
+      <div class="alts">
+        <button data-op="a">(a) $X_1$ e $X_2$ são independentes.</button>
+        <button data-op="b">(b) Não há associação linear entre $X_1$ e $X_2$, mas pode haver outra forma de dependência.</button>
+        <button data-op="c">(c) $\rho_{12}$ pode ser diferente de zero se as variâncias forem grandes.</button>
+        <button data-op="d">(d) A matriz $\boldsymbol\Sigma$ de $[X_1, X_2]'$ é a identidade.</button>
+      </div>
+      <div class="fb" data-op="a">Essa é a recíproca de (2-29), que é falsa: com $Y = X^2$ e $X$ simétrico em torno de 0, a covariância é zero e $Y$ depende totalmente de $X$.</div>
+      <div class="fb" data-op="b">Isso: covariância zero exclui a tendência linear, não a dependência em geral.</div>
+      <div class="fb" data-op="c">$\rho_{12} = \sigma_{12}/(\sqrt{\sigma_{11}}\sqrt{\sigma_{22}})$; com $\sigma_{12} = 0$, a correlação é zero qualquer que seja a variância.</div>
+      <div class="fb" data-op="d">Só os elementos fora da diagonal são zero. As variâncias $\sigma_{11}$ e $\sigma_{22}$ podem ser quaisquer.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Correlação">
+   <div class="texto">
+    <h2>$\boldsymbol\rho$ e $\mathbf{V}^{1/2}$: separar a escala da associação</h2>
+    <div class="formula" data-ref-id="f-rho" data-ref-tipo="formula" data-ref-nome="Correlação populacional e V^{1/2} (2-33)–(2-37)">
+      $$\class{s3}{\rho_{ik}} = \frac{\class{s2}{\sigma_{ik}}}{\sqrt{\sigma_{ii}}\,\sqrt{\sigma_{kk}}},\qquad \mathbf{V}^{1/2} = \begin{bmatrix} \sqrt{\sigma_{11}} & 0 & \cdots & 0 \\ 0 & \sqrt{\sigma_{22}} & \cdots & 0 \\ \vdots & & \ddots & \vdots \\ 0 & 0 & \cdots & \sqrt{\sigma_{pp}} \end{bmatrix}$$
+      $$\mathbf{V}^{1/2}\,\boldsymbol{\rho}\,\mathbf{V}^{1/2} = \boldsymbol{\Sigma},\qquad \boldsymbol{\rho} = (\mathbf{V}^{1/2})^{-1}\,\boldsymbol{\Sigma}\,(\mathbf{V}^{1/2})^{-1}$$
+      <ul class="legenda">
+        <li><span class="s3">$\rho_{ik}$</span>: correlação populacional; $\boldsymbol\rho$ tem 1 na diagonal</li>
+        <li><span class="s2">$\sigma_{ik}$</span>: covariância</li>
+      </ul>
+    </div>
+    <p>Multiplicar por uma matriz diagonal à esquerda escala as linhas; à direita, as colunas. Então a entrada $(i, k)$ de $(\mathbf{V}^{1/2})^{-1}\boldsymbol\Sigma(\mathbf{V}^{1/2})^{-1}$ é $\sigma_{ik}/(\sqrt{\sigma_{ii}}\sqrt{\sigma_{kk}})$: a fórmula de $\rho_{ik}$ feita de uma vez para a matriz inteira.</p>
+    <div class="ideia">$\boldsymbol\Sigma = \mathbf{V}^{1/2}\boldsymbol\rho\mathbf{V}^{1/2}$: os desvios padrão carregam a escala, e $\boldsymbol\rho$ carrega a associação.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><strong>Ex. 2.14.</strong> </p>
+      $$\boldsymbol{\Sigma} = \begin{bmatrix} 4 & 1 & 2 \\ 1 & 9 & -3 \\ 2 & -3 & 25 \end{bmatrix} \;\Rightarrow\; \mathbf{V}^{1/2} = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 5 \end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>$\rho_{12} =$ <input class="lacuna" data-resp="0.1667" data-tol="0.002" aria-label="rho 1 2"> · $\rho_{13} =$ <input class="lacuna" data-resp="0.2" data-tol="0.002" aria-label="rho 1 3"> · $\rho_{23} =$ <input class="lacuna" data-resp="-0.2" data-tol="0.002" aria-label="rho 2 3"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: divida cada covariância pelo produto dos dois desvios padrão: $\rho_{12} = 1/(2 \times 3)$.</p>
+      <div class="resolucao" hidden><p>$\rho_{12} = 1/6 = 0{,}167$; $\rho_{13} = 2/(2 \times 5) = 0{,}2$; $\rho_{23} = -3/(3 \times 5) = -0{,}2$.</p>
+      $$\boldsymbol{\rho} = \begin{bmatrix} 1 & 1/6 & 1/5 \\ 1/6 & 1 & -1/5 \\ 1/5 & -1/5 & 1 \end{bmatrix}$$</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.7 ================= -->
+  <div class="secao" data-numero="2.7" data-titulo="Combinações lineares e partição" data-livro="§2.6">
+
+  <section class="passo" data-titulo="c'X">
+   <div class="texto">
+    <h2>A variância de uma combinação linear é $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$</h2>
+    <p>Com duas variáveis: $\mathrm{Var}(aX_1 + bX_2)$ $= a^2\sigma_{11} + b^2\sigma_{22} + 2ab\,\sigma_{12}$ (2-41). Com $\mathbf{c}' = [a, b]$, isso é exatamente $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ (2-42). Em geral:</p>
+    <div class="formula" data-ref-id="f-cx" data-ref-tipo="formula" data-ref-nome="Média e variância de c'X (2-43)">
+      $$E(\mathbf{c}'\mathbf{X}) = \mathbf{c}'\class{s1}{\boldsymbol{\mu}},\qquad \mathrm{Var}(\mathbf{c}'\mathbf{X}) = \mathbf{c}'\class{s2}{\boldsymbol{\Sigma}}\,\mathbf{c} = \sum_{i=1}^{p}\sum_{k=1}^{p} c_ic_k\,\sigma_{ik}$$
+    </div>
+    <p>A covariância entra no termo cruzado: se $X_1$ e $X_2$ andam juntos, somá-los dá mais variância do que a soma das variâncias. Com $\mathbf{c}$ de comprimento 1, $\mathbf{c}'\mathbf{X}$ é a coordenada de $\mathbf{X}$ na direção $\mathbf{c}$ (a <span class="ref" data-ref="f-proj">projeção</span>), e $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ é a variância da nuvem naquela direção.</p>
+    <div class="ideia">$\mathbf{c}'\mathbf{X}$ tem média $\mathbf{c}'\boldsymbol\mu$ e variância $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$; a covariância entra pelo termo cruzado $2ab\,\sigma_{12}$.</div>
+    <details class="demo">
+      <summary>Demonstração de (2-41)</summary>
+      $$\begin{aligned} \mathrm{Var}(aX_1 + bX_2) &= E[(aX_1 + bX_2) - (a\mu_1 + b\mu_2)]^2 = E[a(X_1 - \mu_1) + b(X_2 - \mu_2)]^2 \\ &= E[a^2(X_1 - \mu_1)^2 + b^2(X_2 - \mu_2)^2 + 2ab(X_1 - \mu_1)(X_2 - \mu_2)] \\ &= a^2\sigma_{11} + b^2\sigma_{22} + 2ab\,\sigma_{12} \end{aligned}$$
+      <p>E $[a\ \ b]\,\boldsymbol\Sigma\,[a\ \ b]'$ $= a^2\sigma_{11} + 2ab\,\sigma_{12} + b^2\sigma_{22}$, a mesma coisa.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-dir">
+      <p>Girando a direção $\mathbf{c}$, onde a variância de $\mathbf{c}'\mathbf{X}$ é máxima?</p>
+      <div class="alts">
+        <button data-op="a">No eixo de $x_1$</button>
+        <button data-op="b" data-certa>No eixo maior da nuvem</button>
+        <button data-op="c">É igual em todas</button>
+      </div>
+      <div class="explica" hidden><p>No eixo maior da nuvem, que só coincide com o eixo de $x_1$ quando a correlação é zero. O máximo de $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ é o maior autovalor de $\boldsymbol\Sigma$, atingido no autovetor $\mathbf{e}_1$: é o que a seção 2.8 demonstra e o que a PCA (cap. 8) usa.</p></div>
+    </div>
+    <div class="sim" id="sim-dir">
+      <label>Correlação $\rho_{12}$ <input type="range" id="dir-r" min="-0.9" max="0.9" step="0.05" value="0.6"> <strong id="dir-r-v">0,60</strong></label>
+      <label>Direção de $\mathbf{c}$ <input type="range" id="dir-a" min="0" max="180" step="1" value="0"> <strong id="dir-a-v">0°</strong></label>
+      <svg viewBox="0 0 360 300" id="dir-svg" role="img" aria-label="Nuvem de pontos, uma reta na direção c com as projeções dos pontos e uma barra com a variância nessa direção"></svg>
+      <p id="dir-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+      <button class="btn pequeno" id="dir-btn">Ir para a direção de máximo</button>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="CX">
+   <div class="texto">
+    <h2>Várias combinações de uma vez: $\mathbf{C}\boldsymbol\Sigma\mathbf{C}'$</h2>
+    <p>Com $q$ combinações $Z_i = c_{i1}X_1 + \cdots + c_{ip}X_p$, cada linha de $\mathbf{C}$ ($q \times p$) guarda os coeficientes de uma delas, e $\mathbf{Z} = \mathbf{CX}$ (2-44).</p>
+    <div class="formula" data-ref-id="f-cxx" data-ref-tipo="formula" data-ref-nome="Média e covariância de Z = CX (2-45)">
+      $$\boldsymbol{\mu}_{\mathbf{Z}} = E(\mathbf{CX}) = \mathbf{C}\,\boldsymbol{\mu}_{\mathbf{X}},\qquad \boldsymbol{\Sigma}_{\mathbf{Z}} = \mathrm{Cov}(\mathbf{CX}) = \mathbf{C}\,\boldsymbol{\Sigma}_{\mathbf{X}}\,\mathbf{C}'$$
+    </div>
+    <p>Na diagonal de $\mathbf{C}\boldsymbol\Sigma\mathbf{C}'$ ficam as variâncias $\mathbf{c}_i'\boldsymbol\Sigma\mathbf{c}_i$; fora dela, as covariâncias $\mathbf{c}_i'\boldsymbol\Sigma\mathbf{c}_k$ entre as combinações (Exercício 2.28). O livro usa muito este resultado nos caps. 8 e 9.</p>
+    <p>Ex. 2.15: $Z_1 = X_1 - X_2$ e $Z_2 = X_1 + X_2$ dão</p>
+    $$\boldsymbol{\Sigma}_{\mathbf{Z}} = \begin{bmatrix} \sigma_{11} - 2\sigma_{12} + \sigma_{22} & \sigma_{11} - \sigma_{22} \\ \sigma_{11} - \sigma_{22} & \sigma_{11} + 2\sigma_{12} + \sigma_{22} \end{bmatrix}$$
+    <p>Se $\sigma_{11} = \sigma_{22}$, a covariância some: soma e diferença de variáveis com a mesma variância são não correlacionadas.</p>
+    <div class="ideia">Para $\mathbf{Z} = \mathbf{CX}$: $\boldsymbol\mu_{\mathbf{Z}} = \mathbf{C}\boldsymbol\mu$ e $\boldsymbol\Sigma_{\mathbf{Z}} = \mathbf{C}\boldsymbol\Sigma\mathbf{C}'$; a entrada $(i, k)$ é a covariância entre as combinações $i$ e $k$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Com $\sigma_{11} = 5$, $\sigma_{22} = 2$ e $\sigma_{12} = 1$, um colega calculou a covariância entre $Z_1 = X_1 - X_2$ e $Z_2 = X_1 + X_2$. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: cada linha de C traz os coeficientes de uma combinação.">$\mathbf{C}$ tem linhas $[1, -1]$ e $[1, 1]$.</li>
+        <li data-fb="Certo: 5 + 2 − 2(1) = 5.">$\mathrm{Var}(Z_1) = \sigma_{11} + \sigma_{22} - 2\sigma_{12} = 5$.</li>
+        <li data-errada data-fb="Aqui. A entrada (1,2) de CΣC' é [1, −1] Σ [1, 1]' = σ11 + σ12 − σ12 − σ22 = σ11 − σ22 = 3. O σ22 entra com sinal negativo (coeficientes −1 e +1).">$\mathrm{Cov}(Z_1, Z_2) = \sigma_{11} + \sigma_{22} = 7$.</li>
+        <li data-fb="Certo como conclusão: a covariância (3) é diferente de zero, porque σ11 ≠ σ22.">Logo $Z_1$ e $Z_2$ são correlacionadas.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Partição">
+   <div class="texto">
+    <h2>Partir $\mathbf{X}$ em dois grupos parte $\boldsymbol\Sigma$ em quatro blocos</h2>
+    <p>Muitas vezes as variáveis formam grupos naturais: consumo e renda, traços de personalidade e medidas físicas. Separe as $q$ primeiras das $p - q$ restantes:</p>
+    <div class="formula" data-ref-id="f-part" data-ref-tipo="formula" data-ref-nome="Partição de X e de Σ (2-38)–(2-40)">
+      $$\mathbf{X} = \begin{bmatrix} \mathbf{X}^{(1)} \\ \mathbf{X}^{(2)} \end{bmatrix} \begin{matrix} \}\,q \\ \}\,p - q \end{matrix},\qquad \boldsymbol{\Sigma} = \begin{bmatrix} \boldsymbol{\Sigma}_{11} & \boldsymbol{\Sigma}_{12} \\ \boldsymbol{\Sigma}_{21} & \boldsymbol{\Sigma}_{22} \end{bmatrix},\qquad \boldsymbol{\Sigma}_{21} = \boldsymbol{\Sigma}_{12}'$$
+    </div>
+    <p>$\boldsymbol\Sigma_{11}$ ($q \times q$) é a covariância de $\mathbf{X}^{(1)}$ e $\boldsymbol\Sigma_{22}$ a de $\mathbf{X}^{(2)}$. $\boldsymbol\Sigma_{12}$ $= E(\mathbf{X}^{(1)} - \boldsymbol\mu^{(1)})(\mathbf{X}^{(2)} - \boldsymbol\mu^{(2)})'$ ($q \times (p - q)$) guarda as covariâncias <em>entre</em> os grupos; ela não precisa ser simétrica, nem quadrada.</p>
+    <p>Na amostra é igual: $\bar{\mathbf{x}}$ parte em $\bar{\mathbf{x}}^{(1)}, \bar{\mathbf{x}}^{(2)}$ e $\mathbf{S}_n$ em $\mathbf{S}_{11}, \mathbf{S}_{12}, \mathbf{S}_{21} = \mathbf{S}_{12}', \mathbf{S}_{22}$ (2-46, 2-47). A partição volta na normal condicional (cap. 4) e na correlação canônica (cap. 10).</p>
+    <div class="ideia">Partindo $\mathbf{X}$ em $\mathbf{X}^{(1)}$ e $\mathbf{X}^{(2)}$, $\boldsymbol\Sigma$ vira blocos: $\boldsymbol\Sigma_{11}$ e $\boldsymbol\Sigma_{22}$ dentro de cada grupo, $\boldsymbol\Sigma_{12} = \boldsymbol\Sigma_{21}'$ entre eles.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">$\mathbf{X}$ tem 5 variáveis, partido em $\mathbf{X}^{(1)}$ (as 2 primeiras) e $\mathbf{X}^{(2)}$ (as 3 últimas). O bloco $\boldsymbol\Sigma_{12}$ é:</p>
+      <div class="alts">
+        <button data-op="a">(a) $2 \times 3$, com as covariâncias entre uma variável do 1º grupo e uma do 2º.</button>
+        <button data-op="b">(b) $3 \times 2$, com as covariâncias entre uma variável do 1º grupo e uma do 2º.</button>
+        <button data-op="c">(c) $2 \times 2$ e simétrico, com as covariâncias dentro do 1º grupo.</button>
+        <button data-op="d">(d) $2 \times 3$ e simétrico, porque $\boldsymbol\Sigma$ é simétrica.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: linhas do 1º grupo ($q = 2$), colunas do 2º ($p - q = 3$).</div>
+      <div class="fb" data-op="b">$3 \times 2$ é $\boldsymbol\Sigma_{21} = \boldsymbol\Sigma_{12}'$. Em $\boldsymbol\Sigma_{12}$, as linhas são do 1º grupo.</div>
+      <div class="fb" data-op="c">Esse é $\boldsymbol\Sigma_{11}$. O índice 12 indica covariâncias entre o grupo 1 e o grupo 2.</div>
+      <div class="fb" data-op="d">Uma matriz $2 \times 3$ não pode ser simétrica. A simetria de $\boldsymbol\Sigma$ aparece como $\boldsymbol\Sigma_{21} = \boldsymbol\Sigma_{12}'$.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 2.8 ================= -->
+  <div class="secao" data-numero="2.8" data-titulo="Desigualdades e maximização" data-livro="§2.7">
+
+  <section class="passo" data-titulo="Cauchy–Schwarz">
+   <div class="texto">
+    <h2>Cauchy–Schwarz: $(\mathbf{b}'\mathbf{d})^2$ nunca passa de $(\mathbf{b}'\mathbf{b})(\mathbf{d}'\mathbf{d})$</h2>
+    <p>Várias técnicas do livro escolhem a "melhor" combinação linear: a de maior variância (componentes principais), a que mais separa grupos (discriminante). As desigualdades desta seção resolvem esses problemas de uma vez.</p>
+    <div class="formula" data-ref-id="f-cs" data-ref-tipo="formula" data-ref-nome="Desigualdade de Cauchy–Schwarz (2-48)">
+      $$(\mathbf{b}'\mathbf{d})^2 \le (\mathbf{b}'\mathbf{b})(\mathbf{d}'\mathbf{d}),\qquad \text{com igualdade se e só se } \mathbf{b} = c\,\mathbf{d}$$
+    </div>
+    <p>Dividindo por $(\mathbf{b}'\mathbf{b})(\mathbf{d}'\mathbf{d})$, fica $\cos^2\theta \le 1$ (pelo <span class="ref" data-ref="f-cos">cosseno do ângulo</span>). A igualdade acontece quando o ângulo é 0° ou 180°: vetores paralelos.</p>
+    <div class="ideia">Cauchy–Schwarz é $\cos^2\theta \le 1$ escrito com vetores; vira igualdade quando eles são paralelos.</div>
+    <details class="demo">
+      <summary>Demonstração (completando o quadrado)</summary>
+      <p>Se $\mathbf{b} = \mathbf{0}$ ou $\mathbf{d} = \mathbf{0}$, vale com igualdade. Senão, para qualquer escalar $x$ com $\mathbf{b} - x\mathbf{d} \ne \mathbf{0}$:</p>
+      $$0 \lt (\mathbf{b} - x\mathbf{d})'(\mathbf{b} - x\mathbf{d}) = \mathbf{b}'\mathbf{b} - 2x(\mathbf{b}'\mathbf{d}) + x^2(\mathbf{d}'\mathbf{d}) = \mathbf{b}'\mathbf{b} - \frac{(\mathbf{b}'\mathbf{d})^2}{\mathbf{d}'\mathbf{d}} + (\mathbf{d}'\mathbf{d})\left(x - \frac{\mathbf{b}'\mathbf{d}}{\mathbf{d}'\mathbf{d}}\right)^2$$
+      <p>Escolhendo $x = \mathbf{b}'\mathbf{d}/\mathbf{d}'\mathbf{d}$, o último termo some e sobra $0 \lt \mathbf{b}'\mathbf{b} - (\mathbf{b}'\mathbf{d})^2/\mathbf{d}'\mathbf{d}$, isto é, $(\mathbf{b}'\mathbf{d})^2 \lt (\mathbf{b}'\mathbf{b})(\mathbf{d}'\mathbf{d})$ quando $\mathbf{b}$ não é múltiplo de $\mathbf{d}$. Se $\mathbf{b} = c\mathbf{d}$, os dois lados valem $c^2(\mathbf{d}'\mathbf{d})^2$.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Com $\mathbf{b}' = [2, -1, 4, 0]$ e $\mathbf{d}' = [-1, 3, -2, 1]$ (Exercício 2.34), confira a desigualdade. Que ângulo entre os vetores ela indica?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>$\mathbf{b}'\mathbf{d} = -2 - 3 - 8 + 0 = -13$, então $(\mathbf{b}'\mathbf{d})^2 = 169$. $\mathbf{b}'\mathbf{b} = 21$ e $\mathbf{d}'\mathbf{d} = 15$, produto 315. Vale $169 \le 315$. $\cos\theta = -13/\sqrt{315} = -0{,}73$, então $\theta \approx 137°$: longe de paralelos, por isso a desigualdade é folgada.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Lema de maximização">
+   <div class="texto">
+    <h2>Qual $\mathbf{x}$ maximiza $(\mathbf{x}'\mathbf{d})^2/\mathbf{x}'\mathbf{B}\mathbf{x}$? Resposta: $\mathbf{B}^{-1}\mathbf{d}$</h2>
+    <div class="formula" data-ref-id="f-lema" data-ref-tipo="formula" data-ref-nome="Cauchy–Schwarz estendida e lema de maximização (2-49), (2-50)">
+      $$(\mathbf{b}'\mathbf{d})^2 \le (\mathbf{b}'\mathbf{B}\mathbf{b})(\mathbf{d}'\mathbf{B}^{-1}\mathbf{d})$$
+      $$\max_{\mathbf{x} \ne \mathbf{0}}\ \frac{(\mathbf{x}'\mathbf{d})^2}{\mathbf{x}'\mathbf{B}\mathbf{x}} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d},\qquad \text{atingido em } \mathbf{x} = c\,\mathbf{B}^{-1}\mathbf{d}\ (c \ne 0)$$
+    </div>
+    <p>$\mathbf{B}$ é positiva definida. Uma leitura útil: $\mathbf{d}$ é um "sinal" fixo (por exemplo, uma diferença de médias), $\mathbf{x}'\mathbf{B}\mathbf{x}$ é o "ruído" da combinação $\mathbf{x}$, e a razão mede sinal ao quadrado sobre ruído. A melhor combinação não é $\mathbf{d}$, e sim $\mathbf{B}^{-1}\mathbf{d}$: ela desconta as direções ruidosas. Isso volta no $T^2$ de Hotelling (cap. 5) e no discriminante de Fisher (cap. 11).</p>
+    <div class="ideia">Com $\mathbf{B}$ positiva definida, $(\mathbf{x}'\mathbf{d})^2/\mathbf{x}'\mathbf{B}\mathbf{x}$ é no máximo $\mathbf{d}'\mathbf{B}^{-1}\mathbf{d}$, valor atingido em $\mathbf{x} = \mathbf{B}^{-1}\mathbf{d}$ (ou qualquer múltiplo).</div>
+    <details class="demo">
+      <summary>Demonstração da estendida e do lema</summary>
+      <p><strong>Estendida.</strong> Use a <span class="ref" data-ref="f-raiz">matriz raiz quadrada</span>: $\mathbf{b}'\mathbf{d} = \mathbf{b}'\mathbf{B}^{1/2}\mathbf{B}^{-1/2}\mathbf{d}$ $= (\mathbf{B}^{1/2}\mathbf{b})'(\mathbf{B}^{-1/2}\mathbf{d})$. Cauchy–Schwarz nesses dois vetores dá $(\mathbf{b}'\mathbf{d})^2 \le (\mathbf{b}'\mathbf{B}\mathbf{b})(\mathbf{d}'\mathbf{B}^{-1}\mathbf{d})$, com igualdade se $\mathbf{B}^{1/2}\mathbf{b} = c\,\mathbf{B}^{-1/2}\mathbf{d}$, ou seja, $\mathbf{b} = c\,\mathbf{B}^{-1}\mathbf{d}$.</p>
+      <p><strong>Lema.</strong> Com $\mathbf{x} \ne \mathbf{0}$, $\mathbf{x}'\mathbf{B}\mathbf{x} \gt 0$. Dividindo a estendida (com $\mathbf{b} = \mathbf{x}$) por esse número positivo: $(\mathbf{x}'\mathbf{d})^2/\mathbf{x}'\mathbf{B}\mathbf{x} \le \mathbf{d}'\mathbf{B}^{-1}\mathbf{d}$, e o limite é atingido em $\mathbf{x} = c\,\mathbf{B}^{-1}\mathbf{d}$.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>$\mathbf{B}$ diagonal com 4 e 1; $\mathbf{d}' = [2, 2]$.</p>
+      <p>$\mathbf{B}^{-1}\mathbf{d}$ tem elementos <input class="lacuna" data-resp="0.5" data-tol="0.001" aria-label="primeiro elemento"> e <input class="lacuna" data-resp="2" data-tol="0.001" aria-label="segundo elemento">.</p>
+      <p>Valor máximo da razão: <input class="lacuna" data-resp="5" data-tol="0.01" aria-label="valor máximo"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: inversa de diagonal = $1/a_{ii}$; o máximo é $\mathbf{d}'\mathbf{B}^{-1}\mathbf{d} = 2^2/4 + 2^2/1$.</p>
+      <div class="resolucao" hidden><p>$\mathbf{B}^{-1}\mathbf{d} = [2/4,\ 2/1]' = [0{,}5;\ 2]'$ e $\mathbf{d}'\mathbf{B}^{-1}\mathbf{d} = 1 + 4 = 5$. Confira: com $\mathbf{x} = [0{,}5;\ 2]'$, $(\mathbf{x}'\mathbf{d})^2 = 5^2 = 25$ e $\mathbf{x}'\mathbf{B}\mathbf{x} = 4(0{,}25) + 4 = 5$, razão 5. Com $\mathbf{x} = \mathbf{d}$: $64/20 = 3{,}2$, menor, porque $\mathbf{d}$ dá peso demais à primeira coordenada, a mais ruidosa.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Esfera unitária">
+   <div class="texto">
+    <h2>Na esfera unitária, $\mathbf{x}'\mathbf{B}\mathbf{x}$ vai de $\lambda_p$ a $\lambda_1$</h2>
+    <div class="formula" data-ref-id="f-max" data-ref-tipo="formula" data-ref-nome="Máximo de forma quadrática na esfera unitária (2-51), (2-52)">
+      $$\max_{\mathbf{x} \ne \mathbf{0}}\frac{\mathbf{x}'\mathbf{B}\mathbf{x}}{\mathbf{x}'\mathbf{x}} = \lambda_1\ \ (\text{em } \mathbf{x} = \mathbf{e}_1),\qquad \min_{\mathbf{x} \ne \mathbf{0}}\frac{\mathbf{x}'\mathbf{B}\mathbf{x}}{\mathbf{x}'\mathbf{x}} = \lambda_p\ \ (\text{em } \mathbf{x} = \mathbf{e}_p)$$
+      $$\max_{\mathbf{x} \perp \mathbf{e}_1, \dots, \mathbf{e}_k}\frac{\mathbf{x}'\mathbf{B}\mathbf{x}}{\mathbf{x}'\mathbf{x}} = \lambda_{k+1}\ \ (\text{em } \mathbf{x} = \mathbf{e}_{k+1})$$
+    </div>
+    <p>$\mathbf{B}$ é positiva definida, com $\lambda_1 \ge \cdots \ge \lambda_p$. A razão não depende do comprimento de $\mathbf{x}$, então basta olhar os vetores unitários (a "esfera unitária"). Os autovalores intermediários também são máximos, quando $\mathbf{x}$ é obrigado a ser perpendicular às direções já escolhidas.</p>
+    <p>Com $\mathbf{B} = \boldsymbol\Sigma$, $\mathbf{x}'\boldsymbol\Sigma\mathbf{x}$ é a <span class="ref" data-ref="f-cx">variância de $\mathbf{x}'\mathbf{X}$</span>: a combinação unitária de maior variância é $\mathbf{e}_1'\mathbf{X}$, com variância $\lambda_1$. A segunda melhor, perpendicular à primeira, é $\mathbf{e}_2'\mathbf{X}$. Isso é a PCA do cap. 8.</p>
+    <div class="ideia">$\mathbf{x}'\mathbf{B}\mathbf{x}/\mathbf{x}'\mathbf{x}$ é máximo ($\lambda_1$) na direção $\mathbf{e}_1$ e mínimo ($\lambda_p$) em $\mathbf{e}_p$; perpendicular aos $k$ primeiros autovetores, o máximo é $\lambda_{k+1}$.</div>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Seja $\mathbf{P} = [\mathbf{e}_1, \dots, \mathbf{e}_p]$ e $\mathbf{y} = \mathbf{P}'\mathbf{x}$ ($\mathbf{x} \ne \mathbf{0} \Rightarrow \mathbf{y} \ne \mathbf{0}$). Como $\mathbf{B} = \mathbf{P}\boldsymbol\Lambda\mathbf{P}'$ e $\mathbf{PP}' = \mathbf{I}$:</p>
+      $$\frac{\mathbf{x}'\mathbf{B}\mathbf{x}}{\mathbf{x}'\mathbf{x}} = \frac{\mathbf{y}'\boldsymbol{\Lambda}\mathbf{y}}{\mathbf{y}'\mathbf{y}} = \frac{\sum_i \lambda_iy_i^2}{\sum_i y_i^2} \le \lambda_1\frac{\sum_i y_i^2}{\sum_i y_i^2} = \lambda_1$$
+      <p>Com $\mathbf{x} = \mathbf{e}_1$, $\mathbf{y} = [1, 0, \dots, 0]'$ e a razão vale $\lambda_1$. O mínimo sai do mesmo jeito, trocando $\le \lambda_1$ por $\ge \lambda_p$. Se $\mathbf{x} \perp \mathbf{e}_1, \dots, \mathbf{e}_k$, então $y_i = \mathbf{e}_i'\mathbf{x} = 0$ para $i \le k$, as somas começam em $k + 1$, e o máximo é $\lambda_{k+1}$, atingido com $y_{k+1} = 1$ e os demais zero.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-raz">
+      <p>$\mathbf{B}$ tem linhas $[3, 1]$ e $[1, 2]$. Girando o vetor unitário $\mathbf{x}$ por todas as direções, o maior valor de $\mathbf{x}'\mathbf{B}\mathbf{x}$ é:</p>
+      <div class="alts">
+        <button data-op="a">$b_{11} = 3$</button>
+        <button data-op="b" data-certa>O maior autovalor</button>
+        <button data-op="c">Não tem máximo</button>
+      </div>
+      <div class="explica" hidden><p>$b_{11} = 3$ é o valor em $\mathbf{x} = [1, 0]'$, mas a curva continua subindo até $\lambda_1 = (5 + \sqrt5)/2 \approx 3{,}62$, em torno de 32°. O mínimo, $\lambda_2 \approx 1{,}38$, fica 90° adiante.</p></div>
+    </div>
+    <div class="sim" id="sim-raz">
+      <label>Direção de $\mathbf{x}$ <input type="range" id="raz-a" min="0" max="180" step="1" value="0"> <strong id="raz-a-v">0°</strong></label>
+      <svg viewBox="0 0 360 260" id="raz-svg" role="img" aria-label="Gráfico de x'Bx em função do ângulo de x, com linhas nos dois autovalores"></svg>
+      <p id="raz-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">$\mathbf{B}$ ($3 \times 3$, positiva definida) tem autovalores 5, 2 e 1. Entre os vetores unitários perpendiculares a $\mathbf{e}_1$, o maior valor de $\mathbf{x}'\mathbf{B}\mathbf{x}$ é:</p>
+      <div class="alts">
+        <button data-op="a">(a) 5</button>
+        <button data-op="b">(b) 2</button>
+        <button data-op="c">(c) 1</button>
+        <button data-op="d">(d) 1,5, a média dos autovalores que sobram</button>
+      </div>
+      <div class="fb" data-op="a">5 é o máximo sem restrição, atingido em $\mathbf{e}_1$, que agora está proibido.</div>
+      <div class="fb" data-op="b">Isso: perpendicular a $\mathbf{e}_1$, o máximo é $\lambda_2 = 2$, em $\mathbf{x} = \mathbf{e}_2$ (2-52).</div>
+      <div class="fb" data-op="c">1 é o mínimo ($\lambda_3$), atingido em $\mathbf{e}_3$; a pergunta é pelo máximo.</div>
+      <div class="fb" data-op="d">A razão é uma média <em>ponderada</em> pelos $y_i^2$, e o máximo põe todo o peso no maior autovalor disponível: $\lambda_2 = 2$.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>Vetor = lista de números = seta; $'$ é a transposta. $L_{\mathbf{x}} = \sqrt{\mathbf{x}'\mathbf{x}}$ e $\cos\theta = \mathbf{x}'\mathbf{y}/(L_{\mathbf{x}}L_{\mathbf{y}})$; perpendiculares quando $\mathbf{x}'\mathbf{y} = 0$.</li>
+    <li>Projeção de $\mathbf{x}$ em $\mathbf{y}$: $(\mathbf{x}'\mathbf{y}/\mathbf{y}'\mathbf{y})\,\mathbf{y}$; o resto é perpendicular a $\mathbf{y}$.</li>
+    <li>Dependência linear: combinação com coeficientes não todos nulos que dá $\mathbf{0}$.</li>
+    <li>$\mathbf{AB}$: linha de $\mathbf{A}$ com coluna de $\mathbf{B}$; ordem importa; $\mathbf{b}'\mathbf{c}$ é número, $\mathbf{bc}'$ é matriz.</li>
+    <li>Inversa existe ⇔ colunas LI ⇔ $|\mathbf{A}| \ne 0$ ⇔ posto cheio. Ortogonal: $\mathbf{Q}^{-1} = \mathbf{Q}'$, não muda comprimentos.</li>
+    <li>$\mathbf{Ae} = \lambda\mathbf{e}$; autovalores zeram $|\mathbf{A} - \lambda\mathbf{I}|$; soma = traço, produto = determinante.</li>
+    <li>Simétrica: autovalores reais, autovetores perpendiculares; $\mathbf{A} = \sum\lambda_i\mathbf{e}_i\mathbf{e}_i' = \mathbf{P\Lambda P}'$.</li>
+    <li>Positiva definida ⇔ $\mathbf{x}'\mathbf{Ax} \gt 0$ ⇔ autovalores $\gt 0$ ⇔ serve como distância ao quadrado.</li>
+    <li>Elipse $\mathbf{x}'\mathbf{Ax} = c^2$: eixos nos $\mathbf{e}_i$, semi-eixos $c/\sqrt{\lambda_i}$.</li>
+    <li>$\mathbf{A}^{-1}$ e $\mathbf{A}^{1/2}$: mesmos autovetores, autovalores $1/\lambda_i$ e $\sqrt{\lambda_i}$. SVD para matrizes retangulares.</li>
+    <li>$\boldsymbol\mu$, $\boldsymbol\Sigma$, $\boldsymbol\rho$ são as versões populacionais de $\bar{\mathbf{x}}$, $\mathbf{S}_n$, $\mathbf{R}$; $\boldsymbol\Sigma = \mathbf{V}^{1/2}\boldsymbol\rho\mathbf{V}^{1/2}$.</li>
+    <li>Independência ⇒ covariância zero (não o contrário).</li>
+    <li>$\mathrm{Var}(\mathbf{c}'\mathbf{X}) = \mathbf{c}'\boldsymbol\Sigma\mathbf{c}$; $\mathrm{Cov}(\mathbf{CX}) = \mathbf{C}\boldsymbol\Sigma\mathbf{C}'$; partição em $\boldsymbol\Sigma_{11}, \boldsymbol\Sigma_{12}, \boldsymbol\Sigma_{22}$.</li>
+    <li>Cauchy–Schwarz; $\max (\mathbf{x}'\mathbf{d})^2/\mathbf{x}'\mathbf{Bx} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d}$; $\max \mathbf{x}'\mathbf{Bx}/\mathbf{x}'\mathbf{x} = \lambda_1$ em $\mathbf{e}_1$.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$\cos\theta = \frac{\mathbf{x}'\mathbf{y}}{\sqrt{\mathbf{x}'\mathbf{x}}\sqrt{\mathbf{y}'\mathbf{y}}}\qquad \mathbf{A} = \sum_{i=1}^k\lambda_i\mathbf{e}_i\mathbf{e}_i'\qquad \mathbf{A}^{-1} = \sum_{i=1}^k\frac{1}{\lambda_i}\mathbf{e}_i\mathbf{e}_i'$$</p>
+  <p>$$\boldsymbol\Sigma = E(\mathbf{X} - \boldsymbol\mu)(\mathbf{X} - \boldsymbol\mu)'\qquad \boldsymbol\rho = (\mathbf{V}^{1/2})^{-1}\boldsymbol\Sigma(\mathbf{V}^{1/2})^{-1}\qquad \mathrm{Cov}(\mathbf{CX}) = \mathbf{C}\boldsymbol\Sigma\mathbf{C}'$$</p>
+  <p>$$\max_{\mathbf{x} \ne \mathbf{0}}\frac{(\mathbf{x}'\mathbf{d})^2}{\mathbf{x}'\mathbf{Bx}} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d}\qquad \max_{\mathbf{x} \ne \mathbf{0}}\frac{\mathbf{x}'\mathbf{Bx}}{\mathbf{x}'\mathbf{x}} = \lambda_1$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Inversa e determinante</strong><ul class="resumo-lista"><li>à mão só em $2 \times 2$ (ou diagonal)</li><li>matriz ortogonal: inversa = transposta</li><li>colunas quase dependentes: desconfie da inversa do computador</li></ul></div>
+    <div><strong>Para ver se uma forma serve de distância</strong><ul class="resumo-lista"><li>olhe os autovalores, não a diagonal</li><li>todos $\gt 0$: positiva definida</li><li>algum $\le 0$: não serve</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>Projeção é um vetor (múltiplo de $\mathbf{y}$), não o número $\mathbf{x}'\mathbf{y}$; e divide por $\mathbf{y}'\mathbf{y}$, não por $L_{\mathbf{x}}L_{\mathbf{y}}$.</li>
+    <li>Dependência pede coeficientes "não todos nulos", e não "todos não nulos".</li>
+    <li>$\mathbf{a}'\mathbf{b} = 0$ não torna $\mathbf{ab}'$ nula, nem obriga um vetor a ser zero.</li>
+    <li>$|c\mathbf{A}| = c^k|\mathbf{A}|$, não $c|\mathbf{A}|$.</li>
+    <li>Ortogonal só é a própria inversa se também for simétrica.</li>
+    <li>Soma dos autovalores = traço; produto = determinante. Autovalor negativo não impede a inversa; autovalor zero impede.</li>
+    <li>Diagonal positiva não garante positiva definida.</li>
+    <li>Autovalor grande ⇒ semi-eixo <em>curto</em> na elipse $\mathbf{x}'\mathbf{Ax} = c^2$.</li>
+    <li>Covariância zero não implica independência.</li>
+    <li>Na covariância de combinações, os sinais dos coeficientes mudam o sinal de cada parcela.</li>
+    <li>$\boldsymbol\Sigma_{12}$ é $q \times (p - q)$ e não é simétrica; $\boldsymbol\Sigma_{21} = \boldsymbol\Sigma_{12}'$.</li>
+  </ul>
+  <h3>No livro, vale treinar</h3>
+  <p>Exercícios 2.1 (comprimento, ângulo, projeção), 2.5 (ortogonal), 2.6–2.9 (positiva definida, autovalores, espectral, inversa), 2.10 (inversa instável), 2.12–2.14 (determinante e autovalores), 2.15–2.18 (formas quadráticas e elipses), 2.23–2.27 ($\boldsymbol\rho$, $\mathbf{V}^{1/2}$, combinações), 2.30 (partição) e 2.36–2.38 (máximo de forma quadrática).</p>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+/* ===== Utilitários do capítulo ===== */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+function geradorNormal(seed) {
+  function rnd() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+  return function () { var u = rnd() || 1e-9, v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+}
+/* n pares (z1, z2) com média 0, variância 1 e correlação exatamente 0 (divisor n) */
+function nuvemPadrao(n, seed) {
+  var g = geradorNormal(seed), z1 = [], z2 = [], i;
+  for (i = 0; i < n; i++) { z1.push(g()); z2.push(g()); }
+  function pad(z) { var m = 0, s = 0; z.forEach(function (x) { m += x; }); m /= n; z = z.map(function (x) { return x - m; }); z.forEach(function (x) { s += x * x; }); s = Math.sqrt(s / n); return z.map(function (x) { return x / s; }); }
+  z1 = pad(z1); z2 = pad(z2);
+  var p = 0; for (i = 0; i < n; i++) p += z1[i] * z2[i]; p /= n;
+  z2 = pad(z2.map(function (x, k) { return x - p * z1[k]; }));
+  return { z1: z1, z2: z2 };
+}
+/* Seta de (x1, y1) a (x2, y2) em coordenadas da tela */
+function seta(alvo, x1, y1, x2, y2, cor, larg) {
+  larg = larg || 2.5;
+  alvo.appendChild(svgEl('line', { x1: x1, y1: y1, x2: x2, y2: y2, stroke: cor, 'stroke-width': larg, 'stroke-linecap': 'round' }));
+  var a = Math.atan2(y2 - y1, x2 - x1), t = 9 + larg;
+  if (Math.hypot(x2 - x1, y2 - y1) < t) return;
+  var p = [x2, y2, x2 - t * Math.cos(a - 0.4), y2 - t * Math.sin(a - 0.4), x2 - t * Math.cos(a + 0.4), y2 - t * Math.sin(a + 0.4)];
+  alvo.appendChild(svgEl('polygon', { points: p.map(function (v) { return v.toFixed(1); }).join(' '), fill: cor }));
+}
+function rotulo(alvo, x, y, txt, cor, extra) {
+  var at = { x: x, y: y, 'font-size': 13, 'font-weight': 700, fill: cor, 'text-anchor': 'middle', 'dominant-baseline': 'middle' };
+  for (var k in (extra || {})) at[k] = extra[k];
+  alvo.appendChild(svgEl('text', at, txt));
+}
+/* Autovalores e autovetores de uma matriz simétrica 2 x 2 [[a, b], [b, d]] */
+function eig2(a, b, d) {
+  var tr = a + d, det = a * d - b * b, r = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  var ang = 0.5 * Math.atan2(2 * b, a - d);
+  return { l1: tr / 2 + r, l2: tr / 2 - r, ang: ang };
+}
+
+/* ===== 2.1 Figura: soma de vetores ===== */
+(function () {
+  var svg = document.getElementById('fig-vet');
+  if (!svg) return;
+  function d() {
+    limpar(svg);
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), txt = corVar('--text');
+    var k = 50, ox = 60, oy = 180, px = function (x) { return ox + x * k; }, py = function (y) { return oy - y * k; };
+    svg.appendChild(svgEl('line', { x1: 20, y1: oy, x2: 340, y2: oy, stroke: b }));
+    svg.appendChild(svgEl('line', { x1: ox, y1: 196, x2: ox, y2: 14, stroke: b }));
+    var X = [2.2, 0.9], Y = [0.7, 1.9], S = [X[0] + Y[0], X[1] + Y[1]];
+    svg.appendChild(svgEl('line', { x1: px(X[0]), y1: py(X[1]), x2: px(S[0]), y2: py(S[1]), stroke: m, 'stroke-dasharray': '4 4' }));
+    svg.appendChild(svgEl('line', { x1: px(Y[0]), y1: py(Y[1]), x2: px(S[0]), y2: py(S[1]), stroke: m, 'stroke-dasharray': '4 4' }));
+    seta(svg, px(0), py(0), px(S[0]), py(S[1]), txt, 2.5);
+    seta(svg, px(0), py(0), px(X[0]), py(X[1]), acc, 3);
+    seta(svg, px(0), py(0), px(Y[0]), py(Y[1]), roxo, 3);
+    rotulo(svg, px(X[0]) + 14, py(X[1]) + 10, 'x', acc);
+    rotulo(svg, px(Y[0]) - 12, py(Y[1]) - 4, 'y', roxo);
+    rotulo(svg, px(S[0]) + 26, py(S[1]) + 2, 'x + y', txt);
+  }
+  d(); quandoTema(d);
+})();
+
+/* ===== 2.1 Ângulo, produto interno e projeção ===== */
+(function () {
+  var sa = document.getElementById('vet-a');
+  if (!sa) return;
+  var sl = document.getElementById('vet-l'), svg = document.getElementById('vet-svg');
+  var LX = 3, AX = 20 * Math.PI / 180, X = [LX * Math.cos(AX), LX * Math.sin(AX)];
+  function desenhar() {
+    var a = +sa.value, l = +sl.value, f = a * Math.PI / 180, Y = [l * Math.cos(f), l * Math.sin(f)];
+    document.getElementById('vet-a-v').textContent = a + '°'; document.getElementById('vet-l-v').textContent = fmt(l, 1);
+    var xy = X[0] * Y[0] + X[1] * Y[1], cs = xy / (LX * l), th = Math.acos(Math.max(-1, Math.min(1, cs))) * 180 / Math.PI;
+    var k = 38, ox = 180, oy = 175, px = function (x) { return ox + x * k; }, py = function (y) { return oy - y * k; };
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 14, y1: oy, x2: 346, y2: oy, stroke: b }));
+    svg.appendChild(svgEl('line', { x1: ox, y1: 240, x2: ox, y2: 14, stroke: b }));
+    /* reta de x */
+    svg.appendChild(svgEl('line', { x1: px(-3.9 * Math.cos(AX)), y1: py(-3.9 * Math.sin(AX)), x2: px(3.9 * Math.cos(AX)), y2: py(3.9 * Math.sin(AX)), stroke: m, 'stroke-opacity': 0.5, 'stroke-dasharray': '2 4' }));
+    var c = xy / (LX * LX), P = [c * X[0], c * X[1]];
+    svg.appendChild(svgEl('line', { x1: px(Y[0]), y1: py(Y[1]), x2: px(P[0]), y2: py(P[1]), stroke: m, 'stroke-dasharray': '4 3' }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0), x2: px(P[0]), y2: py(P[1]), stroke: lar, 'stroke-width': 7, 'stroke-opacity': 0.75, 'stroke-linecap': 'round' }));
+    /* arco do ângulo */
+    var r = 24, a0 = AX, a1 = f, grande = 0, varre = a1 > a0 ? 0 : 1;
+    svg.appendChild(svgEl('path', { d: 'M' + (ox + r * Math.cos(a0)).toFixed(1) + ' ' + (oy - r * Math.sin(a0)).toFixed(1) + ' A' + r + ' ' + r + ' 0 ' + grande + ' ' + varre + ' ' + (ox + r * Math.cos(a1)).toFixed(1) + ' ' + (oy - r * Math.sin(a1)).toFixed(1), fill: 'none', stroke: corVar('--text'), 'stroke-width': 1.2 }));
+    seta(svg, px(0), py(0), px(X[0]), py(X[1]), acc, 3);
+    seta(svg, px(0), py(0), px(Y[0]), py(Y[1]), roxo, 3);
+    rotulo(svg, px(X[0]) + 12, py(X[1]) + 12, 'x', acc);
+    rotulo(svg, px(Y[0]) + 12 * Math.cos(f) , py(Y[1]) - 12 * Math.sin(f) - 2, 'y', roxo);
+    var sinal = Math.abs(xy) < 0.05 ? 'zero: perpendiculares' : (xy > 0 ? 'positivo: ângulo agudo' : 'negativo: ângulo obtuso');
+    document.getElementById('vet-txt').innerHTML = "$\\mathbf{x}'\\mathbf{y}$ = " + fmt(xy, 2) + ' (' + sinal + ') · $\\cos\\theta$ = ' + fmt(cs, 3) + ' · $\\theta$ = ' + fmt(th, 0) + '°. Em laranja, a projeção de $\\mathbf{y}$ em $\\mathbf{x}$, de comprimento ' + fmt(Math.abs(xy) / LX, 2) + '.';
+    tipografar(document.getElementById('vet-txt'));
+  }
+  sa.addEventListener('input', desenhar); sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 2.2 Paralelogramo das colunas: área = determinante ===== */
+(function () {
+  var sf = document.getElementById('inv-f');
+  if (!sf) return;
+  var svg = document.getElementById('inv-svg'), A1 = [1.6, 0.4], L2 = 1.5;
+  function desenhar() {
+    var fi = +sf.value, f = fi * Math.PI / 180, A2 = [L2 * Math.cos(f), L2 * Math.sin(f)];
+    document.getElementById('inv-f-v').textContent = fi + '°';
+    var det = A1[0] * A2[1] - A2[0] * A1[1];
+    var k = 55, ox = 130, oy = 205, px = function (x) { return ox + x * k; }, py = function (y) { return oy - y * k; };
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 14, y1: oy, x2: 346, y2: oy, stroke: b }));
+    svg.appendChild(svgEl('line', { x1: ox, y1: 228, x2: ox, y2: 14, stroke: b }));
+    svg.appendChild(svgEl('rect', { x: px(0), y: py(1), width: k, height: k, fill: 'none', stroke: m, 'stroke-dasharray': '4 4' }));
+    var pts = [[0, 0], A1, [A1[0] + A2[0], A1[1] + A2[1]], A2].map(function (q) { return px(q[0]).toFixed(1) + ',' + py(q[1]).toFixed(1); }).join(' ');
+    svg.appendChild(svgEl('polygon', { points: pts, fill: lar, 'fill-opacity': 0.18, stroke: lar, 'stroke-width': 1.5 }));
+    seta(svg, px(0), py(0), px(A1[0]), py(A1[1]), acc, 3);
+    seta(svg, px(0), py(0), px(A2[0]), py(A2[1]), roxo, 3);
+    rotulo(svg, px(A1[0]) + 4, py(A1[1]) + 14, 'coluna 1', acc, { 'font-size': 12 });
+    rotulo(svg, px(A2[0]) + (A2[0] >= 0 ? 10 : -10), py(A2[1]) - 12, 'coluna 2', roxo, { 'font-size': 12 });
+    rotulo(svg, px(0.5) , py(1) - 9, 'quadrado unitário', m, { 'font-size': 11, 'font-weight': 400 });
+    var t = '$|\\mathbf{A}|$ = ' + fmt(det, 3) + ' (área do paralelogramo: ' + fmt(Math.abs(det), 3) + '). ';
+    if (Math.abs(det) < 0.02) t += 'Colunas praticamente paralelas: $\\mathbf{A}^{-1}$ não existe (ou é numericamente inútil).';
+    else t += '$\\mathbf{A}^{-1}$ tem linhas [' + fmt(A2[1] / det, 2) + '; ' + fmt(-A2[0] / det, 2) + '] e [' + fmt(-A1[1] / det, 2) + '; ' + fmt(A1[0] / det, 2) + '].';
+    document.getElementById('inv-txt').innerHTML = t;
+    tipografar(document.getElementById('inv-txt'));
+  }
+  sf.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 2.3 Ax girando x: onde fica alinhado ===== */
+(function () {
+  var sa = document.getElementById('eig-a');
+  if (!sa) return;
+  var svg = document.getElementById('eig-svg'), A = [[2.2, 0.4], [0.4, 2.8]];
+  function desenhar() {
+    var ai = +sa.value, f = ai * Math.PI / 180, x = [Math.cos(f), Math.sin(f)];
+    var Ax = [A[0][0] * x[0] + A[0][1] * x[1], A[1][0] * x[0] + A[1][1] * x[1]];
+    document.getElementById('eig-a-v').textContent = ai + '°';
+    var k = 40, ox = 180, oy = 150, px = function (v) { return ox + v * k; }, py = function (v) { return oy - v * k; };
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 20, y1: oy, x2: 340, y2: oy, stroke: b }));
+    svg.appendChild(svgEl('line', { x1: ox, y1: 285, x2: ox, y2: 15, stroke: b }));
+    svg.appendChild(svgEl('circle', { cx: ox, cy: oy, r: k, fill: 'none', stroke: m, 'stroke-dasharray': '3 4' }));
+    var d = '';
+    for (var t = 0; t <= 72; t++) { var g = t / 72 * 2 * Math.PI, u = [Math.cos(g), Math.sin(g)]; d += (t ? 'L' : 'M') + px(A[0][0] * u[0] + A[0][1] * u[1]).toFixed(1) + ' ' + py(A[1][0] * u[0] + A[1][1] * u[1]).toFixed(1); }
+    svg.appendChild(svgEl('path', { d: d + 'Z', fill: 'none', stroke: roxo, 'stroke-opacity': 0.6, 'stroke-dasharray': '5 4' }));
+    var nAx = Math.hypot(Ax[0], Ax[1]), sen = (x[0] * Ax[1] - x[1] * Ax[0]) / nAx, alinh = Math.abs(sen) < 0.02;
+    /* reta de x */
+    svg.appendChild(svgEl('line', { x1: px(-3.3 * x[0]), y1: py(-3.3 * x[1]), x2: px(3.3 * x[0]), y2: py(3.3 * x[1]), stroke: alinh ? acc : m, 'stroke-opacity': alinh ? 0.7 : 0.35, 'stroke-width': alinh ? 2 : 1 }));
+    seta(svg, px(0), py(0), px(Ax[0]), py(Ax[1]), lar, 3);
+    seta(svg, px(0), py(0), px(x[0]), py(x[1]), acc, 3);
+    rotulo(svg, px(Ax[0]) + 16 * Ax[0] / nAx, py(Ax[1]) - 16 * Ax[1] / nAx, 'Ax', lar);
+    rotulo(svg, px(x[0]) - 12 * x[1] , py(x[1]) - 12 * x[0], 'x', acc);
+    var ang = Math.asin(Math.max(-1, Math.min(1, sen))) * 180 / Math.PI;
+    var txt = 'Ângulo entre $\\mathbf{x}$ e $\\mathbf{Ax}$: ' + fmt(Math.abs(ang), 1) + '° · comprimento de $\\mathbf{Ax}$: ' + fmt(nAx, 2) + '.';
+    if (alinh) txt += ' <strong>Alinhados: $\\mathbf{Ax} = \\lambda\\mathbf{x}$ com $\\lambda \\approx$ ' + fmt(nAx, 2) + '.</strong>';
+    document.getElementById('eig-txt').innerHTML = txt;
+    tipografar(document.getElementById('eig-txt'));
+  }
+  sa.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 2.4 Elipse de distância constante ===== */
+(function () {
+  var s1 = document.getElementById('el-l1');
+  if (!s1) return;
+  var s2 = document.getElementById('el-l2'), st = document.getElementById('el-t'), svg = document.getElementById('el-svg');
+  function desenhar() {
+    var l1 = +s1.value, l2 = +s2.value, ti = +st.value, t = ti * Math.PI / 180;
+    document.getElementById('el-l1-v').textContent = fmt(l1, 2); document.getElementById('el-l2-v').textContent = fmt(l2, 2); document.getElementById('el-t-v').textContent = ti + '°';
+    var e1 = [Math.cos(t), Math.sin(t)], e2 = [-Math.sin(t), Math.cos(t)];
+    var k = 33, ox = 180, oy = 150, px = function (v) { return ox + v * k; }, py = function (v) { return oy - v * k; };
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 20, y1: oy, x2: 340, y2: oy, stroke: b }));
+    svg.appendChild(svgEl('line', { x1: ox, y1: 290, x2: ox, y2: 10, stroke: b }));
+    [1, 2].forEach(function (c) {
+      var d = '';
+      for (var j = 0; j <= 72; j++) {
+        var g = j / 72 * 2 * Math.PI, u = c / Math.sqrt(l1) * Math.cos(g), v = c / Math.sqrt(l2) * Math.sin(g);
+        d += (j ? 'L' : 'M') + px(u * e1[0] + v * e2[0]).toFixed(1) + ' ' + py(u * e1[1] + v * e2[1]).toFixed(1);
+      }
+      svg.appendChild(svgEl('path', { d: d + 'Z', fill: c === 1 ? roxo : 'none', 'fill-opacity': 0.08, stroke: roxo, 'stroke-width': c === 1 ? 2 : 1.2, 'stroke-dasharray': c === 1 ? 'none' : '5 4' }));
+    });
+    var a1 = 2 / Math.sqrt(l1), a2 = 2 / Math.sqrt(l2);
+    seta(svg, px(0), py(0), px(a1 * e1[0]), py(a1 * e1[1]), acc, 2.5);
+    seta(svg, px(0), py(0), px(a2 * e2[0]), py(a2 * e2[1]), lar, 2.5);
+    rotulo(svg, px(a1 / 2 * e1[0]) - 13 * e1[1], py(a1 / 2 * e1[1]) - 13 * e1[0], 'e₁', acc);
+    rotulo(svg, px(a2 / 2 * e2[0]) - 13 * e2[1], py(a2 / 2 * e2[1]) - 13 * e2[0], 'e₂', lar);
+    var A11 = l1 * e1[0] * e1[0] + l2 * e2[0] * e2[0], A12 = l1 * e1[0] * e1[1] + l2 * e2[0] * e2[1], A22 = l1 * e1[1] * e1[1] + l2 * e2[1] * e2[1];
+    document.getElementById('el-txt').innerHTML = 'Elipse cheia: $c = 1$, semi-eixos ' + fmt(1 / Math.sqrt(l1), 2) + ' (em $\\mathbf{e}_1$) e ' + fmt(1 / Math.sqrt(l2), 2) + ' (em $\\mathbf{e}_2$). Tracejada: $c = 2$, o dobro; as setas vão até ela. $\\mathbf{A}$ tem $a_{11}$ = ' + fmt(A11, 2) + ', $a_{12}$ = ' + fmt(A12, 2) + ', $a_{22}$ = ' + fmt(A22, 2) + '.';
+    tipografar(document.getElementById('el-txt'));
+  }
+  [s1, s2, st].forEach(function (s) { s.addEventListener('input', desenhar); }); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 2.7 Variância de c'X em cada direção ===== */
+(function () {
+  var sr = document.getElementById('dir-r');
+  if (!sr) return;
+  var sa = document.getElementById('dir-a'), svg = document.getElementById('dir-svg'), z = nuvemPadrao(70, 4), s11 = 4, s22 = 1;
+  function desenhar() {
+    var r = +sr.value, ai = +sa.value, f = ai * Math.PI / 180, c = [Math.cos(f), Math.sin(f)], s12 = r * Math.sqrt(s11 * s22);
+    document.getElementById('dir-r-v').textContent = fmt(r, 2); document.getElementById('dir-a-v').textContent = ai + '°';
+    var v = c[0] * c[0] * s11 + 2 * c[0] * c[1] * s12 + c[1] * c[1] * s22, E = eig2(s11, s12, s22);
+    var k = 22, ox = 180, oy = 125, px = function (q) { return ox + q * k; }, py = function (q) { return oy - q * k; };
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), txt = corVar('--text');
+    limpar(svg);
+    var g = recorte(svg, 8, 8, 344, 236);
+    g.appendChild(svgEl('line', { x1: 8, y1: oy, x2: 352, y2: oy, stroke: b }));
+    g.appendChild(svgEl('line', { x1: ox, y1: 8, x2: ox, y2: 244, stroke: b }));
+    g.appendChild(svgEl('line', { x1: px(-9 * c[0]), y1: py(-9 * c[1]), x2: px(9 * c[0]), y2: py(9 * c[1]), stroke: acc, 'stroke-width': 2 }));
+    z.z1.forEach(function (u, i) {
+      var X = [2 * u, r * u + Math.sqrt(1 - r * r) * z.z2[i]], t = X[0] * c[0] + X[1] * c[1];
+      g.appendChild(svgEl('circle', { cx: px(X[0]), cy: py(X[1]), r: 2.6, fill: m, 'fill-opacity': 0.55 }));
+      g.appendChild(svgEl('circle', { cx: px(t * c[0]), cy: py(t * c[1]), r: 2.2, fill: lar, 'fill-opacity': 0.8 }));
+    });
+    /* barra: variância nesta direção entre lambda2 e lambda1 */
+    var x0 = 40, x1 = 320, yb = 262;
+    svg.appendChild(svgEl('rect', { x: x0, y: yb, width: x1 - x0, height: 10, fill: 'none', stroke: b }));
+    svg.appendChild(svgEl('rect', { x: x0, y: yb, width: (x1 - x0) * v / E.l1, height: 10, fill: lar, 'fill-opacity': 0.75 }));
+    svg.appendChild(svgEl('line', { x1: x0 + (x1 - x0) * E.l2 / E.l1, y1: yb - 3, x2: x0 + (x1 - x0) * E.l2 / E.l1, y2: yb + 13, stroke: txt }));
+    svg.appendChild(svgEl('text', { x: x0 + (x1 - x0) * E.l2 / E.l1, y: yb + 26, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, 'λ₂'));
+    svg.appendChild(svgEl('text', { x: x1, y: yb + 26, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, 'λ₁'));
+    svg.appendChild(svgEl('text', { x: x0, y: yb + 26, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, '0'));
+    document.getElementById('dir-txt').innerHTML = "$\\mathbf{c}'\\boldsymbol{\\Sigma}\\mathbf{c}$ = " + fmt(v, 2) + ' nesta direção (pontos laranja: os valores de $\\mathbf{c}\'\\mathbf{X}$ sobre a reta). Autovalores de $\\boldsymbol{\\Sigma}$: $\\lambda_1$ = ' + fmt(E.l1, 2) + ', $\\lambda_2$ = ' + fmt(E.l2, 2) + '.';
+    tipografar(document.getElementById('dir-txt'));
+  }
+  document.getElementById('dir-btn').addEventListener('click', function () {
+    var r = +sr.value, E = eig2(s11, r * Math.sqrt(s11 * s22), s22), a = E.ang * 180 / Math.PI;
+    if (a < 0) a += 180; sa.value = Math.round(a); desenhar();
+  });
+  sr.addEventListener('input', desenhar); sa.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 2.8 x'Bx/x'x em função da direção ===== */
+(function () {
+  var sa = document.getElementById('raz-a');
+  if (!sa) return;
+  var svg = document.getElementById('raz-svg'), B = [[3, 1], [1, 2]], E = eig2(3, 1, 2);
+  var a1 = E.ang * 180 / Math.PI; if (a1 < 0) a1 += 180; var a2 = a1 + 90 > 180 ? a1 - 90 : a1 + 90;
+  function q(adeg) { var f = adeg * Math.PI / 180, c = Math.cos(f), s = Math.sin(f); return B[0][0] * c * c + 2 * B[0][1] * c * s + B[1][1] * s * s; }
+  function desenhar() {
+    var ai = +sa.value, v = q(ai);
+    document.getElementById('raz-a-v').textContent = ai + '°';
+    var X0 = 50, X1 = 335, gx = function (a) { return X0 + a / 180 * (X1 - X0); }, gy = function (val) { return 222 - val * 48; };
+    var b = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: X0, y1: gy(0), x2: X1, y2: gy(0), stroke: b }));
+    svg.appendChild(svgEl('line', { x1: X0, y1: gy(0), x2: X0, y2: gy(4.1), stroke: b }));
+    [0, 45, 90, 135, 180].forEach(function (a) { svg.appendChild(svgEl('text', { x: gx(a), y: gy(0) + 16, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, a + '°')); });
+    [0, 1, 2, 3, 4].forEach(function (t) { svg.appendChild(svgEl('text', { x: X0 - 8, y: gy(t) + 4, 'font-size': 11, fill: m, 'text-anchor': 'end' }, String(t))); });
+    [[E.l1, 'λ₁'], [E.l2, 'λ₂']].forEach(function (L) {
+      svg.appendChild(svgEl('line', { x1: X0, y1: gy(L[0]), x2: X1, y2: gy(L[0]), stroke: roxo, 'stroke-dasharray': '5 4', 'stroke-opacity': 0.8 }));
+      svg.appendChild(svgEl('text', { x: X1, y: gy(L[0]) - 6, 'font-size': 12, fill: roxo, 'text-anchor': 'end' }, L[1]));
+    });
+    var d = '';
+    for (var a = 0; a <= 180; a += 2) d += (a ? 'L' : 'M') + gx(a).toFixed(1) + ' ' + gy(q(a)).toFixed(1);
+    svg.appendChild(svgEl('path', { d: d, fill: 'none', stroke: acc, 'stroke-width': 2.2 }));
+    svg.appendChild(svgEl('line', { x1: gx(ai), y1: gy(0), x2: gx(ai), y2: gy(v), stroke: lar, 'stroke-dasharray': '3 3' }));
+    svg.appendChild(svgEl('circle', { cx: gx(ai), cy: gy(v), r: 6, fill: lar }));
+    svg.appendChild(svgEl('text', { x: X0 + 4, y: 18, 'font-size': 12, fill: m }, "x'Bx (x unitário)"));
+    var t = "$\\mathbf{x}'\\mathbf{B}\\mathbf{x}$ = " + fmt(v, 3) + ' em ' + ai + '°. Máximo $\\lambda_1$ = ' + fmt(E.l1, 3) + ' em ' + fmt(a1, 1) + '° (direção de $\\mathbf{e}_1$); mínimo $\\lambda_2$ = ' + fmt(E.l2, 3) + ' em ' + fmt(a2, 1) + '°.';
+    document.getElementById('raz-txt').innerHTML = t;
+    tipografar(document.getElementById('raz-txt'));
+  }
+  sa.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>

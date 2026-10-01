@@ -264,5 +264,5 @@ svg.fig { width: 100%; max-width: 420px; height: auto; display: block; margin: .
 /* ---- Proteção das fórmulas ----
    O MathJax desenha cada fórmula como um <svg>. Regras de gráfico precisam usar "> svg" (filho direto);
    esta regra, por último e mais específica, garante que fórmulas no meio do texto nunca herdem tamanho de gráfico. */
-mjx-container[jax="SVG"]:not([display="true"]) > svg { width: auto; height: auto; max-width: none; max-height: none; display: inline; margin: 0; }
+mjx-container[jax="SVG"]:not([display="true"]) > svg { width: auto; height: auto; max-width: 100%; max-height: none; display: inline; margin: 0; }
 mjx-container[jax="SVG"][display="true"] > svg { width: auto; margin: 0 auto; }

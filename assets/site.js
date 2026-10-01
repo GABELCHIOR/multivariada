@@ -53,8 +53,49 @@ window.SITE = {
    "titulo": "Álgebra de matrizes e vetores aleatórios",
    "arquivo": "capitulos/cap-02.html",
    "paginas": "49-115",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "2.1",
+     "titulo": "Vetores",
+     "livro": "§2.2, Supl. 2A"
+    },
+    {
+     "numero": "2.2",
+     "titulo": "Matrizes",
+     "livro": "§2.2, Supl. 2A"
+    },
+    {
+     "numero": "2.3",
+     "titulo": "Autovalores e autovetores",
+     "livro": "§2.2, Supl. 2A"
+    },
+    {
+     "numero": "2.4",
+     "titulo": "Decomposição espectral e matrizes positivas definidas",
+     "livro": "§2.3"
+    },
+    {
+     "numero": "2.5",
+     "titulo": "Raiz quadrada e SVD",
+     "livro": "§2.4, Supl. 2A"
+    },
+    {
+     "numero": "2.6",
+     "titulo": "Vetores aleatórios, médias e covariâncias",
+     "livro": "§2.5–2.6"
+    },
+    {
+     "numero": "2.7",
+     "titulo": "Combinações lineares e partição",
+     "livro": "§2.6"
+    },
+    {
+     "numero": "2.8",
+     "titulo": "Desigualdades e maximização",
+     "livro": "§2.7"
+    }
+   ]
   },
   {
    "id": "cap-03",
