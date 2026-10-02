@@ -153,8 +153,44 @@ window.SITE = {
    "titulo": "A distribuição normal multivariada",
    "arquivo": "capitulos/cap-04.html",
    "paginas": "157-223",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "4.1",
+     "titulo": "A densidade normal multivariada",
+     "livro": "§4.1–4.2"
+    },
+    {
+     "numero": "4.2",
+     "titulo": "Propriedades",
+     "livro": "§4.2"
+    },
+    {
+     "numero": "4.3",
+     "titulo": "Máxima verossimilhança",
+     "livro": "§4.3"
+    },
+    {
+     "numero": "4.4",
+     "titulo": "Distribuição de X̄ e S",
+     "livro": "§4.4–4.5"
+    },
+    {
+     "numero": "4.5",
+     "titulo": "Avaliar a normalidade",
+     "livro": "§4.6"
+    },
+    {
+     "numero": "4.6",
+     "titulo": "Atípicos e limpeza dos dados",
+     "livro": "§4.7"
+    },
+    {
+     "numero": "4.7",
+     "titulo": "Transformações para quase normalidade",
+     "livro": "§4.8"
+    }
+   ]
   },
   {
    "id": "cap-05",
@@ -162,8 +198,44 @@ window.SITE = {
    "titulo": "Inferências sobre um vetor de médias",
    "arquivo": "capitulos/cap-05.html",
    "paginas": "224-289",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "5.1",
+     "titulo": "De t para T²",
+     "livro": "§5.1–5.2"
+    },
+    {
+     "numero": "5.2",
+     "titulo": "T² e razão de verossimilhanças",
+     "livro": "§5.3"
+    },
+    {
+     "numero": "5.3",
+     "titulo": "Região de confiança",
+     "livro": "§5.4"
+    },
+    {
+     "numero": "5.4",
+     "titulo": "Intervalos simultâneos",
+     "livro": "§5.4, Supl. 5A"
+    },
+    {
+     "numero": "5.5",
+     "titulo": "Amostras grandes",
+     "livro": "§5.5"
+    },
+    {
+     "numero": "5.6",
+     "titulo": "Controle de qualidade multivariado",
+     "livro": "§5.6"
+    },
+    {
+     "numero": "5.7",
+     "titulo": "Dados faltantes e dependência temporal",
+     "livro": "§5.7–5.8"
+    }
+   ]
   },
   {
    "id": "cap-06",

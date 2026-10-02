@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-05">
+<title>Cap. 5 — Inferências sobre um vetor de médias</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 5 — Inferências sobre um vetor de médias</h1>
+<p class="contexto">Onde isso se encaixa: é o primeiro capítulo de métodos. Com a normal multivariada (cap. 4) e o lema de maximização (cap. 2), o teste $t$ e o intervalo de confiança viram o $T^2$ de Hotelling, elipsoides de confiança e intervalos simultâneos. A mensagem do livro: variáveis correlacionadas se analisam juntas.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 5.1 ================= -->
+  <div class="secao" data-numero="5.1" data-titulo="De t para T²" data-livro="§5.1–5.2">
+
+  <section class="passo" data-titulo="Teste t">
+   <div class="texto">
+    <h2>O teste $t$ já é uma distância ao quadrado</h2>
+    <p>Para testar $H_0: \mu = \mu_0$ com uma amostra normal, usa-se $t = (\bar X - \mu_0)/(s/\sqrt n)$, com $n - 1$ graus de liberdade. Rejeitar quando $|t|$ é grande é o mesmo que rejeitar quando o quadrado é grande:</p>
+    <div class="formula" data-ref-id="f-t2-uni" data-ref-tipo="formula" data-ref-nome="Teste t ao quadrado (5-1)–(5-3)">
+      $$t^2 = n(\bar x - \mu_0)\,(s^2)^{-1}(\bar x - \mu_0) \;\gt\; t^2_{n-1}(\alpha/2) \;\Rightarrow\; \text{rejeita } H_0$$
+    </div>
+    <p>$t^2$ é a distância ao quadrado de $\bar x$ até $\mu_0$, em desvios padrão estimados de $\bar X$. E vale a dualidade: o intervalo de $100(1-\alpha)$% $\bar x \pm t_{n-1}(\alpha/2)\,s/\sqrt n$ reúne exatamente os $\mu_0$ que o teste <em>não</em> rejeita.</p>
+    <div class="ideia">O teste $t$ mede a distância ao quadrado de $\bar x$ a $\mu_0$ em desvios padrão de $\bar X$, e o intervalo de confiança reúne os $\mu_0$ que ele não rejeita.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Olhando para $t^2 = n(\bar x - \mu_0)(s^2)^{-1}(\bar x - \mu_0)$, qual seria o palpite natural para $p$ variáveis?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Trocar os números por vetores e $s^2$ por $\mathbf{S}$: $n(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu_0)$, a distância estatística de $\bar{\mathbf{x}}$ a $\boldsymbol\mu_0$ usando a covariância estimada de $\bar{\mathbf{X}}$, que é $\mathbf{S}/n$. É exatamente o $T^2$ do próximo passo.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="T²">
+   <div class="texto">
+    <h2>$T^2$ de Hotelling: a distância estatística de $\bar{\mathbf{x}}$ a $\boldsymbol\mu_0$</h2>
+    <div class="formula" data-ref-id="f-t2" data-ref-tipo="formula" data-ref-nome="T² de Hotelling e sua distribuição (5-4)–(5-7)">
+      $$T^2 = n\,(\bar{\mathbf{X}} - \class{s1}{\boldsymbol\mu_0})'\,\class{s2}{\mathbf{S}}^{-1}(\bar{\mathbf{X}} - \class{s1}{\boldsymbol\mu_0}) \;\sim\; \frac{(n-1)p}{n-p}\,F_{p,\,n-p}$$
+      $$\text{rejeita } H_0: \boldsymbol\mu = \boldsymbol\mu_0 \text{ se } T^2 \gt \frac{(n-1)p}{n-p}\,F_{p,\,n-p}(\alpha)$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\mu_0$</span>: vetor de médias da hipótese</li>
+        <li><span class="s2">$\mathbf{S}$</span>: covariância amostral (divisor $n - 1$)</li>
+      </ul>
+    </div>
+    <p>A distribuição vale sob $H_0$, para amostras de $N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, quaisquer que sejam $\boldsymbol\mu$ e $\boldsymbol\Sigma$. Não precisa de tabela nova: basta a $F$. A estrutura (5-8) imita a do $t$: um vetor normal, vezes a inversa de uma Wishart dividida pelos seus graus de liberdade, vezes o vetor normal de novo (são independentes pelo cap. 4).</p>
+    <div class="ideia">$T^2 = n(\bar{\mathbf{X}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu_0)$ tem, sob $H_0$, a distribuição de $\frac{(n-1)p}{n-p}F_{p,n-p}$; rejeita-se $H_0$ quando ele passa desse percentil.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p><strong>Ex. 5.1.</strong> $n = 3$, dados com linhas $[6, 9]$, $[10, 6]$, $[8, 3]$; $\boldsymbol\mu_0 = [9, 5]'$. Então $\bar{\mathbf{x}} = [8, 6]'$ e</p>
+      $$\mathbf{S} = \begin{bmatrix} 4 & -3 \\ -3 & 9 \end{bmatrix},\qquad \mathbf{S}^{-1} = \frac{1}{27}\begin{bmatrix} 9 & 3 \\ 3 & 4 \end{bmatrix}$$
+      <p>$(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu_0) =$ <input class="lacuna" data-resp="0.2593" data-tol="0.002" aria-label="distância"> · $T^2 =$ <input class="lacuna" data-resp="0.7778" data-tol="0.003" aria-label="T2"></p>
+      <p>Sob $H_0$, $T^2 \sim c\,F_{2,1}$ com $c =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="constante"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\bar{\mathbf{x}} - \boldsymbol\mu_0 = [-1, 1]'$; $\mathbf{S}^{-1}[-1, 1]' = \tfrac{1}{27}[-6, 1]'$.</p>
+      <div class="resolucao" hidden><p>$[-1, 1]\cdot\tfrac{1}{27}[-6, 1]' = 7/27 = 0{,}259$; $T^2 = 3 \times 7/27 = 7/9 = 0{,}778$. A constante é $(n-1)p/(n-p) = 2 \times 2/1 = 4$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Suor">
+   <div class="texto">
+    <h2>$T^2$ pode rejeitar mesmo quando nenhum teste $t$ rejeita</h2>
+    <p>Ex. 5.2: suor de 20 mulheres, com $X_1$ = taxa de suor, $X_2$ = sódio e $X_3$ = potássio. Testando $\boldsymbol\mu_0 = [4, 50, 10]'$ a 10%: $\bar{\mathbf{x}} = [4{,}640;\ 45{,}400;\ 9{,}965]'$, $T^2 = 9{,}74$ e o valor crítico é $\frac{19 \times 3}{17}F_{3,17}(0{,}10) = 3{,}353 \times 2{,}44 = 8{,}18$. Rejeita.</p>
+    <p>Refazendo a conta com os dados do livro, os três testes $t$ separados, também a 10%, dão $|t| = 1{,}69$, $1{,}46$ e $0{,}08$, todos abaixo de $t_{19}(0{,}05) = 1{,}73$: nenhum rejeita. Não há contradição. O $T^2$ leva em conta a correlação: a <em>combinação</em> dos desvios é rara, mesmo que cada um sozinho não seja (o mesmo fenômeno dos atípicos multivariados do cap. 4).</p>
+    <p>Por isso o livro diz que, ao rejeitar, "ainda não sabemos qual" média está errada: para isso servem os intervalos simultâneos (seção 5.4).</p>
+    <div class="ideia">Como usa a correlação, o $T^2$ pode rejeitar $\boldsymbol\mu_0$ mesmo quando cada teste $t$ isolado não rejeita a sua componente.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-t2">
+      <p>$\boldsymbol\mu_0$ está dentro do retângulo dos dois intervalos $t$ (nenhum teste $t$ rejeita). O $T^2$ pode rejeitar?</p>
+      <div class="alts">
+        <button data-op="a">Nunca</button>
+        <button data-op="b" data-certa>Sim, contra a correlação</button>
+        <button data-op="c">Sempre</button>
+      </div>
+      <div class="explica" hidden><p>A região de não rejeição do $T^2$ é a elipse inclinada, que deixa de fora os cantos do retângulo que contrariam a correlação. E a elipse passa um pouco do retângulo na direção da correlação: lá, um $t$ rejeita e o $T^2$ não.</p></div>
+    </div>
+    <div class="sim" id="sim-t2">
+      <label>$\mu_{01}$ (afastamento de $\bar x_1$) <input type="range" id="t2-a" min="-0.8" max="0.8" step="0.02" value="0.4"> <strong id="t2-a-v">0,40</strong></label>
+      <label>$\mu_{02}$ (afastamento de $\bar x_2$) <input type="range" id="t2-b" min="-0.8" max="0.8" step="0.02" value="-0.3"> <strong id="t2-b-v">−0,30</strong></label>
+      <svg viewBox="0 0 360 300" id="t2-svg" role="img" aria-label="Elipse de não rejeição do T² e retângulo dos dois testes t, com o ponto mu0"></svg>
+      <p id="t2-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Invariância">
+   <div class="texto">
+    <h2>$T^2$ não muda com a unidade de medida</h2>
+    <p>Trocar unidades, como Fahrenheit por Celsius, é uma transformação $\mathbf{Y} = \mathbf{CX} + \mathbf{d}$ com $\mathbf{C}$ não singular (5-9). Os resumos mudam para $\bar{\mathbf{y}} = \mathbf{C}\bar{\mathbf{x}} + \mathbf{d}$ e $\mathbf{S}_y = \mathbf{CSC}'$, e a hipótese vira $\boldsymbol\mu_{Y,0} = \mathbf{C}\boldsymbol\mu_0 + \mathbf{d}$. Mesmo assim:</p>
+    <div class="formula" data-ref-id="f-invariancia" data-ref-tipo="formula" data-ref-nome="Invariância do T² (5-9)">
+      $$n(\bar{\mathbf{y}} - \boldsymbol\mu_{Y,0})'\mathbf{S}_y^{-1}(\bar{\mathbf{y}} - \boldsymbol\mu_{Y,0}) = n(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{C}'(\mathbf{CSC}')^{-1}\mathbf{C}(\bar{\mathbf{x}} - \boldsymbol\mu_0) = T^2$$
+    </div>
+    <p>porque $\mathbf{C}'(\mathbf{CSC}')^{-1}\mathbf{C}$ $= \mathbf{C}'(\mathbf{C}')^{-1}\mathbf{S}^{-1}\mathbf{C}^{-1}\mathbf{C}$ $= \mathbf{S}^{-1}$. A conclusão do teste não depende de medir em centímetros ou polegadas, nem de qualquer recombinação invertível das variáveis.</p>
+    <div class="ideia">O $T^2$ é invariante a transformações $\mathbf{Y} = \mathbf{CX} + \mathbf{d}$ com $\mathbf{C}$ não singular: a decisão não depende das unidades.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Uma pesquisadora testa $H_0: \boldsymbol\mu = \boldsymbol\mu_0$ com $T^2$ e obtém 9,74. Um colega converte uma das variáveis de miligramas para gramas (divide por 1000) e converte também $\boldsymbol\mu_0$. O novo $T^2$:</p>
+      <div class="alts">
+        <button data-op="a">(a) fica 1000 vezes menor.</button>
+        <button data-op="b">(b) fica $1000^2$ vezes menor, porque a variância muda com o quadrado.</button>
+        <button data-op="c">(c) continua 9,74.</button>
+        <button data-op="d">(d) muda, a não ser que as variáveis sejam independentes.</button>
+      </div>
+      <div class="fb" data-op="a">O desvio diminui 1000 vezes, mas $\mathbf{S}^{-1}$ aumenta na mesma proporção; tudo se cancela.</div>
+      <div class="fb" data-op="b">A variância muda com o quadrado, mas o desvio ao quadrado também: o quociente não muda.</div>
+      <div class="fb" data-op="c">Isso: mudança de escala é um $\mathbf{C}$ diagonal não singular, e o $T^2$ é invariante.</div>
+      <div class="fb" data-op="d">A invariância vale para qualquer $\mathbf{C}$ não singular, com variáveis correlacionadas ou não.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 5.2 ================= -->
+  <div class="secao" data-numero="5.2" data-titulo="T² e razão de verossimilhanças" data-livro="§5.3">
+
+  <section class="passo" data-titulo="Wilks">
+   <div class="texto">
+    <h2>O $T^2$ é o teste da razão de verossimilhanças</h2>
+    <p>A razão de verossimilhanças compara o melhor ajuste com $\boldsymbol\mu$ fixado em $\boldsymbol\mu_0$ com o melhor ajuste livre. Usando os máximos do cap. 4:</p>
+    <div class="formula" data-ref-id="f-wilks" data-ref-tipo="formula" data-ref-nome="Razão de verossimilhanças e lambda de Wilks (5-12)–(5-15)">
+      $$\Lambda = \frac{\max_{\boldsymbol\Sigma} L(\boldsymbol\mu_0, \boldsymbol\Sigma)}{\max_{\boldsymbol\mu, \boldsymbol\Sigma} L(\boldsymbol\mu, \boldsymbol\Sigma)} = \left(\frac{|\hat{\boldsymbol\Sigma}|}{|\hat{\boldsymbol\Sigma}_0|}\right)^{n/2},\qquad \Lambda^{2/n} = \Big(1 + \frac{T^2}{n-1}\Big)^{-1}$$
+    </div>
+    <p>Aqui $\hat{\boldsymbol\Sigma} = \frac1n\sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$ e $\hat{\boldsymbol\Sigma}_0 = \frac1n\sum(\mathbf{x}_j - \boldsymbol\mu_0)(\mathbf{x}_j - \boldsymbol\mu_0)'$. $\Lambda^{2/n}$ é o <strong>lambda de Wilks</strong>, uma razão de variâncias generalizadas. Rejeita-se $H_0$ para $\Lambda$ <em>pequeno</em>, o que é o mesmo que $T^2$ grande (Result 5.1). Bônus: $T^2 = (n-1)|\hat{\boldsymbol\Sigma}_0|/|\hat{\boldsymbol\Sigma}| - (n-1)$, sem inverter $\mathbf{S}$.</p>
+    <div class="ideia">O teste da razão de verossimilhanças para $\boldsymbol\mu = \boldsymbol\mu_0$ equivale ao $T^2$: $\Lambda^{2/n} = (1 + T^2/(n-1))^{-1}$, e Wilks pequeno corresponde a $T^2$ grande.</div>
+    <details class="demo">
+      <summary>Demonstração do Result 5.1</summary>
+      <p>Pela decomposição do cap. 4,</p>
+      $$\begin{aligned} \sum_j(\mathbf{x}_j - \boldsymbol\mu_0)(\mathbf{x}_j - \boldsymbol\mu_0)' &= \sum_j(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})' \\ &\quad + n(\bar{\mathbf{x}} - \boldsymbol\mu_0)(\bar{\mathbf{x}} - \boldsymbol\mu_0)' \end{aligned}$$
+      <p>Escreva $\mathbf{A} = \sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$ e $\mathbf{v} = \sqrt n(\bar{\mathbf{x}} - \boldsymbol\mu_0)$. Para a matriz particionada com blocos $\mathbf{A}$, $\mathbf{v}$, $\mathbf{v}'$ e $-1$, o determinante sai de dois jeitos (Exercício 4.11):</p>
+      $$|\mathbf{A}|\,(-1 - \mathbf{v}'\mathbf{A}^{-1}\mathbf{v}) = (-1)\,|\mathbf{A} + \mathbf{vv}'|$$
+      <p>Logo $|\mathbf{A} + \mathbf{vv}'| = |\mathbf{A}|(1 + \mathbf{v}'\mathbf{A}^{-1}\mathbf{v})$. Como $\mathbf{A} = (n-1)\mathbf{S}$, $\mathbf{v}'\mathbf{A}^{-1}\mathbf{v} = T^2/(n-1)$. Dividindo os dois lados por $n^p$: $|\hat{\boldsymbol\Sigma}_0| = |\hat{\boldsymbol\Sigma}|(1 + T^2/(n-1))$, que é (5-14).</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Com o $T^2 = 9{,}74$ do suor ($n = 20$):</p>
+      <p>$\Lambda^{2/n} =$ <input class="lacuna" data-resp="0.661" data-tol="0.003" aria-label="Wilks"></p>
+      <p>Se outro conjunto, com o mesmo $n$, tivesse $\Lambda^{2/n} = 0{,}5$, o $T^2$ seria <input class="lacuna" data-resp="19" data-tol="0.05" aria-label="T2"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\Lambda^{2/n} = 1/(1 + 9{,}74/19)$; na volta, $T^2 = (n-1)(1/\Lambda^{2/n} - 1)$.</p>
+      <div class="resolucao" hidden><p>$1/(1 + 0{,}513) = 0{,}661$. Na volta, $19(1/0{,}5 - 1) = 19$: Wilks menor, $T^2$ maior, mais evidência contra $H_0$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Método geral">
+   <div class="texto">
+    <h2>Razão de verossimilhanças em geral: $-2\ln\Lambda \approx \chi^2$</h2>
+    <div class="formula" data-ref-id="f-rv-geral" data-ref-tipo="formula" data-ref-nome="Razão de verossimilhanças geral (5-16), Result 5.2">
+      $$\Lambda = \frac{\max_{\boldsymbol\theta \in \Theta_0} L(\boldsymbol\theta)}{\max_{\boldsymbol\theta \in \Theta} L(\boldsymbol\theta)},\qquad -2\ln\Lambda \;\approx\; \chi^2_{\nu - \nu_0}\ \ (n \text{ grande})$$
+    </div>
+    <p>$\Theta$ é o conjunto de todos os valores dos parâmetros (dimensão $\nu$) e $\Theta_0$ o subconjunto da hipótese (dimensão $\nu_0$). Rejeita-se $H_0$ quando $\Lambda$ é pequeno: o melhor que a hipótese consegue explicar é bem pior que o melhor sem restrição.</p>
+    <p>Na normal com $\boldsymbol\mu = \boldsymbol\mu_0$: $\nu = p + p(p+1)/2$ (médias e covariâncias) e $\nu_0 = p(p+1)/2$, então $\nu - \nu_0 = p$. Testes de razão de verossimilhanças têm o maior poder (médio) possível em amostras grandes, por isso aparecem tanto no livro.</p>
+    <div class="ideia">Em geral, $-2\ln\Lambda$ é aproximadamente $\chi^2$ com graus de liberdade iguais ao número de parâmetros que a hipótese fixa ($\nu - \nu_0$).</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Numa normal com $p = 3$, testa-se $H_0: \boldsymbol\mu = \boldsymbol\mu_0$ (com $\boldsymbol\Sigma$ livre) pela razão de verossimilhanças com $n$ grande. Quantos graus de liberdade tem a $\chi^2$ de $-2\ln\Lambda$?</p>
+      <div class="alts">
+        <button data-op="a">(a) 3</button>
+        <button data-op="b">(b) 9, as médias mais as 6 covariâncias distintas.</button>
+        <button data-op="c">(c) 6, as covariâncias distintas.</button>
+        <button data-op="d">(d) $n - 3$</button>
+      </div>
+      <div class="fb" data-op="a">Isso: a hipótese fixa as 3 médias; as 6 variâncias e covariâncias continuam livres nos dois casos. $\nu - \nu_0 = 9 - 6 = 3$.</div>
+      <div class="fb" data-op="b">9 é a dimensão de $\Theta$ inteiro. Conta-se só o que a hipótese restringe.</div>
+      <div class="fb" data-op="c">As covariâncias estão livres tanto em $\Theta$ quanto em $\Theta_0$: não entram na diferença.</div>
+      <div class="fb" data-op="d">Os graus de liberdade da aproximação $\chi^2$ não dependem de $n$; dependem de quantos parâmetros a hipótese fixa.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 5.3 ================= -->
+  <div class="secao" data-numero="5.3" data-titulo="Região de confiança" data-livro="§5.4">
+
+  <section class="passo" data-titulo="Elipsoide">
+   <div class="texto">
+    <h2>A região de confiança para $\boldsymbol\mu$ é um elipsoide centrado em $\bar{\mathbf{x}}$</h2>
+    <p>Uma região $R(\mathbf{X})$ é de $100(1-\alpha)$% se, antes da amostra, $P[R(\mathbf{X}) \text{ cobre } \boldsymbol\mu] = 1 - \alpha$ (5-17). Da distribuição do $T^2$:</p>
+    <div class="formula" data-ref-id="f-elipsoide-conf" data-ref-tipo="formula" data-ref-nome="Elipsoide de confiança para μ (5-18), (5-19)">
+      $$n(\bar{\mathbf{x}} - \boldsymbol\mu)'\,\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu) \le \frac{p(n-1)}{n-p}\,F_{p,n-p}(\alpha)$$
+      $$\text{semi-eixos: } \pm\sqrt{\lambda_i}\,\sqrt{\frac{p(n-1)}{n(n-p)}F_{p,n-p}(\alpha)}\ \ \mathbf{e}_i,\qquad \mathbf{S}\mathbf{e}_i = \lambda_i\mathbf{e}_i$$
+    </div>
+    <p>A região reúne todos os $\boldsymbol\mu_0$ que o $T^2$ não rejeita no nível $\alpha$ (a mesma dualidade do caso univariado). Com $p \ge 4$ não dá para desenhar, mas os eixos e a razão entre eles dizem o quanto o elipsoide é alongado.</p>
+    <div class="ideia">O elipsoide de confiança para $\boldsymbol\mu$ é $n(\bar{\mathbf{x}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu)$ $\le \frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)$, com eixos nos autovetores de $\mathbf{S}$; contém os $\boldsymbol\mu_0$ que o $T^2$ não rejeita.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-53" data-ref-tipo="exemplo" data-ref-nome="Radiação dos micro-ondas (Ex. 5.3)">
+      <p><strong>Ex. 5.3.</strong> Raízes quartas da radiação com porta fechada ($x_1$) e aberta ($x_2$), $n = 42$ fornos:</p>
+      $$\bar{\mathbf{x}} = \begin{bmatrix} 0{,}564 \\ 0{,}603 \end{bmatrix},\quad \mathbf{S} = \begin{bmatrix} 0{,}0144 & 0{,}0117 \\ 0{,}0117 & 0{,}0146 \end{bmatrix}$$
+      <p>$\lambda_1 = 0{,}026$, $\mathbf{e}_1 = [0{,}704;\ 0{,}710]'$; $\lambda_2 = 0{,}002$, $\mathbf{e}_2 = [-0{,}710;\ 0{,}704]'$; $F_{2,40}(0{,}05) = 3{,}23$.</p>
+    </div>
+    <div class="lacunas">
+      <p>Lado direito de (5-18): $\frac{2 \times 41}{40} \times 3{,}23 =$ <input class="lacuna" data-resp="6.62" data-tol="0.01" aria-label="valor crítico"></p>
+      <p>Semi-eixo maior: $\sqrt{0{,}026}\sqrt{6{,}62/42} =$ <input class="lacuna" data-resp="0.064" data-tol="0.002" aria-label="semi-eixo maior"></p>
+      <p>Para $\boldsymbol\mu = [0{,}562;\ 0{,}589]'$ o lado esquerdo vale 1,30. Está na região? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="está dentro"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: o semi-eixo é $\sqrt{\lambda_1}\sqrt{c^2/n}$ com $c^2 = 6{,}62$.</p>
+      <div class="resolucao" hidden><p>$2{,}05 \times 3{,}23 = 6{,}62$. Semi-eixo maior $0{,}161 \times 0{,}397 = 0{,}064$ (o menor, com $\lambda_2 = 0{,}002$, dá 0,018; a razão é 3,6). Como $1{,}30 \le 6{,}62$, $[0{,}562;\ 0{,}589]'$ está dentro, e $H_0$ com esse vetor não seria rejeitada a 5%.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 5.4 ================= -->
+  <div class="secao" data-numero="5.4" data-titulo="Intervalos simultâneos" data-livro="§5.4, Supl. 5A">
+
+  <section class="passo" data-titulo="Muitas afirmações">
+   <div class="texto">
+    <h2>Vários intervalos de 95% não dão 95% juntos</h2>
+    <p>O elipsoide resume tudo, mas na prática se quer falar de cada média. Para uma combinação fixa $\mathbf{a}'\boldsymbol\mu$, a amostra $z_j = \mathbf{a}'\mathbf{x}_j$ tem média $\mathbf{a}'\bar{\mathbf{x}}$ e variância $\mathbf{a}'\mathbf{S}\mathbf{a}$ (cap. 3), e o intervalo $t$ é:</p>
+    <div class="formula" data-ref-id="f-t-combinacao" data-ref-tipo="formula" data-ref-nome="Intervalo t para a'μ (5-21)">
+      $$\mathbf{a}'\bar{\mathbf{x}} \pm t_{n-1}(\alpha/2)\,\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$
+    </div>
+    <p>Com $\mathbf{a}' = [1, 0, \dots, 0]$, é o intervalo de sempre para $\mu_1$. Mas cada um tem 95% sozinho: a probabilidade de <em>todos</em> acertarem ao mesmo tempo é menor. Com $m$ afirmações independentes de 95%, só $0{,}95^m$ (com $m = 10$, uns 60%). O preço para garantir 95% juntos é usar intervalos mais largos.</p>
+    <div class="ideia">Cada intervalo $t$ tem confiança $1 - \alpha$ sozinho; a confiança de todos juntos é menor, e para garanti-la os intervalos precisam ser mais largos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Você calcula intervalos $t$ de 95% para 7 médias e, depois de olhar os dados, também para a diferença entre as duas que pareciam mais distantes. Por que a confiança conjunta fica ainda pior que $0{,}95^8$?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Porque a diferença foi escolhida <em>depois</em> de ver os dados, justamente por parecer grande: é "bisbilhotar". A confiança de 95% de um intervalo $t$ supõe que $\mathbf{a}$ foi fixado antes. Os $T^2$-intervalos do próximo passo valem para todo $\mathbf{a}$ ao mesmo tempo, inclusive os escolhidos depois.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="T²-intervalos">
+   <div class="texto">
+    <h2>$T^2$-intervalos: valem para todas as combinações ao mesmo tempo</h2>
+    <p>O maior $t^2$ possível, entre todos os $\mathbf{a}$, sai do lema de maximização do cap. 2 (com $\mathbf{d} = \bar{\mathbf{x}} - \boldsymbol\mu$ e $\mathbf{B} = \mathbf{S}$): $\max_{\mathbf{a}} n(\mathbf{a}'(\bar{\mathbf{x}} - \boldsymbol\mu))^2/\mathbf{a}'\mathbf{S}\mathbf{a} = T^2$ (5-23). Então, se $T^2 \le c^2$, todos os $t^2$ ficam abaixo de $c^2$:</p>
+    <div class="formula" data-ref-id="f-t2-intervalos" data-ref-tipo="formula" data-ref-nome="T²-intervalos simultâneos (Result 5.3, (5-24))">
+      $$\mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\;\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}\quad \text{para todo } \mathbf{a}$$
+      $$\bar x_i \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\;\sqrt{\frac{s_{ii}}{n}},\qquad i = 1, \dots, p$$
+    </div>
+    <p>Todos juntos têm confiança $1 - \alpha$ (Result 5.3), inclusive diferenças $\mu_i - \mu_k$ ($\mathbf{a}'\mathbf{S}\mathbf{a} = s_{ii} - 2s_{ik} + s_{kk}$, (5-25)) e combinações escolhidas depois de olhar os dados. Geometricamente, o intervalo de $\mu_i$ é a <strong>sombra</strong> do elipsoide de confiança no eixo $i$ (Supl. 5A).</p>
+    <p>No Ex. 5.5 (87 estudantes, $p = 3$), o multiplicador é $\sqrt{8{,}29} = 2{,}88$, contra $t_{86}(0{,}025) \approx 1{,}99$; o intervalo de $\mu_1$ (ciências sociais e história) fica em 504,45 a 551,03.</p>
+    <div class="ideia">Os $T^2$-intervalos $\mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\sqrt{\mathbf{a}'\mathbf{S}\mathbf{a}/n}$ valem para todo $\mathbf{a}$ com confiança conjunta $1 - \alpha$; para as médias, são as sombras do elipsoide.</div>
+    <details class="demo">
+      <summary>Por que a sombra do elipsoide é o $T^2$-intervalo (Result 5A.1)</summary>
+      <p>Para o elipsoide $\{\mathbf{z}: \mathbf{z}'\mathbf{A}^{-1}\mathbf{z} \le c^2\}$ e um vetor unitário $\mathbf{u}$, a Cauchy–Schwarz estendida dá $(\mathbf{z}'\mathbf{u})^2 \le (\mathbf{z}'\mathbf{A}^{-1}\mathbf{z})(\mathbf{u}'\mathbf{A}\mathbf{u})$ $\le c^2\,\mathbf{u}'\mathbf{A}\mathbf{u}$, com igualdade em $\mathbf{z} = c\mathbf{A}\mathbf{u}/\sqrt{\mathbf{u}'\mathbf{A}\mathbf{u}}$, que está na borda. A sombra vai de $-c\sqrt{\mathbf{u}'\mathbf{A}\mathbf{u}}$ a $+c\sqrt{\mathbf{u}'\mathbf{A}\mathbf{u}}$. Com $\mathbf{A} = \mathbf{S}/n$, $c^2 = \frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)$ e $\mathbf{u}$ o eixo $i$: $\pm c\sqrt{s_{ii}/n}$.</p>
+    </details>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Com os $T^2$-intervalos de 95% de uma amostra com $p = 3$, uma analista olha os dados, escolhe $\mu_1 - 2\mu_2 + \mu_3$ e calcula o $T^2$-intervalo dessa combinação. A confiança conjunta de tudo:</p>
+      <div class="alts">
+        <button data-op="a">(a) cai, porque a combinação foi escolhida depois de ver os dados.</button>
+        <button data-op="b">(b) continua 95%, porque os $T^2$-intervalos valem para todo $\mathbf{a}$ ao mesmo tempo.</button>
+        <button data-op="c">(c) vira $0{,}95^4$, com quatro intervalos.</button>
+        <button data-op="d">(d) continua 95% só se a combinação tiver coeficientes que somam zero.</button>
+      </div>
+      <div class="fb" data-op="a">Isso valeria para intervalos $t$. A garantia dos $T^2$-intervalos cobre todos os $\mathbf{a}$, escolhidos antes ou depois.</div>
+      <div class="fb" data-op="b">Isso: o Result 5.3 garante $1 - \alpha$ para a família inteira de combinações; por isso eles são ideais para "bisbilhotar".</div>
+      <div class="fb" data-op="c">A conta $0{,}95^m$ é para intervalos separados e independentes; os $T^2$-intervalos vêm de um único evento, $T^2 \le c^2$.</div>
+      <div class="fb" data-op="d">Qualquer $\mathbf{a}$ serve; somar zero (contraste) não é exigido.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Bonferroni">
+   <div class="texto">
+    <h2>Bonferroni: poucas afirmações escolhidas antes saem mais curtas</h2>
+    <p>Se só interessam $m$ afirmações fixadas antes da coleta, a desigualdade de Bonferroni garante: $P[\text{todas certas}] \ge 1 - (\alpha_1 + \cdots + \alpha_m)$ (5-28), qualquer que seja a correlação. Com $\alpha_i = \alpha/m$ para as $p$ médias:</p>
+    <div class="formula" data-ref-id="f-bonferroni" data-ref-tipo="formula" data-ref-nome="Intervalos de Bonferroni (5-29), (5-30)">
+      $$\bar x_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s_{ii}}{n}},\qquad i = 1, \dots, p$$
+      $$\frac{\text{comprimento de Bonferroni}}{\text{comprimento do } T^2} = \frac{t_{n-1}(\alpha/2m)}{\sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}}$$
+    </div>
+    <p>Para as médias, Bonferroni fica sempre dentro do $T^2$ (Ex. 5.6: (0,521; 0,607) e (0,560; 0,646), contra (0,516; 0,612) e (0,555; 0,651)). Os intervalos $t$ um de cada vez são ainda mais curtos, mas não garantem a confiança conjunta. E nenhum retângulo substitui o elipsoide quando a correlação importa.</p>
+    <div class="ideia">Para poucas afirmações fixadas antes, Bonferroni ($t_{n-1}(\alpha/2m)$) dá intervalos mais curtos que os $T^2$-intervalos, com confiança conjunta de pelo menos $1 - \alpha$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-sim">
+      <p>Para as duas médias da radiação, qual garantia de 95% conjunta dá o retângulo menor?</p>
+      <div class="alts">
+        <button data-op="a">$T^2$-intervalos</button>
+        <button data-op="b" data-certa>Bonferroni</button>
+        <button data-op="c">São iguais</button>
+      </div>
+      <div class="explica" hidden><p>Bonferroni usa $t_{41}(0{,}0125) = 2{,}33$; o $T^2$ usa $\sqrt{6{,}62} = 2{,}57$. O retângulo $T^2$ (as sombras) é maior porque cobre todas as combinações, não só as duas médias. O retângulo tracejado (um $t$ de cada vez) é o menor, mas não tem 95% conjunto.</p></div>
+    </div>
+    <div class="sim" id="sim-sim">
+      <label>Confiança conjunta <input type="range" id="sm-a" min="0" max="2" step="1" value="1"> <strong id="sm-a-v">95%</strong></label>
+      <svg viewBox="0 0 360 300" id="sm-svg" role="img" aria-label="Elipse de confiança da radiação com os retângulos T², Bonferroni e t um de cada vez"></svg>
+      <p id="sm-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 5.5 ================= -->
+  <div class="secao" data-numero="5.5" data-titulo="Amostras grandes" data-livro="§5.5">
+
+  <section class="passo" data-titulo="Qui-quadrado">
+   <div class="texto">
+    <h2>Com $n$ grande, troque a $F$ pela qui-quadrado e esqueça a normalidade</h2>
+    <p>Pelo cap. 4, $n(\bar{\mathbf{X}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu) \approx \chi^2_p$ para quase qualquer população (5-31). Daí:</p>
+    <div class="formula" data-ref-id="f-grande" data-ref-tipo="formula" data-ref-nome="Inferência para μ com amostras grandes (Result 5.4, 5.5)">
+      $$\text{rejeita } H_0 \text{ se } n(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu_0) \gt \chi^2_p(\alpha),\qquad \mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\chi^2_p(\alpha)}\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$
+    </div>
+    <p>Os intervalos valem para todo $\mathbf{a}$ com confiança aproximada $1 - \alpha$, quando $n - p$ é grande. Para $n$ grande, $\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha) \approx \chi^2_p(\alpha)$, então os dois métodos quase coincidem. Mesmo assim, confira os dados: desvios extremos da normal (atípicos, assimetria forte) podem estragar a confiança real.</p>
+    <div class="ideia">Com $n - p$ grande, testes e intervalos simultâneos para $\boldsymbol\mu$ usam $\chi^2_p(\alpha)$ no lugar de $\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)$, sem exigir normalidade.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p><strong>Ex. 5.7.</strong> Aptidão musical de 96 estudantes finlandeses, $p = 7$. Para a melodia: $\bar x_1 = 28{,}1$ e $\sqrt{s_{11}} = 5{,}76$; $\chi^2_7(0{,}10) = 12{,}02$.</p>
+      <p>Meia largura do intervalo simultâneo de 90%: $\sqrt{12{,}02} \times 5{,}76/\sqrt{96} =$ <input class="lacuna" data-resp="2.04" data-tol="0.02" aria-label="meia largura"></p>
+      <p>Limite inferior: <input class="lacuna" data-resp="26.06" data-tol="0.03" aria-label="limite inferior"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\sqrt{12{,}02} = 3{,}467$ e $5{,}76/\sqrt{96} = 0{,}588$.</p>
+      <div class="resolucao" hidden><p>$3{,}467 \times 0{,}588 = 2{,}04$, e o intervalo vai de 26,06 a 30,14, como no livro.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 5.6 ================= -->
+  <div class="secao" data-numero="5.6" data-titulo="Controle de qualidade multivariado" data-livro="§5.6">
+
+  <section class="passo" data-titulo="Gráfico X̄">
+   <div class="texto">
+    <h2>Gráficos de controle: separar causas comuns de causas especiais</h2>
+    <p>Num processo estável, a variação vem de <strong>causas comuns</strong>, sempre presentes, nenhuma dominante. Um gráfico de controle procura <strong>causas especiais</strong>, de fora do processo usual, que pedem conserto (ou sugerem melhorias).</p>
+    <p>O gráfico $\bar X$ univariado: (1) marque as observações (ou médias de subamostras) em ordem no tempo; (2) trace a linha central $\bar x$; (3) trace os limites $\bar x \pm 3$ desvios padrão (o das observações, ou $s/\sqrt m$ para médias de subamostras de tamanho $m$). Com dados normais, um ponto fora dos limites por acaso é muito raro.</p>
+    <p>No Ex. 5.8, as horas extras com audiências judiciais da polícia de Madison, em 16 períodos, ficam todas dentro dos limites.</p>
+    <div class="ideia">O gráfico $\bar X$ marca os dados no tempo com linha central $\bar x$ e limites $\pm 3$ desvios padrão; pontos fora sinalizam possíveis causas especiais.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Uma fábrica monitora duas medidas correlacionadas de cada peça com dois gráficos $\bar X$ separados, de limites $\pm 3$ desvios. Qual o problema?</p>
+      <div class="alts">
+        <button data-op="a">(a) Nenhum: dois gráficos univariados detectam tudo o que um multivariado detectaria.</button>
+        <button data-op="b">(b) Os limites deveriam ser $\pm 2$ desvios, porque são duas medidas.</button>
+        <button data-op="c">(c) Uma peça com as duas medidas dentro dos limites, mas em combinação que contraria a correlação, passa despercebida.</button>
+        <button data-op="d">(d) Gráficos de controle só servem para médias de subamostras.</button>
+      </div>
+      <div class="fb" data-op="a">É o mesmo fenômeno do $T^2$ contra os testes $t$: cada gráfico olha uma variável e ignora a correlação.</div>
+      <div class="fb" data-op="b">Encolher os limites aumentaria os alarmes falsos e continuaria ignorando a correlação.</div>
+      <div class="fb" data-op="c">Isso: só uma região conjunta (elipse ou $T^2$) percebe combinações raras de valores comuns.</div>
+      <div class="fb" data-op="d">Dá para marcar observações individuais (como no Ex. 5.8) ou médias de subamostras.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Elipse e T²">
+   <div class="texto">
+    <h2>Gráfico de elipse e gráfico $T^2$: o controle conjunto</h2>
+    <div class="formula" data-ref-id="f-controle" data-ref-tipo="formula" data-ref-nome="Gráficos de elipse e T² (5-32), (5-33)">
+      $$\text{elipse: } (\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}05)$$
+      $$\text{gráfico } T^2\text{: } T_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}}),\quad \text{LSC} = \chi^2_p(0{,}05) \text{ ou } \chi^2_p(0{,}01)$$
+    </div>
+    <p>A elipse é a mais intuitiva, mas só funciona com $p = 2$ e perde a ordem no tempo. O gráfico $T^2$ marca $T_j^2$ contra o período, com limite inferior 0 e sem linha central, para qualquer $p$. (É o mesmo $d_j^2$ do teste de normalidade do cap. 4.) No Ex. 5.10, com $\alpha = 0{,}01$, o período 11 passa do limite por causa das horas extras em eventos extraordinários.</p>
+    <p>Quando o $T^2$ acusa um ponto, falta saber qual variável é a culpada: compare cada $x_{jk}$ com $\bar x_k \pm t_{n-1}(0{,}005/p)\sqrt{s_{kk}}$, um intervalo de Bonferroni.</p>
+    <div class="ideia">O gráfico $T^2$ marca $(\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$ no tempo com limite $\chi^2_p(\alpha)$; um ponto acima pede investigar a variável responsável com intervalos de Bonferroni.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Um analista montou um gráfico $T^2$ para $p = 3$ características com $\alpha = 0{,}05$. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: é a distância estatística de cada observação ao centro.">Para cada período, calculo $T_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$.</li>
+        <li data-errada data-fb="Aqui. O limite superior usa a qui-quadrado com p = 3 graus de liberdade: χ²₃(0,05) = 7,81. O 5,99 é χ²₂(0,05), para duas características.">O limite superior é $\chi^2_2(0{,}05) = 5{,}99$, como no gráfico de elipse.</li>
+        <li data-fb="Certo: T² não tem linha central; o limite inferior é zero porque T² nunca é negativo.">O limite inferior é 0 e não há linha central.</li>
+        <li data-fb="Certo: é o passo seguinte quando um ponto passa do limite.">Para o ponto acima do limite, procuro a variável culpada com intervalos de Bonferroni.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Previsão">
+   <div class="texto">
+    <h2>Região para observações futuras: um pouco maior que a de controle</h2>
+    <p>Com dados de um período estável, quer-se uma região onde uma observação <em>futura</em> $\mathbf{X}$ deveria cair. Como $\mathbf{X} - \bar{\mathbf{X}}$ carrega a variação de $\mathbf{X}$ e a de $\bar{\mathbf{X}}$, aparece o fator $\frac{n}{n+1}$:</p>
+    <div class="formula" data-ref-id="f-previsao" data-ref-tipo="formula" data-ref-nome="Elipsoide de previsão para uma observação futura (Result 5.6)">
+      $$\frac{n}{n+1}(\mathbf{X} - \bar{\mathbf{X}})'\mathbf{S}^{-1}(\mathbf{X} - \bar{\mathbf{X}}) \;\sim\; \frac{(n-1)p}{n-p}F_{p,n-p}$$
+      $$(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \frac{(n^2 - 1)p}{n(n-p)}F_{p,n-p}(\alpha)$$
+    </div>
+    <p>No Ex. 5.11, o livro tira o período 11 (fora de controle), refaz a elipse com os 15 estáveis e a usa para julgar os próximos períodos. O gráfico $T^2$ para futuras observações marca $\frac{n}{n+1}(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}})$ com limite $\frac{(n-1)p}{n-p}F_{p,n-p}(0{,}05)$. Com subamostras de tamanho $m$, usa-se uma $\mathbf{S}$ agrupada das subamostras e os limites mudam (perto de $\chi^2_p(0{,}05)/m$ para a elipse das médias).</p>
+    <div class="ideia">Para uma observação futura, a região de previsão é $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \frac{(n^2-1)p}{n(n-p)}F_{p,n-p}(\alpha)$: maior que a região para $\boldsymbol\mu$, porque soma a variação da nova observação.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="d">
+      <p class="enunciado">Com os mesmos $\bar{\mathbf{x}}$, $\mathbf{S}$ e $\alpha$, compare a região de confiança para $\boldsymbol\mu$ com a região de previsão para uma observação futura $\mathbf{X}$:</p>
+      <div class="alts">
+        <button data-op="a">(a) São iguais, porque as duas usam a mesma distância estatística.</button>
+        <button data-op="b">(b) A de $\boldsymbol\mu$ é maior, porque $\boldsymbol\mu$ é desconhecido.</button>
+        <button data-op="c">(c) A de previsão é cerca de $\sqrt{n+1}$ vezes menor.</button>
+        <button data-op="d">(d) A de previsão é bem maior: tem cerca de $\sqrt{n+1}$ vezes o tamanho linear.</button>
+      </div>
+      <div class="fb" data-op="a">A distância é a mesma, mas os limites não: para $\boldsymbol\mu$, o lado direito é $\frac{p(n-1)}{n(n-p)}F$ (só a incerteza de $\bar{\mathbf{X}}$); para a previsão, $\frac{(n^2-1)p}{n(n-p)}F$, que é $n + 1$ vezes maior.</div>
+      <div class="fb" data-op="b">$\boldsymbol\mu$ é estimado com a precisão de $\bar{\mathbf{X}}$ (covariância $\boldsymbol\Sigma/n$); uma observação nova varia como $\boldsymbol\Sigma$ inteira, mais a incerteza de $\bar{\mathbf{X}}$.</div>
+      <div class="fb" data-op="c">É o contrário: uma observação individual varia muito mais que a média.</div>
+      <div class="fb" data-op="d">Isso: escrevendo as duas como $(\cdot - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\cdot - \bar{\mathbf{x}}) \le$ constante, a de previsão tem constante $n + 1$ vezes maior, e o tamanho linear cresce $\sqrt{n+1}$ vezes.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 5.7 ================= -->
+  <div class="secao" data-numero="5.7" data-titulo="Dados faltantes e dependência temporal" data-livro="§5.7–5.8">
+
+  <section class="passo" data-titulo="EM">
+   <div class="texto">
+    <h2>Dados faltantes: o algoritmo EM preenche pela média condicional e repete</h2>
+    <p>Quando faltam componentes de algumas observações <strong>ao acaso</strong> (o mecanismo da falta não depende dos valores), o algoritmo EM calcula as estimativas de máxima verossimilhança alternando dois passos:</p>
+    <div class="definicao" data-ref-id="d-em" data-ref-tipo="definicao" data-ref-nome="Algoritmo EM para a normal">
+      <p><strong>Previsão:</strong> com as estimativas atuais $\tilde{\boldsymbol\mu}$, $\tilde{\boldsymbol\Sigma}$, troque cada parte faltante $\mathbf{x}^{(1)}_j$ pela média condicional da normal dada a parte observada: $\tilde{\mathbf{x}}^{(1)}_j = \tilde{\boldsymbol\mu}^{(1)} + \tilde{\boldsymbol\Sigma}_{12}\tilde{\boldsymbol\Sigma}_{22}^{-1}(\mathbf{x}^{(2)}_j - \tilde{\boldsymbol\mu}^{(2)})$, e some $\tilde{\boldsymbol\Sigma}_{11} - \tilde{\boldsymbol\Sigma}_{12}\tilde{\boldsymbol\Sigma}_{22}^{-1}\tilde{\boldsymbol\Sigma}_{21}$ na contribuição para $\sum\mathbf{x}_j\mathbf{x}_j'$.<br>
+      <strong>Estimação:</strong> recalcule $\tilde{\boldsymbol\mu} = \frac1n\sum\tilde{\mathbf{x}}_j$ e $\tilde{\boldsymbol\Sigma} = \frac1n\sum\widetilde{\mathbf{x}_j\mathbf{x}_j'} - \tilde{\boldsymbol\mu}\tilde{\boldsymbol\mu}'$. Repita até estabilizar.</p>
+    </div>
+    <p>A previsão usa a média condicional da normal do cap. 4 (Result 4.6). Começa-se, como no Ex. 5.12, preenchendo com as médias das observações disponíveis. No fim, com poucas faltas, trata-se $n(\tilde{\boldsymbol\mu} - \boldsymbol\mu)'\tilde{\boldsymbol\Sigma}^{-1}(\tilde{\boldsymbol\mu} - \boldsymbol\mu) \le \chi^2_p(\alpha)$ como região aproximada. O aviso do livro: se a falta depende da resposta (quem ganha muito não responde o salário), o EM introduz viés sério.</p>
+    <div class="ideia">O EM alterna prever as partes faltantes pela média condicional da normal e reestimar $\boldsymbol\mu$ e $\boldsymbol\Sigma$; só é confiável se a falta for ao acaso.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Por que o passo de previsão soma $\tilde{\boldsymbol\Sigma}_{11} - \tilde{\boldsymbol\Sigma}_{12}\tilde{\boldsymbol\Sigma}_{22}^{-1}\tilde{\boldsymbol\Sigma}_{21}$ na soma de produtos, em vez de usar só o valor preenchido ao quadrado?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Porque $E(X^2) = \mathrm{Var}(X) + [E(X)]^2$. Usar só a média condicional ao quadrado trataria o valor preenchido como se fosse conhecido sem erro, e $\tilde{\boldsymbol\Sigma}$ sairia pequena demais. A variância condicional repõe a incerteza sobre o valor que faltou.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Dependência no tempo">
+   <div class="texto">
+    <h2>Observações dependentes no tempo derrubam a confiança real</h2>
+    <p>Tudo neste capítulo supõe amostra aleatória (itens independentes). Com dados coletados no tempo, isso pode falhar. O livro usa o modelo autorregressivo de ordem 1:</p>
+    <div class="formula" data-ref-id="f-ar1" data-ref-tipo="formula" data-ref-nome="AR(1) e cobertura da elipse (5-42), Tabela 5.9">
+      $$\mathbf{X}_t - \boldsymbol\mu = \boldsymbol\Phi(\mathbf{X}_{t-1} - \boldsymbol\mu) + \boldsymbol\varepsilon_t$$
+      $$\boldsymbol\Phi = \phi\,\mathbf{I}:\quad P[\text{elipse "de 95\%" cobre } \boldsymbol\mu] \approx P\Big[\chi^2_p \le \frac{1-\phi}{1+\phi}\,\chi^2_p(0{,}05)\Big]$$
+    </div>
+    <p>Com $\phi \gt 0$ (cada observação puxa a próxima), $\bar{\mathbf{X}}$ varia mais do que $\mathbf{S}/n$ indica, a elipse fica pequena demais e a confiança real despenca. Com $p = 2$ e $\phi = 0{,}5$, a elipse "de 95%" cobre $\boldsymbol\mu$ só 63% das vezes; com mais variáveis, pior ainda.</p>
+    <div class="ideia">Dependência positiva entre observações no tempo faz a elipse "de 95%" cobrir $\boldsymbol\mu$ bem menos que 95% das vezes; a independência é essencial.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-ar">
+      <p>Com $\phi = 0{,}5$, aumentando o número de variáveis $p$, a cobertura real da elipse "de 95%"...</p>
+      <div class="alts">
+        <button data-op="a">Volta para 95%</button>
+        <button data-op="b">Fica em 63%</button>
+        <button data-op="c" data-certa>Cai ainda mais</button>
+      </div>
+      <div class="explica" hidden><p>O fator $(1-\phi)/(1+\phi) = 1/3$ encolhe o limite da $\chi^2_p$, e o encolhimento pesa mais quando $p$ cresce: com $p = 10$, a cobertura fica perto de 19%. Com $\phi \lt 0$ acontece o contrário: a elipse fica grande demais (conservadora).</p></div>
+    </div>
+    <div class="sim" id="sim-ar">
+      <label>Coeficiente $\phi$ <input type="range" id="ar-f" min="-0.5" max="0.9" step="0.05" value="0"> <strong id="ar-f-v">0,00</strong></label>
+      <svg viewBox="0 0 360 240" id="ar-svg" role="img" aria-label="Cobertura real da elipse de 95% em função do número de variáveis"></svg>
+      <p id="ar-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>$T^2 = n(\bar{\mathbf{X}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu_0)$ $\sim \frac{(n-1)p}{n-p}F_{p,n-p}$ sob $H_0$.</li>
+    <li>O $T^2$ pode rejeitar quando nenhum $t$ rejeita (usa a correlação); é invariante a $\mathbf{CX} + \mathbf{d}$.</li>
+    <li>É o teste da razão de verossimilhanças: $\Lambda^{2/n} = (1 + T^2/(n-1))^{-1}$; em geral $-2\ln\Lambda \approx \chi^2_{\nu - \nu_0}$.</li>
+    <li>Região de confiança: elipsoide centrado em $\bar{\mathbf{x}}$, eixos nos autovetores de $\mathbf{S}$.</li>
+    <li>$T^2$-intervalos valem para todo $\mathbf{a}$ (sombras do elipsoide); Bonferroni é mais curto para poucas afirmações fixadas antes.</li>
+    <li>Com $n$ grande: $\chi^2_p(\alpha)$ no lugar da $F$, sem exigir normalidade.</li>
+    <li>Controle: elipse ($p = 2$) e gráfico $T^2$ com limite $\chi^2_p(\alpha)$; previsão de observação futura com fator $n/(n+1)$.</li>
+    <li>EM: média condicional para o que falta, reestimação, repetir; só com falta ao acaso.</li>
+    <li>Dependência no tempo derruba a confiança real.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$n(\bar{\mathbf{x}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu) \le \frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)\qquad \mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$</p>
+  <p>$$\bar x_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s_{ii}}{n}}\qquad \Lambda^{2/n} = \Big(1 + \frac{T^2}{n-1}\Big)^{-1}$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>$T^2$-intervalos</strong><ul class="resumo-lista"><li>muitas combinações, ou escolhidas depois de ver os dados</li><li>querem confiança conjunta</li></ul></div>
+    <div><strong>Bonferroni</strong><ul class="resumo-lista"><li>poucas afirmações, fixadas antes</li><li>mais curtos que $T^2$ nesse caso</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>Graus de liberdade da $F$: $p$ e $n - p$; constante $(n-1)p/(n-p)$.</li>
+    <li>Rejeitar com $T^2$ não diz qual média está errada.</li>
+    <li>Wilks pequeno é evidência contra $H_0$ (ao contrário do $T^2$).</li>
+    <li>Os graus de liberdade da $\chi^2$ da razão de verossimilhanças contam só os parâmetros fixados por $H_0$.</li>
+    <li>Intervalos $t$ separados não têm confiança conjunta; escolher combinações depois de ver os dados piora.</li>
+    <li>Gráfico $T^2$ usa $\chi^2_p$ com o $p$ certo; não tem linha central.</li>
+    <li>Região de previsão ≠ região de confiança para $\boldsymbol\mu$ (é bem maior).</li>
+    <li>EM com falta que depende da resposta dá viés.</li>
+  </ul>
+  <h3>No livro, vale treinar</h3>
+  <p>Exercícios 5.1–5.3 ($T^2$ à mão, invariância, determinantes), 5.4, 5.5 e 5.7 (suor e radiação), 5.6 (Bonferroni), 5.8 ($T^2$ como o maior $t^2$), 5.9–5.10 e 5.16–5.18 (regiões e intervalos), 5.21–5.24 (controle de qualidade).</p>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+/* ===== Utilitários do capítulo ===== */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+function caminhoElipse(s11, s12, s22, c, px, py, cx, cy) {
+  cx = cx || 0; cy = cy || 0;
+  var tr = s11 + s22, det = s11 * s22 - s12 * s12, d = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  var l1 = tr / 2 + d, l2 = tr / 2 - d, ang = 0.5 * Math.atan2(2 * s12, s11 - s22);
+  var e1 = [Math.cos(ang), Math.sin(ang)], e2 = [-Math.sin(ang), Math.cos(ang)], s = '';
+  for (var t = 0; t <= 72; t++) {
+    var a = t / 72 * 2 * Math.PI, u = c * Math.sqrt(l1) * Math.cos(a), v = c * Math.sqrt(l2) * Math.sin(a);
+    s += (t ? 'L' : 'M') + px(cx + u * e1[0] + v * e2[0]).toFixed(1) + ' ' + py(cy + u * e1[1] + v * e2[1]).toFixed(1);
+  }
+  return s + 'Z';
+}
+/* Qui-quadrado: função de distribuição (gama incompleta regularizada) e quantil por bisseção */
+function lnGama(z) {
+  var g = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  var x = z, y = z, t = x + 5.5; t -= (x + 0.5) * Math.log(t); var s = 1.000000000190015;
+  for (var j = 0; j < 6; j++) s += g[j] / ++y;
+  return -t + Math.log(2.5066282746310005 * s / x);
+}
+function gamaP(a, x) {
+  if (x <= 0) return 0;
+  var gl = lnGama(a);
+  if (x < a + 1) {
+    var ap = a, soma = 1 / a, del = soma;
+    for (var n = 0; n < 200; n++) { ap++; del *= x / ap; soma += del; if (Math.abs(del) < Math.abs(soma) * 1e-12) break; }
+    return soma * Math.exp(-x + a * Math.log(x) - gl);
+  }
+  var b = x + 1 - a, c = 1e300, d = 1 / b, h = d;
+  for (var i = 1; i < 200; i++) { var an = -i * (i - a); b += 2; d = an * d + b; if (Math.abs(d) < 1e-300) d = 1e-300; c = b + an / c; if (Math.abs(c) < 1e-300) c = 1e-300; d = 1 / d; var dl = d * c; h *= dl; if (Math.abs(dl - 1) < 1e-12) break; }
+  return 1 - Math.exp(-x + a * Math.log(x) - gl) * h;
+}
+function pchisq(x, k) { return gamaP(k / 2, x / 2); }
+function qchisqSup(alfa, k) { var lo = 0, hi = 200; for (var i = 0; i < 80; i++) { var m = (lo + hi) / 2; if (1 - pchisq(m, k) > alfa) lo = m; else hi = m; } return (lo + hi) / 2; }
+
+/* ===== 5.1 T² contra dois testes t (n = 20, desvios 1, correlação 0,8) ===== */
+(function () {
+  var sa = document.getElementById('t2-a');
+  if (!sa) return;
+  var sb = document.getElementById('t2-b'), svg = document.getElementById('t2-svg');
+  var n = 20, r = 0.8, c2 = 7.504, tc = 2.093, meia = tc / Math.sqrt(n);
+  function desenhar() {
+    var a = +sa.value, b = +sb.value;
+    document.getElementById('t2-a-v').textContent = fmt(a, 2); document.getElementById('t2-b-v').textContent = fmt(b, 2);
+    var k = 150, px = function (x) { return 180 + x * k; }, py = function (y) { return 150 - y * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 14, y1: 150, x2: 346, y2: 150, stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 180, y1: 10, x2: 180, y2: 290, stroke: bo }));
+    svg.appendChild(svgEl('rect', { x: px(-meia), y: py(meia), width: 2 * meia * k, height: 2 * meia * k, fill: 'none', stroke: acc, 'stroke-width': 1.8, 'stroke-dasharray': '6 4' }));
+    svg.appendChild(svgEl('path', { d: caminhoElipse(1 / n, r / n, 1 / n, Math.sqrt(c2), px, py), fill: roxo, 'fill-opacity': 0.12, stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('circle', { cx: 180, cy: 150, r: 4, fill: txt }));
+    svg.appendChild(svgEl('text', { x: 186, y: 166, 'font-size': 12, fill: txt }, 'x̄'));
+    svg.appendChild(svgEl('circle', { cx: px(a), cy: py(b), r: 6, fill: lar }));
+    svg.appendChild(svgEl('text', { x: px(a) + 9, y: py(b) - 8, 'font-size': 13, 'font-weight': 700, fill: lar }, 'μ₀'));
+    var T2 = n * (a * a - 2 * r * a * b + b * b) / (1 - r * r), t1 = a * Math.sqrt(n), t2 = b * Math.sqrt(n);
+    var rejT = T2 > c2, rejt = Math.abs(t1) > tc || Math.abs(t2) > tc;
+    document.getElementById('t2-txt').innerHTML = '$n = 20$, desvios padrão 1, correlação 0,8. $T^2$ = ' + fmt(T2, 2) + (rejT ? ' &gt; 7,50: <strong>rejeita</strong>' : ' ≤ 7,50: não rejeita') + '. Testes $t$: ' + fmt(Math.abs(t1), 2) + ' e ' + fmt(Math.abs(t2), 2) + ' contra 2,09: ' + (rejt ? '<strong>algum rejeita</strong>' : 'nenhum rejeita') + '. Roxo: região onde o $T^2$ não rejeita; tracejado: onde nenhum $t$ rejeita.';
+    tipografar(document.getElementById('t2-txt'));
+  }
+  sa.addEventListener('input', desenhar); sb.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 5.4 Elipse, T², Bonferroni e t para a radiação (Ex. 5.3–5.6) ===== */
+(function () {
+  var sa = document.getElementById('sm-a');
+  if (!sa) return;
+  var svg = document.getElementById('sm-svg');
+  var xb = [0.564, 0.603], S = [0.0144, 0.0117, 0.0146], n = 42;
+  var NIV = [['90%', 5.0028, 2.0195, 1.6829], ['95%', 6.6250, 2.3267, 2.0195], ['99%', 10.6159, 2.9670, 2.7012]];
+  function desenhar() {
+    var L = NIV[+sa.value], c2 = L[1], tb = L[2], tt = L[3];
+    document.getElementById('sm-a-v').textContent = L[0];
+    var k = 2100, px = function (x) { return 180 + (x - xb[0]) * k; }, py = function (y) { return 150 - (y - xb[1]) * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1'), txt = corVar('--text');
+    limpar(svg);
+    var se = [Math.sqrt(S[0] / n), Math.sqrt(S[2] / n)];
+    function ret(mult, cor, tr, larg) {
+      var h1 = mult * se[0], h2 = mult * se[1];
+      svg.appendChild(svgEl('rect', { x: px(xb[0] - h1), y: py(xb[1] + h2), width: 2 * h1 * k, height: 2 * h2 * k, fill: 'none', stroke: cor, 'stroke-width': larg, 'stroke-dasharray': tr }));
+      return [h1, h2];
+    }
+    svg.appendChild(svgEl('path', { d: caminhoElipse(S[0] / n, S[1] / n, S[2] / n, Math.sqrt(c2), px, py, xb[0], xb[1]), fill: roxo, 'fill-opacity': 0.12, stroke: roxo, 'stroke-width': 2 }));
+    var hT = ret(Math.sqrt(c2), roxo, 'none', 1.2), hB = ret(tb, lar, 'none', 2), ht = ret(tt, acc, '5 4', 1.5);
+    svg.appendChild(svgEl('circle', { cx: px(xb[0]), cy: py(xb[1]), r: 4, fill: txt }));
+    svg.appendChild(svgEl('text', { x: 14, y: 290, 'font-size': 11, fill: m }, 'μ₁ (porta fechada) →'));
+    svg.appendChild(svgEl('text', { x: 14, y: 18, 'font-size': 11, fill: m }, '↑ μ₂ (porta aberta)'));
+    function iv(i, h) { return '(' + fmt(xb[i] - h[i], 3) + '; ' + fmt(xb[i] + h[i], 3) + ')'; }
+    document.getElementById('sm-txt').innerHTML = 'Elipse de ' + L[0] + ' e suas sombras ($T^2$, roxo): $\\mu_1$ em ' + iv(0, hT) + ', $\\mu_2$ em ' + iv(1, hT) + '. Bonferroni (laranja): ' + iv(0, hB) + ' e ' + iv(1, hB) + '. Tracejado azul: $t$ um de cada vez, sem confiança conjunta.';
+    tipografar(document.getElementById('sm-txt'));
+  }
+  sa.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 5.7 Cobertura real da elipse de 95% com AR(1) ===== */
+(function () {
+  var sf = document.getElementById('ar-f');
+  if (!sf) return;
+  var svg = document.getElementById('ar-svg'), Q = [];
+  for (var p = 1; p <= 15; p++) Q.push(qchisqSup(0.05, p));
+  function cob(phi, p) { return pchisq((1 - phi) / (1 + phi) * Q[p - 1], p); }
+  function desenhar() {
+    var phi = +sf.value;
+    document.getElementById('ar-f-v').textContent = fmt(phi, 2);
+    var X0 = 48, X1 = 340, Y0 = 205, Y1 = 14, gx = function (p) { return X0 + (p - 1) / 14 * (X1 - X0); }, gy = function (v) { return Y0 - v * (Y0 - Y1); };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), lar = corVar('--s1');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: X0, y1: Y0, x2: X1, y2: Y0, stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: X0, y1: Y0, x2: X0, y2: Y1, stroke: bo }));
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) { svg.appendChild(svgEl('text', { x: X0 - 6, y: gy(v) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, fmt(v, 2))); });
+    [1, 5, 10, 15].forEach(function (p) { svg.appendChild(svgEl('text', { x: gx(p), y: Y0 + 14, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, String(p))); });
+    svg.appendChild(svgEl('text', { x: X1, y: Y0 + 28, 'font-size': 10, fill: m, 'text-anchor': 'end' }, 'número de variáveis p'));
+    svg.appendChild(svgEl('line', { x1: X0, y1: gy(0.95), x2: X1, y2: gy(0.95), stroke: roxo, 'stroke-dasharray': '5 4' }));
+    svg.appendChild(svgEl('text', { x: X1, y: gy(0.95) - 5, 'font-size': 10, fill: roxo, 'text-anchor': 'end' }, 'nominal 95%'));
+    var d = '';
+    for (var p = 1; p <= 15; p++) d += (p > 1 ? 'L' : 'M') + gx(p).toFixed(1) + ' ' + gy(cob(phi, p)).toFixed(1);
+    svg.appendChild(svgEl('path', { d: d, fill: 'none', stroke: acc, 'stroke-width': 2.2 }));
+    for (p = 1; p <= 15; p++) svg.appendChild(svgEl('circle', { cx: gx(p), cy: gy(cob(phi, p)), r: p === 2 ? 5 : 2.6, fill: p === 2 ? lar : acc }));
+    document.getElementById('ar-txt').innerHTML = 'Cobertura real com $\\phi$ = ' + fmt(phi, 2) + ': ' + fmt(cob(phi, 2), 3) + ' para $p = 2$ (ponto laranja), ' + fmt(cob(phi, 5), 3) + ' para $p = 5$ e ' + fmt(cob(phi, 10), 3) + ' para $p = 10$.';
+    tipografar(document.getElementById('ar-txt'));
+  }
+  sf.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>
