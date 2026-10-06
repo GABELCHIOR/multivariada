@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-06">
+<title>Cap. 6 — Comparação de vários vetores de médias</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 6 — Comparação de vários vetores de médias</h1>
+<p class="contexto">Onde isso se encaixa: o <span class="ref" data-ref="f-t2">$T^2$ do cap. 5</span> comparava um vetor de médias com um valor fixo. Aqui ele compara tratamentos: antes e depois na mesma unidade, duas populações independentes e, por fim, vários grupos ao mesmo tempo. O caminho do livro é sempre o mesmo: lembrar o procedimento univariado e trocar números por vetores e quadrados por matrizes.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 6.1 ================= -->
+  <div class="secao" data-numero="6.1" data-titulo="Comparações pareadas" data-livro="§6.1–6.2">
+
+  <section class="passo" data-titulo="Dois laboratórios">
+   <div class="texto">
+    <h2>Mesma amostra, dois laboratórios: parear tira a variação entre unidades</h2>
+    <p>Uma estação de tratamento de esgoto precisa medir o que despeja no rio. Para checar um laboratório comercial, cada uma de 11 amostras foi dividida ao meio: uma metade para ele, outra para o laboratório estadual. Em cada metade mediram duas coisas: demanda bioquímica de oxigênio (DBO) e sólidos em suspensão (SS).</p>
+    <p>As amostras variam muito entre si (a 8 tem muito mais de tudo). Se comparássemos os dois laboratórios com amostras diferentes, essa variação engoliria a diferença entre eles. Como cada amostra foi medida pelos dois, a conta natural é a <strong>diferença dentro de cada par</strong>: $d_{j1}$ = DBO comercial − DBO estadual e $d_{j2}$ = SS comercial − SS estadual.</p>
+    <p>Com uma variável só, isso é o teste $t$ pareado: $t = (\bar d - \delta)/(s_d/\sqrt n)$ com $n - 1$ graus de liberdade, em que $\delta$ é a diferença média verdadeira. Com duas variáveis, as diferenças viram vetores $\mathbf{d}_j$, e a pergunta é se o vetor de diferenças médias $\boldsymbol\delta$ é zero.</p>
+    <div class="ideia">Medir os dois tratamentos na mesma unidade e analisar as diferenças tira do caminho a variação de uma unidade para outra; com $p$ variáveis, cada diferença é um vetor.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-efluente" data-ref-tipo="exemplo" data-ref-nome="Efluente medido por dois laboratórios (Ex. 6.1)">
+      <p><strong>Ex. 6.1 (Tabela 6.1).</strong> DBO e SS de 11 amostras divididas.</p>
+      <table>
+        <thead><tr><th>$j$</th><th>DBO com.</th><th>SS com.</th><th>DBO est.</th><th>SS est.</th><th>$d_{j1}$</th><th>$d_{j2}$</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>6</td><td>27</td><td>25</td><td>15</td><td>−19</td><td>12</td></tr>
+          <tr><td>2</td><td>6</td><td>23</td><td>28</td><td>13</td><td>−22</td><td>10</td></tr>
+          <tr><td>3</td><td>18</td><td>64</td><td>36</td><td>22</td><td>−18</td><td>42</td></tr>
+          <tr><td>4</td><td>8</td><td>44</td><td>35</td><td>29</td><td>−27</td><td>15</td></tr>
+          <tr><td>5</td><td>11</td><td>30</td><td>15</td><td>31</td><td>−4</td><td>−1</td></tr>
+          <tr><td>6</td><td>34</td><td>75</td><td>44</td><td>64</td><td>−10</td><td>11</td></tr>
+          <tr><td>7</td><td>28</td><td>26</td><td>42</td><td>30</td><td>−14</td><td>−4</td></tr>
+          <tr><td>8</td><td>71</td><td>124</td><td>54</td><td>64</td><td>17</td><td>60</td></tr>
+          <tr><td>9</td><td>43</td><td>54</td><td>34</td><td>56</td><td>9</td><td>−2</td></tr>
+          <tr><td>10</td><td>33</td><td>30</td><td>29</td><td>20</td><td>4</td><td>10</td></tr>
+          <tr><td>11</td><td>20</td><td>14</td><td>39</td><td>21</td><td>−19</td><td>−7</td></tr>
+        </tbody>
+      </table>
+      $$\bar{\mathbf{d}} = \begin{bmatrix} -9{,}36 \\ 13{,}27 \end{bmatrix},\qquad \mathbf{S}_d = \begin{bmatrix} 199{,}26 & 88{,}38 \\ 88{,}38 & 418{,}61 \end{bmatrix}$$
+    </div>
+    <div class="pare">
+      <p>Testando cada variável sozinha com o $t$ pareado a 5% ($t_{10}(0{,}025) = 2{,}23$), os valores são $|t| = 2{,}20$ para a DBO e $2{,}15$ para os SS. Os laboratórios concordam?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Nenhum dos dois testes rejeita, mas os dois passam perto, e em sentidos opostos: o comercial dá DBO menor e SS maior. Testes separados não enxergam essa combinação. O próximo passo junta as duas variáveis num único $T^2$, e ele rejeita.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="T² das diferenças">
+   <div class="texto">
+    <h2>As diferenças são uma amostra: basta aplicar o $T^2$ a elas</h2>
+    <p>Se os vetores $\mathbf{d}_1, \dots, \mathbf{d}_n$ são uma amostra aleatória de $N_p(\boldsymbol\delta, \boldsymbol\Sigma_d)$, o problema é exatamente o do cap. 5, com $\mathbf{d}_j$ no lugar de $\mathbf{x}_j$ e $\boldsymbol\delta$ no lugar de $\boldsymbol\mu$:</p>
+    <div class="formula" data-ref-id="f-t2-pares" data-ref-tipo="formula" data-ref-nome="T² para comparações pareadas (Resultado 6.1)">
+      $$\begin{aligned} T^2 &= n\,(\bar{\mathbf{d}} - \class{s1}{\boldsymbol\delta})'\,\class{s2}{\mathbf{S}_d}^{-1}(\bar{\mathbf{d}} - \class{s1}{\boldsymbol\delta}) \\ &\sim \frac{(n-1)p}{n-p}\,F_{p,\,n-p} \end{aligned}$$
+      $$\bar{\mathbf{d}} = \frac1n\sum_{j=1}^n \mathbf{d}_j$$
+      $$\class{s2}{\mathbf{S}_d} = \frac{1}{n-1}\sum_{j=1}^n(\mathbf{d}_j - \bar{\mathbf{d}})(\mathbf{d}_j - \bar{\mathbf{d}})'$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\delta$</span>: vetor das diferenças médias entre os tratamentos</li>
+        <li><span class="s2">$\mathbf{S}_d$</span>: covariância amostral das diferenças</li>
+      </ul>
+    </div>
+    <p>Para testar $H_0: \boldsymbol\delta = \mathbf{0}$ ("em média, os tratamentos não diferem"), põe-se $\boldsymbol\delta = \mathbf{0}$ e rejeita-se se $T^2 = n\bar{\mathbf{d}}'\mathbf{S}_d^{-1}\bar{\mathbf{d}}$ passa de $\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)$. Com $n$ e $n - p$ grandes, a constante vezes $F$ vira $\chi^2_p(\alpha)$ e a normalidade deixa de ser necessária.</p>
+    <div class="ideia">Comparação pareada é o $T^2$ de uma amostra aplicado aos vetores de diferenças, testando $\boldsymbol\delta = \mathbf{0}$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Com os dados do <span class="ref" data-ref="ex-efluente">efluente</span>: as diferenças de DBO somam $-103$.</p>
+      <p>$\bar d_1 =$ <input class="lacuna" data-resp="-9.3636" data-tol="0.01" aria-label="média das diferenças de DBO"></p>
+      <p>O livro calcula $T^2 = 13{,}6$. Com $n = 11$, $p = 2$ e $F_{2,9}(0{,}05) = 4{,}26$, o valor crítico é $c^2 =$ <input class="lacuna" data-resp="9.47" data-tol="0.02" aria-label="valor crítico"></p>
+      <p>Rejeita $H_0: \boldsymbol\delta = \mathbf{0}$ a 5%? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="rejeita"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $c^2 = \frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)$, com $(n - 1)p = 20$ e $n - p = 9$.</p>
+      <div class="resolucao" hidden><p>$\bar d_1 = -103/11 = -9{,}36$. $c^2 = (20/9) \times 4{,}26 = 9{,}47$. Como $13{,}6 \gt 9{,}47$, rejeita: há diferença média entre os laboratórios, mesmo com os dois testes $t$ separados sem rejeitar.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Intervalos × teste">
+   <div class="texto">
+    <h2>O teste rejeita, mas os dois intervalos contêm o zero</h2>
+    <p>Os intervalos simultâneos são os mesmos do cap. 5 (<span class="ref" data-ref="f-t2-intervalos">$T^2$-intervalos</span> e <span class="ref" data-ref="f-bonferroni">Bonferroni</span>), agora para as diferenças:</p>
+    <div class="formula" data-ref-id="f-int-pares" data-ref-tipo="formula" data-ref-nome="Intervalos simultâneos para diferenças pareadas (6-10), (6-10a)">
+      $$\delta_i:\quad \bar d_i \pm \sqrt{\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)}\,\sqrt{\frac{s^2_{d_i}}{n}}$$
+      <p>ou, com Bonferroni,</p>
+      $$\delta_i:\quad \bar d_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s^2_{d_i}}{n}}$$
+    </div>
+    <p>No efluente, os $T^2$-intervalos de 95% são $(-22{,}46;\ 3{,}74)$ para a DBO e $(-5{,}71;\ 32{,}25)$ para os SS. Os dois contêm o zero, e os de Bonferroni também. Contradição? Não. A confiança de 95% vale para <em>todas</em> as combinações $a_1\delta_1 + a_2\delta_2$ ao mesmo tempo. As duas escolhidas ($\mathbf{a} = [1, 0]'$ e $[0, 1]'$) contêm o zero; outras não contêm, e é por isso que o teste rejeita.</p>
+    <p>A combinação que mais pesa na rejeição tem $\mathbf{a}$ proporcional a $\mathbf{S}_d^{-1}\bar{\mathbf{d}}$, aqui perto de $[-1;\ 0{,}68]'$: DBO menor <em>e</em> SS maior no laboratório comercial, juntos. (O livro avisa: a amostra 8 parece atípica, e com $n = 11$ isso pesa.)</p>
+    <div class="ideia">Rejeitar com $T^2$ garante que alguma combinação $\mathbf{a}'\boldsymbol\delta$ tem intervalo sem o zero, mas ela pode não ser nenhuma das variáveis sozinhas.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-dir">
+      <p>Os intervalos da DBO ($0°$) e dos SS ($90°$) contêm o zero. Girando a direção $\mathbf{a}$, algum intervalo para $\mathbf{a}'\boldsymbol\delta$ vai deixar o zero de fora?</p>
+      <div class="alts">
+        <button data-op="a">Não: se os dois contêm, todos contêm</button>
+        <button data-op="b" data-certa>Sim, em algumas direções</button>
+        <button data-op="c">Só se mudar a confiança</button>
+      </div>
+      <div class="explica" hidden><p>A região de confiança (elipse) não contém a origem. Projetando a elipse numa direção qualquer, a sombra é o intervalo para $\mathbf{a}'\boldsymbol\delta$; nas direções perto de $[-1;\ 0{,}68]'$, a sombra da origem cai fora da sombra da elipse.</p></div>
+    </div>
+    <div class="sim" id="sim-dir">
+      <label>Direção $\mathbf{a}$ (ângulo) <input type="range" id="dir-a" min="0" max="180" step="1" value="0"> <strong id="dir-a-v">0°</strong></label>
+      <svg viewBox="0 0 360 300" id="dir-svg" role="img" aria-label="Elipse de confiança de 95% para delta, a origem e a projeção numa direção a"></svg>
+      <p id="dir-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Contrastes">
+   <div class="texto">
+    <h2>Diferença é um contraste: dá para calcular tudo a partir de $\bar{\mathbf{x}}$ e $\mathbf{S}$</h2>
+    <p>Empilhe as $2p$ medidas da unidade $j$ num só vetor: primeiro as $p$ do tratamento 1, depois as $p$ do tratamento 2. Com $\bar{\mathbf{x}}$ ($2p \times 1$) e $\mathbf{S}$ ($2p \times 2p$) dessa amostra, a matriz $\mathbf{C} = [\,\mathbf{I}\ \ {-\mathbf{I}}\,]$ ($p \times 2p$) produz as diferenças:</p>
+    <div class="formula" data-ref-id="f-contraste-pares" data-ref-tipo="formula" data-ref-nome="Diferenças pareadas como contrastes (6-13), (6-14)">
+      $$\mathbf{d}_j = \mathbf{C}\mathbf{x}_j,\qquad \bar{\mathbf{d}} = \mathbf{C}\bar{\mathbf{x}},\qquad \mathbf{S}_d = \mathbf{C}\mathbf{S}\mathbf{C}'$$
+    </div>
+    <p>São as regras das <span class="ref" data-ref="f-comb-amostra">combinações lineares na amostra (cap. 3)</span>. Cada linha de $\mathbf{C}$ soma zero: é um <strong>vetor de contraste</strong>, perpendicular a $\mathbf{1}$. Por isso o $T^2$ ignora o total $\mathbf{1}'\mathbf{x}_j$ e só olha para comparações. Mesmo assim, vale calcular os $\mathbf{d}_j$: é neles que se confere a normalidade e procuram-se atípicos.</p>
+    <p>No planejamento: escolha pares de unidades o mais parecidas possível e sorteie, em cada par, qual recebe o tratamento 1 (uma moeda por par). No efluente, a amostra era agitada antes de dividir; sem isso, os sólidos assentariam e as duas metades não seriam iguais.</p>
+    <div class="ideia">$\bar{\mathbf{d}} = \mathbf{C}\bar{\mathbf{x}}$ e $\mathbf{S}_d = \mathbf{CSC}'$, com linhas de $\mathbf{C}$ que somam zero (contrastes); o sorteio dentro do par protege contra efeitos sistemáticos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Num estudo pareado com $p = 3$ variáveis, alguém calcula $\mathbf{S}_d$ como $\mathbf{S}_{11} - \mathbf{S}_{22}$, a diferença das covariâncias dos dois tratamentos. O que está errado?</p>
+      <div class="alts">
+        <button data-op="a">(a) Nada: a covariância da diferença é a diferença das covariâncias.</button>
+        <button data-op="b">(b) Devia ser $\mathbf{S}_{11} + \mathbf{S}_{22}$, porque variâncias somam.</button>
+        <button data-op="c">(c) Faltam as covariâncias cruzadas: $\mathbf{S}_d = \mathbf{S}_{11} - \mathbf{S}_{12} - \mathbf{S}_{21} + \mathbf{S}_{22}$.</button>
+        <button data-op="d">(d) Devia dividir por $2$, porque são dois tratamentos.</button>
+      </div>
+      <div class="fb" data-op="a">Variância de diferença não é diferença de variâncias: $\mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) - 2\,\mathrm{Cov}(X, Y)$. A versão matricial é $\mathbf{CSC}'$.</div>
+      <div class="fb" data-op="b">Só valeria se os dois tratamentos fossem não correlacionados. No pareamento, eles são medidos na mesma unidade e costumam ser positivamente correlacionados; é isso que deixa $\mathbf{S}_d$ pequena e o teste mais forte.</div>
+      <div class="fb" data-op="c">Isso: $\mathbf{CSC}'$ com $\mathbf{C} = [\,\mathbf{I}\ \ {-\mathbf{I}}\,]$ dá $\mathbf{S}_{11} - \mathbf{S}_{12} - \mathbf{S}_{21} + \mathbf{S}_{22}$. A correlação positiva entre os tratamentos ($\mathbf{S}_{12}$) é descontada.</div>
+      <div class="fb" data-op="d">Não há divisão por 2: cada $\mathbf{d}_j$ é uma diferença simples, e $\mathbf{S}_d$ é a covariância amostral desses vetores.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.2 ================= -->
+  <div class="secao" data-numero="6.2" data-titulo="Medidas repetidas" data-livro="§6.2">
+
+  <section class="passo" data-titulo="Contrastes">
+   <div class="texto">
+    <h2>$q$ tratamentos na mesma unidade: teste os contrastes $\mathbf{C}\boldsymbol\mu$</h2>
+    <p>Agora há <strong>uma</strong> variável resposta e $q$ tratamentos, todos aplicados a cada unidade, um de cada vez (daí "medidas repetidas"). Cada unidade dá $\mathbf{x}_j = [x_{j1}, \dots, x_{jq}]'$. "Os tratamentos não diferem" é $\mu_1 = \cdots = \mu_q$, o mesmo que $\mathbf{C}\boldsymbol\mu = \mathbf{0}$ para uma matriz de contraste $\mathbf{C}$ com $q - 1$ linhas independentes. Por exemplo:</p>
+    $$\mathbf{C} = \begin{bmatrix} -1 & 1 & 0 & 0 \\ 0 & -1 & 1 & 0 \\ 0 & 0 & -1 & 1 \end{bmatrix}\qquad (q = 4)$$
+    <p>Os contrastes $\mathbf{C}\mathbf{x}_j$ têm média $\mathbf{C}\bar{\mathbf{x}}$ e covariância $\mathbf{CSC}'$, e o $T^2$ deles testa $H_0$:</p>
+    <div class="formula" data-ref-id="f-medrep" data-ref-tipo="formula" data-ref-nome="T² para medidas repetidas (6-16)">
+      $$T^2 = n\,(\mathbf{C}\bar{\mathbf{x}})'\,(\mathbf{CSC}')^{-1}\,\mathbf{C}\bar{\mathbf{x}}$$
+      <p>e rejeita a igualdade dos tratamentos se</p>
+      $$T^2 \gt \frac{(n-1)(q-1)}{n-q+1}\,F_{q-1,\,n-q+1}(\alpha)$$
+    </div>
+    <p>O $T^2$ não depende de qual matriz de contraste se usa. O sorteio da ordem dos tratamentos em cada unidade continua necessário. E se $\boldsymbol\Sigma$ tiver uma estrutura conhecida, há testes mais poderosos; este não supõe nenhuma.</p>
+    <details class="demo">
+      <summary>Demonstração: o $T^2$ é o mesmo para qualquer $\mathbf{C}$</summary>
+      <p>Duas matrizes de contraste $\mathbf{C}_1$ e $\mathbf{C}_2$ ($(q-1) \times q$) têm linhas independentes e perpendiculares a $\mathbf{1}$, e esse espaço tem dimensão $q - 1$. Logo $\mathbf{C}_1 = \mathbf{BC}_2$ com $\mathbf{B}$ invertível. Então</p>
+      $$\begin{aligned} &\mathbf{C}_1'(\mathbf{C}_1\mathbf{S}\mathbf{C}_1')^{-1}\mathbf{C}_1 \\ &\quad= \mathbf{C}_2'\mathbf{B}'(\mathbf{B}')^{-1}(\mathbf{C}_2\mathbf{S}\mathbf{C}_2')^{-1}\mathbf{B}^{-1}\mathbf{B}\mathbf{C}_2 \\ &\quad= \mathbf{C}_2'(\mathbf{C}_2\mathbf{S}\mathbf{C}_2')^{-1}\mathbf{C}_2, \end{aligned}$$
+      <p>e o $T^2 = n\bar{\mathbf{x}}'\mathbf{C}'(\mathbf{CSC}')^{-1}\mathbf{C}\bar{\mathbf{x}}$ é igual com as duas. É a mesma conta da <span class="ref" data-ref="f-invariancia">invariância do $T^2$ (cap. 5)</span>.</p>
+    </details>
+    <div class="ideia">Com $q$ tratamentos medidos na mesma unidade, a igualdade das médias vira $\mathbf{C}\boldsymbol\mu = \mathbf{0}$, testada pelo $T^2$ dos contrastes com $q - 1$ e $n - q + 1$ graus de liberdade.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-caes" data-ref-tipo="exemplo" data-ref-nome="Anestesia em 19 cães (Ex. 6.2)">
+      <p><strong>Ex. 6.2.</strong> 19 cães, tempo entre batimentos (ms) em 4 tratamentos: CO₂ alto ou baixo, sem ou com halotano. Médias: 368,2; 404,6; 479,3; 502,9.</p>
+      <table>
+        <thead><tr><th>Trat.</th><th>CO₂</th><th>Halotano</th></tr></thead>
+        <tbody><tr><td>1</td><td>alto</td><td>não</td></tr><tr><td>2</td><td>baixo</td><td>não</td></tr><tr><td>3</td><td>alto</td><td>sim</td></tr><tr><td>4</td><td>baixo</td><td>sim</td></tr></tbody>
+      </table>
+      <p>Três contrastes com sentido: halotano $(\mu_3 + \mu_4) - (\mu_1 + \mu_2)$, CO₂ $(\mu_1 + \mu_3) - (\mu_2 + \mu_4)$ e interação $(\mu_1 + \mu_4) - (\mu_2 + \mu_3)$:</p>
+      $$\mathbf{C} = \begin{bmatrix} -1 & -1 & 1 & 1 \\ 1 & -1 & 1 & -1 \\ 1 & -1 & -1 & 1 \end{bmatrix}$$
+      $$\mathbf{C}\bar{\mathbf{x}} = \begin{bmatrix} 209{,}31 \\ -60{,}05 \\ -12{,}79 \end{bmatrix}$$
+      $$\mathbf{CSC}' = \begin{bmatrix} 9432{,}32 & 1098{,}92 & 927{,}62 \\ 1098{,}92 & 5195{,}84 & 914{,}54 \\ 927{,}62 & 914{,}54 & 7557{,}44 \end{bmatrix}$$
+      <p>$T^2 = 116$, contra $\frac{18 \times 3}{16}F_{3,16}(0{,}05) = 10{,}94$: rejeita.</p>
+    </div>
+    <div class="pare">
+      <p>Por que não fazer 6 testes $t$ pareados, um para cada par de tratamentos?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Seis testes a 5% cada dão uma chance bem maior de algum falso alarme, e eles ignoram a correlação entre os contrastes. O $T^2$ responde "algum tratamento difere?" com um único nível $\alpha$; os intervalos simultâneos do próximo passo dizem onde.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Intervalos">
+   <div class="texto">
+    <h2>Intervalos simultâneos dizem quais contrastes pesam</h2>
+    <p>Como no cap. 5, a região de confiança para $\mathbf{C}\boldsymbol\mu$ é um elipsoide, e suas sombras dão intervalos para qualquer contraste $\mathbf{c}'\boldsymbol\mu$ ao mesmo tempo:</p>
+    <div class="formula" data-ref-id="f-int-medrep" data-ref-tipo="formula" data-ref-nome="Intervalos para contrastes em medidas repetidas (6-18)">
+      $$\begin{aligned} \mathbf{c}'\boldsymbol\mu:\quad &\mathbf{c}'\bar{\mathbf{x}} \pm \sqrt{\frac{(n-1)(q-1)}{n-q+1}F_{q-1,n-q+1}(\alpha)} \\ &\quad\times\sqrt{\frac{\mathbf{c}'\mathbf{S}\mathbf{c}}{n}} \end{aligned}$$
+    </div>
+    <p>Nos <span class="ref" data-ref="ex-caes">cães</span>: halotano $209{,}31 \pm 73{,}70$ (não contém o zero: o halotano aumenta o tempo entre batimentos); interação $-12{,}79 \pm 65{,}97$ (contém o zero: o efeito do halotano é parecido nos dois níveis de CO₂). O CO₂ fica para você.</p>
+    <p>Um cuidado do livro: as medidas com halotano vieram sempre <em>depois</em> das sem halotano. O "efeito do halotano" pode ser, em parte, uma tendência no tempo. O ideal seria sortear a ordem.</p>
+    <div class="ideia">Os intervalos simultâneos para contrastes ($\mathbf{c}'\bar{\mathbf{x}}$ ± raiz da constante vezes $\mathbf{c}'\mathbf{Sc}/n$) mostram quais comparações causaram a rejeição; a ordem não sorteada pode confundir tratamento com tempo.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Contraste do CO₂ nos cães: $\mathbf{c}_2'\bar{\mathbf{x}} = -60{,}05$, com $\mathbf{c}_2'\mathbf{S}\mathbf{c}_2 = 5195{,}84$, $n = 19$ e constante $10{,}94$.</p>
+      <p>Meia largura do intervalo: <input class="lacuna" data-resp="54.70" data-tol="0.1" aria-label="meia largura"></p>
+      <p>O intervalo contém o zero? (1 = sim, 0 = não) <input class="lacuna" data-resp="0" data-tol="0" aria-label="contém o zero"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\sqrt{10{,}94}\,\sqrt{5195{,}84/19}$.</p>
+      <div class="resolucao" hidden><p>$\sqrt{10{,}94 \times 273{,}47}$ $= \sqrt{2991{,}7}$ $= 54{,}70$. O intervalo é $(-114{,}75;\ -5{,}35)$, sem o zero: com CO₂ baixo, o tempo entre batimentos é maior (o contraste é alto − baixo e deu negativo).</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.3 ================= -->
+  <div class="secao" data-numero="6.3" data-titulo="Duas populações" data-livro="§6.3">
+
+  <section class="passo" data-titulo="S combinada">
+   <div class="texto">
+    <h2>Duas amostras independentes: junte as duas $\mathbf{S}$ numa só</h2>
+    <p>Sem pareamento, há uma amostra de tamanho $n_1$ da população 1 e outra, independente, de tamanho $n_2$ da população 2. Quer-se saber sobre $\boldsymbol\mu_1 - \boldsymbol\mu_2$. Com amostras pequenas, o livro supõe as duas populações normais e <strong>com a mesma covariância</strong>, $\boldsymbol\Sigma_1 = \boldsymbol\Sigma_2 = \boldsymbol\Sigma$. É uma suposição forte: são várias variâncias e covariâncias que precisam ser parecidas.</p>
+    <p>Se $\boldsymbol\Sigma$ é comum, as duas amostras a estimam, e juntá-las dá uma estimativa melhor. Os graus de liberdade somam, $(n_1 - 1) + (n_2 - 1)$:</p>
+    <div class="formula" data-ref-id="f-spooled" data-ref-tipo="formula" data-ref-nome="Covariância combinada e Cov(X̄₁ − X̄₂) (6-21), (6-22)">
+      $$\class{s2}{\mathbf{S}_{\text{pooled}}} = \frac{(n_1 - 1)\mathbf{S}_1 + (n_2 - 1)\mathbf{S}_2}{n_1 + n_2 - 2}$$
+      $$\mathrm{Cov}(\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2) = \Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)\boldsymbol\Sigma$$
+      <p>estimada por $\big(\frac{1}{n_1} + \frac{1}{n_2}\big)\class{s2}{\mathbf{S}_{\text{pooled}}}$.</p>
+      <ul class="legenda">
+        <li><span class="s2">$\mathbf{S}_{\text{pooled}}$</span>: covariância combinada ("pooled" é o nome que o livro usa)</li>
+      </ul>
+    </div>
+    <p>A covariância da diferença soma as duas partes porque $\bar{\mathbf{X}}_1$ e $\bar{\mathbf{X}}_2$ são independentes (<span class="ref" data-ref="f-media-amostral">cada uma tem covariância $\boldsymbol\Sigma/n$, cap. 3</span>).</p>
+    <div class="ideia">Com $\boldsymbol\Sigma_1 = \boldsymbol\Sigma_2$, as duas amostras se juntam em $\mathbf{S}_{\text{pooled}}$, com $n_1 + n_2 - 2$ graus de liberdade, e a diferença das médias tem covariância estimada $(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Com $n_1 = 10$ e $n_2 = 40$, alguém estima a covariância comum pela média simples $(\mathbf{S}_1 + \mathbf{S}_2)/2$. Qual é o problema?</p>
+      <div class="alts">
+        <button data-op="a">(a) Nenhum: as duas estimam a mesma $\boldsymbol\Sigma$, então qualquer média serve igual.</button>
+        <button data-op="b">(b) Dá o mesmo peso à amostra pequena, que estima pior; $\mathbf{S}_{\text{pooled}}$ pesa cada uma pelos seus graus de liberdade.</button>
+        <button data-op="c">(c) A média simples fica viesada para $\boldsymbol\Sigma$.</button>
+        <button data-op="d">(d) Devia pesar por $n_1$ e $n_2$, dividindo por $n_1 + n_2$.</button>
+      </div>
+      <div class="fb" data-op="a">Qualquer média ponderada é não viesada, mas não "igual": a amostra de 10 tem muito mais variação. Pesar pelos graus de liberdade usa melhor a informação.</div>
+      <div class="fb" data-op="b">Isso: $\mathbf{S}_{\text{pooled}} = (9\mathbf{S}_1 + 39\mathbf{S}_2)/48$ dá à amostra grande o peso que ela merece. Com $n_1 = n_2$, as duas formas coincidem.</div>
+      <div class="fb" data-op="c">As duas $\mathbf{S}$ são não viesadas, então a média simples também é. O defeito é de eficiência, não de viés.</div>
+      <div class="fb" data-op="d">Os pesos certos são os graus de liberdade, $n_\ell - 1$, e o divisor $n_1 + n_2 - 2$: cada amostra gasta um grau de liberdade com a própria média.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="T² de duas amostras">
+   <div class="texto">
+    <h2>O $T^2$ de duas amostras é a distância estatística de $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$ até $\boldsymbol\delta_0$</h2>
+    <div class="formula" data-ref-id="f-t2-duas" data-ref-tipo="formula" data-ref-nome="T² de duas amostras (6-23), Resultado 6.2">
+      $$\begin{aligned} T^2 = {}&\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - \class{s1}{\boldsymbol\delta_0}\big)'\Big[\Big(\tfrac{1}{n_1} + \tfrac{1}{n_2}\Big)\class{s2}{\mathbf{S}_{\text{pooled}}}\Big]^{-1} \\ &\times\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - \class{s1}{\boldsymbol\delta_0}\big) \end{aligned}$$
+      $$\begin{aligned} &\text{rejeita } H_0: \boldsymbol\mu_1 - \boldsymbol\mu_2 = \boldsymbol\delta_0 \text{ se } T^2 \gt c^2, \\ &c^2 = \frac{(n_1 + n_2 - 2)p}{n_1 + n_2 - p - 1}F_{p,\,n_1+n_2-p-1}(\alpha) \end{aligned}$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\delta_0$</span>: diferença da hipótese (quase sempre $\mathbf{0}$)</li>
+        <li><span class="s2">$\mathbf{S}_{\text{pooled}}$</span>: covariância combinada</li>
+      </ul>
+    </div>
+    <p>O Resultado 6.2 garante essa distribuição para amostras normais com $\boldsymbol\Sigma$ comum. Trocando $\boldsymbol\delta_0$ por $\boldsymbol\mu_1 - \boldsymbol\mu_2$ e "$\gt$" por "$\le$", vem a região de confiança: um elipsoide centrado em $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$, com eixos nos autovetores de $\mathbf{S}_{\text{pooled}}$.</p>
+    <details class="demo">
+      <summary>Demonstração: por que a distribuição é essa (Resultado 6.2)</summary>
+      <p>$\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2 = \sum_j \frac{1}{n_1}\mathbf{X}_{1j} - \sum_j \frac{1}{n_2}\mathbf{X}_{2j}$ é uma <span class="ref" data-ref="f-comb-vetores">combinação de vetores normais independentes (Resultado 4.8)</span>, com coeficientes $1/n_1$ e $-1/n_2$. Logo é $N_p\big(\boldsymbol\mu_1 - \boldsymbol\mu_2,\ (1/n_1 + 1/n_2)\boldsymbol\Sigma\big)$.</p>
+      <p>Pela <span class="ref" data-ref="f-wishart">distribuição de $\mathbf{S}$ (4-23)</span>, $(n_1 - 1)\mathbf{S}_1 \sim W_{n_1-1}(\boldsymbol\Sigma)$ e $(n_2 - 1)\mathbf{S}_2 \sim W_{n_2-1}(\boldsymbol\Sigma)$, independentes; pela soma de Wisharts (4-24), $(n_1 + n_2 - 2)\mathbf{S}_{\text{pooled}}$ $\sim W_{n_1+n_2-2}(\boldsymbol\Sigma)$, independente das médias. Então</p>
+      $$T^2 = (\text{normal})'\Big(\frac{\text{Wishart}}{\text{g.l.}}\Big)^{-1}(\text{normal}),$$
+      <p>a mesma estrutura (5-8) do $T^2$ de uma amostra, com $n - 1$ trocado por $n_1 + n_2 - 2$. Daí a constante $\frac{(n_1+n_2-2)p}{n_1+n_2-p-1}$ e a $F$ com $p$ e $n_1 + n_2 - p - 1$ graus de liberdade.</p>
+    </details>
+    <div class="ideia">O $T^2$ de duas amostras mede a distância de $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$ até $\boldsymbol\delta_0$ com $(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}$; sob normalidade e $\boldsymbol\Sigma$ comum, é uma $F$ com $p$ e $n_1 + n_2 - p - 1$ graus de liberdade vezes uma constante.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-sabao" data-ref-tipo="exemplo" data-ref-nome="Sabão feito de dois jeitos (Ex. 6.3)">
+      <p><strong>Ex. 6.3.</strong> 50 barras de sabão de cada processo; $X_1$ = espuma, $X_2$ = suavidade.</p>
+      $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 8{,}3 \\ 4{,}1 \end{bmatrix},\quad \mathbf{S}_1 = \begin{bmatrix} 2 & 1 \\ 1 & 6 \end{bmatrix}$$
+      $$\bar{\mathbf{x}}_2 = \begin{bmatrix} 10{,}2 \\ 3{,}9 \end{bmatrix},\quad \mathbf{S}_2 = \begin{bmatrix} 2 & 1 \\ 1 & 4 \end{bmatrix}$$
+      <svg viewBox="0 0 320 210" class="fig" id="sabao-svg" role="img" aria-label="Elipse de confiança de 95% para a diferença das médias do sabão, com a origem fora"></svg>
+      <p style="font-size:.9rem">Elipse de 95% para $\boldsymbol\mu_1 - \boldsymbol\mu_2$, centrada em $[-1{,}9;\ 0{,}2]'$. A origem fica de fora: os processos diferem, sobretudo na espuma.</p>
+    </div>
+    <div class="lacunas">
+      <p>Complete o Ex. 6.3 (aqui $\mathbf{S}_1$ e $\mathbf{S}_2$ são parecidas, então dá para combinar).</p>
+      <p>Entrada $(2,2)$ de $\mathbf{S}_{\text{pooled}}$: <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="entrada 2 2 da S combinada"></p>
+      <p>Com $c^2 = 6{,}24$, o fator $(1/n_1 + 1/n_2)c^2 =$ <input class="lacuna" data-resp="0.25" data-tol="0.005" aria-label="fator"></p>
+      <p>O maior autovalor de $\mathbf{S}_{\text{pooled}}$ é 5,303. Semi-eixo da elipse nessa direção: <input class="lacuna" data-resp="1.15" data-tol="0.01" aria-label="semi-eixo maior"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: com $n_1 = n_2$, $\mathbf{S}_{\text{pooled}}$ é a média simples. O semi-eixo é $\sqrt{\lambda_1}\sqrt{(1/n_1 + 1/n_2)c^2}$.</p>
+      <div class="resolucao" hidden><p>$(6 + 4)/2 = 5$. $(0{,}02 + 0{,}02) \times 6{,}24 = 0{,}25$. $\sqrt{5{,}303} \times \sqrt{0{,}25}$ $= 2{,}303 \times 0{,}5$ $= 1{,}15$; na outra direção, $\sqrt{1{,}697} \times 0{,}5 = 0{,}65$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Intervalos">
+   <div class="texto">
+    <h2>Intervalos simultâneos e a combinação que mais separa</h2>
+    <p>O raciocínio do cap. 5 se repete: para cada $\mathbf{a}$, o $t^2$ de duas amostras de $\mathbf{a}'\mathbf{X}$ nunca passa do $T^2$ (pelo <span class="ref" data-ref="f-lema">lema de maximização</span>). Por isso as sombras do elipsoide valem para todo $\mathbf{a}$ ao mesmo tempo (Resultado 6.3):</p>
+    <div class="formula" data-ref-id="f-int-duas" data-ref-tipo="formula" data-ref-nome="Intervalos simultâneos para μ₁ − μ₂ (Resultado 6.3)">
+      $$\begin{aligned} &\mathbf{a}'(\boldsymbol\mu_1 - \boldsymbol\mu_2):\ \mathbf{a}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \\ &\qquad\pm c\,\sqrt{\mathbf{a}'\Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)\mathbf{S}_{\text{pooled}}\,\mathbf{a}} \end{aligned}$$
+      $$\begin{aligned} &\mu_{1i} - \mu_{2i}:\ (\bar x_{1i} - \bar x_{2i}) \\ &\qquad\pm c\,\sqrt{\Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)s_{ii,\text{pooled}}} \end{aligned}$$
+    </div>
+    <p>Para poucas comparações fixadas antes, Bonferroni é mais curto: troca-se $c$ por $t_{n_1+n_2-2}(\alpha/2p)$. E se o $T^2$ rejeitou, a combinação que mais contribui tem $\mathbf{a} \propto \mathbf{S}_{\text{pooled}}^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$; vale tentar interpretar seus coeficientes.</p>
+    <p>Ex. 6.4: consumo de eletricidade em julho de 45 casas com ar-condicionado e 55 sem, no horário de pico ($X_1$) e fora dele ($X_2$). Com $c^2 = 6{,}26$, os intervalos de 95% são $(21{,}7;\ 127{,}1)$ e $(74{,}7;\ 328{,}5)$ kWh: quem tem ar gasta mais nos dois horários.</p>
+    <div class="ideia">Os intervalos de duas amostras são $\mathbf{a}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$ $\pm\, c\sqrt{\mathbf{a}'(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}\mathbf{a}}$; a combinação que mais separa os grupos tem $\mathbf{a} \propto \mathbf{S}_{\text{pooled}}^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-eletricidade" data-ref-tipo="exemplo" data-ref-nome="Eletricidade com e sem ar-condicionado (Ex. 6.4)">
+      <p><strong>Ex. 6.4.</strong> $n_1 = 45$ (com ar), $n_2 = 55$ (sem ar).</p>
+      $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 204{,}4 \\ 556{,}6 \end{bmatrix},\qquad \bar{\mathbf{x}}_2 = \begin{bmatrix} 130{,}0 \\ 355{,}0 \end{bmatrix}$$
+      $$\mathbf{S}_1 = \begin{bmatrix} 13825{,}3 & 23823{,}4 \\ 23823{,}4 & 73107{,}4 \end{bmatrix}$$
+      $$\mathbf{S}_2 = \begin{bmatrix} 8632{,}0 & 19616{,}7 \\ 19616{,}7 & 55964{,}5 \end{bmatrix}$$
+      $$\mathbf{S}_{\text{pooled}} = \begin{bmatrix} 10963{,}7 & 21505{,}5 \\ 21505{,}5 & 63661{,}3 \end{bmatrix}$$
+    </div>
+    <div class="acheerro">
+      <p>Um colega calculou o intervalo de 95% para $\mu_{11} - \mu_{21}$ (pico) no Ex. 6.4. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: 204,4 − 130,0 = 74,4.">Diferença das médias: $204{,}4 - 130{,}0 = 74{,}4$.</li>
+        <li data-fb="Certo: c² = (98 × 2/97) × F₂,₉₇(0,05) = 2,02 × 3,1 = 6,26.">$c^2 = \frac{98 \times 2}{97}F_{2,97}(0{,}05) = 6{,}26$.</li>
+        <li data-errada data-fb="Aqui. Faltou o fator (1/n₁ + 1/n₂) = 1/45 + 1/55 = 0,0404: a variância da diferença das médias não é a variância de uma observação. Com ele, a meia largura é √(6,26 × 0,0404 × 10963,7) = 52,7.">Meia largura: $\sqrt{6{,}26 \times 10963{,}7}$ $= 262{,}0$.</li>
+        <li data-fb="Esta conta segue a linha anterior; o erro está antes.">Intervalo: $74{,}4 \pm 262{,}0$, que contém o zero.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Σ₁ ≠ Σ₂">
+   <div class="texto">
+    <h2>Covariâncias diferentes: com amostras grandes, use $\mathbf{S}_1/n_1 + \mathbf{S}_2/n_2$</h2>
+    <p>Se $\boldsymbol\Sigma_1 \ne \boldsymbol\Sigma_2$, não existe uma distância como o $T^2$ cuja distribuição não dependa das covariâncias desconhecidas. O teste de Bartlett compara as covariâncias, mas confunde covariância diferente com falta de normalidade. A regra prática do livro, "sem muito apoio nos fatos": uma variância 4 vezes maior que a correspondente na outra população provavelmente já é sério.</p>
+    <p>Com $n_1 - p$ e $n_2 - p$ grandes, o problema some. Pelo <span class="ref" data-ref="f-tlc">teorema central do limite (cap. 4)</span>, $\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2$ é quase normal com covariância $\boldsymbol\Sigma_1/n_1 + \boldsymbol\Sigma_2/n_2$, e as $\mathbf{S}$ ficam perto das $\boldsymbol\Sigma$ (Resultado 6.4):</p>
+    <div class="formula" data-ref-id="f-duas-grande" data-ref-tipo="formula" data-ref-nome="Duas amostras grandes com covariâncias diferentes (Resultado 6.4)">
+      $$\begin{aligned} &\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - (\boldsymbol\mu_1 - \boldsymbol\mu_2)\big)'\Big[\tfrac{1}{n_1}\mathbf{S}_1 + \tfrac{1}{n_2}\mathbf{S}_2\Big]^{-1} \\ &\quad\times\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - (\boldsymbol\mu_1 - \boldsymbol\mu_2)\big) \le \chi^2_p(\alpha) \end{aligned}$$
+      $$\begin{aligned} &\mathbf{a}'(\boldsymbol\mu_1 - \boldsymbol\mu_2):\ \mathbf{a}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \\ &\qquad\pm \sqrt{\chi^2_p(\alpha)}\,\sqrt{\mathbf{a}'\Big(\frac{1}{n_1}\mathbf{S}_1 + \frac{1}{n_2}\mathbf{S}_2\Big)\mathbf{a}} \end{aligned}$$
+    </div>
+    <p>Com $n_1 = n_2$, $\frac{1}{n_1}\mathbf{S}_1 + \frac{1}{n_2}\mathbf{S}_2 = \big(\frac1n + \frac1n\big)\mathbf{S}_{\text{pooled}}$: dá o mesmo que combinar. O efeito de variâncias desiguais é maior quando um tamanho é bem menor que o outro. Na <span class="ref" data-ref="ex-eletricidade">eletricidade</span>, a versão para amostras grandes dá $T^2 = 15{,}66 \gt \chi^2_2(0{,}05) = 5{,}99$ e intervalos quase iguais aos combinados; a combinação mais responsável, $\propto [0{,}041;\ 0{,}063]'$, pesa mais o consumo fora do pico.</p>
+    <div class="ideia">Com covariâncias diferentes e amostras grandes, troca-se $(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}$ por $\mathbf{S}_1/n_1 + \mathbf{S}_2/n_2$ e a $F$ por $\chi^2_p$; com tamanhos iguais, as duas versões coincidem.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="d">
+      <p class="enunciado">Duas amostras com $n_1 = 12$ e $n_2 = 200$, $p = 3$, e uma das variâncias da população 1 parece 5 vezes a da população 2. Qual é a escolha mais segura?</p>
+      <div class="alts">
+        <button data-op="a">(a) $T^2$ com $\mathbf{S}_{\text{pooled}}$: o $T^2$ é robusto, então tanto faz.</button>
+        <button data-op="b">(b) Versão de amostras grandes: $n_1 + n_2 = 212$ é grande.</button>
+        <button data-op="c">(c) $T^2$ com $\mathbf{S}_{\text{pooled}}$, porque com tamanhos desiguais as duas versões coincidem.</button>
+        <button data-op="d">(d) Nenhuma das duas sem cuidado: o Resultado 6.4 exige as duas amostras grandes, e combinar é arriscado com tamanhos tão desiguais.</button>
+      </div>
+      <div class="fb" data-op="a">A robustez do $T^2$ vale para pequenos desvios da normalidade com amostras moderadas a grandes. Covariâncias bem diferentes com tamanhos desiguais são exatamente o pior caso.</div>
+      <div class="fb" data-op="b">O que precisa ser grande é cada $n_\ell - p$, não a soma. Com $n_1 = 12$, $\mathbf{S}_1$ ainda está longe de $\boldsymbol\Sigma_1$.</div>
+      <div class="fb" data-op="c">É ao contrário: as versões coincidem com $n_1 = n_2$. Com tamanhos muito desiguais, a escolha mais importa.</div>
+      <div class="fb" data-op="d">Isso. Com $n_1 = 12$, a aproximação de amostras grandes é fraca, e $\mathbf{S}_{\text{pooled}}$ fica dominada pela amostra de 200, com uma covariância que não é a da população 1. Uma transformação (por exemplo, logaritmo) pode aproximar as variâncias.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.4 ================= -->
+  <div class="secao" data-numero="6.4" data-titulo="ANOVA de um fator" data-livro="§6.4 (univariado)">
+
+  <section class="passo" data-titulo="Decomposição">
+   <div class="texto">
+    <h2>Cada observação = média geral + efeito do grupo + resíduo</h2>
+    <p>Com mais de duas populações, o livro começa pela análise de variância (ANOVA) de uma variável. Há $g$ amostras independentes, a $\ell$-ésima com $n_\ell$ observações de $N(\mu_\ell, \sigma^2)$. Escreve-se $\mu_\ell = \mu + \tau_\ell$: uma média geral mais o <strong>efeito</strong> do tratamento $\ell$, com $\sum_\ell n_\ell\tau_\ell = 0$. A igualdade das médias vira $H_0: \tau_1 = \cdots = \tau_g = 0$.</p>
+    <div class="formula" data-ref-id="f-anova-modelo" data-ref-tipo="formula" data-ref-nome="Modelo e decomposição da ANOVA de um fator (6-29), (6-30)">
+      $$X_{\ell j} = \mu + \class{s1}{\tau_\ell} + e_{\ell j}$$
+      <p>com erros $e_{\ell j} \sim N(0, \sigma^2)$ independentes, e a decomposição observada</p>
+      $$x_{\ell j} = \bar x + \class{s1}{(\bar x_\ell - \bar x)} + (x_{\ell j} - \bar x_\ell)$$
+      <ul class="legenda">
+        <li><span class="s1">$\tau_\ell$</span>: efeito do tratamento $\ell$, estimado por $\hat\tau_\ell = \bar x_\ell - \bar x$</li>
+      </ul>
+    </div>
+    <p>Fazendo isso para cada observação, os dados viram três arranjos do mesmo formato: a média geral repetida, o efeito do grupo repetido e os resíduos. O "tamanho" de cada arranjo é a soma dos quadrados das entradas (SQ, ou SS no livro), e os tamanhos somam como as partes:</p>
+    $$SS_{\text{obs}} = SS_{\text{média}} + SS_{\text{tr}} + SS_{\text{res}}$$
+    <p>Se o arranjo dos efeitos é grande em relação ao dos resíduos, as médias diferem.</p>
+    <div class="ideia">A ANOVA parte cada observação em média geral, efeito estimado do grupo ($\bar x_\ell - \bar x$) e resíduo, e compara o tamanho do arranjo dos efeitos com o dos resíduos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-anova-peq" data-ref-tipo="exemplo" data-ref-nome="Três amostras pequenas (Ex. 6.6–6.8)">
+      <p><strong>Ex. 6.6.</strong> População 1: 9, 6, 9. População 2: 0, 2. População 3: 3, 1, 2. Médias: $\bar x_1 = 8$, $\bar x_2 = 1$, $\bar x_3 = 2$; média geral $\bar x = 4$.</p>
+      $$\begin{aligned} &\underbrace{\begin{pmatrix} 9 & 6 & 9 \\ 0 & 2 & \\ 3 & 1 & 2 \end{pmatrix}}_{\text{observação}} = \underbrace{\begin{pmatrix} 4 & 4 & 4 \\ 4 & 4 & \\ 4 & 4 & 4 \end{pmatrix}}_{\text{média}} \\ &\quad+ \underbrace{\begin{pmatrix} 4 & 4 & 4 \\ -3 & -3 & \\ -2 & -2 & -2 \end{pmatrix}}_{\text{efeito}} + \underbrace{\begin{pmatrix} 1 & -2 & 1 \\ -1 & 1 & \\ 1 & -1 & 0 \end{pmatrix}}_{\text{resíduo}} \end{aligned}$$
+    </div>
+    <div class="lacunas">
+      <p>Com os arranjos do Ex. 6.6, $SS_{\text{obs}} = 216$ e $SS_{\text{média}} = 8 \times 4^2 = 128$.</p>
+      <p>$SS_{\text{tr}} =$ <input class="lacuna" data-resp="78" data-tol="0" aria-label="soma de quadrados dos tratamentos"><br>$SS_{\text{res}} =$ <input class="lacuna" data-resp="10" data-tol="0" aria-label="soma de quadrados dos resíduos"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $SS_{\text{tr}} = \sum_\ell n_\ell(\bar x_\ell - \bar x)^2$: três vezes $4^2$, duas vezes $(-3)^2$, três vezes $(-2)^2$.</p>
+      <div class="resolucao" hidden><p>$SS_{\text{tr}} = 3(16) + 2(9) + 3(4) = 78$. $SS_{\text{res}} = 1 + 4 + 1 + 1$ $+ 1 + 1 + 1 + 0 = 10$. Confere: $216 = 128 + 78 + 10$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Tabela e F">
+   <div class="texto">
+    <h2>A tabela ANOVA compara efeito e resíduo, cada um por seus graus de liberdade</h2>
+    <p>Tirando a média geral, fica a soma de quadrados corrigida, que se divide em entre grupos e dentro dos grupos:</p>
+    <div class="formula" data-ref-id="f-anova-f" data-ref-tipo="formula" data-ref-nome="Somas de quadrados e teste F da ANOVA (6-31)–(6-33)">
+      $$\begin{aligned} \underbrace{\sum_{\ell}\sum_j (x_{\ell j} - \bar x)^2}_{SS_{\text{cor}}} &= \underbrace{\sum_\ell n_\ell(\bar x_\ell - \bar x)^2}_{SS_{\text{tr}}} \\ &\quad+ \underbrace{\sum_\ell\sum_j (x_{\ell j} - \bar x_\ell)^2}_{SS_{\text{res}}} \end{aligned}$$
+      $$\begin{aligned} F &= \frac{SS_{\text{tr}}/(g - 1)}{SS_{\text{res}}/(\sum_\ell n_\ell - g)} \\ \text{rejeita } H_0 \text{ se}\quad F &\gt F_{g-1,\,\sum n_\ell - g}(\alpha) \end{aligned}$$
+    </div>
+    <p>Os graus de liberdade são $g - 1$ e $\sum n_\ell - g$ (total corrigido: $\sum n_\ell - 1$). No Ex. 6.7, $F = (78/2)/(10/5) = 19{,}5$ $\gt F_{2,5}(0{,}01) = 13{,}27$: rejeita a 1%.</p>
+    <p>Para o que vem a seguir, uma forma equivalente: $F$ grande é o mesmo que $SS_{\text{tr}}/SS_{\text{res}}$ grande, ou seja, rejeitar quando</p>
+    $$\frac{1}{1 + SS_{\text{tr}}/SS_{\text{res}}} = \frac{SS_{\text{res}}}{SS_{\text{res}} + SS_{\text{tr}}}\quad\text{é pequeno.}$$
+    <details class="demo">
+      <summary>Geometria: de onde vêm os graus de liberdade</summary>
+      <p>Enfileire as $n = \sum n_\ell$ observações num vetor $\mathbf{y}$. O arranjo da média é $\bar x\mathbf{1}$, que só anda na reta de $\mathbf{1}$ (1 dimensão). O dos efeitos é $\sum_\ell(\bar x_\ell - \bar x)\mathbf{u}_\ell$, em que $\mathbf{u}_\ell$ tem uns nas posições do grupo $\ell$; ele vive no espaço gerado por $\mathbf{u}_1, \dots, \mathbf{u}_g$ e é perpendicular a $\mathbf{1}$, porque $\sum_\ell n_\ell(\bar x_\ell - \bar x) = 0$. Sobram $g - 1$ dimensões.</p>
+      <p>O resíduo é perpendicular aos dois (em cada grupo, os resíduos somam zero) e fica no espaço restante, de dimensão $n - 1 - (g - 1) = n - g$. Vetores perpendiculares somam comprimentos ao quadrado (Pitágoras): daí $SS_{\text{obs}} = SS_{\text{média}} + SS_{\text{tr}} + SS_{\text{res}}$. É a mesma ideia da <span class="ref" data-ref="f-proj1">média como projeção em $\mathbf{1}$ (cap. 3)</span>.</p>
+    </details>
+    <div class="ideia">Na ANOVA, $SS_{\text{cor}} = SS_{\text{tr}} + SS_{\text{res}}$ com $g - 1$ e $\sum n_\ell - g$ graus de liberdade; rejeitar com $F$ grande é rejeitar com $SS_{\text{res}}/(SS_{\text{res}} + SS_{\text{tr}})$ pequeno.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-anova">
+      <p>Com as médias dos grupos fixas, se o espalhamento dentro dos grupos <strong>dobrar</strong>, o $F$...</p>
+      <div class="alts">
+        <button data-op="a">Cai pela metade</button>
+        <button data-op="b" data-certa>Cai para um quarto</button>
+        <button data-op="c">Não muda: as médias são as mesmas</button>
+      </div>
+      <div class="explica" hidden><p>Dobrar os resíduos multiplica $SS_{\text{res}}$ por 4 (é soma de quadrados) e não mexe em $SS_{\text{tr}}$, que só depende das médias. O $F$ cai para um quarto.</p></div>
+    </div>
+    <div class="sim" id="sim-anova">
+      <label>Distância entre as médias <input type="range" id="an-d" min="0" max="3" step="0.1" value="1"> <strong id="an-d-v">1,0</strong></label>
+      <label>Espalhamento dentro dos grupos <input type="range" id="an-s" min="0.5" max="3" step="0.1" value="1"> <strong id="an-s-v">1,0</strong></label>
+      <svg viewBox="0 0 360 260" id="an-svg" role="img" aria-label="Três grupos de pontos com suas médias e barras de SS entre e dentro"></svg>
+      <p id="an-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.5 ================= -->
+  <div class="secao" data-numero="6.5" data-titulo="MANOVA de um fator" data-livro="§6.4 (multivariado), §6.9">
+
+  <section class="passo" data-titulo="B e W">
+   <div class="texto">
+    <h2>Na MANOVA, quadrados viram matrizes: $\mathbf{B}$ entre grupos e $\mathbf{W}$ dentro</h2>
+    <p>Agora cada observação é um vetor de $p$ variáveis, e o modelo é o mesmo, com vetores e erros $N_p(\mathbf{0}, \boldsymbol\Sigma)$ de covariância comum a todos os grupos:</p>
+    <div class="formula" data-ref-id="f-manova-bw" data-ref-tipo="formula" data-ref-nome="Modelo da MANOVA e as matrizes B e W (6-34)–(6-37)">
+      $$\mathbf{X}_{\ell j} = \boldsymbol\mu + \class{s1}{\boldsymbol\tau_\ell} + \mathbf{e}_{\ell j},\qquad \textstyle\sum_\ell n_\ell\boldsymbol\tau_\ell = \mathbf{0}$$
+      $$\begin{aligned} &\underbrace{\sum_\ell\sum_j(\mathbf{x}_{\ell j} - \bar{\mathbf{x}})(\mathbf{x}_{\ell j} - \bar{\mathbf{x}})'}_{\mathbf{B} + \mathbf{W}} \\ &\quad= \underbrace{\sum_\ell n_\ell(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})'}_{\class{s3}{\mathbf{B}}} \\ &\quad+ \underbrace{\sum_\ell\sum_j(\mathbf{x}_{\ell j} - \bar{\mathbf{x}}_\ell)(\mathbf{x}_{\ell j} - \bar{\mathbf{x}}_\ell)'}_{\class{s2}{\mathbf{W}}} \end{aligned}$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\tau_\ell$</span>: vetor de efeitos do tratamento $\ell$</li>
+        <li><span class="s3">$\mathbf{B}$</span>: somas de quadrados e produtos cruzados entre grupos ($g - 1$ g.l.)</li>
+        <li><span class="s2">$\mathbf{W}$</span>: dentro dos grupos ($\sum n_\ell - g$ g.l.), igual a $\sum_\ell(n_\ell - 1)\mathbf{S}_\ell$</li>
+      </ul>
+    </div>
+    <p>A tabela MANOVA tem a mesma forma da ANOVA, entrada por entrada: $(\bar x_\ell - \bar x)^2$ vira $(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})'$. Na diagonal de $\mathbf{B}$ e $\mathbf{W}$ estão as somas de quadrados de cada variável; fora dela, as somas de <strong>produtos cruzados</strong> entre duas variáveis, calculadas entrada por entrada nos arranjos. $\mathbf{W}$ generaliza o $(n_1 + n_2 - 2)\mathbf{S}_{\text{pooled}}$ de duas amostras.</p>
+    <div class="ideia">A MANOVA parte $\mathbf{B} + \mathbf{W}$ (total corrigido) em $\mathbf{B}$, entre grupos, e $\mathbf{W}$, dentro dos grupos, com os mesmos graus de liberdade da ANOVA; fora da diagonal ficam os produtos cruzados.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-manova-peq" data-ref-tipo="exemplo" data-ref-nome="MANOVA das três amostras pequenas (Ex. 6.8)">
+      <p><strong>Ex. 6.8.</strong> As mesmas três amostras do <span class="ref" data-ref="ex-anova-peq">Ex. 6.6</span>, agora com uma segunda variável. Pares $(x_1, x_2)$:</p>
+      <p>População 1: $(9, 3)$, $(6, 2)$, $(9, 7)$. População 2: $(0, 4)$, $(2, 0)$. População 3: $(3, 8)$, $(1, 9)$, $(2, 7)$.</p>
+      <p>Na segunda variável, as médias são 4, 2 e 8 (geral 5), e $272 = 200 + 48 + 24$.</p>
+      $$\mathbf{B} = \begin{bmatrix} 78 & -12 \\ -12 & 48 \end{bmatrix},\qquad \mathbf{W} = \begin{bmatrix} 10 & 1 \\ 1 & 24 \end{bmatrix}$$
+      $$\mathbf{B} + \mathbf{W} = \begin{bmatrix} 88 & -11 \\ -11 & 72 \end{bmatrix}\qquad (2,\ 5\ \text{e}\ 7\ \text{g.l.})$$
+    </div>
+    <div class="pare">
+      <p>Os efeitos estimados são $(4, -1)$ para a população 1, $(-3, -3)$ para a 2 e $(-2, 3)$ para a 3. Como sai o $-12$ fora da diagonal de $\mathbf{B}$?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>É a soma, observação por observação, do efeito na variável 1 vezes o efeito na variável 2: $3(4)(-1) + 2(-3)(-3)$ $+ 3(-2)(3)$ $= -12 + 18 - 18 = -12$. Cada grupo entra com seu tamanho $n_\ell$, como em $\sum_\ell n_\ell(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})'$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Lambda de Wilks">
+   <div class="texto">
+    <h2>O lambda de Wilks compara as variâncias generalizadas de $\mathbf{W}$ e $\mathbf{B} + \mathbf{W}$</h2>
+    <p>Na ANOVA, rejeitava-se com $SS_{\text{res}}/(SS_{\text{res}} + SS_{\text{tr}})$ pequeno. A versão com matrizes troca cada soma de quadrados pelo determinante, a <span class="ref" data-ref="f-var-gen">variância generalizada (cap. 3)</span>:</p>
+    <div class="formula" data-ref-id="f-wilks-star" data-ref-tipo="formula" data-ref-nome="Lambda de Wilks da MANOVA (6-38)">
+      $$\Lambda^* = \frac{|\class{s2}{\mathbf{W}}|}{|\class{s3}{\mathbf{B}} + \class{s2}{\mathbf{W}}|} = \prod_{i=1}^{s}\frac{1}{1 + \lambda_i}$$
+      <p>Rejeita $H_0: \boldsymbol\tau_1 = \cdots = \boldsymbol\tau_g = \mathbf{0}$ se $\Lambda^*$ é pequeno.</p>
+      <ul class="legenda">
+        <li>$\lambda_1, \dots, \lambda_s$: autovalores de $\class{s2}{\mathbf{W}}^{-1}\class{s3}{\mathbf{B}}$, com $s = \min(p, g - 1)$ (o posto de $\mathbf{B}$)</li>
+      </ul>
+    </div>
+    <p>$\Lambda^*$ fica entre 0 e 1. Perto de 1: a variação entre grupos quase não aumenta a variação total. Perto de 0: os grupos estão bem separados. Ele é equivalente ao teste da razão de verossimilhanças, como o <span class="ref" data-ref="f-wilks">lambda de Wilks do cap. 5</span>.</p>
+    <p>No <span class="ref" data-ref="ex-manova-peq">Ex. 6.8</span>: $|\mathbf{W}| = 10(24) - 1^2 = 239$ e $|\mathbf{B} + \mathbf{W}| = 88(72) - (-11)^2 = 6215$, logo $\Lambda^* = 239/6215 = 0{,}0385$: grupos muito separados.</p>
+    <div class="ideia">$\Lambda^* = |\mathbf{W}|/|\mathbf{B} + \mathbf{W}|$ é a razão de variâncias generalizadas, entre 0 e 1; valores pequenos indicam que as médias dos grupos diferem.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-wilks">
+      <p>Três grupos com a mesma nuvem inclinada dentro de cada um. As médias se afastam sempre a mesma distância. Em qual direção o $\Lambda^*$ fica menor?</p>
+      <div class="alts">
+        <button data-op="a">Ao longo do eixo comprido da nuvem</button>
+        <button data-op="b" data-certa>Atravessando a nuvem (eixo curto)</button>
+        <button data-op="c">Tanto faz: a distância é a mesma</button>
+      </div>
+      <div class="explica" hidden><p>O que conta é a distância estatística, medida com $\mathbf{W}$. Na direção curta da nuvem há pouca variação dentro dos grupos, então o mesmo afastamento entre médias "vale" muito mais. Com $\boldsymbol\Sigma$ de correlação 0,8, o efeito chega a 9 vezes.</p></div>
+    </div>
+    <div class="sim" id="sim-wilks">
+      <label>Afastamento das médias <input type="range" id="wk-m" min="0" max="1.2" step="0.05" value="0.4"> <strong id="wk-m-v">0,40</strong></label>
+      <label>Direção do afastamento <input type="range" id="wk-f" min="0" max="180" step="5" value="45"> <strong id="wk-f-v">45°</strong></label>
+      <svg viewBox="0 0 360 300" id="wk-svg" role="img" aria-label="Três grupos com nuvens inclinadas e médias afastadas numa direção"></svg>
+      <p id="wk-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Distribuição">
+   <div class="texto">
+    <h2>Quando $\Lambda^*$ é pequeno o bastante: casos exatos e a aproximação de Bartlett</h2>
+    <p>Para dados normais com covariância comum, a distribuição de $\Lambda^*$ vira uma $F$ em quatro casos (Tabela 6.3 do livro), com $n = \sum n_\ell$:</p>
+    <div class="formula" data-ref-id="f-tab-wilks" data-ref-tipo="formula" data-ref-nome="Distribuição exata do lambda de Wilks (Tabela 6.3)">
+      <table>
+        <thead><tr><th>Caso</th><th>Estatística e distribuição</th></tr></thead>
+        <tbody>
+          <tr><td>$p = 1$, $g \ge 2$</td><td>$\frac{n - g}{g - 1}\cdot\frac{1 - \Lambda^*}{\Lambda^*}$ $\sim F_{g-1,\,n-g}$</td></tr>
+          <tr><td>$p = 2$, $g \ge 2$</td><td>$\frac{n - g - 1}{g - 1}\cdot\frac{1 - \sqrt{\Lambda^*}}{\sqrt{\Lambda^*}}$ $\sim F_{2(g-1),\,2(n-g-1)}$</td></tr>
+          <tr><td>$p \ge 1$, $g = 2$</td><td>$\frac{n - p - 1}{p}\cdot\frac{1 - \Lambda^*}{\Lambda^*}$ $\sim F_{p,\,n-p-1}$</td></tr>
+          <tr><td>$p \ge 1$, $g = 3$</td><td>$\frac{n - p - 2}{p}\cdot\frac{1 - \sqrt{\Lambda^*}}{\sqrt{\Lambda^*}}$ $\sim F_{2p,\,2(n-p-2)}$</td></tr>
+        </tbody>
+      </table>
+      <p>Nos outros casos, com $n$ grande (Bartlett), rejeita se</p>
+      $$-\Big(n - 1 - \frac{p + g}{2}\Big)\ln\Lambda^* \;\gt\; \chi^2_{p(g-1)}(\alpha)$$
+    </div>
+    <p>Ex. 6.9: custos de 516 asilos do Wisconsin ($p = 4$ custos por paciente-dia) em $g = 3$ tipos de dono (privado, sem fins lucrativos, governo). Com $\Lambda^* = 0{,}7714$, a linha $g = 3$ dá $F = 17{,}67 \gt F_{8,1020}(0{,}01) \approx 2{,}51$, e Bartlett dá $132{,}76 \gt \chi^2_8(0{,}01) = 20{,}09$. Os custos médios dependem do tipo de dono. Com $p$ grande, peça ao computador $\mathbf{B}$ e $\mathbf{W}$ e procure entradas grandes; confira os resíduos (normalidade e <span class="ref" data-ref="d-atipicos">atípicos, cap. 4</span>).</p>
+    <div class="ideia">A Tabela 6.3 transforma $\Lambda^*$ numa $F$ exata quando $p \le 2$ ou $g \le 3$; nos outros casos, $-(n - 1 - (p+g)/2)\ln\Lambda^*$ é comparado com $\chi^2_{p(g-1)}$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>No Ex. 6.8, $\Lambda^* = 0{,}0385$, com $p = 2$, $g = 3$ e $n = 8$.</p>
+      <p>$\sqrt{\Lambda^*} =$ <input class="lacuna" data-resp="0.1962" data-tol="0.002" aria-label="raiz de lambda"></p>
+      <p>Estatística $F$ da linha $p = 2$: <input class="lacuna" data-resp="8.19" data-tol="0.05" aria-label="estatística F"></p>
+      <p>Graus de liberdade: $F_{a,b}$ com $a =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="primeiro grau de liberdade"> e $b =$ <input class="lacuna" data-resp="8" data-tol="0" aria-label="segundo grau de liberdade"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\frac{n - g - 1}{g - 1} = \frac{4}{2}$; os graus de liberdade são $2(g - 1)$ e $2(n - g - 1)$.</p>
+      <div class="resolucao" hidden><p>$\sqrt{0{,}0385} = 0{,}196$; $\frac{1 - 0{,}196}{0{,}196} \times 2 = 8{,}19$, com $F_{4,8}$. Como $8{,}19 \gt F_{4,8}(0{,}01) = 7{,}01$, rejeita a 1%.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Outras estatísticas">
+   <div class="texto">
+    <h2>Pillai, Lawley–Hotelling e Roy: outras funções dos mesmos autovalores</h2>
+    <p>Os programas mostram, além do $\Lambda^*$, três outras estatísticas. Todas dependem só dos autovalores $\lambda_i$ de $\mathbf{W}^{-1}\mathbf{B}$, que medem a separação entre grupos em direções independentes:</p>
+    <div class="formula" data-ref-id="d-quatro-estat" data-ref-tipo="definicao" data-ref-nome="As quatro estatísticas da MANOVA (§6.9)">
+      <table>
+        <thead><tr><th>Estatística (rejeita quando)</th><th>Fórmula</th></tr></thead>
+        <tbody>
+          <tr><td>Wilks (pequena)</td><td>$\prod_i \frac{1}{1 + \lambda_i}$</td></tr>
+          <tr><td>Traço de Pillai (grande)</td><td>$\mathrm{tr}[\mathbf{B}(\mathbf{B} + \mathbf{W})^{-1}]$ $= \sum_i \frac{\lambda_i}{1 + \lambda_i}$</td></tr>
+          <tr><td>Traço de Lawley–Hotelling (grande)</td><td>$\mathrm{tr}[\mathbf{B}\mathbf{W}^{-1}]$ $= \sum_i \lambda_i$</td></tr>
+          <tr><td>Maior raiz de Roy (grande)</td><td>$\lambda_1$, o maior autovalor</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Com amostras muito grandes, as quatro são praticamente equivalentes. Em amostras moderadas, as simulações relatadas pelo livro dão poder parecido às três primeiras; a de Roy só é a melhor quando a diferença está concentrada numa única direção (um autovalor grande e os outros perto de zero). Há indícios de que Pillai é um pouco mais robusta à falta de normalidade, mas o livro prefere transformar os dados quando os resíduos não são normais.</p>
+    <p>No <span class="ref" data-ref="ex-manova-peq">Ex. 6.8</span>, os autovalores de $\mathbf{W}^{-1}\mathbf{B}$ são 8,08 e 1,87: Wilks $= 1/(9{,}08 \times 2{,}87) = 0{,}0385$, Pillai $= 0{,}89 + 0{,}65 = 1{,}54$, Lawley–Hotelling $= 9{,}94$ e Roy $= 8{,}08$.</p>
+    <div class="ideia">Wilks, Pillai, Lawley–Hotelling e Roy são funções dos autovalores de $\mathbf{W}^{-1}\mathbf{B}$; quase equivalentes com amostras grandes, com Roy diferente quando a separação está numa só direção.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Uma MANOVA com $g = 4$ grupos e $p = 5$ variáveis deu autovalores de $\mathbf{W}^{-1}\mathbf{B}$ iguais a 2,0; 0,1 e 0,05. O que dá para dizer?</p>
+      <div class="alts">
+        <button data-op="a">(a) Há só 3 autovalores porque $s = \min(5, 3) = 3$, e a separação está quase toda numa direção: é o cenário em que o teste de Roy se sai melhor.</button>
+        <button data-op="b">(b) Deveria haver 5 autovalores, um por variável; faltam dois.</button>
+        <button data-op="c">(c) Como Pillai e Wilks discordam de Roy, a MANOVA é inválida.</button>
+        <button data-op="d">(d) $\Lambda^* = 1/(1 + 2{,}0 + 0{,}1 + 0{,}05) = 0{,}32$.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: o posto de $\mathbf{B}$ é no máximo $g - 1 = 3$. Um autovalor dominante quer dizer separação concentrada numa combinação das variáveis, o caso favorável à maior raiz de Roy.</div>
+      <div class="fb" data-op="b">$\mathbf{B}$ é soma de $g$ termos de posto 1 com uma restrição ($\sum n_\ell\boldsymbol\tau_\ell = \mathbf{0}$), então tem posto no máximo $g - 1 = 3$. Os outros autovalores são zero.</div>
+      <div class="fb" data-op="c">Elas são estatísticas diferentes dos mesmos autovalores e podem dar conclusões um pouco diferentes em amostras moderadas. Isso não invalida nada; mostra onde está a separação.</div>
+      <div class="fb" data-op="d">$\Lambda^*$ é o <em>produto</em> dos $1/(1 + \lambda_i)$: $1/(3{,}0 \times 1{,}1 \times 1{,}05) = 0{,}29$, não um único fator com a soma.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.6 ================= -->
+  <div class="secao" data-numero="6.6" data-titulo="Quem difere de quem" data-livro="§6.5">
+
+  <section class="passo" data-titulo="Bonferroni">
+   <div class="texto">
+    <h2>Depois de rejeitar: Bonferroni para cada variável e cada par de grupos</h2>
+    <p>Rejeitada a igualdade, quer-se saber quais grupos e quais variáveis diferem. A diferença de efeitos $\hat\tau_{ki} - \hat\tau_{\ell i} = \bar x_{ki} - \bar x_{\ell i}$ é uma diferença de médias de amostras independentes, com variância $(1/n_k + 1/n_\ell)\sigma_{ii}$; estima-se $\sigma_{ii}$ por $w_{ii}/(n - g)$, a entrada da diagonal de $\mathbf{W}$ dividida pelos seus graus de liberdade.</p>
+    <p>São $p$ variáveis e $g(g-1)/2$ pares de grupos, ou seja, $m = pg(g-1)/2$ afirmações. Pela <span class="ref" data-ref="f-bonferroni">desigualdade de Bonferroni (cap. 5)</span>, cada intervalo usa $\alpha/(2m)$:</p>
+    <div class="formula" data-ref-id="f-bonf-trat" data-ref-tipo="formula" data-ref-nome="Bonferroni para diferenças de efeitos (Resultado 6.5)">
+      $$\begin{aligned} &\tau_{ki} - \tau_{\ell i}:\ \bar x_{ki} - \bar x_{\ell i} \\ &\qquad\pm t_{n-g}\Big(\frac{\alpha}{pg(g-1)}\Big)\sqrt{\frac{w_{ii}}{n - g}\Big(\frac{1}{n_k} + \frac{1}{n_\ell}\Big)} \end{aligned}$$
+      <p>para todas as variáveis $i = 1, \dots, p$ e todos os pares $\ell \lt k$, com confiança conjunta de pelo menos $1 - \alpha$; $n = \sum_k n_k$.</p>
+    </div>
+    <p>São mais curtos que as sombras do elipsoide (que cobrem todos os contrastes) e só precisam da tabela $t$. No Ex. 6.10, para o custo de manutenção dos asilos, privado − governo dá $(-0{,}061;\ -0{,}025)$ hora por paciente-dia; privado − sem fins lucrativos, $(-0{,}058;\ -0{,}026)$; sem fins lucrativos − governo, $(-0{,}021;\ 0{,}019)$. Os privados gastam menos; entre os outros dois, nada se vê.</p>
+    <div class="ideia">Depois da MANOVA, cada diferença $\tau_{ki} - \tau_{\ell i}$ ganha um intervalo $t$ com $w_{ii}/(n - g)$ e nível $\alpha/(2m)$, $m = pg(g-1)/2$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Ex. 6.10: $p = 4$ custos, $g = 3$ tipos de dono, $n = 516$. Para a manutenção, privado − governo: $\hat\tau_{13} - \hat\tau_{33} = -0{,}043$ e o erro padrão é $0{,}00614$.</p>
+      <p>Número de afirmações $m =$ <input class="lacuna" data-resp="12" data-tol="0" aria-label="número de afirmações"></p>
+      <p>Com $t_{513}(0{,}05/24) = 2{,}87$, meia largura $=$ <input class="lacuna" data-resp="0.0176" data-tol="0.0006" aria-label="meia largura"></p>
+      <p>O intervalo contém o zero? (1 = sim, 0 = não) <input class="lacuna" data-resp="0" data-tol="0" aria-label="contém o zero"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $m = pg(g-1)/2$; a meia largura é $2{,}87 \times 0{,}00614$.</p>
+      <div class="resolucao" hidden><p>$m = 4 \times 3 \times 2/2 = 12$, e $\alpha/(2m) = 0{,}05/24$. Meia largura $2{,}87 \times 0{,}00614 = 0{,}018$; intervalo $(-0{,}061;\ -0{,}025)$, sem o zero.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.7 ================= -->
+  <div class="secao" data-numero="6.7" data-titulo="Dois fatores" data-livro="§6.6">
+
+  <section class="passo" data-titulo="Interação">
+   <div class="texto">
+    <h2>Dois fatores: a interação diz se o efeito de um depende do nível do outro</h2>
+    <p>Agora as observações vêm de combinações de dois fatores: $g$ níveis do fator 1, $b$ do fator 2 e $n$ repetições em cada uma das $gb$ combinações. Com uma variável:</p>
+    <div class="formula" data-ref-id="f-dois-fatores" data-ref-tipo="formula" data-ref-nome="ANOVA de dois fatores com interação (6-43), (6-46), (6-47)">
+      $$X_{\ell kr} = \mu + \class{s1}{\tau_\ell} + \class{s3}{\beta_k} + \gamma_{\ell k} + e_{\ell kr}$$
+      $$\textstyle\sum_\ell\tau_\ell = \sum_k\beta_k = \sum_\ell\gamma_{\ell k} = \sum_k\gamma_{\ell k} = 0$$
+      $$SS_{\text{cor}} = SS_{\text{fac1}} + SS_{\text{fac2}} + SS_{\text{int}} + SS_{\text{res}}$$
+      $$\begin{aligned} gbn - 1 &= (g - 1) + (b - 1) \\ &\quad+ (g - 1)(b - 1) + gb(n - 1) \end{aligned}$$
+      <ul class="legenda">
+        <li><span class="s1">$\tau_\ell$</span>: efeito do nível $\ell$ do fator 1</li>
+        <li><span class="s3">$\beta_k$</span>: efeito do nível $k$ do fator 2</li>
+        <li>$\gamma_{\ell k}$: interação; $SS_{\text{int}} = \sum_\ell\sum_k n(\bar x_{\ell k} - \bar x_{\ell\cdot} - \bar x_{\cdot k} + \bar x)^2$</li>
+      </ul>
+    </div>
+    <p>Sem interação ($\gamma_{\ell k} = 0$), os efeitos se somam: no gráfico das médias contra os níveis do fator 2, uma linha por nível do fator 1, as linhas ficam paralelas. Com interação, o efeito do fator 1 muda de um nível do fator 2 para outro, e falar em "o efeito do fator 1" perde o sentido. Cada fonte é testada com $F$: sua soma de quadrados por grau de liberdade dividida por $SS_{\text{res}}/(gb(n-1))$.</p>
+    <div class="ideia">No modelo de dois fatores, $SS_{\text{cor}}$ se divide em fator 1, fator 2, interação e resíduo; sem interação as linhas de médias são paralelas e os efeitos se somam.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-int">
+      <p>No gráfico de médias, como fica a <strong>distância</strong> entre as duas linhas (o efeito do fator 1) quando há interação?</p>
+      <div class="alts">
+        <button data-op="a">Igual em todos os níveis do fator 2</button>
+        <button data-op="b" data-certa>Muda de um nível do fator 2 para outro</button>
+        <button data-op="c">Sempre zero</button>
+      </div>
+      <div class="explica" hidden><p>A distância entre as linhas no nível $k$ é $(\tau_1 - \tau_2) + (\gamma_{1k} - \gamma_{2k})$. Sem interação, é a mesma em todo $k$ (linhas paralelas); com interação, varia, e as linhas podem até se cruzar.</p></div>
+    </div>
+    <div class="sim" id="sim-int">
+      <label>Efeito do fator 1 <input type="range" id="it-t" min="0" max="2" step="0.1" value="1"> <strong id="it-t-v">1,0</strong></label>
+      <label>Interação <input type="range" id="it-g" min="-2" max="2" step="0.1" value="0"> <strong id="it-g-v">0,0</strong></label>
+      <svg viewBox="0 0 360 240" id="it-svg" role="img" aria-label="Gráfico de médias com uma linha por nível do fator 1"></svg>
+      <p id="it-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="MANOVA de dois fatores">
+   <div class="texto">
+    <h2>Na versão multivariada, teste a interação primeiro</h2>
+    <p>Com $p$ respostas, o modelo é o mesmo com vetores, e cada soma de quadrados vira uma matriz de somas de quadrados e produtos cruzados: $\mathbf{SSP}_{\text{fac1}}$, $\mathbf{SSP}_{\text{fac2}}$, $\mathbf{SSP}_{\text{int}}$ e $\mathbf{SSP}_{\text{res}}$, com os mesmos graus de liberdade. Para cada efeito, o lambda de Wilks compara $\mathbf{SSP}_{\text{res}}$ com ele somado ao efeito:</p>
+    <div class="formula" data-ref-id="f-manova2" data-ref-tipo="formula" data-ref-nome="Testes da MANOVA de dois fatores (6-53)–(6-58)">
+      $$\Lambda^* = \frac{|\mathbf{SSP}_{\text{res}}|}{|\mathbf{SSP}_{\text{efeito}} + \mathbf{SSP}_{\text{res}}|}$$
+      <p>e, com amostras grandes (Bartlett), rejeita se</p>
+      $$-\Big[gb(n-1) - \frac{p + 1 - \nu}{2}\Big]\ln\Lambda^* \;\gt\; \chi^2_{\nu p}(\alpha)$$
+      <p>com $\nu = (g-1)(b-1)$ para a interação, $\nu = g - 1$ para o fator 1 e $\nu = b - 1$ para o fator 2. Quando $\nu = 1$, há $F$ exata:</p>
+      $$\begin{aligned} F &= \frac{1 - \Lambda^*}{\Lambda^*}\cdot\frac{(gb(n-1) - p + 1)/2}{(|\nu - p| + 1)/2} \\ &\sim F_{|\nu - p| + 1,\ gb(n-1) - p + 1} \end{aligned}$$
+    </div>
+    <p>A ordem importa: se há interação, os efeitos principais não têm interpretação clara. O livro sugere então ANOVAs de dois fatores variável por variável, para ver em quais respostas a interação aparece, e gráficos de médias. Sem interação, os efeitos principais se exploram com Bonferroni, como na seção anterior, usando $\mathbf{SSP}_{\text{res}}$ com $gb(n-1)$ graus de liberdade. Com uma única observação por combinação ($n = 1$), não dá para estimar a interação: o que seria interação vira o resíduo.</p>
+    <div class="ideia">Na MANOVA de dois fatores, cada efeito tem seu $\Lambda^* = |\mathbf{SSP}_{\text{res}}|/|\mathbf{SSP}_{\text{efeito}} + \mathbf{SSP}_{\text{res}}|$; testa-se a interação antes, e só sem ela os efeitos principais fazem sentido.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-filme" data-ref-tipo="exemplo" data-ref-nome="Filme plástico, dois fatores (Ex. 6.11)">
+      <p><strong>Ex. 6.11.</strong> Filme plástico: resistência ao rasgo, brilho e opacidade ($p = 3$), com dois níveis da taxa de extrusão (fator 1) e da quantidade de aditivo (fator 2), $n = 5$ repetições.</p>
+      <table>
+        <thead><tr><th>Efeito</th><th>$\Lambda^*$</th><th>$F$</th><th>g.l.</th></tr></thead>
+        <tbody>
+          <tr><td>Interação</td><td>0,7771</td><td>1,34</td><td>3 e 14</td></tr>
+          <tr><td>Taxa (fator 1)</td><td>0,3819</td><td>7,55</td><td>3 e 14</td></tr>
+          <tr><td>Aditivo (fator 2)</td><td>0,5230</td><td>4,26</td><td>3 e 14</td></tr>
+        </tbody>
+      </table>
+      <p>$F_{3,14}(0{,}05) = 3{,}34$. $|\mathbf{SSP}_{\text{res}}| = 275{,}71$, com</p>
+      $$\mathbf{SSP}_{\text{res}} = \begin{bmatrix} 1{,}764 & 0{,}020 & -3{,}070 \\ 0{,}020 & 2{,}628 & -0{,}552 \\ -3{,}070 & -0{,}552 & 64{,}924 \end{bmatrix}$$
+      <p>com 16 graus de liberdade.</p>
+    </div>
+    <div class="acheerro">
+      <p>Uma colega analisou o Ex. 6.11. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: com 2 níveis em cada fator, ν = (g − 1)(b − 1) = 1 para a interação.">A interação tem $\nu = (2-1)(2-1) = 1$, então vale a $F$ exata.</li>
+        <li data-fb="Certo: (1 − 0,7771)/0,7771 × (16 − 3 + 1)/2 ÷ ((|1 − 3| + 1)/2) = 0,287 × 7/1,5 = 1,34.">Para a interação, $F = 1{,}34$, com 3 e 14 g.l.</li>
+        <li data-errada data-fb="Aqui. Como 1,34 &lt; 3,34, a interação NÃO é significativa; a conclusão está invertida. Sem interação, faz sentido testar os efeitos principais, e os dois são significativos (7,55 e 4,26 &gt; 3,34): os fatores agem de forma aditiva.">Como $1{,}34 \lt F_{3,14}(0{,}05) = 3{,}34$, há interação, e os efeitos principais não devem ser interpretados.</li>
+        <li data-fb="Esta linha é coerente com testes feitos depois de descartar a interação.">Taxa: $F = 7{,}55$; aditivo: $F = 4{,}26$; os dois passam de 3,34.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.8 ================= -->
+  <div class="secao" data-numero="6.8" data-titulo="Análise de perfis" data-livro="§6.7">
+
+  <section class="passo" data-titulo="Três perguntas">
+   <div class="texto">
+    <h2>Perfis: paralelos, depois coincidentes, depois nivelados</h2>
+    <p>Quando $p$ medidas na mesma escala (itens de um questionário, testes) são aplicadas a dois grupos, ligar as médias por segmentos dá o <strong>perfil</strong> de cada grupo. Em vez de perguntar só "$\boldsymbol\mu_1 = \boldsymbol\mu_2$?", a análise de perfis pergunta em etapas, cada uma supondo a anterior:</p>
+    <div class="formula" data-ref-id="f-perfis" data-ref-tipo="formula" data-ref-nome="Testes da análise de perfis (6-61)–(6-64)">
+      <p><strong>1. Paralelos?</strong> $H_{01}: \mathbf{C}\boldsymbol\mu_1 = \mathbf{C}\boldsymbol\mu_2$, com $\mathbf{C}$ das diferenças sucessivas; rejeita se</p>
+      $$\begin{aligned} T^2 = {}&(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)'\mathbf{C}'\Big[\Big(\tfrac{1}{n_1} + \tfrac{1}{n_2}\Big)\mathbf{C}\mathbf{S}_{\text{pooled}}\mathbf{C}'\Big]^{-1} \\ &\times\mathbf{C}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \\ \gt {}&\frac{(n_1 + n_2 - 2)(p - 1)}{n_1 + n_2 - p}F_{p-1,\,n_1+n_2-p}(\alpha) \end{aligned}$$
+      <p><strong>2. Coincidentes (dado paralelos)?</strong> $H_{02}: \mathbf{1}'\boldsymbol\mu_1 = \mathbf{1}'\boldsymbol\mu_2$; rejeita se</p>
+      $$T^2 = \frac{\big(\mathbf{1}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)\big)^2}{\big(\frac{1}{n_1} + \frac{1}{n_2}\big)\mathbf{1}'\mathbf{S}_{\text{pooled}}\mathbf{1}} \gt F_{1,\,n_1+n_2-2}(\alpha)$$
+      <p><strong>3. Nivelados (dado coincidentes)?</strong> $H_{03}: \mathbf{C}\boldsymbol\mu = \mathbf{0}$, com todas as $n_1 + n_2$ observações como uma amostra só ($\bar{\mathbf{x}}$ e $\mathbf{S}$ delas); rejeita se</p>
+      $$\begin{aligned} &(n_1 + n_2)\,\bar{\mathbf{x}}'\mathbf{C}'(\mathbf{CSC}')^{-1}\mathbf{C}\bar{\mathbf{x}} \\ &\quad\gt \frac{(n_1+n_2-1)(p-1)}{n_1+n_2-p+1}F_{p-1,\,n_1+n_2-p+1}(\alpha) \end{aligned}$$
+    </div>
+    <p>A etapa 1 é o $T^2$ de duas amostras aplicado aos contrastes $\mathbf{C}\mathbf{x}$. Se os perfis são paralelos, um fica acima do outro, e eles só coincidem se as alturas totais $\mathbf{1}'\boldsymbol\mu$ forem iguais: daí o $t$ de duas amostras nos totais $\mathbf{1}'\mathbf{x}$. A etapa 3 é a de <span class="ref" data-ref="f-medrep">medidas repetidas</span> com o grupo todo.</p>
+    <div class="ideia">A análise de perfis testa em sequência se os perfis são paralelos ($\mathbf{C}\boldsymbol\mu_1 = \mathbf{C}\boldsymbol\mu_2$), coincidentes ($\mathbf{1}'\boldsymbol\mu_1 = \mathbf{1}'\boldsymbol\mu_2$) e nivelados ($\mathbf{C}\boldsymbol\mu = \mathbf{0}$), cada etapa supondo a anterior.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-perfil">
+      <p>Dois perfis paralelos, um acima do outro. Qual etapa falha?</p>
+      <div class="alts">
+        <button data-op="a">A 1 (paralelismo)</button>
+        <button data-op="b" data-certa>A 2 (coincidência)</button>
+        <button data-op="c">Nenhuma</button>
+      </div>
+      <div class="explica" hidden><p>Paralelos, a etapa 1 passa. Mas um acima do outro quer dizer alturas totais diferentes, e a etapa 2 rejeita. A etapa 3 nem chega a ser feita.</p></div>
+    </div>
+    <div class="sim" id="sim-perfil">
+      <label>Distância entre os grupos <input type="range" id="pf-h" min="0" max="2" step="0.1" value="1"> <strong id="pf-h-v">1,0</strong></label>
+      <label>Falta de paralelismo <input type="range" id="pf-q" min="-1" max="1" step="0.1" value="0"> <strong id="pf-q-v">0,0</strong></label>
+      <label>Inclinação comum <input type="range" id="pf-s" min="-1" max="1" step="0.1" value="0.4"> <strong id="pf-s-v">0,4</strong></label>
+      <svg viewBox="0 0 360 230" id="pf-svg" role="img" aria-label="Perfis de dois grupos em quatro variáveis"></svg>
+      <p id="pf-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Casamento">
+   <div class="texto">
+    <h2>Homens e mulheres no casamento: perfis paralelos e coincidentes</h2>
+    <p>No Ex. 6.12, 30 maridos e 30 esposas recém-casados responderam a quatro perguntas: contribuição para o casamento e o que recebem dele (escala de 1 a 8), amor apaixonado e amor companheiro (escala de 1 a 5). As médias:</p>
+    $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 6{,}833 \\ 7{,}033 \\ 3{,}967 \\ 4{,}700 \end{bmatrix}\ \text{(maridos)}$$
+    $$ \bar{\mathbf{x}}_2 = \begin{bmatrix} 6{,}633 \\ 7{,}000 \\ 4{,}000 \\ 4{,}533 \end{bmatrix}\ \text{(esposas)}$$
+    <p><strong>Etapa 1:</strong> $\mathbf{C}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) = [-0{,}167;\ -0{,}066;\ 0{,}200]'$ e $T^2 = 1{,}005$, contra $c^2 = 3{,}11 \times F_{3,56}(0{,}05) = 8{,}7$: perfis paralelos. <strong>Etapa 2:</strong> você calcula ao lado. <strong>Etapa 3:</strong> não faz sentido aqui, porque as perguntas usam escalas diferentes (1 a 8 e 1 a 5); perfis nivelados exigem medidas comparáveis.</p>
+    <p>As respostas são números inteiros, claramente não normais; o livro usa a teoria normal porque as amostras são razoavelmente grandes. Com amostras pequenas, confira a normalidade nos dados ou nos contrastes $\mathbf{C}\mathbf{x}$.</p>
+    <div class="ideia">No casamento, os perfis de maridos e esposas são paralelos e coincidentes; o teste de nível não se aplica porque as escalas das perguntas diferem.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Etapa 2 do Ex. 6.12: $\mathbf{1}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) = 0{,}367$ e $\mathbf{1}'\mathbf{S}_{\text{pooled}}\mathbf{1} = 4{,}027$, com $n_1 = n_2 = 30$.</p>
+      <p>$T^2 =$ <input class="lacuna" data-resp="0.501" data-tol="0.005" aria-label="T2 da coincidência"></p>
+      <p>Com $F_{1,58}(0{,}05) = 4{,}0$, os perfis são coincidentes? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="coincidentes"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $T^2 = 0{,}367^2$ $/\,\big((1/30 + 1/30) \times 4{,}027\big)$.</p>
+      <div class="resolucao" hidden><p>$0{,}1347 / (0{,}0667 \times 4{,}027)$ $= 0{,}1347/0{,}2685$ $= 0{,}501 \lt 4{,}0$: não rejeita. As respostas médias de maridos e esposas parecem as mesmas.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.9 ================= -->
+  <div class="secao" data-numero="6.9" data-titulo="Curvas de crescimento" data-livro="§6.8">
+
+  <section class="passo" data-titulo="Polinômio">
+   <div class="texto">
+    <h2>Curva de crescimento: as médias no tempo seguem um polinômio</h2>
+    <p>Medidas repetidas aparecem de dois jeitos: tratamentos diferentes na mesma unidade (os <span class="ref" data-ref="ex-caes">cães</span>) ou a mesma característica medida várias vezes ao longo do tempo. No segundo caso, interessa a curva que uma unidade típica percorre, a <strong>curva de crescimento</strong>. No Ex. 6.13, mediu-se o cálcio do osso ulna de mulheres mais velhas no início e depois de 1, 2 e 3 anos: 15 num grupo controle e 16 num grupo com dieta e exercícios.</p>
+    <p>O modelo de Potthoff e Roy supõe a mesma $\boldsymbol\Sigma$ para todas (sem exigir variâncias iguais no tempo) e médias que seguem um polinômio de grau $q$ nos tempos $t_1, \dots, t_p$:</p>
+    <div class="formula" data-ref-id="f-crescimento" data-ref-tipo="formula" data-ref-nome="Modelo de curva de crescimento de Potthoff e Roy (6-65)–(6-71)">
+      $$E(\mathbf{X}_{\ell j}) = \mathbf{B}\class{s1}{\boldsymbol\beta_\ell}$$
+      $$\mathbf{B} = \begin{bmatrix} 1 & t_1 & \cdots & t_1^q \\ \vdots & \vdots & & \vdots \\ 1 & t_p & \cdots & t_p^q \end{bmatrix},\qquad \class{s1}{\boldsymbol\beta_\ell} = \begin{bmatrix} \beta_{\ell 0} \\ \vdots \\ \beta_{\ell q} \end{bmatrix}$$
+      $$\hat{\boldsymbol\beta}_\ell = (\mathbf{B}'\mathbf{S}_{\text{pooled}}^{-1}\mathbf{B})^{-1}\mathbf{B}'\mathbf{S}_{\text{pooled}}^{-1}\bar{\mathbf{x}}_\ell$$
+      $$\widehat{\mathrm{Cov}}(\hat{\boldsymbol\beta}_\ell) = \frac{k}{n_\ell}(\mathbf{B}'\mathbf{S}_{\text{pooled}}^{-1}\mathbf{B})^{-1}$$
+      $$\Lambda^* = \frac{|\mathbf{W}|}{|\mathbf{W}_q|}$$
+      <p>e o polinômio não basta se</p>
+      $$-\Big(N - \frac{p - q - 2 + g}{2}\Big)\ln\Lambda^* \gt \chi^2_{(p-q-1)g}(\alpha)$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\beta_\ell$</span>: coeficientes do polinômio do grupo $\ell$</li>
+        <li>$k = \frac{(N-g)(N-g-1)}{(N-g-p+q)(N-g-p+q+1)}$, $N = \sum n_\ell$; $\mathbf{W}_q$: somas de produtos dos desvios em relação às curvas ajustadas</li>
+      </ul>
+    </div>
+    <p>No Ex. 6.13 ($q = 2$, tempos 0 a 3): controle $73{,}07 + 3{,}64t - 2{,}03t^2$ e tratamento $70{,}14 + 4{,}09t - 1{,}85t^2$, com erros padrão 2,58; 0,83; 0,28 e 2,50; 0,80; 0,27. Os termos em $t^2$ são necessários, há perda de cálcio no terceiro ano nos dois grupos, e os grupos não parecem diferir. $\Lambda^* = 0{,}7627$ e a estatística dá cerca de 8,1 $\lt \chi^2_2(0{,}01) = 9{,}21$ (é a forma usada no exemplo do livro): o quadrático não é rejeitado a 1%, embora o P-valor fique abaixo de 5%.</p>
+    <div class="ideia">No modelo de Potthoff–Roy, a média de cada grupo no tempo é $\mathbf{B}\boldsymbol\beta_\ell$, um polinômio de grau $q$; o lambda $|\mathbf{W}|/|\mathbf{W}_q|$ testa se o polinômio basta.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><strong>Ex. 6.13.</strong> Médias do cálcio (pontos) e quadráticas ajustadas (linhas).</p>
+      <svg viewBox="0 0 330 220" class="fig" id="cresc-svg" role="img" aria-label="Médias de cálcio nos tempos 0 a 3 e as duas quadráticas ajustadas"></svg>
+    </div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Com $p = 4$ tempos e uma reta ($q = 1$) para cada um de $g = 2$ grupos, quantos graus de liberdade tem a qui-quadrado do teste "a reta basta"?</p>
+      <div class="alts">
+        <button data-op="a">(a) 2, um por grupo.</button>
+        <button data-op="b">(b) 4: cada grupo troca 4 médias livres por 2 coeficientes.</button>
+        <button data-op="c">(c) 6: são 8 médias contra 2 coeficientes.</button>
+        <button data-op="d">(d) 3: são $p - 1$ contrastes.</button>
+      </div>
+      <div class="fb" data-op="a">Seriam 2 com uma quadrática ($q = 2$): $(4 - 2 - 1) \times 2 = 2$. Com a reta, cada grupo perde 2 parâmetros.</div>
+      <div class="fb" data-op="b">Isso: $(p - q - 1)g = (4 - 1 - 1) \times 2 = 4$. São os parâmetros a menos do modelo restrito.</div>
+      <div class="fb" data-op="c">A reta tem 2 coeficientes por grupo, 4 no total; a diferença é $8 - 4 = 4$.</div>
+      <div class="fb" data-op="d">$p - 1$ é o número de contrastes de medidas repetidas; aqui a conta é parâmetros livres menos parâmetros do polinômio, em todos os grupos.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 6.10 ================= -->
+  <div class="secao" data-numero="6.10" data-titulo="Estratégia" data-livro="§6.9">
+
+  <section class="passo" data-titulo="Teste conjunto">
+   <div class="texto">
+    <h2>Um teste multivariado vê o que $p$ testes separados perdem</h2>
+    <p>Com várias características, importa controlar a chance de <em>alguma</em> conclusão errada. Um único teste multivariado, com um único P-valor, é melhor que muitos testes univariados, e não só por isso: os testes separados ignoram a correlação entre as variáveis.</p>
+    <p>No Ex. 6.14, dois grupos de 10 unidades, duas variáveis. A ANOVA de $x_1$ dá $F = 2{,}46$; a de $x_2$, $F = 2{,}68$; nenhuma rejeita nem a 10% ($F_{1,18}(0{,}10) = 3{,}01$). O $T^2$ de duas amostras dá $17{,}29 \gt 12{,}94$ e rejeita a 1%. O motivo: dentro de cada grupo, $x_1$ e $x_2$ têm correlação 0,70, e o grupo 1 fica "a sudeste" do grupo 2 (mais $x_1$ e menos $x_2$), uma combinação rara para a nuvem inclinada. Foi o mesmo fenômeno do <span class="ref" data-ref="ex-efluente">efluente</span>.</p>
+    <div class="ideia">Testes univariados ignoram a correlação: diferenças em sentidos opostos em variáveis positivamente correlacionadas passam despercebidas por eles e são detectadas pelo $T^2$ ou pela MANOVA.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-corr">
+      <p>As médias se deslocam em sentidos opostos ($x_1$ maior no grupo 1, $x_2$ maior no grupo 2). Aumentando a correlação positiva dentro dos grupos, o $T^2$...</p>
+      <div class="alts">
+        <button data-op="a">Diminui</button>
+        <button data-op="b">Não muda, como os $F$ univariados</button>
+        <button data-op="c" data-certa>Aumenta</button>
+      </div>
+      <div class="explica" hidden><p>Com correlação positiva, a nuvem de cada grupo é estreita na direção "mais $x_1$, menos $x_2$", e é justamente nessa direção que as médias se separam. A distância estatística entre as médias cresce; os $F$ univariados olham uma variável de cada vez e não mudam.</p></div>
+    </div>
+    <div class="sim" id="sim-corr">
+      <label>Correlação dentro dos grupos <input type="range" id="co-r" min="-0.9" max="0.9" step="0.05" value="0"> <strong id="co-r-v">0,00</strong></label>
+      <svg viewBox="0 0 360 300" id="co-svg" role="img" aria-label="Elipses de dois grupos com médias deslocadas em sentidos opostos"></svg>
+      <p id="co-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Três passos">
+   <div class="texto">
+    <h2>A estratégia: atípicos, teste multivariado e só então Bonferroni</h2>
+    <div class="definicao" data-ref-id="d-estrategia" data-ref-tipo="definicao" data-ref-nome="Estratégia para comparar tratamentos (§6.9)">
+      <p><strong>1. Procure atípicos</strong>, grupo por grupo e nos resíduos do modelo ajustado. Saiba quais são, para fazer as contas com e sem eles.</p>
+      <p><strong>2. Faça um teste multivariado.</strong> A escolha do livro é a razão de verossimilhanças, equivalente ao lambda de Wilks.</p>
+      <p><strong>3. Se ele acusar diferença, calcule os intervalos de Bonferroni</strong> para todos os pares de grupos e todas as variáveis. Se nenhum for significativo, olhe Bonferroni também para diferenças e somas de pares de variáveis.</p>
+    </div>
+    <p>As sombras do elipsoide costumam ser largas demais para isso. Intervalos um de cada vez podem sugerir diferenças que valem estudar depois, mas com os dados atuais não são prova.</p>
+    <p>Um cuidado: se só uma variável, em poucas combinações de tratamentos, tem diferença real, ela pode se perder entre muitas variáveis inativas, e o teste conjunto não acusa nada (um teste só naquela variável acusaria). A melhor prevenção é o planejamento: não inclua muitas variáveis que não se espera que difiram.</p>
+    <div class="ideia">Para comparar tratamentos: identificar atípicos, fazer um teste multivariado (Wilks) e, só se ele rejeitar, usar intervalos de Bonferroni; variáveis inativas demais podem esconder uma diferença real.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Um estudo mede 20 variáveis em 3 grupos, mas só se espera diferença em uma delas. A MANOVA não rejeita; a ANOVA dessa variável, planejada antes, rejeita. Qual é a leitura mais coerente com o livro?</p>
+      <div class="alts">
+        <button data-op="a">(a) A ANOVA está errada: quando a MANOVA não rejeita, nenhuma variável difere.</button>
+        <button data-op="b">(b) Deve-se rodar as 20 ANOVAs e relatar as que derem significativas.</button>
+        <button data-op="c">(c) A diferença real pode ter se diluído entre 19 variáveis inativas; o planejamento devia ter evitado incluí-las no teste conjunto.</button>
+        <button data-op="d">(d) Deve-se trocar Wilks por Roy até a MANOVA rejeitar.</button>
+      </div>
+      <div class="fb" data-op="a">O teste conjunto pode perder poder quando a diferença está numa só variável entre muitas inativas; não rejeitar não prova que nada difere.</div>
+      <div class="fb" data-op="b">Rodar 20 testes e escolher os significativos infla a chance de falso alarme, exatamente o que o teste conjunto quer controlar.</div>
+      <div class="fb" data-op="c">Isso: é a cautela do fim do capítulo. Uma hipótese sobre uma variável específica, fixada antes, justifica o teste dela; incluir variáveis que não devem diferir dilui o efeito.</div>
+      <div class="fb" data-op="d">Escolher a estatística depois de ver o resultado invalida o nível do teste. A escolha (o livro prefere Wilks) é feita antes.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>Pareamento: aplique o $T^2$ de uma amostra aos vetores de diferenças, $H_0: \boldsymbol\delta = \mathbf{0}$.</li>
+    <li>O $T^2$ pode rejeitar com todos os intervalos das variáveis contendo o zero: alguma combinação $\mathbf{a}'\boldsymbol\delta$ difere.</li>
+    <li>Diferenças e contrastes: $\bar{\mathbf{d}} = \mathbf{C}\bar{\mathbf{x}}$, $\mathbf{S}_d = \mathbf{CSC}'$; linhas de $\mathbf{C}$ somam zero.</li>
+    <li>Medidas repetidas: $T^2$ dos contrastes $\mathbf{C}\mathbf{x}_j$, com $q - 1$ e $n - q + 1$ g.l.; não depende de qual $\mathbf{C}$.</li>
+    <li>Duas amostras: $\mathbf{S}_{\text{pooled}}$ com $n_1 + n_2 - 2$ g.l. e covariância da diferença $(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}$.</li>
+    <li>Covariâncias diferentes e amostras grandes: $\mathbf{S}_1/n_1 + \mathbf{S}_2/n_2$ e $\chi^2_p$.</li>
+    <li>ANOVA: observação = média + efeito + resíduo; MANOVA: $\mathbf{B} + \mathbf{W}$ com produtos cruzados.</li>
+    <li>$\Lambda^* = |\mathbf{W}|/|\mathbf{B} + \mathbf{W}|$; pequeno rejeita; $F$ exata em quatro casos, Bartlett nos outros.</li>
+    <li>Wilks, Pillai, Lawley–Hotelling e Roy dependem dos autovalores de $\mathbf{W}^{-1}\mathbf{B}$.</li>
+    <li>Depois de rejeitar: Bonferroni com $m = pg(g-1)/2$.</li>
+    <li>Dois fatores: teste a interação antes dos efeitos principais.</li>
+    <li>Perfis: paralelos → coincidentes → nivelados.</li>
+    <li>Curva de crescimento: médias $= \mathbf{B}\boldsymbol\beta_\ell$, polinômio no tempo.</li>
+    <li>Estratégia: atípicos, teste multivariado, Bonferroni.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$T^2 = n\,\bar{\mathbf{d}}'\mathbf{S}_d^{-1}\bar{\mathbf{d}}$$
+  $$T^2 = n\,(\mathbf{C}\bar{\mathbf{x}})'(\mathbf{CSC}')^{-1}\mathbf{C}\bar{\mathbf{x}}$$</p>
+  <p>$$T^2 = (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)'\Big[\Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)\mathbf{S}_{\text{pooled}}\Big]^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$$</p>
+  <p>$$\Lambda^* = \frac{|\mathbf{W}|}{|\mathbf{B} + \mathbf{W}|}$$
+  $$-\Big(n - 1 - \frac{p + g}{2}\Big)\ln\Lambda^* \approx \chi^2_{p(g-1)}$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Pareado / medidas repetidas</strong><ul class="resumo-lista"><li>mesma unidade recebe todos os tratamentos</li><li>sortear a ordem ou quem recebe o quê</li></ul></div>
+    <div><strong>Duas amostras / MANOVA</strong><ul class="resumo-lista"><li>grupos independentes</li><li>$\boldsymbol\Sigma$ comum (ou amostras grandes)</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>$\mathbf{S}_d$ não é $\mathbf{S}_{11} - \mathbf{S}_{22}$: entram as covariâncias cruzadas.</li>
+    <li>Esquecer $(1/n_1 + 1/n_2)$ na variância da diferença de médias.</li>
+    <li>$\mathbf{S}_{\text{pooled}}$ pesa pelos graus de liberdade, não pela média simples.</li>
+    <li>O Resultado 6.4 exige cada $n_\ell - p$ grande, não a soma.</li>
+    <li>$\Lambda^*$ é produto de $1/(1 + \lambda_i)$; o posto de $\mathbf{B}$ é no máximo $g - 1$.</li>
+    <li>Interação não significativa permite interpretar os efeitos principais; significativa, não.</li>
+    <li>Perfis nivelados só fazem sentido com medidas na mesma escala.</li>
+    <li>Ordem não sorteada confunde tratamento com tempo.</li>
+    <li>Variáveis inativas demais podem esconder uma diferença real.</li>
+  </ul>
+  <h3>No livro, vale treinar</h3>
+  <p>Exercícios 6.1–6.4 (efluente), 6.5 (medidas repetidas), 6.6–6.8 (duas amostras e MANOVA à mão), 6.9–6.10 (contrastes e perpendicularidade), 6.12 (perfis lineares), 6.13–6.14 (dois fatores à mão), 6.15 (intervalos do filme plástico), 6.30–6.31 (curva de crescimento).</p>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+/* ===== Utilitários do capítulo ===== */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+function caminhoElipse(s11, s12, s22, c, px, py, cx, cy) {
+  cx = cx || 0; cy = cy || 0;
+  var tr = s11 + s22, det = s11 * s22 - s12 * s12, d = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  var l1 = tr / 2 + d, l2 = tr / 2 - d, ang = 0.5 * Math.atan2(2 * s12, s11 - s22);
+  var e1 = [Math.cos(ang), Math.sin(ang)], e2 = [-Math.sin(ang), Math.cos(ang)], s = '';
+  for (var t = 0; t <= 72; t++) {
+    var a = t / 72 * 2 * Math.PI, u = c * Math.sqrt(l1) * Math.cos(a), v = c * Math.sqrt(l2) * Math.sin(a);
+    s += (t ? 'L' : 'M') + px(cx + u * e1[0] + v * e2[0]).toFixed(1) + ' ' + py(cy + u * e1[1] + v * e2[1]).toFixed(1);
+  }
+  return s + 'Z';
+}
+/* Distribuição F: beta incompleta regularizada (frações contínuas) e quantil por bisseção */
+function lnGama(z) {
+  var g = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  var x = z, y = z, t = x + 5.5; t -= (x + 0.5) * Math.log(t); var s = 1.000000000190015;
+  for (var j = 0; j < 6; j++) s += g[j] / ++y;
+  return -t + Math.log(2.5066282746310005 * s / x);
+}
+function betacf(a, b, x) {
+  var qab = a + b, qap = a + 1, qam = a - 1, c = 1, d = 1 - qab * x / qap, pq = 1e-300;
+  if (Math.abs(d) < pq) d = pq; d = 1 / d; var h = d;
+  for (var m = 1; m <= 300; m++) {
+    var m2 = 2 * m, aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+    d = 1 + aa * d; if (Math.abs(d) < pq) d = pq; c = 1 + aa / c; if (Math.abs(c) < pq) c = pq; d = 1 / d; h *= d * c;
+    aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+    d = 1 + aa * d; if (Math.abs(d) < pq) d = pq; c = 1 + aa / c; if (Math.abs(c) < pq) c = pq; d = 1 / d;
+    var del = d * c; h *= del; if (Math.abs(del - 1) < 1e-12) break;
+  }
+  return h;
+}
+function ibeta(x, a, b) {
+  if (x <= 0) return 0; if (x >= 1) return 1;
+  var bt = Math.exp(lnGama(a + b) - lnGama(a) - lnGama(b) + a * Math.log(x) + b * Math.log(1 - x));
+  return x < (a + 1) / (a + b + 2) ? bt * betacf(a, b, x) / a : 1 - bt * betacf(b, a, 1 - x) / b;
+}
+function pFsup(f, d1, d2) { return f <= 0 ? 1 : ibeta(d2 / (d2 + d1 * f), d2 / 2, d1 / 2); }
+function qFsup(alfa, d1, d2) { var lo = 0, hi = 1000; for (var i = 0; i < 90; i++) { var m = (lo + hi) / 2; if (pFsup(m, d1, d2) > alfa) lo = m; else hi = m; } return (lo + hi) / 2; }
+function fmtP(p) { return p < 0.001 ? 'menor que 0,001' : fmt(p, 3); }
+
+/* ===== 6.1 Elipse do efluente e o intervalo numa direção a ===== */
+(function () {
+  var sa = document.getElementById('dir-a');
+  if (!sa) return;
+  var svg = document.getElementById('dir-svg');
+  var db = [-9.3636, 13.2727], Sd = [199.2545, 88.3091, 418.6182], n = 11, c2 = 9.4589;
+  function intervalo(th) {
+    var a = [Math.cos(th), Math.sin(th)], m = a[0] * db[0] + a[1] * db[1];
+    var v = a[0] * a[0] * Sd[0] + 2 * a[0] * a[1] * Sd[1] + a[1] * a[1] * Sd[2], h = Math.sqrt(c2 * v / n);
+    return [a, m - h, m + h];
+  }
+  /* faixa de direções cujo intervalo deixa o zero de fora */
+  var fora = [];
+  for (var g = 0; g < 180; g++) { var I = intervalo(g * Math.PI / 180); if (I[1] > 0 || I[2] < 0) fora.push(g); }
+  var faixa = fora.length ? fora[0] + '° e ' + fora[fora.length - 1] + '°' : '';
+  function desenhar() {
+    var gr = +sa.value, th = gr * Math.PI / 180, I = intervalo(th), a = I[0];
+    document.getElementById('dir-a-v').textContent = gr + '°';
+    var k = 5.2, px = function (x) { return 210 + x * k; }, py = function (y) { return 250 - y * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), ok = corVar('--ok'), lar = corVar('--s1'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: px(-37), y1: py(0), x2: px(27), y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(-8.5), x2: px(0), y2: py(45), stroke: bo }));
+    svg.appendChild(svgEl('text', { x: px(27), y: py(0) + 16, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'δ₁ (DBO)'));
+    svg.appendChild(svgEl('text', { x: px(0) + 6, y: py(45) + 10, 'font-size': 11, fill: m }, 'δ₂ (SS)'));
+    svg.appendChild(svgEl('path', { d: caminhoElipse(Sd[0] / n, Sd[1] / n, Sd[2] / n, Math.sqrt(c2), px, py, db[0], db[1]), fill: roxo, 'fill-opacity': 0.12, stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('circle', { cx: px(db[0]), cy: py(db[1]), r: 3.5, fill: roxo }));
+    var gq = recorte(svg, 4, 4, 352, 292), L = 80, exclui = I[1] > 0 || I[2] < 0, cor = exclui ? ok : lar;
+    gq.appendChild(svgEl('line', { x1: px(-L * a[0]), y1: py(-L * a[1]), x2: px(L * a[0]), y2: py(L * a[1]), stroke: m, 'stroke-dasharray': '3 4' }));
+    [I[1], I[2]].forEach(function (t) {
+      var cx = t * a[0], cy = t * a[1];
+      gq.appendChild(svgEl('line', { x1: px(cx - L * a[1]), y1: py(cy + L * a[0]), x2: px(cx + L * a[1]), y2: py(cy - L * a[0]), stroke: cor, 'stroke-width': 1, 'stroke-dasharray': '5 4', 'stroke-opacity': 0.8 }));
+    });
+    gq.appendChild(svgEl('line', { x1: px(I[1] * a[0]), y1: py(I[1] * a[1]), x2: px(I[2] * a[0]), y2: py(I[2] * a[1]), stroke: cor, 'stroke-width': 5, 'stroke-linecap': 'round' }));
+    svg.appendChild(svgEl('circle', { cx: px(0), cy: py(0), r: 5, fill: txt }));
+    svg.appendChild(svgEl('text', { x: px(0) + 7, y: py(0) - 7, 'font-size': 12, 'font-weight': 700, fill: txt }, '0'));
+    document.getElementById('dir-txt').innerHTML = 'Direção $\\mathbf{a}$ = [' + fmt(a[0], 2) + '; ' + fmt(a[1], 2) + ']. Intervalo de 95% para $a_1\\delta_1 + a_2\\delta_2$: (' + fmt(I[1], 1) + '; ' + fmt(I[2], 1) + '), ' + (exclui ? '<strong>sem o zero</strong>' : 'contém o zero') + '. A faixa colorida é a sombra da elipse; o ponto preto é a origem. Deixam o zero de fora as direções entre ' + faixa + '.';
+    tipografar(document.getElementById('dir-txt'));
+  }
+  sa.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.3 Figura: elipse de confiança do sabão (Ex. 6.3) ===== */
+(function () {
+  var svg = document.getElementById('sabao-svg');
+  if (!svg) return;
+  function desenhar() {
+    var k = 65, px = function (x) { return 265 + x * k; }, py = function (y) { return 125 - y * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: px(-3.6), y1: py(0), x2: px(0.75), y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(-1.2), x2: px(0), y2: py(1.75), stroke: bo }));
+    [-3, -2, -1].forEach(function (v) {
+      svg.appendChild(svgEl('line', { x1: px(v), y1: py(0) - 3, x2: px(v), y2: py(0) + 3, stroke: bo }));
+      svg.appendChild(svgEl('text', { x: px(v), y: py(0) + 15, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, fmt(v, 0)));
+    });
+    svg.appendChild(svgEl('path', { d: caminhoElipse(0.08, 0.04, 0.2, Math.sqrt(6.244), px, py, -1.9, 0.2), fill: roxo, 'fill-opacity': 0.14, stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('circle', { cx: px(-1.9), cy: py(0.2), r: 3.5, fill: roxo }));
+    svg.appendChild(svgEl('circle', { cx: px(0), cy: py(0), r: 4.5, fill: txt }));
+    svg.appendChild(svgEl('text', { x: px(0) + 7, y: py(0) - 7, 'font-size': 12, 'font-weight': 700, fill: txt }, '0'));
+    svg.appendChild(svgEl('text', { x: px(0.75), y: py(0) + 30, 'font-size': 10, fill: m, 'text-anchor': 'end' }, 'diferença na espuma'));
+    svg.appendChild(svgEl('text', { x: px(0) - 6, y: py(1.75) + 10, 'font-size': 10, fill: m, 'text-anchor': 'end' }, 'diferença na suavidade'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.4 ANOVA: médias, espalhamento, SS e F (n = 5 por grupo) ===== */
+(function () {
+  var sd = document.getElementById('an-d');
+  if (!sd) return;
+  var ss = document.getElementById('an-s'), svg = document.getElementById('an-svg');
+  var R = [[-1.0, -0.5, 0.2, 0.4, 0.9], [-1.3, -0.2, 0.1, 0.6, 0.8], [-0.8, -0.6, 0.0, 0.5, 0.9]], somaR = 7.06, fcrit = qFsup(0.05, 2, 12);
+  function desenhar() {
+    var d = +sd.value, s = +ss.value;
+    document.getElementById('an-d-v').textContent = fmt(d, 1); document.getElementById('an-s-v').textContent = fmt(s, 1);
+    var py = function (v) { return 220 - (v + 2) * (200 / 14); }, xs = [60, 130, 200], cores = [corVar('--s1'), corVar('--s2'), corVar('--s3')];
+    var bo = corVar('--border'), m = corVar('--muted'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 28, y1: py(5), x2: 232, y2: py(5), stroke: m, 'stroke-dasharray': '5 4' }));
+    svg.appendChild(svgEl('text', { x: 28, y: py(5) - 5, 'font-size': 10, fill: m }, 'média geral'));
+    for (var g = 0; g < 3; g++) {
+      var mu = 5 + (g - 1) * d;
+      svg.appendChild(svgEl('line', { x1: xs[g] - 22, y1: py(mu), x2: xs[g] + 22, y2: py(mu), stroke: cores[g], 'stroke-width': 3 }));
+      for (var j = 0; j < 5; j++) svg.appendChild(svgEl('circle', { cx: xs[g] + (j - 2) * 7, cy: py(mu + s * R[g][j]), r: 4, fill: cores[g], 'fill-opacity': 0.75 }));
+      svg.appendChild(svgEl('text', { x: xs[g], y: 248, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, 'grupo ' + (g + 1)));
+    }
+    var sstr = 10 * d * d, ssres = s * s * somaR, kb = 1.15, base = 225, x0 = 262;
+    svg.appendChild(svgEl('rect', { x: x0, y: base - ssres * kb, width: 34, height: ssres * kb, fill: corVar('--s2'), 'fill-opacity': 0.55 }));
+    svg.appendChild(svgEl('rect', { x: x0, y: base - (ssres + sstr) * kb, width: 34, height: sstr * kb, fill: corVar('--s1'), 'fill-opacity': 0.75 }));
+    svg.appendChild(svgEl('line', { x1: x0 - 4, y1: base, x2: x0 + 38, y2: base, stroke: bo }));
+    var yDentro = base - ssres * kb / 2 + 4, yEntre = Math.min(base - (ssres + sstr / 2) * kb + 4, yDentro - 13);
+    svg.appendChild(svgEl('text', { x: x0 + 40, y: yDentro, 'font-size': 11, fill: txt }, 'dentro'));
+    if (sstr > 0.05) svg.appendChild(svgEl('text', { x: x0 + 40, y: yEntre, 'font-size': 11, fill: txt }, 'entre'));
+    svg.appendChild(svgEl('text', { x: x0 + 17, y: 248, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, 'SS'));
+    var F = (sstr / 2) / (ssres / 12), p = pFsup(F, 2, 12);
+    document.getElementById('an-txt').innerHTML = '$SS_{\\text{tr}}$ = ' + fmt(sstr, 1) + '; $SS_{\\text{res}}$ = ' + fmt(ssres, 1) + '; $F$ = ' + fmt(F, 2) + ' com 2 e 12 g.l. (P-valor ' + fmtP(p) + '). ' + (F > fcrit ? '<strong>Rejeita</strong> a igualdade a 5%' : 'Não rejeita a 5%') + ' (crítico ' + fmt(fcrit, 2) + ').';
+    tipografar(document.getElementById('an-txt'));
+  }
+  sd.addEventListener('input', desenhar); ss.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.5 Lambda de Wilks: 3 grupos, mesma Σ (correlação 0,8), n = 20 por grupo ===== */
+(function () {
+  var sm = document.getElementById('wk-m');
+  if (!sm) return;
+  var sf = document.getElementById('wk-f'), svg = document.getElementById('wk-svg');
+  var r = 0.8, n = 20, N = 60;
+  function desenhar() {
+    var mm = +sm.value, fi = +sf.value * Math.PI / 180, u = [Math.cos(fi), Math.sin(fi)];
+    document.getElementById('wk-m-v').textContent = fmt(mm, 2); document.getElementById('wk-f-v').textContent = sf.value + '°';
+    var k = 52, px = function (x) { return 180 + x * k; }, py = function (y) { return 150 - y * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), cores = [corVar('--s1'), corVar('--s2'), corVar('--s3')];
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 14, y1: 150, x2: 346, y2: 150, stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 180, y1: 6, x2: 180, y2: 294, stroke: bo }));
+    for (var g = 0; g < 3; g++) {
+      var c = [(g - 1) * mm * u[0], (g - 1) * mm * u[1]];
+      svg.appendChild(svgEl('path', { d: caminhoElipse(1, r, 1, 1.5, px, py, c[0], c[1]), fill: cores[g], 'fill-opacity': 0.1, stroke: cores[g], 'stroke-width': 1.8 }));
+      svg.appendChild(svgEl('circle', { cx: px(c[0]), cy: py(c[1]), r: 4.5, fill: cores[g] }));
+    }
+    var q = (u[0] * u[0] - 2 * r * u[0] * u[1] + u[1] * u[1]) / (1 - r * r);   /* u' Σ⁻¹ u */
+    var lam = 1 / (1 + 40 * mm * mm / 57 * q), F = (N - 2 - 2) / 2 * (1 - Math.sqrt(lam)) / Math.sqrt(lam), p = pFsup(F, 4, 112);
+    document.getElementById('wk-txt').innerHTML = 'Com as matrizes esperadas ($\\mathbf{W} = 57\\boldsymbol\\Sigma$ e $\\mathbf{B}$ das médias, sem sorteio): $\\Lambda^*$ = ' + fmt(lam, 3) + '; $F$ = ' + fmt(F, 2) + ' com 4 e 112 g.l. (linha $g = 3$ da Tabela 6.3), P-valor ' + fmtP(p) + '. ' + (p < 0.05 ? '<strong>Rejeita</strong> a 5%.' : 'Não rejeita a 5%.');
+    tipografar(document.getElementById('wk-txt'));
+  }
+  sm.addEventListener('input', desenhar); sf.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.7 Gráfico de médias com interação (2 níveis do fator 1, 3 do fator 2) ===== */
+(function () {
+  var st = document.getElementById('it-t');
+  if (!st) return;
+  var sg = document.getElementById('it-g'), svg = document.getElementById('it-svg');
+  var beta = [-1.5, 0.5, 1.0], ck = [-1, 0, 1], xs = [70, 180, 290];
+  function desenhar() {
+    var t = +st.value, g = +sg.value;
+    document.getElementById('it-t-v').textContent = fmt(t, 1); document.getElementById('it-g-v').textContent = fmt(g, 1);
+    var py = function (v) { return 205 - (v - 4) * (185 / 12); };
+    var bo = corVar('--border'), m = corVar('--muted'), cores = [corVar('--s1'), corVar('--roxo')];
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 40, y1: 210, x2: 330, y2: 210, stroke: bo }));
+    for (var k = 0; k < 3; k++) svg.appendChild(svgEl('text', { x: xs[k], y: 228, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, 'nível ' + (k + 1)));
+    var med = [[], []];
+    for (var l = 0; l < 2; l++) {
+      var sinal = l === 0 ? 1 : -1, pts = '';
+      for (k = 0; k < 3; k++) { med[l][k] = 10 + sinal * t + beta[k] + sinal * g * ck[k]; pts += (k ? ' ' : '') + xs[k] + ',' + py(med[l][k]).toFixed(1); }
+      svg.appendChild(svgEl('polyline', { points: pts, fill: 'none', stroke: cores[l], 'stroke-width': 2.5 }));
+      for (k = 0; k < 3; k++) svg.appendChild(svgEl('circle', { cx: xs[k], cy: py(med[l][k]), r: 4.5, fill: cores[l] }));
+    }
+    svg.appendChild(svgEl('text', { x: 44, y: 16, 'font-size': 11, fill: cores[0] }, '— nível 1 do fator 1'));
+    svg.appendChild(svgEl('text', { x: 200, y: 16, 'font-size': 11, fill: cores[1] }, '— nível 2 do fator 1'));
+    var dist = [0, 1, 2].map(function (k) { return fmt(med[0][k] - med[1][k], 1); });
+    document.getElementById('it-txt').innerHTML = 'Distância entre as linhas (efeito do fator 1) nos níveis 1, 2 e 3 do fator 2: ' + dist.join('; ') + '. ' + (Math.abs(g) < 0.05 ? 'Sem interação: linhas paralelas, efeitos que se somam.' : '<strong>Com interação</strong>: o efeito do fator 1 depende do nível do fator 2.');
+    tipografar(document.getElementById('it-txt'));
+  }
+  st.addEventListener('input', desenhar); sg.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.8 Perfis de dois grupos em quatro variáveis ===== */
+(function () {
+  var sh = document.getElementById('pf-h');
+  if (!sh) return;
+  var sq = document.getElementById('pf-q'), ss = document.getElementById('pf-s'), svg = document.getElementById('pf-svg');
+  var xs = [60, 140, 220, 300];
+  function desenhar() {
+    var h = +sh.value, q = +sq.value, s = +ss.value;
+    document.getElementById('pf-h-v').textContent = fmt(h, 1); document.getElementById('pf-q-v').textContent = fmt(q, 1); document.getElementById('pf-s-v').textContent = fmt(s, 1);
+    var py = function (v) { return 200 - (v + 3) * (180 / 14); };
+    var bo = corVar('--border'), m = corVar('--muted'), cores = [corVar('--s1'), corVar('--roxo')];
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 36, y1: 205, x2: 324, y2: 205, stroke: bo }));
+    for (var i = 0; i < 4; i++) svg.appendChild(svgEl('text', { x: xs[i], y: 222, 'font-size': 11, fill: m, 'text-anchor': 'middle' }, 'variável ' + (i + 1)));
+    var mu = [[], []];
+    for (i = 0; i < 4; i++) { mu[0][i] = 5 + s * i; mu[1][i] = mu[0][i] - h + q * i; }
+    for (var l = 0; l < 2; l++) {
+      svg.appendChild(svgEl('polyline', { points: xs.map(function (x, i) { return x + ',' + py(mu[l][i]).toFixed(1); }).join(' '), fill: 'none', stroke: cores[l], 'stroke-width': 2.5 }));
+      for (i = 0; i < 4; i++) svg.appendChild(svgEl('circle', { cx: xs[i], cy: py(mu[l][i]), r: 4.5, fill: cores[l] }));
+    }
+    svg.appendChild(svgEl('text', { x: 40, y: 14, 'font-size': 11, fill: cores[0] }, '— grupo 1'));
+    svg.appendChild(svgEl('text', { x: 130, y: 14, 'font-size': 11, fill: cores[1] }, '— grupo 2'));
+    var par = Math.abs(q) < 0.05, coi = par && h < 0.05, niv = coi && Math.abs(s) < 0.05, t;
+    t = '1. Paralelos? ' + (par ? 'sim.' : '<strong>não</strong>; as etapas 2 e 3 não se aplicam.');
+    if (par) t += ' 2. Coincidentes? ' + (coi ? 'sim.' : '<strong>não</strong>: um perfil acima do outro; a etapa 3 não se aplica.');
+    if (coi) t += ' 3. Nivelados? ' + (niv ? 'sim: todas as médias iguais.' : '<strong>não</strong>: o perfil comum sobe ou desce.');
+    document.getElementById('pf-txt').innerHTML = 'Nas médias populacionais: ' + t;
+  }
+  sh.addEventListener('input', desenhar); sq.addEventListener('input', desenhar); ss.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.9 Figura: médias do cálcio e quadráticas ajustadas (Ex. 6.13) ===== */
+(function () {
+  var svg = document.getElementById('cresc-svg');
+  if (!svg) return;
+  var med = [[72.38, 73.29, 72.47, 64.79], [69.29, 70.66, 71.18, 64.53]], coef = [[73.07, 3.64, -2.03], [70.14, 4.09, -1.85]];
+  function desenhar() {
+    var px = function (t) { return 55 + t * 85; }, py = function (v) { return 195 - (v - 63) * 14.5; };
+    var bo = corVar('--border'), m = corVar('--muted'), cores = [corVar('--s1'), corVar('--roxo')];
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 45, y1: 200, x2: 320, y2: 200, stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 45, y1: 200, x2: 45, y2: 12, stroke: bo }));
+    [0, 1, 2, 3].forEach(function (t) { svg.appendChild(svgEl('text', { x: px(t), y: 214, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, t + (t === 1 ? ' ano' : t ? ' anos' : ' (início)'))); });
+    [65, 70, 75].forEach(function (v) { svg.appendChild(svgEl('text', { x: 40, y: py(v) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, String(v))); });
+    for (var l = 0; l < 2; l++) {
+      var d = '';
+      for (var i = 0; i <= 30; i++) { var t = i / 10, v = coef[l][0] + coef[l][1] * t + coef[l][2] * t * t; d += (i ? 'L' : 'M') + px(t).toFixed(1) + ' ' + py(v).toFixed(1); }
+      svg.appendChild(svgEl('path', { d: d, fill: 'none', stroke: cores[l], 'stroke-width': 2 }));
+      for (i = 0; i < 4; i++) svg.appendChild(svgEl('circle', { cx: px(i), cy: py(med[l][i]), r: 4, fill: cores[l] }));
+    }
+    svg.appendChild(svgEl('text', { x: 58, y: 178, 'font-size': 11, fill: cores[0] }, '— controle'));
+    svg.appendChild(svgEl('text', { x: 58, y: 193, 'font-size': 11, fill: cores[1] }, '— dieta e exercício'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 6.10 Correlação dentro dos grupos e o T² (médias e desvios do Ex. 6.14) ===== */
+(function () {
+  var sr = document.getElementById('co-r');
+  if (!sr) return;
+  var svg = document.getElementById('co-svg');
+  var m1 = [6.06, 5.04], m2 = [5.35, 6.05], s1 = 1.0124, s2 = 1.3802, c5 = 18 * 2 / 17 * qFsup(0.05, 2, 17), c1 = 18 * 2 / 17 * qFsup(0.01, 2, 17);
+  function desenhar() {
+    var r = +sr.value;
+    document.getElementById('co-r-v').textContent = fmt(r, 2);
+    var k = 33, px = function (x) { return 25 + (x - 2) * k; }, py = function (y) { return 285 - (y - 1.5) * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), cores = [corVar('--s1'), corVar('--roxo')];
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 20, y1: 290, x2: 340, y2: 290, stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 20, y1: 290, x2: 20, y2: 8, stroke: bo }));
+    svg.appendChild(svgEl('text', { x: 340, y: 284, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'x₁ →'));
+    svg.appendChild(svgEl('text', { x: 26, y: 18, 'font-size': 11, fill: m }, '↑ x₂'));
+    var s12 = r * s1 * s2;
+    [m1, m2].forEach(function (mu, l) {
+      svg.appendChild(svgEl('path', { d: caminhoElipse(s1 * s1, s12, s2 * s2, 1.5, px, py, mu[0], mu[1]), fill: cores[l], 'fill-opacity': 0.1, stroke: cores[l], 'stroke-width': 2 }));
+      svg.appendChild(svgEl('circle', { cx: px(mu[0]), cy: py(mu[1]), r: 4.5, fill: cores[l] }));
+    });
+    svg.appendChild(svgEl('text', { x: 230, y: 30, 'font-size': 11, fill: cores[0] }, '— grupo 1'));
+    svg.appendChild(svgEl('text', { x: 230, y: 46, 'font-size': 11, fill: cores[1] }, '— grupo 2'));
+    var d = [m1[0] - m2[0], m1[1] - m2[1]], det = s1 * s1 * s2 * s2 * (1 - r * r);
+    var T2 = 5 * (d[0] * d[0] * s2 * s2 - 2 * d[0] * d[1] * s12 + d[1] * d[1] * s1 * s1) / det;
+    document.getElementById('co-txt').innerHTML = '$F$ univariados: 2,46 e 2,68 (não mudam com a correlação). $T^2$ = ' + fmt(T2, 2) + '; críticos 7,60 (5%) e 12,94 (1%): ' + (T2 > c1 ? '<strong>rejeita a 1%</strong>' : T2 > c5 ? '<strong>rejeita a 5%</strong>' : 'não rejeita') + '.';
+    tipografar(document.getElementById('co-txt'));
+  }
+  sr.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>

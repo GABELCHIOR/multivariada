@@ -243,8 +243,59 @@ window.SITE = {
    "titulo": "Comparação de vários vetores de médias",
    "arquivo": "capitulos/cap-06.html",
    "paginas": "290-376",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "6.1",
+     "titulo": "Comparações pareadas",
+     "livro": "§6.1–6.2"
+    },
+    {
+     "numero": "6.2",
+     "titulo": "Medidas repetidas",
+     "livro": "§6.2"
+    },
+    {
+     "numero": "6.3",
+     "titulo": "Duas populações",
+     "livro": "§6.3"
+    },
+    {
+     "numero": "6.4",
+     "titulo": "ANOVA de um fator",
+     "livro": "§6.4 (univariado)"
+    },
+    {
+     "numero": "6.5",
+     "titulo": "MANOVA de um fator",
+     "livro": "§6.4 (multivariado), §6.9"
+    },
+    {
+     "numero": "6.6",
+     "titulo": "Quem difere de quem",
+     "livro": "§6.5"
+    },
+    {
+     "numero": "6.7",
+     "titulo": "Dois fatores",
+     "livro": "§6.6"
+    },
+    {
+     "numero": "6.8",
+     "titulo": "Análise de perfis",
+     "livro": "§6.7"
+    },
+    {
+     "numero": "6.9",
+     "titulo": "Curvas de crescimento",
+     "livro": "§6.8"
+    },
+    {
+     "numero": "6.10",
+     "titulo": "Estratégia",
+     "livro": "§6.9"
+    }
+   ]
   },
   {
    "id": "cap-07",
