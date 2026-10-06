@@ -24,7 +24,7 @@ window.MathJax = {
     <div class="trilho-rodape" id="trilho-rodape">
       <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
       <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
-      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
     </div>
   </div>
 </nav>
@@ -32,7 +32,7 @@ window.MathJax = {
 <div class="wrap">
 
 <h1>Cap. 6 — Comparação de vários vetores de médias</h1>
-<p class="contexto">Onde isso se encaixa: o <span class="ref" data-ref="f-t2">$T^2$ do cap. 5</span> comparava um vetor de médias com um valor fixo. Aqui ele compara tratamentos: antes e depois na mesma unidade, duas populações independentes e, por fim, vários grupos ao mesmo tempo. O caminho do livro é sempre o mesmo: lembrar o procedimento univariado e trocar números por vetores e quadrados por matrizes.</p>
+<p class="contexto">Onde isso se encaixa: o <span class="ref" data-ref="f-t2">$T^2$ do cap. 5</span> comparava um vetor de médias com um valor fixo. Aqui ele compara tratamentos: antes e depois na mesma unidade, duas populações independentes e, por fim, vários grupos ao mesmo tempo. O caminho é sempre o mesmo: lembrar o procedimento univariado e trocar números por vetores e quadrados por matrizes.</p>
 
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
@@ -56,8 +56,8 @@ window.MathJax = {
     <div class="ideia">Medir os dois tratamentos na mesma unidade e analisar as diferenças tira do caminho a variação de uma unidade para outra; com $p$ variáveis, cada diferença é um vetor.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-efluente" data-ref-tipo="exemplo" data-ref-nome="Efluente medido por dois laboratórios (Ex. 6.1)">
-      <p><strong>Ex. 6.1 (Tabela 6.1).</strong> DBO e SS de 11 amostras divididas.</p>
+    <div class="exemplo" data-ref-id="ex-efluente" data-ref-tipo="exemplo" data-ref-nome="Efluente medido por dois laboratórios">
+      <p><strong>Exemplo.</strong> DBO e SS de 11 amostras divididas.</p>
       <table>
         <thead><tr><th>$j$</th><th>DBO com.</th><th>SS com.</th><th>DBO est.</th><th>SS est.</th><th>$d_{j1}$</th><th>$d_{j2}$</th></tr></thead>
         <tbody>
@@ -88,7 +88,7 @@ window.MathJax = {
    <div class="texto">
     <h2>As diferenças são uma amostra: basta aplicar o $T^2$ a elas</h2>
     <p>Se os vetores $\mathbf{d}_1, \dots, \mathbf{d}_n$ são uma amostra aleatória de $N_p(\boldsymbol\delta, \boldsymbol\Sigma_d)$, o problema é exatamente o do cap. 5, com $\mathbf{d}_j$ no lugar de $\mathbf{x}_j$ e $\boldsymbol\delta$ no lugar de $\boldsymbol\mu$:</p>
-    <div class="formula" data-ref-id="f-t2-pares" data-ref-tipo="formula" data-ref-nome="T² para comparações pareadas (Resultado 6.1)">
+    <div class="formula" data-ref-id="f-t2-pares" data-ref-tipo="formula" data-ref-nome="T² para comparações pareadas">
       $$\begin{aligned} T^2 &= n\,(\bar{\mathbf{d}} - \class{s1}{\boldsymbol\delta})'\,\class{s2}{\mathbf{S}_d}^{-1}(\bar{\mathbf{d}} - \class{s1}{\boldsymbol\delta}) \\ &\sim \frac{(n-1)p}{n-p}\,F_{p,\,n-p} \end{aligned}$$
       $$\bar{\mathbf{d}} = \frac1n\sum_{j=1}^n \mathbf{d}_j$$
       $$\class{s2}{\mathbf{S}_d} = \frac{1}{n-1}\sum_{j=1}^n(\mathbf{d}_j - \bar{\mathbf{d}})(\mathbf{d}_j - \bar{\mathbf{d}})'$$
@@ -104,7 +104,7 @@ window.MathJax = {
     <div class="lacunas">
       <p>Com os dados do <span class="ref" data-ref="ex-efluente">efluente</span>: as diferenças de DBO somam $-103$.</p>
       <p>$\bar d_1 =$ <input class="lacuna" data-resp="-9.3636" data-tol="0.01" aria-label="média das diferenças de DBO"></p>
-      <p>O livro calcula $T^2 = 13{,}6$. Com $n = 11$, $p = 2$ e $F_{2,9}(0{,}05) = 4{,}26$, o valor crítico é $c^2 =$ <input class="lacuna" data-resp="9.47" data-tol="0.02" aria-label="valor crítico"></p>
+      <p>A conta completa dá $T^2 = 13{,}6$. Com $n = 11$, $p = 2$ e $F_{2,9}(0{,}05) = 4{,}26$, o valor crítico é $c^2 =$ <input class="lacuna" data-resp="9.47" data-tol="0.02" aria-label="valor crítico"></p>
       <p>Rejeita $H_0: \boldsymbol\delta = \mathbf{0}$ a 5%? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="rejeita"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $c^2 = \frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)$, com $(n - 1)p = 20$ e $n - p = 9$.</p>
@@ -117,13 +117,13 @@ window.MathJax = {
    <div class="texto">
     <h2>O teste rejeita, mas os dois intervalos contêm o zero</h2>
     <p>Os intervalos simultâneos são os mesmos do cap. 5 (<span class="ref" data-ref="f-t2-intervalos">$T^2$-intervalos</span> e <span class="ref" data-ref="f-bonferroni">Bonferroni</span>), agora para as diferenças:</p>
-    <div class="formula" data-ref-id="f-int-pares" data-ref-tipo="formula" data-ref-nome="Intervalos simultâneos para diferenças pareadas (6-10), (6-10a)">
+    <div class="formula" data-ref-id="f-int-pares" data-ref-tipo="formula" data-ref-nome="Intervalos simultâneos para diferenças pareadas">
       $$\delta_i:\quad \bar d_i \pm \sqrt{\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)}\,\sqrt{\frac{s^2_{d_i}}{n}}$$
       <p>ou, com Bonferroni,</p>
       $$\delta_i:\quad \bar d_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s^2_{d_i}}{n}}$$
     </div>
     <p>No efluente, os $T^2$-intervalos de 95% são $(-22{,}46;\ 3{,}74)$ para a DBO e $(-5{,}71;\ 32{,}25)$ para os SS. Os dois contêm o zero, e os de Bonferroni também. Contradição? Não. A confiança de 95% vale para <em>todas</em> as combinações $a_1\delta_1 + a_2\delta_2$ ao mesmo tempo. As duas escolhidas ($\mathbf{a} = [1, 0]'$ e $[0, 1]'$) contêm o zero; outras não contêm, e é por isso que o teste rejeita.</p>
-    <p>A combinação que mais pesa na rejeição tem $\mathbf{a}$ proporcional a $\mathbf{S}_d^{-1}\bar{\mathbf{d}}$, aqui perto de $[-1;\ 0{,}68]'$: DBO menor <em>e</em> SS maior no laboratório comercial, juntos. (O livro avisa: a amostra 8 parece atípica, e com $n = 11$ isso pesa.)</p>
+    <p>A combinação que mais pesa na rejeição tem $\mathbf{a}$ proporcional a $\mathbf{S}_d^{-1}\bar{\mathbf{d}}$, aqui perto de $[-1;\ 0{,}68]'$: DBO menor <em>e</em> SS maior no laboratório comercial, juntos. (Um cuidado: a amostra 8 parece atípica, e com $n = 11$ isso pesa.)</p>
     <div class="ideia">Rejeitar com $T^2$ garante que alguma combinação $\mathbf{a}'\boldsymbol\delta$ tem intervalo sem o zero, mas ela pode não ser nenhuma das variáveis sozinhas.</div>
    </div>
    <aside class="apoio">
@@ -148,7 +148,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Diferença é um contraste: dá para calcular tudo a partir de $\bar{\mathbf{x}}$ e $\mathbf{S}$</h2>
     <p>Empilhe as $2p$ medidas da unidade $j$ num só vetor: primeiro as $p$ do tratamento 1, depois as $p$ do tratamento 2. Com $\bar{\mathbf{x}}$ ($2p \times 1$) e $\mathbf{S}$ ($2p \times 2p$) dessa amostra, a matriz $\mathbf{C} = [\,\mathbf{I}\ \ {-\mathbf{I}}\,]$ ($p \times 2p$) produz as diferenças:</p>
-    <div class="formula" data-ref-id="f-contraste-pares" data-ref-tipo="formula" data-ref-nome="Diferenças pareadas como contrastes (6-13), (6-14)">
+    <div class="formula" data-ref-id="f-contraste-pares" data-ref-tipo="formula" data-ref-nome="Diferenças pareadas como contrastes">
       $$\mathbf{d}_j = \mathbf{C}\mathbf{x}_j,\qquad \bar{\mathbf{d}} = \mathbf{C}\bar{\mathbf{x}},\qquad \mathbf{S}_d = \mathbf{C}\mathbf{S}\mathbf{C}'$$
     </div>
     <p>São as regras das <span class="ref" data-ref="f-comb-amostra">combinações lineares na amostra (cap. 3)</span>. Cada linha de $\mathbf{C}$ soma zero: é um <strong>vetor de contraste</strong>, perpendicular a $\mathbf{1}$. Por isso o $T^2$ ignora o total $\mathbf{1}'\mathbf{x}_j$ e só olha para comparações. Mesmo assim, vale calcular os $\mathbf{d}_j$: é neles que se confere a normalidade e procuram-se atípicos.</p>
@@ -182,7 +182,7 @@ window.MathJax = {
     <p>Agora há <strong>uma</strong> variável resposta e $q$ tratamentos, todos aplicados a cada unidade, um de cada vez (daí "medidas repetidas"). Cada unidade dá $\mathbf{x}_j = [x_{j1}, \dots, x_{jq}]'$. "Os tratamentos não diferem" é $\mu_1 = \cdots = \mu_q$, o mesmo que $\mathbf{C}\boldsymbol\mu = \mathbf{0}$ para uma matriz de contraste $\mathbf{C}$ com $q - 1$ linhas independentes. Por exemplo:</p>
     $$\mathbf{C} = \begin{bmatrix} -1 & 1 & 0 & 0 \\ 0 & -1 & 1 & 0 \\ 0 & 0 & -1 & 1 \end{bmatrix}\qquad (q = 4)$$
     <p>Os contrastes $\mathbf{C}\mathbf{x}_j$ têm média $\mathbf{C}\bar{\mathbf{x}}$ e covariância $\mathbf{CSC}'$, e o $T^2$ deles testa $H_0$:</p>
-    <div class="formula" data-ref-id="f-medrep" data-ref-tipo="formula" data-ref-nome="T² para medidas repetidas (6-16)">
+    <div class="formula" data-ref-id="f-medrep" data-ref-tipo="formula" data-ref-nome="T² para medidas repetidas">
       $$T^2 = n\,(\mathbf{C}\bar{\mathbf{x}})'\,(\mathbf{CSC}')^{-1}\,\mathbf{C}\bar{\mathbf{x}}$$
       <p>e rejeita a igualdade dos tratamentos se</p>
       $$T^2 \gt \frac{(n-1)(q-1)}{n-q+1}\,F_{q-1,\,n-q+1}(\alpha)$$
@@ -197,8 +197,8 @@ window.MathJax = {
     <div class="ideia">Com $q$ tratamentos medidos na mesma unidade, a igualdade das médias vira $\mathbf{C}\boldsymbol\mu = \mathbf{0}$, testada pelo $T^2$ dos contrastes com $q - 1$ e $n - q + 1$ graus de liberdade.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-caes" data-ref-tipo="exemplo" data-ref-nome="Anestesia em 19 cães (Ex. 6.2)">
-      <p><strong>Ex. 6.2.</strong> 19 cães, tempo entre batimentos (ms) em 4 tratamentos: CO₂ alto ou baixo, sem ou com halotano. Médias: 368,2; 404,6; 479,3; 502,9.</p>
+    <div class="exemplo" data-ref-id="ex-caes" data-ref-tipo="exemplo" data-ref-nome="Anestesia em 19 cães">
+      <p><strong>Exemplo.</strong> 19 cães, tempo entre batimentos (ms) em 4 tratamentos: CO₂ alto ou baixo, sem ou com halotano. Médias: 368,2; 404,6; 479,3; 502,9.</p>
       <table>
         <thead><tr><th>Trat.</th><th>CO₂</th><th>Halotano</th></tr></thead>
         <tbody><tr><td>1</td><td>alto</td><td>não</td></tr><tr><td>2</td><td>baixo</td><td>não</td></tr><tr><td>3</td><td>alto</td><td>sim</td></tr><tr><td>4</td><td>baixo</td><td>sim</td></tr></tbody>
@@ -221,11 +221,11 @@ window.MathJax = {
    <div class="texto">
     <h2>Intervalos simultâneos dizem quais contrastes pesam</h2>
     <p>Como no cap. 5, a região de confiança para $\mathbf{C}\boldsymbol\mu$ é um elipsoide, e suas sombras dão intervalos para qualquer contraste $\mathbf{c}'\boldsymbol\mu$ ao mesmo tempo:</p>
-    <div class="formula" data-ref-id="f-int-medrep" data-ref-tipo="formula" data-ref-nome="Intervalos para contrastes em medidas repetidas (6-18)">
+    <div class="formula" data-ref-id="f-int-medrep" data-ref-tipo="formula" data-ref-nome="Intervalos para contrastes em medidas repetidas">
       $$\begin{aligned} \mathbf{c}'\boldsymbol\mu:\quad &\mathbf{c}'\bar{\mathbf{x}} \pm \sqrt{\frac{(n-1)(q-1)}{n-q+1}F_{q-1,n-q+1}(\alpha)} \\ &\quad\times\sqrt{\frac{\mathbf{c}'\mathbf{S}\mathbf{c}}{n}} \end{aligned}$$
     </div>
     <p>Nos <span class="ref" data-ref="ex-caes">cães</span>: halotano $209{,}31 \pm 73{,}70$ (não contém o zero: o halotano aumenta o tempo entre batimentos); interação $-12{,}79 \pm 65{,}97$ (contém o zero: o efeito do halotano é parecido nos dois níveis de CO₂). O CO₂ fica para você.</p>
-    <p>Um cuidado do livro: as medidas com halotano vieram sempre <em>depois</em> das sem halotano. O "efeito do halotano" pode ser, em parte, uma tendência no tempo. O ideal seria sortear a ordem.</p>
+    <p>Um cuidado: as medidas com halotano vieram sempre <em>depois</em> das sem halotano. O "efeito do halotano" pode ser, em parte, uma tendência no tempo. O ideal seria sortear a ordem.</p>
     <div class="ideia">Os intervalos simultâneos para contrastes ($\mathbf{c}'\bar{\mathbf{x}}$ ± raiz da constante vezes $\mathbf{c}'\mathbf{Sc}/n$) mostram quais comparações causaram a rejeição; a ordem não sorteada pode confundir tratamento com tempo.</div>
    </div>
    <aside class="apoio">
@@ -247,14 +247,14 @@ window.MathJax = {
   <section class="passo" data-titulo="S combinada">
    <div class="texto">
     <h2>Duas amostras independentes: junte as duas $\mathbf{S}$ numa só</h2>
-    <p>Sem pareamento, há uma amostra de tamanho $n_1$ da população 1 e outra, independente, de tamanho $n_2$ da população 2. Quer-se saber sobre $\boldsymbol\mu_1 - \boldsymbol\mu_2$. Com amostras pequenas, o livro supõe as duas populações normais e <strong>com a mesma covariância</strong>, $\boldsymbol\Sigma_1 = \boldsymbol\Sigma_2 = \boldsymbol\Sigma$. É uma suposição forte: são várias variâncias e covariâncias que precisam ser parecidas.</p>
+    <p>Sem pareamento, há uma amostra de tamanho $n_1$ da população 1 e outra, independente, de tamanho $n_2$ da população 2. Quer-se saber sobre $\boldsymbol\mu_1 - \boldsymbol\mu_2$. Com amostras pequenas, supõe-se que as duas populações sejam normais e <strong>com a mesma covariância</strong>, $\boldsymbol\Sigma_1 = \boldsymbol\Sigma_2 = \boldsymbol\Sigma$. É uma suposição forte: são várias variâncias e covariâncias que precisam ser parecidas.</p>
     <p>Se $\boldsymbol\Sigma$ é comum, as duas amostras a estimam, e juntá-las dá uma estimativa melhor. Os graus de liberdade somam, $(n_1 - 1) + (n_2 - 1)$:</p>
-    <div class="formula" data-ref-id="f-spooled" data-ref-tipo="formula" data-ref-nome="Covariância combinada e Cov(X̄₁ − X̄₂) (6-21), (6-22)">
+    <div class="formula" data-ref-id="f-spooled" data-ref-tipo="formula" data-ref-nome="Covariância combinada e Cov(X̄₁ − X̄₂)">
       $$\class{s2}{\mathbf{S}_{\text{pooled}}} = \frac{(n_1 - 1)\mathbf{S}_1 + (n_2 - 1)\mathbf{S}_2}{n_1 + n_2 - 2}$$
       $$\mathrm{Cov}(\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2) = \Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)\boldsymbol\Sigma$$
       <p>estimada por $\big(\frac{1}{n_1} + \frac{1}{n_2}\big)\class{s2}{\mathbf{S}_{\text{pooled}}}$.</p>
       <ul class="legenda">
-        <li><span class="s2">$\mathbf{S}_{\text{pooled}}$</span>: covariância combinada ("pooled" é o nome que o livro usa)</li>
+        <li><span class="s2">$\mathbf{S}_{\text{pooled}}$</span>: covariância combinada ("pooled" quer dizer combinada; é o nome usado nas fórmulas e nos programas)</li>
       </ul>
     </div>
     <p>A covariância da diferença soma as duas partes porque $\bar{\mathbf{X}}_1$ e $\bar{\mathbf{X}}_2$ são independentes (<span class="ref" data-ref="f-media-amostral">cada uma tem covariância $\boldsymbol\Sigma/n$, cap. 3</span>).</p>
@@ -280,7 +280,7 @@ window.MathJax = {
   <section class="passo" data-titulo="T² de duas amostras">
    <div class="texto">
     <h2>O $T^2$ de duas amostras é a distância estatística de $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$ até $\boldsymbol\delta_0$</h2>
-    <div class="formula" data-ref-id="f-t2-duas" data-ref-tipo="formula" data-ref-nome="T² de duas amostras (6-23), Resultado 6.2">
+    <div class="formula" data-ref-id="f-t2-duas" data-ref-tipo="formula" data-ref-nome="T² de duas amostras">
       $$\begin{aligned} T^2 = {}&\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - \class{s1}{\boldsymbol\delta_0}\big)'\Big[\Big(\tfrac{1}{n_1} + \tfrac{1}{n_2}\Big)\class{s2}{\mathbf{S}_{\text{pooled}}}\Big]^{-1} \\ &\times\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - \class{s1}{\boldsymbol\delta_0}\big) \end{aligned}$$
       $$\begin{aligned} &\text{rejeita } H_0: \boldsymbol\mu_1 - \boldsymbol\mu_2 = \boldsymbol\delta_0 \text{ se } T^2 \gt c^2, \\ &c^2 = \frac{(n_1 + n_2 - 2)p}{n_1 + n_2 - p - 1}F_{p,\,n_1+n_2-p-1}(\alpha) \end{aligned}$$
       <ul class="legenda">
@@ -288,26 +288,26 @@ window.MathJax = {
         <li><span class="s2">$\mathbf{S}_{\text{pooled}}$</span>: covariância combinada</li>
       </ul>
     </div>
-    <p>O Resultado 6.2 garante essa distribuição para amostras normais com $\boldsymbol\Sigma$ comum. Trocando $\boldsymbol\delta_0$ por $\boldsymbol\mu_1 - \boldsymbol\mu_2$ e "$\gt$" por "$\le$", vem a região de confiança: um elipsoide centrado em $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$, com eixos nos autovetores de $\mathbf{S}_{\text{pooled}}$.</p>
+    <p>Essa distribuição vale para amostras normais com $\boldsymbol\Sigma$ comum. Trocando $\boldsymbol\delta_0$ por $\boldsymbol\mu_1 - \boldsymbol\mu_2$ e "$\gt$" por "$\le$", vem a região de confiança: um elipsoide centrado em $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$, com eixos nos autovetores de $\mathbf{S}_{\text{pooled}}$.</p>
     <details class="demo">
-      <summary>Demonstração: por que a distribuição é essa (Resultado 6.2)</summary>
-      <p>$\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2 = \sum_j \frac{1}{n_1}\mathbf{X}_{1j} - \sum_j \frac{1}{n_2}\mathbf{X}_{2j}$ é uma <span class="ref" data-ref="f-comb-vetores">combinação de vetores normais independentes (Resultado 4.8)</span>, com coeficientes $1/n_1$ e $-1/n_2$. Logo é $N_p\big(\boldsymbol\mu_1 - \boldsymbol\mu_2,\ (1/n_1 + 1/n_2)\boldsymbol\Sigma\big)$.</p>
-      <p>Pela <span class="ref" data-ref="f-wishart">distribuição de $\mathbf{S}$ (4-23)</span>, $(n_1 - 1)\mathbf{S}_1 \sim W_{n_1-1}(\boldsymbol\Sigma)$ e $(n_2 - 1)\mathbf{S}_2 \sim W_{n_2-1}(\boldsymbol\Sigma)$, independentes; pela soma de Wisharts (4-24), $(n_1 + n_2 - 2)\mathbf{S}_{\text{pooled}}$ $\sim W_{n_1+n_2-2}(\boldsymbol\Sigma)$, independente das médias. Então</p>
+      <summary>Demonstração: por que a distribuição é essa</summary>
+      <p>$\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2 = \sum_j \frac{1}{n_1}\mathbf{X}_{1j} - \sum_j \frac{1}{n_2}\mathbf{X}_{2j}$ é uma <span class="ref" data-ref="f-comb-vetores">combinação de vetores normais independentes</span>, com coeficientes $1/n_1$ e $-1/n_2$. Logo é $N_p\big(\boldsymbol\mu_1 - \boldsymbol\mu_2,\ (1/n_1 + 1/n_2)\boldsymbol\Sigma\big)$.</p>
+      <p>Pela <span class="ref" data-ref="f-wishart">distribuição de $\mathbf{S}$</span>, $(n_1 - 1)\mathbf{S}_1 \sim W_{n_1-1}(\boldsymbol\Sigma)$ e $(n_2 - 1)\mathbf{S}_2 \sim W_{n_2-1}(\boldsymbol\Sigma)$, independentes; pela soma de Wisharts, $(n_1 + n_2 - 2)\mathbf{S}_{\text{pooled}}$ $\sim W_{n_1+n_2-2}(\boldsymbol\Sigma)$, independente das médias. Então</p>
       $$T^2 = (\text{normal})'\Big(\frac{\text{Wishart}}{\text{g.l.}}\Big)^{-1}(\text{normal}),$$
-      <p>a mesma estrutura (5-8) do $T^2$ de uma amostra, com $n - 1$ trocado por $n_1 + n_2 - 2$. Daí a constante $\frac{(n_1+n_2-2)p}{n_1+n_2-p-1}$ e a $F$ com $p$ e $n_1 + n_2 - p - 1$ graus de liberdade.</p>
+      <p>a mesma estrutura do $T^2$ de uma amostra, com $n - 1$ trocado por $n_1 + n_2 - 2$. Daí a constante $\frac{(n_1+n_2-2)p}{n_1+n_2-p-1}$ e a $F$ com $p$ e $n_1 + n_2 - p - 1$ graus de liberdade.</p>
     </details>
     <div class="ideia">O $T^2$ de duas amostras mede a distância de $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$ até $\boldsymbol\delta_0$ com $(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}$; sob normalidade e $\boldsymbol\Sigma$ comum, é uma $F$ com $p$ e $n_1 + n_2 - p - 1$ graus de liberdade vezes uma constante.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-sabao" data-ref-tipo="exemplo" data-ref-nome="Sabão feito de dois jeitos (Ex. 6.3)">
-      <p><strong>Ex. 6.3.</strong> 50 barras de sabão de cada processo; $X_1$ = espuma, $X_2$ = suavidade.</p>
+    <div class="exemplo" data-ref-id="ex-sabao" data-ref-tipo="exemplo" data-ref-nome="Sabão feito de dois jeitos">
+      <p><strong>Exemplo.</strong> 50 barras de sabão de cada processo; $X_1$ = espuma, $X_2$ = suavidade.</p>
       $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 8{,}3 \\ 4{,}1 \end{bmatrix},\quad \mathbf{S}_1 = \begin{bmatrix} 2 & 1 \\ 1 & 6 \end{bmatrix}$$
       $$\bar{\mathbf{x}}_2 = \begin{bmatrix} 10{,}2 \\ 3{,}9 \end{bmatrix},\quad \mathbf{S}_2 = \begin{bmatrix} 2 & 1 \\ 1 & 4 \end{bmatrix}$$
       <svg viewBox="0 0 320 210" class="fig" id="sabao-svg" role="img" aria-label="Elipse de confiança de 95% para a diferença das médias do sabão, com a origem fora"></svg>
       <p style="font-size:.9rem">Elipse de 95% para $\boldsymbol\mu_1 - \boldsymbol\mu_2$, centrada em $[-1{,}9;\ 0{,}2]'$. A origem fica de fora: os processos diferem, sobretudo na espuma.</p>
     </div>
     <div class="lacunas">
-      <p>Complete o Ex. 6.3 (aqui $\mathbf{S}_1$ e $\mathbf{S}_2$ são parecidas, então dá para combinar).</p>
+      <p>Complete o <span class="ref" data-ref="ex-sabao">exemplo do sabão</span> (aqui $\mathbf{S}_1$ e $\mathbf{S}_2$ são parecidas, então dá para combinar).</p>
       <p>Entrada $(2,2)$ de $\mathbf{S}_{\text{pooled}}$: <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="entrada 2 2 da S combinada"></p>
       <p>Com $c^2 = 6{,}24$, o fator $(1/n_1 + 1/n_2)c^2 =$ <input class="lacuna" data-resp="0.25" data-tol="0.005" aria-label="fator"></p>
       <p>O maior autovalor de $\mathbf{S}_{\text{pooled}}$ é 5,303. Semi-eixo da elipse nessa direção: <input class="lacuna" data-resp="1.15" data-tol="0.01" aria-label="semi-eixo maior"></p>
@@ -321,25 +321,25 @@ window.MathJax = {
   <section class="passo" data-titulo="Intervalos">
    <div class="texto">
     <h2>Intervalos simultâneos e a combinação que mais separa</h2>
-    <p>O raciocínio do cap. 5 se repete: para cada $\mathbf{a}$, o $t^2$ de duas amostras de $\mathbf{a}'\mathbf{X}$ nunca passa do $T^2$ (pelo <span class="ref" data-ref="f-lema">lema de maximização</span>). Por isso as sombras do elipsoide valem para todo $\mathbf{a}$ ao mesmo tempo (Resultado 6.3):</p>
-    <div class="formula" data-ref-id="f-int-duas" data-ref-tipo="formula" data-ref-nome="Intervalos simultâneos para μ₁ − μ₂ (Resultado 6.3)">
+    <p>O raciocínio do cap. 5 se repete: para cada $\mathbf{a}$, o $t^2$ de duas amostras de $\mathbf{a}'\mathbf{X}$ nunca passa do $T^2$ (pelo <span class="ref" data-ref="f-lema">lema de maximização</span>). Por isso as sombras do elipsoide valem para todo $\mathbf{a}$ ao mesmo tempo:</p>
+    <div class="formula" data-ref-id="f-int-duas" data-ref-tipo="formula" data-ref-nome="Intervalos simultâneos para μ₁ − μ₂">
       $$\begin{aligned} &\mathbf{a}'(\boldsymbol\mu_1 - \boldsymbol\mu_2):\ \mathbf{a}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \\ &\qquad\pm c\,\sqrt{\mathbf{a}'\Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)\mathbf{S}_{\text{pooled}}\,\mathbf{a}} \end{aligned}$$
       $$\begin{aligned} &\mu_{1i} - \mu_{2i}:\ (\bar x_{1i} - \bar x_{2i}) \\ &\qquad\pm c\,\sqrt{\Big(\frac{1}{n_1} + \frac{1}{n_2}\Big)s_{ii,\text{pooled}}} \end{aligned}$$
     </div>
     <p>Para poucas comparações fixadas antes, Bonferroni é mais curto: troca-se $c$ por $t_{n_1+n_2-2}(\alpha/2p)$. E se o $T^2$ rejeitou, a combinação que mais contribui tem $\mathbf{a} \propto \mathbf{S}_{\text{pooled}}^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$; vale tentar interpretar seus coeficientes.</p>
-    <p>Ex. 6.4: consumo de eletricidade em julho de 45 casas com ar-condicionado e 55 sem, no horário de pico ($X_1$) e fora dele ($X_2$). Com $c^2 = 6{,}26$, os intervalos de 95% são $(21{,}7;\ 127{,}1)$ e $(74{,}7;\ 328{,}5)$ kWh: quem tem ar gasta mais nos dois horários.</p>
+    <p>Exemplo: consumo de eletricidade em julho de 45 casas com ar-condicionado e 55 sem, no horário de pico ($X_1$) e fora dele ($X_2$). Com $c^2 = 6{,}26$, os intervalos de 95% são $(21{,}7;\ 127{,}1)$ e $(74{,}7;\ 328{,}5)$ kWh: quem tem ar gasta mais nos dois horários.</p>
     <div class="ideia">Os intervalos de duas amostras são $\mathbf{a}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$ $\pm\, c\sqrt{\mathbf{a}'(1/n_1 + 1/n_2)\mathbf{S}_{\text{pooled}}\mathbf{a}}$; a combinação que mais separa os grupos tem $\mathbf{a} \propto \mathbf{S}_{\text{pooled}}^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)$.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-eletricidade" data-ref-tipo="exemplo" data-ref-nome="Eletricidade com e sem ar-condicionado (Ex. 6.4)">
-      <p><strong>Ex. 6.4.</strong> $n_1 = 45$ (com ar), $n_2 = 55$ (sem ar).</p>
+    <div class="exemplo" data-ref-id="ex-eletricidade" data-ref-tipo="exemplo" data-ref-nome="Eletricidade com e sem ar-condicionado">
+      <p><strong>Exemplo.</strong> $n_1 = 45$ (com ar), $n_2 = 55$ (sem ar).</p>
       $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 204{,}4 \\ 556{,}6 \end{bmatrix},\qquad \bar{\mathbf{x}}_2 = \begin{bmatrix} 130{,}0 \\ 355{,}0 \end{bmatrix}$$
       $$\mathbf{S}_1 = \begin{bmatrix} 13825{,}3 & 23823{,}4 \\ 23823{,}4 & 73107{,}4 \end{bmatrix}$$
       $$\mathbf{S}_2 = \begin{bmatrix} 8632{,}0 & 19616{,}7 \\ 19616{,}7 & 55964{,}5 \end{bmatrix}$$
       $$\mathbf{S}_{\text{pooled}} = \begin{bmatrix} 10963{,}7 & 21505{,}5 \\ 21505{,}5 & 63661{,}3 \end{bmatrix}$$
     </div>
     <div class="acheerro">
-      <p>Um colega calculou o intervalo de 95% para $\mu_{11} - \mu_{21}$ (pico) no Ex. 6.4. Toque na linha com erro.</p>
+      <p>Um colega calculou o intervalo de 95% para $\mu_{11} - \mu_{21}$ (pico) no <span class="ref" data-ref="ex-eletricidade">exemplo da eletricidade</span>. Toque na linha com erro.</p>
       <ol class="linhas">
         <li data-fb="Certo: 204,4 − 130,0 = 74,4.">Diferença das médias: $204{,}4 - 130{,}0 = 74{,}4$.</li>
         <li data-fb="Certo: c² = (98 × 2/97) × F₂,₉₇(0,05) = 2,02 × 3,1 = 6,26.">$c^2 = \frac{98 \times 2}{97}F_{2,97}(0{,}05) = 6{,}26$.</li>
@@ -353,9 +353,9 @@ window.MathJax = {
   <section class="passo" data-titulo="Σ₁ ≠ Σ₂">
    <div class="texto">
     <h2>Covariâncias diferentes: com amostras grandes, use $\mathbf{S}_1/n_1 + \mathbf{S}_2/n_2$</h2>
-    <p>Se $\boldsymbol\Sigma_1 \ne \boldsymbol\Sigma_2$, não existe uma distância como o $T^2$ cuja distribuição não dependa das covariâncias desconhecidas. O teste de Bartlett compara as covariâncias, mas confunde covariância diferente com falta de normalidade. A regra prática do livro, "sem muito apoio nos fatos": uma variância 4 vezes maior que a correspondente na outra população provavelmente já é sério.</p>
-    <p>Com $n_1 - p$ e $n_2 - p$ grandes, o problema some. Pelo <span class="ref" data-ref="f-tlc">teorema central do limite (cap. 4)</span>, $\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2$ é quase normal com covariância $\boldsymbol\Sigma_1/n_1 + \boldsymbol\Sigma_2/n_2$, e as $\mathbf{S}$ ficam perto das $\boldsymbol\Sigma$ (Resultado 6.4):</p>
-    <div class="formula" data-ref-id="f-duas-grande" data-ref-tipo="formula" data-ref-nome="Duas amostras grandes com covariâncias diferentes (Resultado 6.4)">
+    <p>Se $\boldsymbol\Sigma_1 \ne \boldsymbol\Sigma_2$, não existe uma distância como o $T^2$ cuja distribuição não dependa das covariâncias desconhecidas. O teste de Bartlett compara as covariâncias, mas confunde covariância diferente com falta de normalidade. Uma regra prática, sem muito apoio teórico: uma variância 4 vezes maior que a correspondente na outra população provavelmente já é sério.</p>
+    <p>Com $n_1 - p$ e $n_2 - p$ grandes, o problema some. Pelo <span class="ref" data-ref="f-tlc">teorema central do limite (cap. 4)</span>, $\bar{\mathbf{X}}_1 - \bar{\mathbf{X}}_2$ é quase normal com covariância $\boldsymbol\Sigma_1/n_1 + \boldsymbol\Sigma_2/n_2$, e as $\mathbf{S}$ ficam perto das $\boldsymbol\Sigma$:</p>
+    <div class="formula" data-ref-id="f-duas-grande" data-ref-tipo="formula" data-ref-nome="Duas amostras grandes com covariâncias diferentes">
       $$\begin{aligned} &\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - (\boldsymbol\mu_1 - \boldsymbol\mu_2)\big)'\Big[\tfrac{1}{n_1}\mathbf{S}_1 + \tfrac{1}{n_2}\mathbf{S}_2\Big]^{-1} \\ &\quad\times\big(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - (\boldsymbol\mu_1 - \boldsymbol\mu_2)\big) \le \chi^2_p(\alpha) \end{aligned}$$
       $$\begin{aligned} &\mathbf{a}'(\boldsymbol\mu_1 - \boldsymbol\mu_2):\ \mathbf{a}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \\ &\qquad\pm \sqrt{\chi^2_p(\alpha)}\,\sqrt{\mathbf{a}'\Big(\frac{1}{n_1}\mathbf{S}_1 + \frac{1}{n_2}\mathbf{S}_2\Big)\mathbf{a}} \end{aligned}$$
     </div>
@@ -369,7 +369,7 @@ window.MathJax = {
         <button data-op="a">(a) $T^2$ com $\mathbf{S}_{\text{pooled}}$: o $T^2$ é robusto, então tanto faz.</button>
         <button data-op="b">(b) Versão de amostras grandes: $n_1 + n_2 = 212$ é grande.</button>
         <button data-op="c">(c) $T^2$ com $\mathbf{S}_{\text{pooled}}$, porque com tamanhos desiguais as duas versões coincidem.</button>
-        <button data-op="d">(d) Nenhuma das duas sem cuidado: o Resultado 6.4 exige as duas amostras grandes, e combinar é arriscado com tamanhos tão desiguais.</button>
+        <button data-op="d">(d) Nenhuma das duas sem cuidado: a versão para amostras grandes exige as duas amostras grandes, e combinar é arriscado com tamanhos tão desiguais.</button>
       </div>
       <div class="fb" data-op="a">A robustez do $T^2$ vale para pequenos desvios da normalidade com amostras moderadas a grandes. Covariâncias bem diferentes com tamanhos desiguais são exatamente o pior caso.</div>
       <div class="fb" data-op="b">O que precisa ser grande é cada $n_\ell - p$, não a soma. Com $n_1 = 12$, $\mathbf{S}_1$ ainda está longe de $\boldsymbol\Sigma_1$.</div>
@@ -386,8 +386,8 @@ window.MathJax = {
   <section class="passo" data-titulo="Decomposição">
    <div class="texto">
     <h2>Cada observação = média geral + efeito do grupo + resíduo</h2>
-    <p>Com mais de duas populações, o livro começa pela análise de variância (ANOVA) de uma variável. Há $g$ amostras independentes, a $\ell$-ésima com $n_\ell$ observações de $N(\mu_\ell, \sigma^2)$. Escreve-se $\mu_\ell = \mu + \tau_\ell$: uma média geral mais o <strong>efeito</strong> do tratamento $\ell$, com $\sum_\ell n_\ell\tau_\ell = 0$. A igualdade das médias vira $H_0: \tau_1 = \cdots = \tau_g = 0$.</p>
-    <div class="formula" data-ref-id="f-anova-modelo" data-ref-tipo="formula" data-ref-nome="Modelo e decomposição da ANOVA de um fator (6-29), (6-30)">
+    <p>Com mais de duas populações, começa-se pela análise de variância (ANOVA) de uma variável. Há $g$ amostras independentes, a $\ell$-ésima com $n_\ell$ observações de $N(\mu_\ell, \sigma^2)$. Escreve-se $\mu_\ell = \mu + \tau_\ell$: uma média geral mais o <strong>efeito</strong> do tratamento $\ell$, com $\sum_\ell n_\ell\tau_\ell = 0$. A igualdade das médias vira $H_0: \tau_1 = \cdots = \tau_g = 0$.</p>
+    <div class="formula" data-ref-id="f-anova-modelo" data-ref-tipo="formula" data-ref-nome="Modelo e decomposição da ANOVA de um fator">
       $$X_{\ell j} = \mu + \class{s1}{\tau_\ell} + e_{\ell j}$$
       <p>com erros $e_{\ell j} \sim N(0, \sigma^2)$ independentes, e a decomposição observada</p>
       $$x_{\ell j} = \bar x + \class{s1}{(\bar x_\ell - \bar x)} + (x_{\ell j} - \bar x_\ell)$$
@@ -395,18 +395,18 @@ window.MathJax = {
         <li><span class="s1">$\tau_\ell$</span>: efeito do tratamento $\ell$, estimado por $\hat\tau_\ell = \bar x_\ell - \bar x$</li>
       </ul>
     </div>
-    <p>Fazendo isso para cada observação, os dados viram três arranjos do mesmo formato: a média geral repetida, o efeito do grupo repetido e os resíduos. O "tamanho" de cada arranjo é a soma dos quadrados das entradas (SQ, ou SS no livro), e os tamanhos somam como as partes:</p>
+    <p>Fazendo isso para cada observação, os dados viram três arranjos do mesmo formato: a média geral repetida, o efeito do grupo repetido e os resíduos. O "tamanho" de cada arranjo é a soma dos quadrados das entradas (soma de quadrados, SS), e os tamanhos somam como as partes:</p>
     $$SS_{\text{obs}} = SS_{\text{média}} + SS_{\text{tr}} + SS_{\text{res}}$$
     <p>Se o arranjo dos efeitos é grande em relação ao dos resíduos, as médias diferem.</p>
     <div class="ideia">A ANOVA parte cada observação em média geral, efeito estimado do grupo ($\bar x_\ell - \bar x$) e resíduo, e compara o tamanho do arranjo dos efeitos com o dos resíduos.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-anova-peq" data-ref-tipo="exemplo" data-ref-nome="Três amostras pequenas (Ex. 6.6–6.8)">
-      <p><strong>Ex. 6.6.</strong> População 1: 9, 6, 9. População 2: 0, 2. População 3: 3, 1, 2. Médias: $\bar x_1 = 8$, $\bar x_2 = 1$, $\bar x_3 = 2$; média geral $\bar x = 4$.</p>
+    <div class="exemplo" data-ref-id="ex-anova-peq" data-ref-tipo="exemplo" data-ref-nome="Três amostras pequenas">
+      <p><strong>Exemplo.</strong> População 1: 9, 6, 9. População 2: 0, 2. População 3: 3, 1, 2. Médias: $\bar x_1 = 8$, $\bar x_2 = 1$, $\bar x_3 = 2$; média geral $\bar x = 4$.</p>
       $$\begin{aligned} &\underbrace{\begin{pmatrix} 9 & 6 & 9 \\ 0 & 2 & \\ 3 & 1 & 2 \end{pmatrix}}_{\text{observação}} = \underbrace{\begin{pmatrix} 4 & 4 & 4 \\ 4 & 4 & \\ 4 & 4 & 4 \end{pmatrix}}_{\text{média}} \\ &\quad+ \underbrace{\begin{pmatrix} 4 & 4 & 4 \\ -3 & -3 & \\ -2 & -2 & -2 \end{pmatrix}}_{\text{efeito}} + \underbrace{\begin{pmatrix} 1 & -2 & 1 \\ -1 & 1 & \\ 1 & -1 & 0 \end{pmatrix}}_{\text{resíduo}} \end{aligned}$$
     </div>
     <div class="lacunas">
-      <p>Com os arranjos do Ex. 6.6, $SS_{\text{obs}} = 216$ e $SS_{\text{média}} = 8 \times 4^2 = 128$.</p>
+      <p>Com os arranjos do <span class="ref" data-ref="ex-anova-peq">exemplo das três amostras</span>, $SS_{\text{obs}} = 216$ e $SS_{\text{média}} = 8 \times 4^2 = 128$.</p>
       <p>$SS_{\text{tr}} =$ <input class="lacuna" data-resp="78" data-tol="0" aria-label="soma de quadrados dos tratamentos"><br>$SS_{\text{res}} =$ <input class="lacuna" data-resp="10" data-tol="0" aria-label="soma de quadrados dos resíduos"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $SS_{\text{tr}} = \sum_\ell n_\ell(\bar x_\ell - \bar x)^2$: três vezes $4^2$, duas vezes $(-3)^2$, três vezes $(-2)^2$.</p>
@@ -419,11 +419,11 @@ window.MathJax = {
    <div class="texto">
     <h2>A tabela ANOVA compara efeito e resíduo, cada um por seus graus de liberdade</h2>
     <p>Tirando a média geral, fica a soma de quadrados corrigida, que se divide em entre grupos e dentro dos grupos:</p>
-    <div class="formula" data-ref-id="f-anova-f" data-ref-tipo="formula" data-ref-nome="Somas de quadrados e teste F da ANOVA (6-31)–(6-33)">
+    <div class="formula" data-ref-id="f-anova-f" data-ref-tipo="formula" data-ref-nome="Somas de quadrados e teste F da ANOVA">
       $$\begin{aligned} \underbrace{\sum_{\ell}\sum_j (x_{\ell j} - \bar x)^2}_{SS_{\text{cor}}} &= \underbrace{\sum_\ell n_\ell(\bar x_\ell - \bar x)^2}_{SS_{\text{tr}}} \\ &\quad+ \underbrace{\sum_\ell\sum_j (x_{\ell j} - \bar x_\ell)^2}_{SS_{\text{res}}} \end{aligned}$$
       $$\begin{aligned} F &= \frac{SS_{\text{tr}}/(g - 1)}{SS_{\text{res}}/(\sum_\ell n_\ell - g)} \\ \text{rejeita } H_0 \text{ se}\quad F &\gt F_{g-1,\,\sum n_\ell - g}(\alpha) \end{aligned}$$
     </div>
-    <p>Os graus de liberdade são $g - 1$ e $\sum n_\ell - g$ (total corrigido: $\sum n_\ell - 1$). No Ex. 6.7, $F = (78/2)/(10/5) = 19{,}5$ $\gt F_{2,5}(0{,}01) = 13{,}27$: rejeita a 1%.</p>
+    <p>Os graus de liberdade são $g - 1$ e $\sum n_\ell - g$ (total corrigido: $\sum n_\ell - 1$). Nas três amostras, $F = (78/2)/(10/5) = 19{,}5$ $\gt F_{2,5}(0{,}01) = 13{,}27$: rejeita a 1%.</p>
     <p>Para o que vem a seguir, uma forma equivalente: $F$ grande é o mesmo que $SS_{\text{tr}}/SS_{\text{res}}$ grande, ou seja, rejeitar quando</p>
     $$\frac{1}{1 + SS_{\text{tr}}/SS_{\text{res}}} = \frac{SS_{\text{res}}}{SS_{\text{res}} + SS_{\text{tr}}}\quad\text{é pequeno.}$$
     <details class="demo">
@@ -460,7 +460,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Na MANOVA, quadrados viram matrizes: $\mathbf{B}$ entre grupos e $\mathbf{W}$ dentro</h2>
     <p>Agora cada observação é um vetor de $p$ variáveis, e o modelo é o mesmo, com vetores e erros $N_p(\mathbf{0}, \boldsymbol\Sigma)$ de covariância comum a todos os grupos:</p>
-    <div class="formula" data-ref-id="f-manova-bw" data-ref-tipo="formula" data-ref-nome="Modelo da MANOVA e as matrizes B e W (6-34)–(6-37)">
+    <div class="formula" data-ref-id="f-manova-bw" data-ref-tipo="formula" data-ref-nome="Modelo da MANOVA e as matrizes B e W">
       $$\mathbf{X}_{\ell j} = \boldsymbol\mu + \class{s1}{\boldsymbol\tau_\ell} + \mathbf{e}_{\ell j},\qquad \textstyle\sum_\ell n_\ell\boldsymbol\tau_\ell = \mathbf{0}$$
       $$\begin{aligned} &\underbrace{\sum_\ell\sum_j(\mathbf{x}_{\ell j} - \bar{\mathbf{x}})(\mathbf{x}_{\ell j} - \bar{\mathbf{x}})'}_{\mathbf{B} + \mathbf{W}} \\ &\quad= \underbrace{\sum_\ell n_\ell(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})(\bar{\mathbf{x}}_\ell - \bar{\mathbf{x}})'}_{\class{s3}{\mathbf{B}}} \\ &\quad+ \underbrace{\sum_\ell\sum_j(\mathbf{x}_{\ell j} - \bar{\mathbf{x}}_\ell)(\mathbf{x}_{\ell j} - \bar{\mathbf{x}}_\ell)'}_{\class{s2}{\mathbf{W}}} \end{aligned}$$
       <ul class="legenda">
@@ -473,8 +473,8 @@ window.MathJax = {
     <div class="ideia">A MANOVA parte $\mathbf{B} + \mathbf{W}$ (total corrigido) em $\mathbf{B}$, entre grupos, e $\mathbf{W}$, dentro dos grupos, com os mesmos graus de liberdade da ANOVA; fora da diagonal ficam os produtos cruzados.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-manova-peq" data-ref-tipo="exemplo" data-ref-nome="MANOVA das três amostras pequenas (Ex. 6.8)">
-      <p><strong>Ex. 6.8.</strong> As mesmas três amostras do <span class="ref" data-ref="ex-anova-peq">Ex. 6.6</span>, agora com uma segunda variável. Pares $(x_1, x_2)$:</p>
+    <div class="exemplo" data-ref-id="ex-manova-peq" data-ref-tipo="exemplo" data-ref-nome="MANOVA das três amostras pequenas">
+      <p><strong>Exemplo.</strong> As mesmas <span class="ref" data-ref="ex-anova-peq">três amostras</span> do passo anterior, agora com uma segunda variável. Pares $(x_1, x_2)$:</p>
       <p>População 1: $(9, 3)$, $(6, 2)$, $(9, 7)$. População 2: $(0, 4)$, $(2, 0)$. População 3: $(3, 8)$, $(1, 9)$, $(2, 7)$.</p>
       <p>Na segunda variável, as médias são 4, 2 e 8 (geral 5), e $272 = 200 + 48 + 24$.</p>
       $$\mathbf{B} = \begin{bmatrix} 78 & -12 \\ -12 & 48 \end{bmatrix},\qquad \mathbf{W} = \begin{bmatrix} 10 & 1 \\ 1 & 24 \end{bmatrix}$$
@@ -492,7 +492,7 @@ window.MathJax = {
    <div class="texto">
     <h2>O lambda de Wilks compara as variâncias generalizadas de $\mathbf{W}$ e $\mathbf{B} + \mathbf{W}$</h2>
     <p>Na ANOVA, rejeitava-se com $SS_{\text{res}}/(SS_{\text{res}} + SS_{\text{tr}})$ pequeno. A versão com matrizes troca cada soma de quadrados pelo determinante, a <span class="ref" data-ref="f-var-gen">variância generalizada (cap. 3)</span>:</p>
-    <div class="formula" data-ref-id="f-wilks-star" data-ref-tipo="formula" data-ref-nome="Lambda de Wilks da MANOVA (6-38)">
+    <div class="formula" data-ref-id="f-wilks-star" data-ref-tipo="formula" data-ref-nome="Lambda de Wilks da MANOVA">
       $$\Lambda^* = \frac{|\class{s2}{\mathbf{W}}|}{|\class{s3}{\mathbf{B}} + \class{s2}{\mathbf{W}}|} = \prod_{i=1}^{s}\frac{1}{1 + \lambda_i}$$
       <p>Rejeita $H_0: \boldsymbol\tau_1 = \cdots = \boldsymbol\tau_g = \mathbf{0}$ se $\Lambda^*$ é pequeno.</p>
       <ul class="legenda">
@@ -500,7 +500,7 @@ window.MathJax = {
       </ul>
     </div>
     <p>$\Lambda^*$ fica entre 0 e 1. Perto de 1: a variação entre grupos quase não aumenta a variação total. Perto de 0: os grupos estão bem separados. Ele é equivalente ao teste da razão de verossimilhanças, como o <span class="ref" data-ref="f-wilks">lambda de Wilks do cap. 5</span>.</p>
-    <p>No <span class="ref" data-ref="ex-manova-peq">Ex. 6.8</span>: $|\mathbf{W}| = 10(24) - 1^2 = 239$ e $|\mathbf{B} + \mathbf{W}| = 88(72) - (-11)^2 = 6215$, logo $\Lambda^* = 239/6215 = 0{,}0385$: grupos muito separados.</p>
+    <p>Nas <span class="ref" data-ref="ex-manova-peq">três amostras com duas variáveis</span>: $|\mathbf{W}| = 10(24) - 1^2 = 239$ e $|\mathbf{B} + \mathbf{W}| = 88(72) - (-11)^2 = 6215$, logo $\Lambda^* = 239/6215 = 0{,}0385$: grupos muito separados.</p>
     <div class="ideia">$\Lambda^* = |\mathbf{W}|/|\mathbf{B} + \mathbf{W}|$ é a razão de variâncias generalizadas, entre 0 e 1; valores pequenos indicam que as médias dos grupos diferem.</div>
    </div>
    <aside class="apoio">
@@ -525,8 +525,8 @@ window.MathJax = {
   <section class="passo" data-titulo="Distribuição">
    <div class="texto">
     <h2>Quando $\Lambda^*$ é pequeno o bastante: casos exatos e a aproximação de Bartlett</h2>
-    <p>Para dados normais com covariância comum, a distribuição de $\Lambda^*$ vira uma $F$ em quatro casos (Tabela 6.3 do livro), com $n = \sum n_\ell$:</p>
-    <div class="formula" data-ref-id="f-tab-wilks" data-ref-tipo="formula" data-ref-nome="Distribuição exata do lambda de Wilks (Tabela 6.3)">
+    <p>Para dados normais com covariância comum, a distribuição de $\Lambda^*$ vira uma $F$ em quatro casos, com $n = \sum n_\ell$:</p>
+    <div class="formula" data-ref-id="f-tab-wilks" data-ref-tipo="formula" data-ref-nome="Distribuição exata do lambda de Wilks">
       <table>
         <thead><tr><th>Caso</th><th>Estatística e distribuição</th></tr></thead>
         <tbody>
@@ -539,12 +539,12 @@ window.MathJax = {
       <p>Nos outros casos, com $n$ grande (Bartlett), rejeita se</p>
       $$-\Big(n - 1 - \frac{p + g}{2}\Big)\ln\Lambda^* \;\gt\; \chi^2_{p(g-1)}(\alpha)$$
     </div>
-    <p>Ex. 6.9: custos de 516 asilos do Wisconsin ($p = 4$ custos por paciente-dia) em $g = 3$ tipos de dono (privado, sem fins lucrativos, governo). Com $\Lambda^* = 0{,}7714$, a linha $g = 3$ dá $F = 17{,}67 \gt F_{8,1020}(0{,}01) \approx 2{,}51$, e Bartlett dá $132{,}76 \gt \chi^2_8(0{,}01) = 20{,}09$. Os custos médios dependem do tipo de dono. Com $p$ grande, peça ao computador $\mathbf{B}$ e $\mathbf{W}$ e procure entradas grandes; confira os resíduos (normalidade e <span class="ref" data-ref="d-atipicos">atípicos, cap. 4</span>).</p>
-    <div class="ideia">A Tabela 6.3 transforma $\Lambda^*$ numa $F$ exata quando $p \le 2$ ou $g \le 3$; nos outros casos, $-(n - 1 - (p+g)/2)\ln\Lambda^*$ é comparado com $\chi^2_{p(g-1)}$.</div>
+    <p>Exemplo: custos de 516 asilos do Wisconsin ($p = 4$ custos por paciente-dia) em $g = 3$ tipos de dono (privado, sem fins lucrativos, governo). Com $\Lambda^* = 0{,}7714$, a linha $g = 3$ dá $F = 17{,}67 \gt F_{8,1020}(0{,}01) \approx 2{,}51$, e Bartlett dá $132{,}76 \gt \chi^2_8(0{,}01) = 20{,}09$. Os custos médios dependem do tipo de dono. Com $p$ grande, peça ao computador $\mathbf{B}$ e $\mathbf{W}$ e procure entradas grandes; confira os resíduos (normalidade e <span class="ref" data-ref="d-atipicos">atípicos, cap. 4</span>).</p>
+    <div class="ideia">A tabela acima transforma $\Lambda^*$ numa $F$ exata quando $p \le 2$ ou $g \le 3$; nos outros casos, $-(n - 1 - (p+g)/2)\ln\Lambda^*$ é comparado com $\chi^2_{p(g-1)}$.</div>
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p>No Ex. 6.8, $\Lambda^* = 0{,}0385$, com $p = 2$, $g = 3$ e $n = 8$.</p>
+      <p>Nas <span class="ref" data-ref="ex-manova-peq">três amostras com duas variáveis</span>, $\Lambda^* = 0{,}0385$, com $p = 2$, $g = 3$ e $n = 8$.</p>
       <p>$\sqrt{\Lambda^*} =$ <input class="lacuna" data-resp="0.1962" data-tol="0.002" aria-label="raiz de lambda"></p>
       <p>Estatística $F$ da linha $p = 2$: <input class="lacuna" data-resp="8.19" data-tol="0.05" aria-label="estatística F"></p>
       <p>Graus de liberdade: $F_{a,b}$ com $a =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="primeiro grau de liberdade"> e $b =$ <input class="lacuna" data-resp="8" data-tol="0" aria-label="segundo grau de liberdade"></p>
@@ -559,7 +559,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Pillai, Lawley–Hotelling e Roy: outras funções dos mesmos autovalores</h2>
     <p>Os programas mostram, além do $\Lambda^*$, três outras estatísticas. Todas dependem só dos autovalores $\lambda_i$ de $\mathbf{W}^{-1}\mathbf{B}$, que medem a separação entre grupos em direções independentes:</p>
-    <div class="formula" data-ref-id="d-quatro-estat" data-ref-tipo="definicao" data-ref-nome="As quatro estatísticas da MANOVA (§6.9)">
+    <div class="formula" data-ref-id="d-quatro-estat" data-ref-tipo="definicao" data-ref-nome="As quatro estatísticas da MANOVA">
       <table>
         <thead><tr><th>Estatística (rejeita quando)</th><th>Fórmula</th></tr></thead>
         <tbody>
@@ -570,8 +570,8 @@ window.MathJax = {
         </tbody>
       </table>
     </div>
-    <p>Com amostras muito grandes, as quatro são praticamente equivalentes. Em amostras moderadas, as simulações relatadas pelo livro dão poder parecido às três primeiras; a de Roy só é a melhor quando a diferença está concentrada numa única direção (um autovalor grande e os outros perto de zero). Há indícios de que Pillai é um pouco mais robusta à falta de normalidade, mas o livro prefere transformar os dados quando os resíduos não são normais.</p>
-    <p>No <span class="ref" data-ref="ex-manova-peq">Ex. 6.8</span>, os autovalores de $\mathbf{W}^{-1}\mathbf{B}$ são 8,08 e 1,87: Wilks $= 1/(9{,}08 \times 2{,}87) = 0{,}0385$, Pillai $= 0{,}89 + 0{,}65 = 1{,}54$, Lawley–Hotelling $= 9{,}94$ e Roy $= 8{,}08$.</p>
+    <p>Com amostras muito grandes, as quatro são praticamente equivalentes. Em amostras moderadas, as simulações publicadas dão poder parecido às três primeiras; a de Roy só é a melhor quando a diferença está concentrada numa única direção (um autovalor grande e os outros perto de zero). Há indícios de que Pillai é um pouco mais robusta à falta de normalidade, mas o mais indicado é transformar os dados quando os resíduos não são normais.</p>
+    <p>Nas <span class="ref" data-ref="ex-manova-peq">três amostras com duas variáveis</span>, os autovalores de $\mathbf{W}^{-1}\mathbf{B}$ são 8,08 e 1,87: Wilks $= 1/(9{,}08 \times 2{,}87) = 0{,}0385$, Pillai $= 0{,}89 + 0{,}65 = 1{,}54$, Lawley–Hotelling $= 9{,}94$ e Roy $= 8{,}08$.</p>
     <div class="ideia">Wilks, Pillai, Lawley–Hotelling e Roy são funções dos autovalores de $\mathbf{W}^{-1}\mathbf{B}$; quase equivalentes com amostras grandes, com Roy diferente quando a separação está numa só direção.</div>
    </div>
    <aside class="apoio">
@@ -600,16 +600,16 @@ window.MathJax = {
     <h2>Depois de rejeitar: Bonferroni para cada variável e cada par de grupos</h2>
     <p>Rejeitada a igualdade, quer-se saber quais grupos e quais variáveis diferem. A diferença de efeitos $\hat\tau_{ki} - \hat\tau_{\ell i} = \bar x_{ki} - \bar x_{\ell i}$ é uma diferença de médias de amostras independentes, com variância $(1/n_k + 1/n_\ell)\sigma_{ii}$; estima-se $\sigma_{ii}$ por $w_{ii}/(n - g)$, a entrada da diagonal de $\mathbf{W}$ dividida pelos seus graus de liberdade.</p>
     <p>São $p$ variáveis e $g(g-1)/2$ pares de grupos, ou seja, $m = pg(g-1)/2$ afirmações. Pela <span class="ref" data-ref="f-bonferroni">desigualdade de Bonferroni (cap. 5)</span>, cada intervalo usa $\alpha/(2m)$:</p>
-    <div class="formula" data-ref-id="f-bonf-trat" data-ref-tipo="formula" data-ref-nome="Bonferroni para diferenças de efeitos (Resultado 6.5)">
+    <div class="formula" data-ref-id="f-bonf-trat" data-ref-tipo="formula" data-ref-nome="Bonferroni para diferenças de efeitos">
       $$\begin{aligned} &\tau_{ki} - \tau_{\ell i}:\ \bar x_{ki} - \bar x_{\ell i} \\ &\qquad\pm t_{n-g}\Big(\frac{\alpha}{pg(g-1)}\Big)\sqrt{\frac{w_{ii}}{n - g}\Big(\frac{1}{n_k} + \frac{1}{n_\ell}\Big)} \end{aligned}$$
       <p>para todas as variáveis $i = 1, \dots, p$ e todos os pares $\ell \lt k$, com confiança conjunta de pelo menos $1 - \alpha$; $n = \sum_k n_k$.</p>
     </div>
-    <p>São mais curtos que as sombras do elipsoide (que cobrem todos os contrastes) e só precisam da tabela $t$. No Ex. 6.10, para o custo de manutenção dos asilos, privado − governo dá $(-0{,}061;\ -0{,}025)$ hora por paciente-dia; privado − sem fins lucrativos, $(-0{,}058;\ -0{,}026)$; sem fins lucrativos − governo, $(-0{,}021;\ 0{,}019)$. Os privados gastam menos; entre os outros dois, nada se vê.</p>
+    <p>São mais curtos que as sombras do elipsoide (que cobrem todos os contrastes) e só precisam da tabela $t$. Nos asilos, para o custo de manutenção, privado − governo dá $(-0{,}061;\ -0{,}025)$ hora por paciente-dia; privado − sem fins lucrativos, $(-0{,}058;\ -0{,}026)$; sem fins lucrativos − governo, $(-0{,}021;\ 0{,}019)$. Os privados gastam menos; entre os outros dois, nada se vê.</p>
     <div class="ideia">Depois da MANOVA, cada diferença $\tau_{ki} - \tau_{\ell i}$ ganha um intervalo $t$ com $w_{ii}/(n - g)$ e nível $\alpha/(2m)$, $m = pg(g-1)/2$.</div>
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p>Ex. 6.10: $p = 4$ custos, $g = 3$ tipos de dono, $n = 516$. Para a manutenção, privado − governo: $\hat\tau_{13} - \hat\tau_{33} = -0{,}043$ e o erro padrão é $0{,}00614$.</p>
+      <p>Exemplo: $p = 4$ custos, $g = 3$ tipos de dono, $n = 516$. Para a manutenção, privado − governo: $\hat\tau_{13} - \hat\tau_{33} = -0{,}043$ e o erro padrão é $0{,}00614$.</p>
       <p>Número de afirmações $m =$ <input class="lacuna" data-resp="12" data-tol="0" aria-label="número de afirmações"></p>
       <p>Com $t_{513}(0{,}05/24) = 2{,}87$, meia largura $=$ <input class="lacuna" data-resp="0.0176" data-tol="0.0006" aria-label="meia largura"></p>
       <p>O intervalo contém o zero? (1 = sim, 0 = não) <input class="lacuna" data-resp="0" data-tol="0" aria-label="contém o zero"></p>
@@ -628,7 +628,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Dois fatores: a interação diz se o efeito de um depende do nível do outro</h2>
     <p>Agora as observações vêm de combinações de dois fatores: $g$ níveis do fator 1, $b$ do fator 2 e $n$ repetições em cada uma das $gb$ combinações. Com uma variável:</p>
-    <div class="formula" data-ref-id="f-dois-fatores" data-ref-tipo="formula" data-ref-nome="ANOVA de dois fatores com interação (6-43), (6-46), (6-47)">
+    <div class="formula" data-ref-id="f-dois-fatores" data-ref-tipo="formula" data-ref-nome="ANOVA de dois fatores com interação">
       $$X_{\ell kr} = \mu + \class{s1}{\tau_\ell} + \class{s3}{\beta_k} + \gamma_{\ell k} + e_{\ell kr}$$
       $$\textstyle\sum_\ell\tau_\ell = \sum_k\beta_k = \sum_\ell\gamma_{\ell k} = \sum_k\gamma_{\ell k} = 0$$
       $$SS_{\text{cor}} = SS_{\text{fac1}} + SS_{\text{fac2}} + SS_{\text{int}} + SS_{\text{res}}$$
@@ -665,19 +665,19 @@ window.MathJax = {
    <div class="texto">
     <h2>Na versão multivariada, teste a interação primeiro</h2>
     <p>Com $p$ respostas, o modelo é o mesmo com vetores, e cada soma de quadrados vira uma matriz de somas de quadrados e produtos cruzados: $\mathbf{SSP}_{\text{fac1}}$, $\mathbf{SSP}_{\text{fac2}}$, $\mathbf{SSP}_{\text{int}}$ e $\mathbf{SSP}_{\text{res}}$, com os mesmos graus de liberdade. Para cada efeito, o lambda de Wilks compara $\mathbf{SSP}_{\text{res}}$ com ele somado ao efeito:</p>
-    <div class="formula" data-ref-id="f-manova2" data-ref-tipo="formula" data-ref-nome="Testes da MANOVA de dois fatores (6-53)–(6-58)">
+    <div class="formula" data-ref-id="f-manova2" data-ref-tipo="formula" data-ref-nome="Testes da MANOVA de dois fatores">
       $$\Lambda^* = \frac{|\mathbf{SSP}_{\text{res}}|}{|\mathbf{SSP}_{\text{efeito}} + \mathbf{SSP}_{\text{res}}|}$$
       <p>e, com amostras grandes (Bartlett), rejeita se</p>
       $$-\Big[gb(n-1) - \frac{p + 1 - \nu}{2}\Big]\ln\Lambda^* \;\gt\; \chi^2_{\nu p}(\alpha)$$
       <p>com $\nu = (g-1)(b-1)$ para a interação, $\nu = g - 1$ para o fator 1 e $\nu = b - 1$ para o fator 2. Quando $\nu = 1$, há $F$ exata:</p>
       $$\begin{aligned} F &= \frac{1 - \Lambda^*}{\Lambda^*}\cdot\frac{(gb(n-1) - p + 1)/2}{(|\nu - p| + 1)/2} \\ &\sim F_{|\nu - p| + 1,\ gb(n-1) - p + 1} \end{aligned}$$
     </div>
-    <p>A ordem importa: se há interação, os efeitos principais não têm interpretação clara. O livro sugere então ANOVAs de dois fatores variável por variável, para ver em quais respostas a interação aparece, e gráficos de médias. Sem interação, os efeitos principais se exploram com Bonferroni, como na seção anterior, usando $\mathbf{SSP}_{\text{res}}$ com $gb(n-1)$ graus de liberdade. Com uma única observação por combinação ($n = 1$), não dá para estimar a interação: o que seria interação vira o resíduo.</p>
+    <p>A ordem importa: se há interação, os efeitos principais não têm interpretação clara. Recomenda-se então fazer ANOVAs de dois fatores variável por variável, para ver em quais respostas a interação aparece, e gráficos de médias. Sem interação, os efeitos principais se exploram com Bonferroni, como na seção anterior, usando $\mathbf{SSP}_{\text{res}}$ com $gb(n-1)$ graus de liberdade. Com uma única observação por combinação ($n = 1$), não dá para estimar a interação: o que seria interação vira o resíduo.</p>
     <div class="ideia">Na MANOVA de dois fatores, cada efeito tem seu $\Lambda^* = |\mathbf{SSP}_{\text{res}}|/|\mathbf{SSP}_{\text{efeito}} + \mathbf{SSP}_{\text{res}}|$; testa-se a interação antes, e só sem ela os efeitos principais fazem sentido.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-filme" data-ref-tipo="exemplo" data-ref-nome="Filme plástico, dois fatores (Ex. 6.11)">
-      <p><strong>Ex. 6.11.</strong> Filme plástico: resistência ao rasgo, brilho e opacidade ($p = 3$), com dois níveis da taxa de extrusão (fator 1) e da quantidade de aditivo (fator 2), $n = 5$ repetições.</p>
+    <div class="exemplo" data-ref-id="ex-filme" data-ref-tipo="exemplo" data-ref-nome="Filme plástico, dois fatores">
+      <p><strong>Exemplo.</strong> Filme plástico: resistência ao rasgo, brilho e opacidade ($p = 3$), com dois níveis da taxa de extrusão (fator 1) e da quantidade de aditivo (fator 2), $n = 5$ repetições.</p>
       <table>
         <thead><tr><th>Efeito</th><th>$\Lambda^*$</th><th>$F$</th><th>g.l.</th></tr></thead>
         <tbody>
@@ -691,7 +691,7 @@ window.MathJax = {
       <p>com 16 graus de liberdade.</p>
     </div>
     <div class="acheerro">
-      <p>Uma colega analisou o Ex. 6.11. Toque na linha com erro.</p>
+      <p>Uma colega analisou o <span class="ref" data-ref="ex-filme">filme plástico</span>. Toque na linha com erro.</p>
       <ol class="linhas">
         <li data-fb="Certo: com 2 níveis em cada fator, ν = (g − 1)(b − 1) = 1 para a interação.">A interação tem $\nu = (2-1)(2-1) = 1$, então vale a $F$ exata.</li>
         <li data-fb="Certo: (1 − 0,7771)/0,7771 × (16 − 3 + 1)/2 ÷ ((|1 − 3| + 1)/2) = 0,287 × 7/1,5 = 1,34.">Para a interação, $F = 1{,}34$, com 3 e 14 g.l.</li>
@@ -710,7 +710,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Perfis: paralelos, depois coincidentes, depois nivelados</h2>
     <p>Quando $p$ medidas na mesma escala (itens de um questionário, testes) são aplicadas a dois grupos, ligar as médias por segmentos dá o <strong>perfil</strong> de cada grupo. Em vez de perguntar só "$\boldsymbol\mu_1 = \boldsymbol\mu_2$?", a análise de perfis pergunta em etapas, cada uma supondo a anterior:</p>
-    <div class="formula" data-ref-id="f-perfis" data-ref-tipo="formula" data-ref-nome="Testes da análise de perfis (6-61)–(6-64)">
+    <div class="formula" data-ref-id="f-perfis" data-ref-tipo="formula" data-ref-nome="Testes da análise de perfis">
       <p><strong>1. Paralelos?</strong> $H_{01}: \mathbf{C}\boldsymbol\mu_1 = \mathbf{C}\boldsymbol\mu_2$, com $\mathbf{C}$ das diferenças sucessivas; rejeita se</p>
       $$\begin{aligned} T^2 = {}&(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)'\mathbf{C}'\Big[\Big(\tfrac{1}{n_1} + \tfrac{1}{n_2}\Big)\mathbf{C}\mathbf{S}_{\text{pooled}}\mathbf{C}'\Big]^{-1} \\ &\times\mathbf{C}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) \\ \gt {}&\frac{(n_1 + n_2 - 2)(p - 1)}{n_1 + n_2 - p}F_{p-1,\,n_1+n_2-p}(\alpha) \end{aligned}$$
       <p><strong>2. Coincidentes (dado paralelos)?</strong> $H_{02}: \mathbf{1}'\boldsymbol\mu_1 = \mathbf{1}'\boldsymbol\mu_2$; rejeita se</p>
@@ -744,16 +744,16 @@ window.MathJax = {
   <section class="passo" data-titulo="Casamento">
    <div class="texto">
     <h2>Homens e mulheres no casamento: perfis paralelos e coincidentes</h2>
-    <p>No Ex. 6.12, 30 maridos e 30 esposas recém-casados responderam a quatro perguntas: contribuição para o casamento e o que recebem dele (escala de 1 a 8), amor apaixonado e amor companheiro (escala de 1 a 5). As médias:</p>
+    <p>Num estudo, 30 maridos e 30 esposas recém-casados responderam a quatro perguntas: contribuição para o casamento e o que recebem dele (escala de 1 a 8), amor apaixonado e amor companheiro (escala de 1 a 5). As médias:</p>
     $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 6{,}833 \\ 7{,}033 \\ 3{,}967 \\ 4{,}700 \end{bmatrix}\ \text{(maridos)}$$
     $$ \bar{\mathbf{x}}_2 = \begin{bmatrix} 6{,}633 \\ 7{,}000 \\ 4{,}000 \\ 4{,}533 \end{bmatrix}\ \text{(esposas)}$$
     <p><strong>Etapa 1:</strong> $\mathbf{C}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) = [-0{,}167;\ -0{,}066;\ 0{,}200]'$ e $T^2 = 1{,}005$, contra $c^2 = 3{,}11 \times F_{3,56}(0{,}05) = 8{,}7$: perfis paralelos. <strong>Etapa 2:</strong> você calcula ao lado. <strong>Etapa 3:</strong> não faz sentido aqui, porque as perguntas usam escalas diferentes (1 a 8 e 1 a 5); perfis nivelados exigem medidas comparáveis.</p>
-    <p>As respostas são números inteiros, claramente não normais; o livro usa a teoria normal porque as amostras são razoavelmente grandes. Com amostras pequenas, confira a normalidade nos dados ou nos contrastes $\mathbf{C}\mathbf{x}$.</p>
+    <p>As respostas são números inteiros, claramente não normais; usa-se a teoria normal porque as amostras são razoavelmente grandes. Com amostras pequenas, confira a normalidade nos dados ou nos contrastes $\mathbf{C}\mathbf{x}$.</p>
     <div class="ideia">No casamento, os perfis de maridos e esposas são paralelos e coincidentes; o teste de nível não se aplica porque as escalas das perguntas diferem.</div>
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p>Etapa 2 do Ex. 6.12: $\mathbf{1}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) = 0{,}367$ e $\mathbf{1}'\mathbf{S}_{\text{pooled}}\mathbf{1} = 4{,}027$, com $n_1 = n_2 = 30$.</p>
+      <p>Etapa 2 do casamento: $\mathbf{1}'(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) = 0{,}367$ e $\mathbf{1}'\mathbf{S}_{\text{pooled}}\mathbf{1} = 4{,}027$, com $n_1 = n_2 = 30$.</p>
       <p>$T^2 =$ <input class="lacuna" data-resp="0.501" data-tol="0.005" aria-label="T2 da coincidência"></p>
       <p>Com $F_{1,58}(0{,}05) = 4{,}0$, os perfis são coincidentes? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="coincidentes"></p>
       <button class="btn" data-conferir>Conferir</button>
@@ -770,9 +770,9 @@ window.MathJax = {
   <section class="passo" data-titulo="Polinômio">
    <div class="texto">
     <h2>Curva de crescimento: as médias no tempo seguem um polinômio</h2>
-    <p>Medidas repetidas aparecem de dois jeitos: tratamentos diferentes na mesma unidade (os <span class="ref" data-ref="ex-caes">cães</span>) ou a mesma característica medida várias vezes ao longo do tempo. No segundo caso, interessa a curva que uma unidade típica percorre, a <strong>curva de crescimento</strong>. No Ex. 6.13, mediu-se o cálcio do osso ulna de mulheres mais velhas no início e depois de 1, 2 e 3 anos: 15 num grupo controle e 16 num grupo com dieta e exercícios.</p>
+    <p>Medidas repetidas aparecem de dois jeitos: tratamentos diferentes na mesma unidade (os <span class="ref" data-ref="ex-caes">cães</span>) ou a mesma característica medida várias vezes ao longo do tempo. No segundo caso, interessa a curva que uma unidade típica percorre, a <strong>curva de crescimento</strong>. Num estudo, mediu-se o cálcio do osso ulna de mulheres mais velhas no início e depois de 1, 2 e 3 anos: 15 num grupo controle e 16 num grupo com dieta e exercícios.</p>
     <p>O modelo de Potthoff e Roy supõe a mesma $\boldsymbol\Sigma$ para todas (sem exigir variâncias iguais no tempo) e médias que seguem um polinômio de grau $q$ nos tempos $t_1, \dots, t_p$:</p>
-    <div class="formula" data-ref-id="f-crescimento" data-ref-tipo="formula" data-ref-nome="Modelo de curva de crescimento de Potthoff e Roy (6-65)–(6-71)">
+    <div class="formula" data-ref-id="f-crescimento" data-ref-tipo="formula" data-ref-nome="Modelo de curva de crescimento de Potthoff e Roy">
       $$E(\mathbf{X}_{\ell j}) = \mathbf{B}\class{s1}{\boldsymbol\beta_\ell}$$
       $$\mathbf{B} = \begin{bmatrix} 1 & t_1 & \cdots & t_1^q \\ \vdots & \vdots & & \vdots \\ 1 & t_p & \cdots & t_p^q \end{bmatrix},\qquad \class{s1}{\boldsymbol\beta_\ell} = \begin{bmatrix} \beta_{\ell 0} \\ \vdots \\ \beta_{\ell q} \end{bmatrix}$$
       $$\hat{\boldsymbol\beta}_\ell = (\mathbf{B}'\mathbf{S}_{\text{pooled}}^{-1}\mathbf{B})^{-1}\mathbf{B}'\mathbf{S}_{\text{pooled}}^{-1}\bar{\mathbf{x}}_\ell$$
@@ -785,12 +785,12 @@ window.MathJax = {
         <li>$k = \frac{(N-g)(N-g-1)}{(N-g-p+q)(N-g-p+q+1)}$, $N = \sum n_\ell$; $\mathbf{W}_q$: somas de produtos dos desvios em relação às curvas ajustadas</li>
       </ul>
     </div>
-    <p>No Ex. 6.13 ($q = 2$, tempos 0 a 3): controle $73{,}07 + 3{,}64t - 2{,}03t^2$ e tratamento $70{,}14 + 4{,}09t - 1{,}85t^2$, com erros padrão 2,58; 0,83; 0,28 e 2,50; 0,80; 0,27. Os termos em $t^2$ são necessários, há perda de cálcio no terceiro ano nos dois grupos, e os grupos não parecem diferir. $\Lambda^* = 0{,}7627$ e a estatística dá cerca de 8,1 $\lt \chi^2_2(0{,}01) = 9{,}21$ (é a forma usada no exemplo do livro): o quadrático não é rejeitado a 1%, embora o P-valor fique abaixo de 5%.</p>
+    <p>No cálcio ($q = 2$, tempos 0 a 3): controle $73{,}07 + 3{,}64t - 2{,}03t^2$ e tratamento $70{,}14 + 4{,}09t - 1{,}85t^2$, com erros padrão 2,58; 0,83; 0,28 e 2,50; 0,80; 0,27. Os termos em $t^2$ são necessários, há perda de cálcio no terceiro ano nos dois grupos, e os grupos não parecem diferir. $\Lambda^* = 0{,}7627$ e a estatística dá cerca de 8,1 $\lt \chi^2_2(0{,}01) = 9{,}21$: o quadrático não é rejeitado a 1%, embora o P-valor fique abaixo de 5%.</p>
     <div class="ideia">No modelo de Potthoff–Roy, a média de cada grupo no tempo é $\mathbf{B}\boldsymbol\beta_\ell$, um polinômio de grau $q$; o lambda $|\mathbf{W}|/|\mathbf{W}_q|$ testa se o polinômio basta.</div>
    </div>
    <aside class="apoio">
     <div class="exemplo">
-      <p><strong>Ex. 6.13.</strong> Médias do cálcio (pontos) e quadráticas ajustadas (linhas).</p>
+      <p><strong>Exemplo.</strong> Médias do cálcio (pontos) e quadráticas ajustadas (linhas).</p>
       <svg viewBox="0 0 330 220" class="fig" id="cresc-svg" role="img" aria-label="Médias de cálcio nos tempos 0 a 3 e as duas quadráticas ajustadas"></svg>
     </div>
     <div class="quiz" data-correta="b">
@@ -817,7 +817,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Um teste multivariado vê o que $p$ testes separados perdem</h2>
     <p>Com várias características, importa controlar a chance de <em>alguma</em> conclusão errada. Um único teste multivariado, com um único P-valor, é melhor que muitos testes univariados, e não só por isso: os testes separados ignoram a correlação entre as variáveis.</p>
-    <p>No Ex. 6.14, dois grupos de 10 unidades, duas variáveis. A ANOVA de $x_1$ dá $F = 2{,}46$; a de $x_2$, $F = 2{,}68$; nenhuma rejeita nem a 10% ($F_{1,18}(0{,}10) = 3{,}01$). O $T^2$ de duas amostras dá $17{,}29 \gt 12{,}94$ e rejeita a 1%. O motivo: dentro de cada grupo, $x_1$ e $x_2$ têm correlação 0,70, e o grupo 1 fica "a sudeste" do grupo 2 (mais $x_1$ e menos $x_2$), uma combinação rara para a nuvem inclinada. Foi o mesmo fenômeno do <span class="ref" data-ref="ex-efluente">efluente</span>.</p>
+    <p>Um exemplo: dois grupos de 10 unidades, duas variáveis. A ANOVA de $x_1$ dá $F = 2{,}46$; a de $x_2$, $F = 2{,}68$; nenhuma rejeita nem a 10% ($F_{1,18}(0{,}10) = 3{,}01$). O $T^2$ de duas amostras dá $17{,}29 \gt 12{,}94$ e rejeita a 1%. O motivo: dentro de cada grupo, $x_1$ e $x_2$ têm correlação 0,70, e o grupo 1 fica "a sudeste" do grupo 2 (mais $x_1$ e menos $x_2$), uma combinação rara para a nuvem inclinada. Foi o mesmo fenômeno do <span class="ref" data-ref="ex-efluente">efluente</span>.</p>
     <div class="ideia">Testes univariados ignoram a correlação: diferenças em sentidos opostos em variáveis positivamente correlacionadas passam despercebidas por eles e são detectadas pelo $T^2$ ou pela MANOVA.</div>
    </div>
    <aside class="apoio">
@@ -841,9 +841,9 @@ window.MathJax = {
   <section class="passo" data-titulo="Três passos">
    <div class="texto">
     <h2>A estratégia: atípicos, teste multivariado e só então Bonferroni</h2>
-    <div class="definicao" data-ref-id="d-estrategia" data-ref-tipo="definicao" data-ref-nome="Estratégia para comparar tratamentos (§6.9)">
+    <div class="definicao" data-ref-id="d-estrategia" data-ref-tipo="definicao" data-ref-nome="Estratégia para comparar tratamentos">
       <p><strong>1. Procure atípicos</strong>, grupo por grupo e nos resíduos do modelo ajustado. Saiba quais são, para fazer as contas com e sem eles.</p>
-      <p><strong>2. Faça um teste multivariado.</strong> A escolha do livro é a razão de verossimilhanças, equivalente ao lambda de Wilks.</p>
+      <p><strong>2. Faça um teste multivariado.</strong> A escolha mais usada é a razão de verossimilhanças, equivalente ao lambda de Wilks.</p>
       <p><strong>3. Se ele acusar diferença, calcule os intervalos de Bonferroni</strong> para todos os pares de grupos e todas as variáveis. Se nenhum for significativo, olhe Bonferroni também para diferenças e somas de pares de variáveis.</p>
     </div>
     <p>As sombras do elipsoide costumam ser largas demais para isso. Intervalos um de cada vez podem sugerir diferenças que valem estudar depois, mas com os dados atuais não são prova.</p>
@@ -852,7 +852,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="quiz" data-correta="c">
-      <p class="enunciado">Um estudo mede 20 variáveis em 3 grupos, mas só se espera diferença em uma delas. A MANOVA não rejeita; a ANOVA dessa variável, planejada antes, rejeita. Qual é a leitura mais coerente com o livro?</p>
+      <p class="enunciado">Um estudo mede 20 variáveis em 3 grupos, mas só se espera diferença em uma delas. A MANOVA não rejeita; a ANOVA dessa variável, planejada antes, rejeita. Qual é a leitura mais coerente?</p>
       <div class="alts">
         <button data-op="a">(a) A ANOVA está errada: quando a MANOVA não rejeita, nenhuma variável difere.</button>
         <button data-op="b">(b) Deve-se rodar as 20 ANOVAs e relatar as que derem significativas.</button>
@@ -862,7 +862,7 @@ window.MathJax = {
       <div class="fb" data-op="a">O teste conjunto pode perder poder quando a diferença está numa só variável entre muitas inativas; não rejeitar não prova que nada difere.</div>
       <div class="fb" data-op="b">Rodar 20 testes e escolher os significativos infla a chance de falso alarme, exatamente o que o teste conjunto quer controlar.</div>
       <div class="fb" data-op="c">Isso: é a cautela do fim do capítulo. Uma hipótese sobre uma variável específica, fixada antes, justifica o teste dela; incluir variáveis que não devem diferir dilui o efeito.</div>
-      <div class="fb" data-op="d">Escolher a estatística depois de ver o resultado invalida o nível do teste. A escolha (o livro prefere Wilks) é feita antes.</div>
+      <div class="fb" data-op="d">Escolher a estatística depois de ver o resultado invalida o nível do teste. A escolha (Wilks, por exemplo) é feita antes.</div>
     </div>
    </aside>
   </section>
@@ -923,15 +923,13 @@ window.MathJax = {
     <li>$\mathbf{S}_d$ não é $\mathbf{S}_{11} - \mathbf{S}_{22}$: entram as covariâncias cruzadas.</li>
     <li>Esquecer $(1/n_1 + 1/n_2)$ na variância da diferença de médias.</li>
     <li>$\mathbf{S}_{\text{pooled}}$ pesa pelos graus de liberdade, não pela média simples.</li>
-    <li>O Resultado 6.4 exige cada $n_\ell - p$ grande, não a soma.</li>
+    <li>A versão para amostras grandes exige cada $n_\ell - p$ grande, não a soma.</li>
     <li>$\Lambda^*$ é produto de $1/(1 + \lambda_i)$; o posto de $\mathbf{B}$ é no máximo $g - 1$.</li>
     <li>Interação não significativa permite interpretar os efeitos principais; significativa, não.</li>
     <li>Perfis nivelados só fazem sentido com medidas na mesma escala.</li>
     <li>Ordem não sorteada confunde tratamento com tempo.</li>
     <li>Variáveis inativas demais podem esconder uma diferença real.</li>
   </ul>
-  <h3>No livro, vale treinar</h3>
-  <p>Exercícios 6.1–6.4 (efluente), 6.5 (medidas repetidas), 6.6–6.8 (duas amostras e MANOVA à mão), 6.9–6.10 (contrastes e perpendicularidade), 6.12 (perfis lineares), 6.13–6.14 (dois fatores à mão), 6.15 (intervalos do filme plástico), 6.30–6.31 (curva de crescimento).</p>
   </div>
   </div>
 </div>
@@ -1122,7 +1120,7 @@ function fmtP(p) { return p < 0.001 ? 'menor que 0,001' : fmt(p, 3); }
     }
     var q = (u[0] * u[0] - 2 * r * u[0] * u[1] + u[1] * u[1]) / (1 - r * r);   /* u' Σ⁻¹ u */
     var lam = 1 / (1 + 40 * mm * mm / 57 * q), F = (N - 2 - 2) / 2 * (1 - Math.sqrt(lam)) / Math.sqrt(lam), p = pFsup(F, 4, 112);
-    document.getElementById('wk-txt').innerHTML = 'Com as matrizes esperadas ($\\mathbf{W} = 57\\boldsymbol\\Sigma$ e $\\mathbf{B}$ das médias, sem sorteio): $\\Lambda^*$ = ' + fmt(lam, 3) + '; $F$ = ' + fmt(F, 2) + ' com 4 e 112 g.l. (linha $g = 3$ da Tabela 6.3), P-valor ' + fmtP(p) + '. ' + (p < 0.05 ? '<strong>Rejeita</strong> a 5%.' : 'Não rejeita a 5%.');
+    document.getElementById('wk-txt').innerHTML = 'Com as matrizes esperadas ($\\mathbf{W} = 57\\boldsymbol\\Sigma$ e $\\mathbf{B}$ das médias, sem sorteio): $\\Lambda^*$ = ' + fmt(lam, 3) + '; $F$ = ' + fmt(F, 2) + ' com 4 e 112 g.l. (linha $g = 3$ da tabela de casos exatos), P-valor ' + fmtP(p) + '. ' + (p < 0.05 ? '<strong>Rejeita</strong> a 5%.' : 'Não rejeita a 5%.');
     tipografar(document.getElementById('wk-txt'));
   }
   sm.addEventListener('input', desenhar); sf.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);

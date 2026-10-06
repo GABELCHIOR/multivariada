@@ -83,11 +83,7 @@ function ligarQuiz(q, aoResponder) {
         subtopicos.appendChild(b);
       });
     }
-    var sec = secoes[ks];
-    if (sec !== trilha && sec.dataset.livro) {
-      var lv = document.createElement('span'); lv.className = 'sub-livro'; lv.textContent = 'no livro: ' + sec.dataset.livro;
-      subtopicos.appendChild(lv);
-    }
+    /* data-livro (onde o assunto está no livro) fica só no código: o aluno estuda pelo site, não pelo livro */
     subtopicos.appendChild(sublinhado);
     /* O sublinhado desliza até o passo atual (ler offsetLeft antes força o estilo antigo, e a transição acontece). */
     if (alvo) {
@@ -570,7 +566,7 @@ function ligarQuiz(q, aoResponder) {
     var prox = null;
     for (var i = k + 1; i < caps.length; i++) if (caps[i].status === 'pronto') { prox = caps[i]; break; }
     var box = document.createElement('div'); box.className = 'fim-capitulo';
-    box.innerHTML = '<a class="btn" href="../index.html">← Início do livro</a>' +
+    box.innerHTML = '<a class="btn" href="../index.html">← Início</a>' +
       (prox ? '<a class="btn primario" href="../' + prox.arquivo + '">Capítulo ' + prox.numero + ': ' + prox.titulo + ' →</a>' : '');
     resumo.appendChild(box);
   })();

@@ -24,7 +24,7 @@ window.MathJax = {
     <div class="trilho-rodape" id="trilho-rodape">
       <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
       <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
-      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
     </div>
   </div>
 </nav>
@@ -32,7 +32,7 @@ window.MathJax = {
 <div class="wrap">
 
 <h1>Cap. 4 — A distribuição normal multivariada</h1>
-<p class="contexto">Onde isso se encaixa: quase todas as técnicas do livro supõem dados normais multivariados. Aqui a <span class="ref" data-ref="f-geralp">distância estatística (cap. 1)</span>, as <span class="ref" data-ref="f-eixos">elipses de autovetores (cap. 2)</span> e a <span class="ref" data-ref="d-geo-amostra">geometria de $\bar{\mathbf{x}}$ e $\mathbf{S}$ (cap. 3)</span> viram uma distribuição de probabilidade, com as ferramentas para conferir se ela serve aos seus dados.</p>
+<p class="contexto">Onde isso se encaixa: quase todas as técnicas multivariadas supõem dados normais multivariados. Aqui a <span class="ref" data-ref="f-geralp">distância estatística (cap. 1)</span>, as <span class="ref" data-ref="f-eixos">elipses de autovetores (cap. 2)</span> e a <span class="ref" data-ref="d-geo-amostra">geometria de $\bar{\mathbf{x}}$ e $\mathbf{S}$ (cap. 3)</span> viram uma distribuição de probabilidade, com as ferramentas para conferir se ela serve aos seus dados.</p>
 
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
@@ -50,9 +50,9 @@ window.MathJax = {
   <section class="passo" data-titulo="De 1 para p">
    <div class="texto">
     <h2>Troque a distância da normal comum pela distância estatística</h2>
-    <p>A normal univariada $N(\mu, \sigma^2)$ tem densidade $f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\,e^{-[(x-\mu)/\sigma]^2/2}$ (4-1). O expoente guarda $(x-\mu)^2/\sigma^2 = (x-\mu)(\sigma^2)^{-1}(x-\mu)$, a distância ao quadrado em desvios padrão (4-2).</p>
-    <p>A versão para $p$ variáveis troca essa distância pela <strong>distância estatística</strong> $(\mathbf{x} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)$ (4-3) e ajusta a constante para o volume total dar 1:</p>
-    <div class="formula" data-ref-id="f-densidade" data-ref-tipo="formula" data-ref-nome="Densidade normal multivariada (4-4)">
+    <p>A normal univariada $N(\mu, \sigma^2)$ tem densidade $f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\,e^{-[(x-\mu)/\sigma]^2/2}$. O expoente guarda $(x-\mu)^2/\sigma^2 = (x-\mu)(\sigma^2)^{-1}(x-\mu)$, a distância ao quadrado em desvios padrão.</p>
+    <p>A versão para $p$ variáveis troca essa distância pela <strong>distância estatística</strong> $(\mathbf{x} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)$ e ajusta a constante para o volume total dar 1:</p>
+    <div class="formula" data-ref-id="f-densidade" data-ref-tipo="formula" data-ref-nome="Densidade normal multivariada">
       $$f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}\,|\class{s2}{\boldsymbol\Sigma}|^{1/2}}\;e^{-(\mathbf{x} - \class{s1}{\boldsymbol\mu})'\,\class{s2}{\boldsymbol\Sigma}^{-1}(\mathbf{x} - \class{s1}{\boldsymbol\mu})/2}$$
       <ul class="legenda">
         <li><span class="s1">$\boldsymbol\mu$</span>: vetor de médias ($p \times 1$)</li>
@@ -74,11 +74,11 @@ window.MathJax = {
   <section class="passo" data-titulo="Bivariada">
    <div class="texto">
     <h2>Com duas variáveis: um sino que estica na direção da correlação</h2>
-    <p>Com $p = 2$ e $\rho_{12} = \sigma_{12}/(\sqrt{\sigma_{11}}\sqrt{\sigma_{22}})$, a distância fica, em valores padronizados $z_i = (x_i - \mu_i)/\sqrt{\sigma_{ii}}$ (Ex. 4.1):</p>
-    <div class="formula" data-ref-id="f-bivariada" data-ref-tipo="formula" data-ref-nome="Distância na normal bivariada (4-5)">
+    <p>Com $p = 2$ e $\rho_{12} = \sigma_{12}/(\sqrt{\sigma_{11}}\sqrt{\sigma_{22}})$, a distância fica, em valores padronizados $z_i = (x_i - \mu_i)/\sqrt{\sigma_{ii}}$:</p>
+    <div class="formula" data-ref-id="f-bivariada" data-ref-tipo="formula" data-ref-nome="Distância na normal bivariada">
       $$(\mathbf{x} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu) = \frac{1}{1 - \rho_{12}^2}\left[z_1^2 + z_2^2 - 2\rho_{12}\,z_1z_2\right]$$
     </div>
-    <p>Com $|\boldsymbol\Sigma| = \sigma_{11}\sigma_{22}(1 - \rho_{12}^2)$, isso dá a densidade bivariada (4-6). Se $\rho_{12} = 0$, o termo cruzado some e a densidade vira o produto de duas normais: $X_1$ e $X_2$ são <strong>independentes</strong>. Com correlação, a probabilidade se concentra ao longo de uma reta.</p>
+    <p>Com $|\boldsymbol\Sigma| = \sigma_{11}\sigma_{22}(1 - \rho_{12}^2)$, isso dá a densidade bivariada. Se $\rho_{12} = 0$, o termo cruzado some e a densidade vira o produto de duas normais: $X_1$ e $X_2$ são <strong>independentes</strong>. Com correlação, a probabilidade se concentra ao longo de uma reta.</p>
     <div class="ideia">Na normal bivariada, a correlação entra pelo termo cruzado $-2\rho_{12}z_1z_2$; com $\rho_{12} = 0$ a densidade fatora e as variáveis são independentes.</div>
    </div>
    <aside class="apoio">
@@ -89,7 +89,7 @@ window.MathJax = {
         <button data-op="b">Num círculo maior</button>
         <button data-op="c">Igual a $\rho = 0$</button>
       </div>
-      <div class="explica" hidden><p>Ao longo da reta de 45°: valores altos de $X_1$ vêm com valores altos de $X_2$. Os contornos são elipses com eixo maior em $\mathbf{e}_1 = [1/\sqrt2, 1/\sqrt2]'$, de autovalor $1 + \rho$ (Ex. 4.2).</p></div>
+      <div class="explica" hidden><p>Ao longo da reta de 45°: valores altos de $X_1$ vêm com valores altos de $X_2$. Os contornos são elipses com eixo maior em $\mathbf{e}_1 = [1/\sqrt2, 1/\sqrt2]'$, de autovalor $1 + \rho$.</p></div>
     </div>
     <div class="sim" id="sim-biv">
       <label>Correlação $\rho_{12}$ <input type="range" id="bv-r" min="-0.9" max="0.9" step="0.05" value="0"> <strong id="bv-r-v">0,00</strong></label>
@@ -104,7 +104,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Contornos de densidade constante: elipsoides com eixos $c\sqrt{\lambda_i}\,\mathbf{e}_i$</h2>
     <p>A densidade é constante onde a distância é constante: os <strong>contornos</strong> são os elipsoides $(\mathbf{x} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu) = c^2$, centrados em $\boldsymbol\mu$. Para achar os eixos não é preciso inverter $\boldsymbol\Sigma$:</p>
-    <div class="formula" data-ref-id="f-contorno" data-ref-tipo="formula" data-ref-nome="Eixos dos contornos e probabilidade (Resultado 4.1, (4-7), (4-8))">
+    <div class="formula" data-ref-id="f-contorno" data-ref-tipo="formula" data-ref-nome="Eixos dos contornos e probabilidade">
       $$\boldsymbol\Sigma\mathbf{e} = \lambda\mathbf{e} \;\Rightarrow\; \boldsymbol\Sigma^{-1}\mathbf{e} = \tfrac{1}{\lambda}\mathbf{e},\qquad \text{eixos: } \pm c\sqrt{\class{s2}{\lambda_i}}\;\class{s1}{\mathbf{e}_i}$$
       $$P\big[(\mathbf{X} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{X} - \boldsymbol\mu) \le \chi^2_p(\alpha)\big] = 1 - \alpha$$
       <ul class="legenda">
@@ -116,7 +116,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p><strong>Ex. 4.2.</strong> Com $\sigma_{11} = \sigma_{22} = 1$ e $\sigma_{12} = 0{,}6$, os autovalores são $\sigma_{11} \pm \sigma_{12}$.</p>
+      <p><strong>Exemplo.</strong> Com $\sigma_{11} = \sigma_{22} = 1$ e $\sigma_{12} = 0{,}6$, os autovalores são $\sigma_{11} \pm \sigma_{12}$.</p>
       <p>$\lambda_1 =$ <input class="lacuna" data-resp="1.6" data-tol="0.001" aria-label="lambda 1"><br>$\lambda_2 =$ <input class="lacuna" data-resp="0.4" data-tol="0.001" aria-label="lambda 2"></p>
       <p>Semi-eixo maior do contorno de 90% ($c^2 = 4{,}61$): <input class="lacuna" data-resp="2.716" data-tol="0.01" aria-label="semi-eixo maior"></p>
       <button class="btn" data-conferir>Conferir</button>
@@ -133,20 +133,20 @@ window.MathJax = {
   <section class="passo" data-titulo="Combinações">
    <div class="texto">
     <h2>Toda combinação linear de uma normal é normal</h2>
-    <div class="formula" data-ref-id="f-comb-normal" data-ref-tipo="formula" data-ref-nome="Combinações lineares da normal (Resultado 4.2, 4.3)">
+    <div class="formula" data-ref-id="f-comb-normal" data-ref-tipo="formula" data-ref-nome="Combinações lineares da normal">
       $$\mathbf{X} \sim N_p(\boldsymbol\mu, \boldsymbol\Sigma) \;\Rightarrow\; \mathbf{a}'\mathbf{X} \sim N(\mathbf{a}'\boldsymbol\mu,\ \mathbf{a}'\boldsymbol\Sigma\mathbf{a})$$
       $$\mathbf{AX} \sim N_q(\mathbf{A}\boldsymbol\mu,\ \mathbf{A}\boldsymbol\Sigma\mathbf{A}'),\qquad \mathbf{X} + \mathbf{d} \sim N_p(\boldsymbol\mu + \mathbf{d},\ \boldsymbol\Sigma)$$
     </div>
-    <p>A média e a covariância já eram conhecidas (cap. 2: <span class="ref" data-ref="f-cx">$\mathbf{c}'\boldsymbol\mu$</span>, <span class="ref" data-ref="f-cxx">$\mathbf{C}\boldsymbol\Sigma\mathbf{C}'$</span>). A novidade é que a <em>distribuição</em> continua normal. O livro vai além: se $\mathbf{a}'\mathbf{X}$ é normal para <strong>todo</strong> $\mathbf{a}$, então $\mathbf{X}$ é normal multivariado; isso pode servir de definição.</p>
-    <p>Com $\mathbf{a}' = [1, 0, \dots, 0]$ (Ex. 4.3): cada componente é normal, $X_i \sim N(\mu_i, \sigma_{ii})$.</p>
+    <p>A média e a covariância já eram conhecidas (cap. 2: <span class="ref" data-ref="f-cx">$\mathbf{c}'\boldsymbol\mu$</span>, <span class="ref" data-ref="f-cxx">$\mathbf{C}\boldsymbol\Sigma\mathbf{C}'$</span>). A novidade é que a <em>distribuição</em> continua normal. Vale mais: se $\mathbf{a}'\mathbf{X}$ é normal para <strong>todo</strong> $\mathbf{a}$, então $\mathbf{X}$ é normal multivariado; isso pode servir de definição.</p>
+    <p>Com $\mathbf{a}' = [1, 0, \dots, 0]$: cada componente é normal, $X_i \sim N(\mu_i, \sigma_{ii})$.</p>
     <div class="ideia">Se $\mathbf{X}$ é normal multivariado, toda combinação $\mathbf{a}'\mathbf{X}$ é normal com média $\mathbf{a}'\boldsymbol\mu$ e variância $\mathbf{a}'\boldsymbol\Sigma\mathbf{a}$; várias de uma vez, $\mathbf{AX} \sim N_q(\mathbf{A}\boldsymbol\mu, \mathbf{A}\boldsymbol\Sigma\mathbf{A}')$.</div>
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p><strong>Ex. 4.4</strong> (com números). $\mathbf{X} \sim N_3$ com variâncias $\sigma_{11} = 4$, $\sigma_{22} = 3$, $\sigma_{33} = 2$ e covariâncias $\sigma_{12} = 1$, $\sigma_{13} = 0$, $\sigma_{23} = 1$. Sejam $Y_1 = X_1 - X_2$ e $Y_2 = X_2 - X_3$.</p>
+      <p><strong>Exemplo</strong> (com números). $\mathbf{X} \sim N_3$ com variâncias $\sigma_{11} = 4$, $\sigma_{22} = 3$, $\sigma_{33} = 2$ e covariâncias $\sigma_{12} = 1$, $\sigma_{13} = 0$, $\sigma_{23} = 1$. Sejam $Y_1 = X_1 - X_2$ e $Y_2 = X_2 - X_3$.</p>
       <p>$\mathrm{Var}(Y_1) =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="variância de Y1"><br>$\mathrm{Var}(Y_2) =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="variância de Y2"><br>$\mathrm{Cov}(Y_1, Y_2) =$ <input class="lacuna" data-resp="-1" data-tol="0" aria-label="covariância"></p>
       <button class="btn" data-conferir>Conferir</button>
-      <p class="dica" hidden>Dica: o livro dá $\mathbf{A}\boldsymbol\Sigma\mathbf{A}'$ com $\mathrm{Cov}(Y_1, Y_2)$ $= \sigma_{12} + \sigma_{23} - \sigma_{22} - \sigma_{13}$.</p>
+      <p class="dica" hidden>Dica: $\mathbf{A}\boldsymbol\Sigma\mathbf{A}'$ com $\mathrm{Cov}(Y_1, Y_2)$ $= \sigma_{12} + \sigma_{23} - \sigma_{22} - \sigma_{13}$.</p>
       <div class="resolucao" hidden><p>$\mathrm{Var}(Y_1) = \sigma_{11} - 2\sigma_{12} + \sigma_{22}$ $= 4 - 2 + 3 = 5$. $\mathrm{Var}(Y_2) = \sigma_{22} - 2\sigma_{23} + \sigma_{33}$ $= 3 - 2 + 2 = 3$. $\mathrm{Cov} = 1 + 1 - 3 - 0 = -1$. E $[Y_1, Y_2]'$ é normal bivariado.</p></div>
     </div>
    </aside>
@@ -155,10 +155,10 @@ window.MathJax = {
   <section class="passo" data-titulo="Subconjuntos">
    <div class="texto">
     <h2>Qualquer pedaço de uma normal é normal: basta recortar $\boldsymbol\mu$ e $\boldsymbol\Sigma$</h2>
-    <div class="formula" data-ref-id="f-subconjunto" data-ref-tipo="formula" data-ref-nome="Subconjuntos da normal (Resultado 4.4)">
+    <div class="formula" data-ref-id="f-subconjunto" data-ref-tipo="formula" data-ref-nome="Subconjuntos da normal">
       $$\mathbf{X} = \begin{bmatrix} \mathbf{X}_1 \\ \mathbf{X}_2 \end{bmatrix},\ \boldsymbol\mu = \begin{bmatrix} \boldsymbol\mu_1 \\ \boldsymbol\mu_2 \end{bmatrix},\ \boldsymbol\Sigma = \begin{bmatrix} \boldsymbol\Sigma_{11} & \boldsymbol\Sigma_{12} \\ \boldsymbol\Sigma_{21} & \boldsymbol\Sigma_{22} \end{bmatrix} \;\Rightarrow\; \mathbf{X}_1 \sim N_q(\boldsymbol\mu_1, \boldsymbol\Sigma_{11})$$
     </div>
-    <p>É o Resultado 4.3 com $\mathbf{A} = [\mathbf{I} \mid \mathbf{0}]$. Na prática, nem precisa reordenar: no Ex. 4.5, para $[X_2, X_4]'$ de um $N_5$, basta pegar $\mu_2$, $\mu_4$ e as entradas $\sigma_{22}$, $\sigma_{24}$, $\sigma_{44}$:</p>
+    <p>É a <span class="ref" data-ref="f-comb-normal">regra das combinações lineares</span> com $\mathbf{A} = [\mathbf{I} \mid \mathbf{0}]$. Na prática, nem precisa reordenar: para $[X_2, X_4]'$ de um $N_5$, basta pegar $\mu_2$, $\mu_4$ e as entradas $\sigma_{22}$, $\sigma_{24}$, $\sigma_{44}$:</p>
     $$\begin{bmatrix} X_2 \\ X_4 \end{bmatrix} \sim N_2\!\left(\begin{bmatrix} \mu_2 \\ \mu_4 \end{bmatrix}, \begin{bmatrix} \sigma_{22} & \sigma_{24} \\ \sigma_{24} & \sigma_{44} \end{bmatrix}\right)$$
     <div class="ideia">A distribuição de qualquer subconjunto de um vetor normal é normal, com as médias e covariâncias correspondentes recortadas de $\boldsymbol\mu$ e $\boldsymbol\Sigma$.</div>
    </div>
@@ -173,7 +173,7 @@ window.MathJax = {
       </div>
       <div class="fb" data-op="a">Isso seria uma distribuição <em>condicional</em> (dado $X_2$, $X_4$). A marginal ignora as outras variáveis e usa só o recorte de $\boldsymbol\Sigma$.</div>
       <div class="fb" data-op="b">Não precisa de covariância zero: subconjuntos de uma normal são sempre normais, correlacionados ou não.</div>
-      <div class="fb" data-op="c">Isso: recorta-se $\boldsymbol\mu$ e $\boldsymbol\Sigma$ (Resultado 4.4).</div>
+      <div class="fb" data-op="c">Isso: recorta-se $\boldsymbol\mu$ e $\boldsymbol\Sigma$.</div>
       <div class="fb" data-op="d">A ida é garantida: se o vetor é normal, toda marginal é normal. O que não vale é a volta (marginais normais não garantem a conjunta).</div>
     </div>
    </aside>
@@ -182,11 +182,11 @@ window.MathJax = {
   <section class="passo" data-titulo="Covariância zero">
    <div class="texto">
     <h2>Na normal, covariância zero é independência</h2>
-    <div class="formula" data-ref-id="f-indep-normal" data-ref-tipo="formula" data-ref-nome="Covariância zero e independência na normal (Resultado 4.5)">
+    <div class="formula" data-ref-id="f-indep-normal" data-ref-tipo="formula" data-ref-nome="Covariância zero e independência na normal">
       $$\begin{bmatrix} \mathbf{X}_1 \\ \mathbf{X}_2 \end{bmatrix} \sim N_{q_1 + q_2} \;\Rightarrow\; \big(\mathbf{X}_1, \mathbf{X}_2 \text{ independentes} \iff \boldsymbol\Sigma_{12} = \mathbf{0}\big)$$
     </div>
     <p>No cap. 2, <span class="ref" data-ref="f-indep">covariância zero não bastava</span> (o exemplo $Y = X^2$). Para vetores <strong>conjuntamente normais</strong>, basta. E na outra direção: se $\mathbf{X}_1$ e $\mathbf{X}_2$ são normais e independentes, o vetor empilhado é normal com $\boldsymbol\Sigma_{12} = \mathbf{0}$.</p>
-    <p>Ex. 4.6: com</p>
+    <p>Exemplo: com</p>
     $$\boldsymbol\Sigma = \begin{bmatrix} 4 & 1 & 0 \\ 1 & 3 & 0 \\ 0 & 0 & 2 \end{bmatrix},$$
     <p>$X_1$ e $X_2$ não são independentes ($\sigma_{12} = 1$), mas $(X_1, X_2)$ e $X_3$ são: o bloco $\boldsymbol\Sigma_{12} = [0, 0]'$.</p>
     <div class="ideia">Para vetores conjuntamente normais, independência equivale a $\boldsymbol\Sigma_{12} = \mathbf{0}$; sem a normalidade conjunta, covariância zero não basta.</div>
@@ -197,7 +197,7 @@ window.MathJax = {
       <ol class="linhas">
         <li data-fb="Certo: as duas marginais são normais.">As duas marginais são normais padrão.</li>
         <li data-fb="Certo: é o dado do problema.">A covariância entre elas é zero.</li>
-        <li data-errada data-fb="Aqui. Marginais normais não garantem que o par seja normal bivariado (o livro dá um contraexemplo no Exercício 4.8). O Resultado 4.5 exige normalidade CONJUNTA.">Pelo Resultado 4.5, covariância zero entre normais implica independência.</li>
+        <li data-errada data-fb="Aqui. Marginais normais não garantem que o par seja normal bivariado (há contraexemplos). A regra exige normalidade CONJUNTA.">Pela regra da normal, covariância zero entre normais implica independência.</li>
         <li data-fb="A conclusão depende da linha anterior; só vale se o par for normal bivariado.">Logo $X_1$ e $X_2$ são independentes.</li>
       </ol>
     </div>
@@ -207,20 +207,20 @@ window.MathJax = {
   <section class="passo" data-titulo="Condicionais">
    <div class="texto">
     <h2>Fixar algumas variáveis deixa as outras normais, com média que é uma reta</h2>
-    <div class="formula" data-ref-id="f-condicional" data-ref-tipo="formula" data-ref-nome="Distribuição condicional da normal (Resultado 4.6)">
+    <div class="formula" data-ref-id="f-condicional" data-ref-tipo="formula" data-ref-nome="Distribuição condicional da normal">
       $$\mathbf{X}_1 \mid \mathbf{X}_2 = \mathbf{x}_2 \;\sim\; N_q\big(\boldsymbol\mu_1 + \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}(\mathbf{x}_2 - \boldsymbol\mu_2),\ \ \boldsymbol\Sigma_{11} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\big)$$
     </div>
-    <p>Três fatos (4-9): toda condicional é normal; a média condicional é linear em $\mathbf{x}_2$ (coeficientes $\boldsymbol\beta = \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}$, como os coeficientes de uma regressão linear); e a covariância condicional <strong>não depende</strong> do valor $\mathbf{x}_2$.</p>
-    <p>No caso bivariado (Ex. 4.7):</p>
+    <p>Três fatos: toda condicional é normal; a média condicional é linear em $\mathbf{x}_2$ (coeficientes $\boldsymbol\beta = \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}$, como os coeficientes de uma regressão linear); e a covariância condicional <strong>não depende</strong> do valor $\mathbf{x}_2$.</p>
+    <p>No caso bivariado:</p>
     $$X_1 \mid x_2 \sim N\Big(\mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2),\ \sigma_{11}(1 - \rho_{12}^2)\Big)$$
     <p>Saber $x_2$ reduz a variância pelo fator $1 - \rho_{12}^2$.</p>
     <div class="ideia">Na normal, a condicional de $\mathbf{X}_1$ dado $\mathbf{x}_2$ é normal, com média linear em $\mathbf{x}_2$ e covariância $\boldsymbol\Sigma_{11} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}$, que não depende de $\mathbf{x}_2$.</div>
     <details class="demo">
-      <summary>Demonstração (indireta, do livro)</summary>
+      <summary>Demonstração (indireta)</summary>
       <p>Tome</p>
       $$\mathbf{A} = \begin{bmatrix} \mathbf{I} & -\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1} \\ \mathbf{0} & \mathbf{I} \end{bmatrix}.$$
-      <p>Então $\mathbf{A}(\mathbf{X} - \boldsymbol\mu)$ empilha $\mathbf{X}_1 - \boldsymbol\mu_1 - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}(\mathbf{X}_2 - \boldsymbol\mu_2)$ e $\mathbf{X}_2 - \boldsymbol\mu_2$, conjuntamente normais (Resultado 4.3), com covariância $\mathbf{A}\boldsymbol\Sigma\mathbf{A}'$ bloco-diagonal: o bloco cruzado é $\boldsymbol\Sigma_{12} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{22} = \mathbf{0}$, e o primeiro bloco é $\boldsymbol\Sigma_{11} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}$.</p>
-      <p>Pelo Resultado 4.5, as duas partes são independentes. Então fixar $\mathbf{X}_2 = \mathbf{x}_2$ não muda a distribuição da primeira, que é $N_q(\mathbf{0}, \boldsymbol\Sigma_{11} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21})$. Somando a constante $\boldsymbol\mu_1 + \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}(\mathbf{x}_2 - \boldsymbol\mu_2)$, sai o resultado.</p>
+      <p>Então $\mathbf{A}(\mathbf{X} - \boldsymbol\mu)$ empilha $\mathbf{X}_1 - \boldsymbol\mu_1 - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}(\mathbf{X}_2 - \boldsymbol\mu_2)$ e $\mathbf{X}_2 - \boldsymbol\mu_2$, conjuntamente normais, com covariância $\mathbf{A}\boldsymbol\Sigma\mathbf{A}'$ bloco-diagonal: o bloco cruzado é $\boldsymbol\Sigma_{12} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{22} = \mathbf{0}$, e o primeiro bloco é $\boldsymbol\Sigma_{11} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}$.</p>
+      <p>Pela <span class="ref" data-ref="f-indep-normal">regra da covariância zero na normal</span>, as duas partes são independentes. Então fixar $\mathbf{X}_2 = \mathbf{x}_2$ não muda a distribuição da primeira, que é $N_q(\mathbf{0}, \boldsymbol\Sigma_{11} - \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21})$. Somando a constante $\boldsymbol\mu_1 + \boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}(\mathbf{x}_2 - \boldsymbol\mu_2)$, sai o resultado.</p>
     </details>
    </div>
    <aside class="apoio">
@@ -245,7 +245,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Distância χ²">
    <div class="texto">
     <h2>A distância estatística de um vetor normal é uma qui-quadrado</h2>
-    <div class="formula" data-ref-id="f-qui" data-ref-tipo="formula" data-ref-nome="Distância estatística da normal (Resultado 4.7)">
+    <div class="formula" data-ref-id="f-qui" data-ref-tipo="formula" data-ref-nome="Distância estatística da normal">
       $$\mathbf{X} \sim N_p(\boldsymbol\mu, \boldsymbol\Sigma),\ |\boldsymbol\Sigma| \gt 0 \;\Rightarrow\; (\mathbf{X} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{X} - \boldsymbol\mu) \sim \chi^2_p$$
     </div>
     <p>Por quê: com $\mathbf{Z} = \boldsymbol\Sigma^{-1/2}(\mathbf{X} - \boldsymbol\mu)$, $\mathbf{Z} \sim N_p(\mathbf{0}, \mathbf{I})$ e a distância vira $Z_1^2 + \cdots + Z_p^2$: soma de $p$ normais padrão independentes ao quadrado, a definição da $\chi^2_p$. A probabilidade $1 - \alpha$ dos contornos sai daqui.</p>
@@ -255,7 +255,7 @@ window.MathJax = {
       <summary>Demonstração</summary>
       <p>Pela decomposição espectral, $\boldsymbol\Sigma^{-1} = \sum_i \lambda_i^{-1}\mathbf{e}_i\mathbf{e}_i'$, então a distância é $\sum_i \big[\lambda_i^{-1/2}\mathbf{e}_i'(\mathbf{X} - \boldsymbol\mu)\big]^2 = \sum_i Z_i^2$. O vetor $\mathbf{Z} = \mathbf{A}(\mathbf{X} - \boldsymbol\mu)$, com</p>
       $$\mathbf{A} = \begin{bmatrix} \lambda_1^{-1/2}\mathbf{e}_1' \\ \vdots \\ \lambda_p^{-1/2}\mathbf{e}_p' \end{bmatrix},$$
-      <p>é normal com covariância $\mathbf{A}\boldsymbol\Sigma\mathbf{A}' = \mathbf{I}$ (Resultado 4.3). Pelo Resultado 4.5, os $Z_i$ são normais padrão independentes, e $\sum Z_i^2 \sim \chi^2_p$.</p>
+      <p>é normal com covariância $\mathbf{A}\boldsymbol\Sigma\mathbf{A}' = \mathbf{I}$. Pela <span class="ref" data-ref="f-indep-normal">regra da covariância zero na normal</span>, os $Z_i$ são normais padrão independentes, e $\sum Z_i^2 \sim \chi^2_p$.</p>
     </details>
    </div>
    <aside class="apoio">
@@ -278,8 +278,8 @@ window.MathJax = {
   <section class="passo" data-titulo="Vetores">
    <div class="texto">
     <h2>Combinações de vetores independentes: coeficientes perpendiculares dão independência</h2>
-    <p>Agora a combinação é de <em>vetores</em>: $\mathbf{V}_1 = c_1\mathbf{X}_1 + \cdots + c_n\mathbf{X}_n$ é um vetor $p \times 1$ (4-10), diferente de $\mathbf{a}'\mathbf{X}$, que é um número.</p>
-    <div class="formula" data-ref-id="f-comb-vetores" data-ref-tipo="formula" data-ref-nome="Combinações de vetores normais independentes (Resultado 4.8)">
+    <p>Agora a combinação é de <em>vetores</em>: $\mathbf{V}_1 = c_1\mathbf{X}_1 + \cdots + c_n\mathbf{X}_n$ é um vetor $p \times 1$, diferente de $\mathbf{a}'\mathbf{X}$, que é um número.</p>
+    <div class="formula" data-ref-id="f-comb-vetores" data-ref-tipo="formula" data-ref-nome="Combinações de vetores normais independentes">
       $$\mathbf{V}_1 = \sum_{j=1}^n c_j\mathbf{X}_j \sim N_p\Big(\sum_j c_j\boldsymbol\mu_j,\ \big(\textstyle\sum_j c_j^2\big)\boldsymbol\Sigma\Big),\qquad \mathrm{Cov}(\mathbf{V}_1, \mathbf{V}_2) = (\mathbf{b}'\mathbf{c})\,\boldsymbol\Sigma$$
     </div>
     <p>Vale para $\mathbf{X}_j$ independentes, $\mathbf{X}_j \sim N_p(\boldsymbol\mu_j, \boldsymbol\Sigma)$ (mesma $\boldsymbol\Sigma$), e $\mathbf{V}_2 = \sum b_j\mathbf{X}_j$. Os dois são independentes quando $\mathbf{b}'\mathbf{c} = \sum c_jb_j = 0$: coeficientes perpendiculares. É por isso que, numa amostra normal, $\bar{\mathbf{X}}$ e os desvios são independentes.</p>
@@ -287,7 +287,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p><strong>Ex. 4.8.</strong> $\mathbf{X}_1, \dots, \mathbf{X}_4$ independentes, $N_3(\boldsymbol\mu, \boldsymbol\Sigma)$, com $\boldsymbol\mu = [3, -1, 1]'$. Compare $\mathbf{V}_1 = \tfrac12(\mathbf{X}_1 + \mathbf{X}_2 + \mathbf{X}_3 + \mathbf{X}_4)$ e $\mathbf{V}_2 = \mathbf{X}_1 + \mathbf{X}_2 + \mathbf{X}_3 - 3\mathbf{X}_4$.</p>
+      <p><strong>Exemplo.</strong> $\mathbf{X}_1, \dots, \mathbf{X}_4$ independentes, $N_3(\boldsymbol\mu, \boldsymbol\Sigma)$, com $\boldsymbol\mu = [3, -1, 1]'$. Compare $\mathbf{V}_1 = \tfrac12(\mathbf{X}_1 + \mathbf{X}_2 + \mathbf{X}_3 + \mathbf{X}_4)$ e $\mathbf{V}_2 = \mathbf{X}_1 + \mathbf{X}_2 + \mathbf{X}_3 - 3\mathbf{X}_4$.</p>
       <p>$\mathbf{V}_1$ tem covariância $k_1\boldsymbol\Sigma$ com $k_1 =$ <input class="lacuna" data-resp="1" data-tol="0" aria-label="k1">; $\mathbf{V}_2$, $k_2\boldsymbol\Sigma$ com $k_2 =$ <input class="lacuna" data-resp="12" data-tol="0" aria-label="k2"></p>
       <p>$\mathbf{b}'\mathbf{c} =$ <input class="lacuna" data-resp="0" data-tol="0" aria-label="b'c"><br>primeiro elemento da média de $\mathbf{V}_2$: <input class="lacuna" data-resp="0" data-tol="0" aria-label="média de V2"></p>
       <button class="btn" data-conferir>Conferir</button>
@@ -304,19 +304,19 @@ window.MathJax = {
   <section class="passo" data-titulo="Verossimilhança">
    <div class="texto">
     <h2>Verossimilhança: a densidade conjunta lida como função de $\boldsymbol\mu$ e $\boldsymbol\Sigma$</h2>
-    <p>Numa amostra aleatória de $N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, a densidade conjunta é o produto das $n$ densidades (4-11). Com os dados fixos, ela vira função dos parâmetros: a <strong>verossimilhança</strong> $L(\boldsymbol\mu, \boldsymbol\Sigma)$.</p>
-    <p>Dois truques arrumam o expoente. (1) Um número é seu próprio traço: $\mathbf{x}'\mathbf{A}\mathbf{x} = \mathrm{tr}(\mathbf{A}\mathbf{x}\mathbf{x}')$ (Resultado 4.9). (2) Somar e subtrair $\bar{\mathbf{x}}$:</p>
-    <div class="formula" data-ref-id="f-decomp-soma" data-ref-tipo="formula" data-ref-nome="Decomposição da soma de produtos (4-14)">
+    <p>Numa amostra aleatória de $N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, a densidade conjunta é o produto das $n$ densidades. Com os dados fixos, ela vira função dos parâmetros: a <strong>verossimilhança</strong> $L(\boldsymbol\mu, \boldsymbol\Sigma)$.</p>
+    <p>Dois truques arrumam o expoente. (1) Um número é seu próprio traço: $\mathbf{x}'\mathbf{A}\mathbf{x} = \mathrm{tr}(\mathbf{A}\mathbf{x}\mathbf{x}')$. (2) Somar e subtrair $\bar{\mathbf{x}}$:</p>
+    <div class="formula" data-ref-id="f-decomp-soma" data-ref-tipo="formula" data-ref-nome="Decomposição da soma de produtos">
       $$\sum_{j=1}^n(\mathbf{x}_j - \boldsymbol\mu)(\mathbf{x}_j - \boldsymbol\mu)' = \sum_{j=1}^n(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})' + n(\bar{\mathbf{x}} - \boldsymbol\mu)(\bar{\mathbf{x}} - \boldsymbol\mu)'$$
     </div>
-    <p>Com isso (4-16, 4-17), o expoente fica</p>
+    <p>Com isso, o expoente fica</p>
     $$-\frac12\Big[\mathrm{tr}\Big(\boldsymbol\Sigma^{-1}\sum_{j}(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'\Big) + n(\bar{\mathbf{x}} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu)\Big]$$
     <p>Só $\bar{\mathbf{x}}$ e a soma de produtos aparecem.</p>
     <div class="ideia">A verossimilhança normal depende dos dados só por $\bar{\mathbf{x}}$ e por $\sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$, graças ao truque do traço e à decomposição em torno de $\bar{\mathbf{x}}$.</div>
    </div>
    <aside class="apoio">
     <div class="pare">
-      <p>Na decomposição (4-14), por que os termos cruzados $\sum_j(\mathbf{x}_j - \bar{\mathbf{x}})(\bar{\mathbf{x}} - \boldsymbol\mu)'$ somem?</p>
+      <p>Na decomposição, por que os termos cruzados $\sum_j(\mathbf{x}_j - \bar{\mathbf{x}})(\bar{\mathbf{x}} - \boldsymbol\mu)'$ somem?</p>
       <button class="btn" data-revelar>Ver resposta</button>
       <div class="resposta" hidden><p>$(\bar{\mathbf{x}} - \boldsymbol\mu)'$ não depende de $j$ e sai da soma: sobra $\big(\sum_j(\mathbf{x}_j - \bar{\mathbf{x}})\big)(\bar{\mathbf{x}} - \boldsymbol\mu)'$, e os desvios somam o vetor zero. É o mesmo fato da perpendicularidade entre $\bar x_i\mathbf{1}$ e $\mathbf{d}_i$ no <span class="ref" data-ref="f-desvio">cap. 3</span>.</p></div>
     </div>
@@ -326,14 +326,14 @@ window.MathJax = {
   <section class="passo" data-titulo="EMV">
    <div class="texto">
     <h2>Os estimadores de máxima verossimilhança: $\bar{\mathbf{X}}$ e $\mathbf{S}_n$</h2>
-    <div class="formula" data-ref-id="f-emv" data-ref-tipo="formula" data-ref-nome="Estimadores de máxima verossimilhança (Resultado 4.11)">
+    <div class="formula" data-ref-id="f-emv" data-ref-tipo="formula" data-ref-nome="Estimadores de máxima verossimilhança">
       $$\hat{\boldsymbol\mu} = \bar{\mathbf{X}},\qquad \hat{\boldsymbol\Sigma} = \frac1n\sum_{j=1}^n(\mathbf{X}_j - \bar{\mathbf{X}})(\mathbf{X}_j - \bar{\mathbf{X}})' = \frac{n-1}{n}\,\mathbf{S}$$
     </div>
-    <p>O argumento: o termo $n(\bar{\mathbf{x}} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu)$ é positivo a não ser que $\boldsymbol\mu = \bar{\mathbf{x}}$, então $\hat{\boldsymbol\mu} = \bar{\mathbf{x}}$. Sobra maximizar em $\boldsymbol\Sigma$, o que o Resultado 4.10 resolve: o máximo é a soma de produtos dividida por $n$ (o <span class="ref" data-ref="f-s">divisor $n$, viesado</span>).</p>
-    <p>O valor máximo é proporcional a $|\mathbf{S}|^{-n/2}$ (4-19): a variância generalizada controla o "pico" da verossimilhança. E vale a <strong>invariância</strong> (4-20): o EMV de $h(\boldsymbol\theta)$ é $h(\hat{\boldsymbol\theta})$; por exemplo, o EMV de $\sqrt{\sigma_{ii}}$ é $\sqrt{\hat\sigma_{ii}}$.</p>
+    <p>O argumento: o termo $n(\bar{\mathbf{x}} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu)$ é positivo a não ser que $\boldsymbol\mu = \bar{\mathbf{x}}$, então $\hat{\boldsymbol\mu} = \bar{\mathbf{x}}$. Sobra maximizar em $\boldsymbol\Sigma$, o que a demonstração abaixo resolve: o máximo é a soma de produtos dividida por $n$ (o <span class="ref" data-ref="f-s">divisor $n$, viesado</span>).</p>
+    <p>O valor máximo é proporcional a $|\mathbf{S}|^{-n/2}$: a variância generalizada controla o "pico" da verossimilhança. E vale a <strong>invariância</strong>: o EMV de $h(\boldsymbol\theta)$ é $h(\hat{\boldsymbol\theta})$; por exemplo, o EMV de $\sqrt{\sigma_{ii}}$ é $\sqrt{\hat\sigma_{ii}}$.</p>
     <div class="ideia">Os EMV da normal são $\hat{\boldsymbol\mu} = \bar{\mathbf{X}}$ e $\hat{\boldsymbol\Sigma} = \frac{n-1}{n}\mathbf{S}$ (divisor $n$); funções dos parâmetros se estimam aplicando a mesma função aos EMV.</div>
     <details class="demo">
-      <summary>Resultado 4.10: o máximo em $\boldsymbol\Sigma$</summary>
+      <summary>Demonstração: o máximo em $\boldsymbol\Sigma$</summary>
       <p>Para $\mathbf{B}$ positiva definida e $b \gt 0$: $\frac{1}{|\boldsymbol\Sigma|^b}e^{-\mathrm{tr}(\boldsymbol\Sigma^{-1}\mathbf{B})/2} \le \frac{1}{|\mathbf{B}|^b}(2b)^{pb}e^{-bp}$, com igualdade só em $\boldsymbol\Sigma = \mathbf{B}/(2b)$.</p>
       <p>Prova: sejam $\eta_i$ os autovalores (positivos) de $\mathbf{B}^{1/2}\boldsymbol\Sigma^{-1}\mathbf{B}^{1/2}$. Então $\mathrm{tr}(\boldsymbol\Sigma^{-1}\mathbf{B}) = \sum\eta_i$ e $1/|\boldsymbol\Sigma| = \prod\eta_i/|\mathbf{B}|$, e a expressão vira $\frac{1}{|\mathbf{B}|^b}\prod_i\eta_i^b e^{-\eta_i/2}$. Cada fator $\eta^be^{-\eta/2}$ é máximo em $\eta = 2b$, com valor $(2b)^be^{-b}$. Todos os $\eta_i = 2b$ significa $\mathbf{B}^{1/2}\boldsymbol\Sigma^{-1}\mathbf{B}^{1/2} = 2b\,\mathbf{I}$, isto é, $\boldsymbol\Sigma = \mathbf{B}/(2b)$. Na verossimilhança, $b = n/2$ e $\mathbf{B} = \sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$.</p>
     </details>
@@ -350,7 +350,7 @@ window.MathJax = {
       <div class="fb" data-op="a">O EMV de $\boldsymbol\Sigma$ usa divisor $n$: $\hat{\boldsymbol\Sigma} = \frac{n-1}{n}\mathbf{S}$, não $\mathbf{S}$.</div>
       <div class="fb" data-op="b">Isso: $\hat\sigma_{11} = \frac{9}{10} \times 9 = 8{,}1$, e pela invariância o EMV de $\sqrt{\sigma_{11}}$ é $\sqrt{8{,}1}$.</div>
       <div class="fb" data-op="c">O fator $\frac{n-1}{n}$ multiplica a <em>variância</em>; no desvio padrão, entra a raiz: $\sqrt{0{,}9} \times 3$.</div>
-      <div class="fb" data-op="d">Pela invariância (4-20), qualquer função dos parâmetros tem EMV: a mesma função aplicada aos EMV.</div>
+      <div class="fb" data-op="d">Pela invariância, qualquer função dos parâmetros tem EMV: a mesma função aplicada aos EMV.</div>
     </div>
    </aside>
   </section>
@@ -358,7 +358,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Suficiência">
    <div class="texto">
     <h2>Na normal, $\bar{\mathbf{x}}$ e $\mathbf{S}$ guardam toda a informação</h2>
-    <div class="definicao" data-ref-id="d-suficiencia" data-ref-tipo="definicao" data-ref-nome="Estatísticas suficientes da normal (4-21)">
+    <div class="definicao" data-ref-id="d-suficiencia" data-ref-tipo="definicao" data-ref-nome="Estatísticas suficientes da normal">
       <p>Numa amostra de $N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, $\bar{\mathbf{X}}$ e $\mathbf{S}$ são <strong>suficientes</strong>: a densidade conjunta depende dos dados só por eles. Toda a informação sobre $\boldsymbol\mu$ e $\boldsymbol\Sigma$ está nesses dois resumos, qualquer que seja $n$.</p>
     </div>
     <p>A consequência prática é um alerta: muitas técnicas multivariadas começam com $\bar{\mathbf{x}}$ e $\mathbf{S}$. Se os dados <em>não</em> forem normais, esses resumos podem estar jogando fora informação útil (assimetria, caudas, grupos). Por isso a seção 4.5 ensina a conferir a normalidade.</p>
@@ -375,7 +375,7 @@ window.MathJax = {
       </div>
       <div class="fb" data-op="a">Isso: a verossimilhança depende dos dados só por $\bar{\mathbf{x}}$ e $\mathbf{S}$ (suficiência).</div>
       <div class="fb" data-op="b">Não só no máximo: a função inteira é a mesma, porque só $\bar{\mathbf{x}}$ e a soma de produtos entram nela.</div>
-      <div class="fb" data-op="c">A forma (4-15) mostra que os $\mathbf{x}_j$ entram apenas por $\bar{\mathbf{x}}$ e $(n-1)\mathbf{S}$.</div>
+      <div class="fb" data-op="c">A forma mostra que os $\mathbf{x}_j$ entram apenas por $\bar{\mathbf{x}}$ e $(n-1)\mathbf{S}$.</div>
       <div class="fb" data-op="d">Como $\mathbf{S}$ é a mesma nas duas, não há fator diferente: as funções coincidem.</div>
     </div>
    </aside>
@@ -389,11 +389,11 @@ window.MathJax = {
    <div class="texto">
     <h2>$\bar{\mathbf{X}}$ é normal, $(n-1)\mathbf{S}$ é Wishart, e os dois são independentes</h2>
     <p>No caso univariado, $\bar X \sim N(\mu, \sigma^2/n)$ e $(n-1)s^2$ é $\sigma^2$ vezes uma $\chi^2_{n-1}$, isto é, uma soma de $n - 1$ quadrados de $N(0, \sigma^2)$. A generalização da qui-quadrado para matrizes é a <strong>Wishart</strong>:</p>
-    <div class="formula" data-ref-id="f-wishart" data-ref-tipo="formula" data-ref-nome="Distribuições de X̄ e S na normal (4-22), (4-23)">
+    <div class="formula" data-ref-id="f-wishart" data-ref-tipo="formula" data-ref-nome="Distribuições de X̄ e S na normal">
       $$W_m(\cdot \mid \boldsymbol\Sigma) = \text{distribuição de } \sum_{j=1}^m \mathbf{Z}_j\mathbf{Z}_j',\quad \mathbf{Z}_j \text{ independentes } N_p(\mathbf{0}, \boldsymbol\Sigma)$$
       $$\bar{\mathbf{X}} \sim N_p\big(\boldsymbol\mu, \tfrac1n\boldsymbol\Sigma\big),\qquad (n-1)\mathbf{S} \sim W_{n-1}(\cdot \mid \boldsymbol\Sigma),\qquad \bar{\mathbf{X}} \text{ e } \mathbf{S} \text{ independentes}$$
     </div>
-    <p>Propriedades (4-24): graus de liberdade somam ($W_{m_1} + W_{m_2} = W_{m_1+m_2}$, independentes); $\mathbf{CAC}' \sim W_m(\cdot \mid \mathbf{C}\boldsymbol\Sigma\mathbf{C}')$. A densidade existe só com $n \gt p$ e é complicada (4-25); não vamos precisar dela.</p>
+    <p>Propriedades: graus de liberdade somam ($W_{m_1} + W_{m_2} = W_{m_1+m_2}$, independentes); $\mathbf{CAC}' \sim W_m(\cdot \mid \mathbf{C}\boldsymbol\Sigma\mathbf{C}')$. A densidade existe só com $n \gt p$ e é complicada; não vamos precisar dela.</p>
     <p>A independência é a peça que falta para o cap. 5: como a distribuição de $\mathbf{S}$ não depende de $\boldsymbol\mu$, dá para usar $\mathbf{S}$ no lugar de $\boldsymbol\Sigma$ e montar uma estatística para testar $\boldsymbol\mu$.</p>
     <div class="ideia">Numa amostra normal, $\bar{\mathbf{X}} \sim N_p(\boldsymbol\mu, \boldsymbol\Sigma/n)$, $(n-1)\mathbf{S}$ tem distribuição de Wishart com $n - 1$ graus de liberdade, e os dois são independentes.</div>
    </div>
@@ -418,11 +418,11 @@ window.MathJax = {
    <div class="texto">
     <h2>Com $n$ grande, nem precisa de dados normais</h2>
     <p>Para <em>qualquer</em> população com média $\boldsymbol\mu$ e covariância $\boldsymbol\Sigma$ finita:</p>
-    <div class="formula" data-ref-id="f-tlc" data-ref-tipo="formula" data-ref-nome="Lei dos grandes números e TLC (4-26)–(4-28)">
+    <div class="formula" data-ref-id="f-tlc" data-ref-tipo="formula" data-ref-nome="Lei dos grandes números e TLC">
       $$\bar{\mathbf{X}} \to \boldsymbol\mu,\quad \mathbf{S} \to \boldsymbol\Sigma \ \ (\text{em probabilidade}),\qquad \sqrt n\,(\bar{\mathbf{X}} - \boldsymbol\mu) \approx N_p(\mathbf{0}, \boldsymbol\Sigma)$$
       $$n\,(\bar{\mathbf{X}} - \boldsymbol\mu)'\,\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu) \approx \chi^2_p$$
     </div>
-    <p>A primeira linha junta a lei dos grandes números (Resultado 4.12) e o teorema central do limite multivariado (Resultado 4.13), que vale até para populações discretas, com $n$ grande em relação a $p$. A segunda sai do Resultado 4.7: trocar $\boldsymbol\Sigma$ por $\mathbf{S}$ quase não muda nada quando $n$ é bem maior que $p$.</p>
+    <p>A primeira linha junta a lei dos grandes números e o teorema central do limite multivariado, que vale até para populações discretas, com $n$ grande em relação a $p$. A segunda sai da <span class="ref" data-ref="f-qui">distância estatística da normal</span>: trocar $\boldsymbol\Sigma$ por $\mathbf{S}$ quase não muda nada quando $n$ é bem maior que $p$.</p>
     <div class="ideia">Com $n$ grande (e bem maior que $p$), $\sqrt n(\bar{\mathbf{X}} - \boldsymbol\mu)$ é aproximadamente $N_p(\mathbf{0}, \boldsymbol\Sigma)$ e $n(\bar{\mathbf{X}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu)$ é aproximadamente $\chi^2_p$, para quase qualquer população.</div>
    </div>
    <aside class="apoio">
@@ -445,11 +445,11 @@ window.MathJax = {
    <div class="texto">
     <h2>Gráfico Q-Q: quantis dos dados contra quantis da normal</h2>
     <p>Três perguntas guiam a conferência: (1) as marginais (e algumas combinações) parecem normais? (2) as dispersões têm forma elíptica? (3) há observações "selvagens"? Testar normalidade em muitas dimensões é difícil; olhar 1 e 2 dimensões costuma bastar, sabendo que marginais normais não garantem a conjunta.</p>
-    <p>Um teste rápido: a proporção dos dados em $\bar x_i \pm \sqrt{s_{ii}}$ deveria ser perto de 0,683, e em $\pm 2\sqrt{s_{ii}}$, perto de 0,954 (4-29).</p>
+    <p>Um teste rápido: a proporção dos dados em $\bar x_i \pm \sqrt{s_{ii}}$ deveria ser perto de 0,683, e em $\pm 2\sqrt{s_{ii}}$, perto de 0,954.</p>
     <div class="definicao" data-ref-id="d-qq" data-ref-tipo="definicao" data-ref-nome="Gráfico Q-Q (passos)">
-      <p><strong>Gráfico Q-Q:</strong> (1) ordene os dados, $x_{(1)} \le \cdots \le x_{(n)}$, com probabilidades $(j - \frac12)/n$; (2) calcule os quantis da normal padrão $q_{(j)}$ com $P[Z \le q_{(j)}] = (j - \frac12)/n$ (4-30); (3) marque os pares $(q_{(j)}, x_{(j)})$. Dados normais formam uma reta.</p>
+      <p><strong>Gráfico Q-Q:</strong> (1) ordene os dados, $x_{(1)} \le \cdots \le x_{(n)}$, com probabilidades $(j - \frac12)/n$; (2) calcule os quantis da normal padrão $q_{(j)}$ com $P[Z \le q_{(j)}] = (j - \frac12)/n$; (3) marque os pares $(q_{(j)}, x_{(j)})$. Dados normais formam uma reta.</p>
     </div>
-    <p>O formato do desvio diz o tipo de problema. Com $n \lt 20$, o gráfico oscila muito mesmo para dados normais. No Ex. 4.10, a radiação de 42 fornos de micro-ondas não forma uma reta.</p>
+    <p>O formato do desvio diz o tipo de problema. Com $n \lt 20$, o gráfico oscila muito mesmo para dados normais. A radiação de 42 fornos de micro-ondas não forma uma reta.</p>
     <div class="ideia">No gráfico Q-Q, dados normais ficam perto de uma reta; curvas e pontas soltas indicam assimetria, caudas pesadas ou atípicos.</div>
    </div>
    <aside class="apoio">
@@ -478,16 +478,16 @@ window.MathJax = {
   <section class="passo" data-titulo="r_Q">
    <div class="texto">
     <h2>$r_Q$: a correlação do gráfico Q-Q vira um teste</h2>
-    <div class="formula" data-ref-id="f-rq" data-ref-tipo="formula" data-ref-nome="Correlação do gráfico Q-Q (4-31)">
+    <div class="formula" data-ref-id="f-rq" data-ref-tipo="formula" data-ref-nome="Correlação do gráfico Q-Q">
       $$r_Q = \frac{\sum_{j=1}^n (x_{(j)} - \bar x)(q_{(j)} - \bar q)}{\sqrt{\sum_{j}(x_{(j)} - \bar x)^2}\,\sqrt{\sum_{j}(q_{(j)} - \bar q)^2}}$$
     </div>
-    <p>Quanto mais reto o gráfico, mais perto de 1. Rejeita-se a normalidade no nível $\alpha$ se $r_Q$ fica <strong>abaixo</strong> do valor crítico da Tabela 4.2 (por exemplo, $n = 10$: 0,8801, 0,9198 e 0,9351 para $\alpha$ = 0,01, 0,05 e 0,10; $n = 40$: 0,9599, 0,9726, 0,9771). É parente próximo do teste de Shapiro–Wilk; com $n$ grande, os dois quase coincidem.</p>
+    <p>Quanto mais reto o gráfico, mais perto de 1. Rejeita-se a normalidade no nível $\alpha$ se $r_Q$ fica <strong>abaixo</strong> do valor crítico tabelado (por exemplo, $n = 10$: 0,8801, 0,9198 e 0,9351 para $\alpha$ = 0,01, 0,05 e 0,10; $n = 40$: 0,9599, 0,9726, 0,9771). É parente próximo do teste de Shapiro–Wilk; com $n$ grande, os dois quase coincidem.</p>
     <p>Além das marginais, vale olhar a combinação $\hat{\mathbf{e}}_1'\mathbf{x}_j$, com o autovetor do maior autovalor de $\mathbf{S}$ (e a do menor).</p>
-    <div class="ideia">$r_Q$ é a correlação dos pontos do gráfico Q-Q; rejeita-se a normalidade quando ele fica abaixo do valor crítico da Tabela 4.2.</div>
+    <div class="ideia">$r_Q$ é a correlação dos pontos do gráfico Q-Q; rejeita-se a normalidade quando ele fica abaixo do valor crítico tabelado.</div>
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p><strong>Ex. 4.11</strong> (dados do Ex. 4.9, $n = 10$): $\sum(x_{(j)} - \bar x)q_{(j)} = 8{,}584$, $\sum(x_{(j)} - \bar x)^2 = 8{,}472$, $\sum q_{(j)}^2 = 8{,}795$ e $\bar q = 0$.</p>
+      <p><strong>Exemplo</strong> (10 observações): $\sum(x_{(j)} - \bar x)q_{(j)} = 8{,}584$, $\sum(x_{(j)} - \bar x)^2 = 8{,}472$, $\sum q_{(j)}^2 = 8{,}795$ e $\bar q = 0$.</p>
       <p>$r_Q =$ <input class="lacuna" data-resp="0.994" data-tol="0.002" aria-label="r Q"></p>
       <p>Com o valor crítico 0,9351 ($\alpha = 0{,}10$), rejeita a normalidade? Digite 1 para sim, 0 para não: <input class="lacuna" data-resp="0" data-tol="0" aria-label="rejeita"></p>
       <button class="btn" data-conferir>Conferir</button>
@@ -500,11 +500,11 @@ window.MathJax = {
   <section class="passo" data-titulo="Gráfico qui-quadrado">
    <div class="texto">
     <h2>Várias variáveis: as distâncias $d_j^2$ deveriam parecer uma $\chi^2_p$</h2>
-    <p>Dados bivariados normais formam uma nuvem elíptica, e cerca de 50% dos pontos devem cair dentro do contorno estimado $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}5) = 1{,}39$. No Ex. 4.12, 7 das 10 maiores empresas caíram dentro: sinal de alerta, mas $n = 10$ é pouco para concluir.</p>
-    <div class="formula" data-ref-id="f-dj2" data-ref-tipo="formula" data-ref-nome="Distâncias generalizadas e gráfico qui-quadrado (4-32)">
+    <p>Dados bivariados normais formam uma nuvem elíptica, e cerca de 50% dos pontos devem cair dentro do contorno estimado $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}5) = 1{,}39$. Com as 10 maiores empresas de um levantamento, 7 caíram dentro: sinal de alerta, mas $n = 10$ é pouco para concluir.</p>
+    <div class="formula" data-ref-id="f-dj2" data-ref-tipo="formula" data-ref-nome="Distâncias generalizadas e gráfico qui-quadrado">
       $$d_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\,\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}}),\qquad j = 1, \dots, n$$
     </div>
-    <p><strong>Gráfico qui-quadrado</strong> (vale para qualquer $p$): ordene os $d_j^2$ e marque contra os quantis $q_{c,p}\big((j - \frac12)/n\big)$ da $\chi^2_p$. Com dados normais (e $n$, $n - p$ acima de 25 ou 30), os pontos seguem a reta de inclinação 1 pela origem. Curvatura sistemática: falta de normalidade. Pontos bem acima da reta, no alto: atípicos (no Ex. 4.14, os espécimes 9 e 16 das tábuas).</p>
+    <p><strong>Gráfico qui-quadrado</strong> (vale para qualquer $p$): ordene os $d_j^2$ e marque contra os quantis $q_{c,p}\big((j - \frac12)/n\big)$ da $\chi^2_p$. Com dados normais (e $n$, $n - p$ acima de 25 ou 30), os pontos seguem a reta de inclinação 1 pela origem. Curvatura sistemática: falta de normalidade. Pontos bem acima da reta, no alto: atípicos (nas tábuas, os espécimes 9 e 16).</p>
     <div class="ideia">No gráfico qui-quadrado, as distâncias $d_j^2$ ordenadas contra os quantis da $\chi^2_p$ devem seguir a reta de inclinação 1; pontos altos fora da reta são candidatos a atípicos.</div>
    </div>
    <aside class="apoio">
@@ -532,11 +532,11 @@ window.MathJax = {
   <section class="passo" data-titulo="Os quatro passos">
    <div class="texto">
     <h2>Atípico multivariado pode estar escondido em todos os gráficos de uma ou duas variáveis</h2>
-    <p>Um ponto pode ser comum em cada variável e mesmo assim estar fora da nuvem conjunta (um atípico <em>bivariado</em>, como o da Fig. 4.10). Os passos do livro:</p>
+    <p>Um ponto pode ser comum em cada variável e mesmo assim estar fora da nuvem conjunta (um atípico <em>bivariado</em>). Os passos:</p>
     <div class="definicao" data-ref-id="d-atipicos" data-ref-tipo="definicao" data-ref-nome="Passos para detectar atípicos">
       <p><strong>1.</strong> Gráfico de pontos de cada variável. <strong>2.</strong> Dispersão de cada par. <strong>3.</strong> Valores padronizados $z_{jk} = (x_{jk} - \bar x_k)/\sqrt{s_{kk}}$, procurando os muito grandes ou pequenos. <strong>4.</strong> Distâncias $d_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$, os pontos mais afastados no gráfico qui-quadrado.</p>
     </div>
-    <p>"Grande" depende de $n$ e $p$: com $n = 100$ e $p = 5$ são 500 valores $z$, e alguns acima de 3 são esperados; no passo 4, uns 5% dos $d_j^2$ passam do percentil de 5% da $\chi^2_p$. Nas tábuas (Ex. 4.15), o espécime 9 ficava escondido nas dispersões, mas aparecia claramente em $d^2$. Num caso real do livro, dois valores com $z \gt 4{,}5$ eram erros de digitação (2791 no lugar de 1241).</p>
+    <p>"Grande" depende de $n$ e $p$: com $n = 100$ e $p = 5$ são 500 valores $z$, e alguns acima de 3 são esperados; no passo 4, uns 5% dos $d_j^2$ passam do percentil de 5% da $\chi^2_p$. Nas tábuas, o espécime 9 ficava escondido nas dispersões, mas aparecia claramente em $d^2$. Num caso real, dois valores com $z \gt 4{,}5$ eram erros de digitação (2791 no lugar de 1241).</p>
     <p>Atípico não é sinônimo de erro: investigue, e só então corrija, retire ou dê menos peso.</p>
     <div class="ideia">Atípicos multivariados podem não aparecer em nenhum gráfico de uma ou duas variáveis; as distâncias $d_j^2$ (passo 4) os revelam.</div>
    </div>
@@ -564,8 +564,8 @@ window.MathJax = {
   <section class="passo" data-titulo="Úteis">
    <div class="texto">
     <h2>Mudar a escala pode tornar os dados quase normais</h2>
-    <p>Se a normalidade não serve, ignorar o problema pode levar a conclusões erradas. Uma saída é transformar os dados: transformar é só reescrever em outra unidade (log, raiz), e às vezes a nova unidade é até mais natural. Sugestões teóricas (4-33):</p>
-    <div class="formula" data-ref-id="f-transf-uteis" data-ref-tipo="formula" data-ref-nome="Transformações úteis (4-33)">
+    <p>Se a normalidade não serve, ignorar o problema pode levar a conclusões erradas. Uma saída é transformar os dados: transformar é só reescrever em outra unidade (log, raiz), e às vezes a nova unidade é até mais natural. Sugestões teóricas:</p>
+    <div class="formula" data-ref-id="f-transf-uteis" data-ref-tipo="formula" data-ref-nome="Transformações úteis">
       $$\text{contagens } y \to \sqrt y,\qquad \text{proporções } \hat p \to \tfrac12\log\frac{\hat p}{1 - \hat p},\qquad \text{correlações } r \to \tfrac12\log\frac{1 + r}{1 - r}$$
     </div>
     <p>A última é o $z$ de Fisher. Quando a teoria não sugere nada, a família de <strong>potências</strong> ajuda: $\dots, x^{-1}, x^0 = \ln x, x^{1/4}, x^{1/2}, x^2, x^3, \dots$ As potências menores que 1 "puxam" os valores grandes (corrigem cauda à direita); as maiores que 1 "empurram".</p>
@@ -591,12 +591,12 @@ window.MathJax = {
   <section class="passo" data-titulo="Box–Cox">
    <div class="texto">
     <h2>Box–Cox: deixar os dados escolherem a potência</h2>
-    <div class="formula" data-ref-id="f-boxcox" data-ref-tipo="formula" data-ref-nome="Transformação de Box–Cox (4-34), (4-35)">
+    <div class="formula" data-ref-id="f-boxcox" data-ref-tipo="formula" data-ref-nome="Transformação de Box–Cox">
       $$x^{(\lambda)} = \begin{cases} \dfrac{x^\lambda - 1}{\lambda}, & \lambda \ne 0 \\[4pt] \ln x, & \lambda = 0 \end{cases}$$
       $$\ell(\lambda) = -\frac n2\ln\Big[\frac1n\sum_{j=1}^n\big(x_j^{(\lambda)} - \overline{x^{(\lambda)}}\big)^2\Big] + (\lambda - 1)\sum_{j=1}^n\ln x_j$$
     </div>
-    <p>Escolha o $\lambda$ que maximiza $\ell(\lambda)$ (o primeiro termo vem da verossimilhança normal; o segundo corrige a mudança de escala). Na prática, arredonde para um valor simples perto do máximo, como $0$ (log) ou $\frac12$ (raiz). Uma forma equivalente (4-37) minimiza a variância dos dados transformados e reescalados.</p>
-    <p>No Ex. 4.16 (radiação, 42 fornos), $\hat\lambda = 0{,}28$ e o livro usa $\lambda = 0{,}25$: a raiz quarta. Atenção: nem o melhor $\lambda$ garante normalidade; confira sempre com um gráfico Q-Q.</p>
+    <p>Escolha o $\lambda$ que maximiza $\ell(\lambda)$ (o primeiro termo vem da verossimilhança normal; o segundo corrige a mudança de escala). Na prática, arredonde para um valor simples perto do máximo, como $0$ (log) ou $\frac12$ (raiz). Uma forma equivalente minimiza a variância dos dados transformados e reescalados.</p>
+    <p>Na radiação dos 42 fornos, $\hat\lambda = 0{,}28$, e usa-se $\lambda = 0{,}25$: a raiz quarta. Atenção: nem o melhor $\lambda$ garante normalidade; confira sempre com um gráfico Q-Q.</p>
     <div class="ideia">Box–Cox escolhe a potência $\lambda$ que maximiza $\ell(\lambda)$; arredonda-se para um valor simples e confere-se o resultado no gráfico Q-Q.</div>
    </div>
    <aside class="apoio">
@@ -620,15 +620,15 @@ window.MathJax = {
   <section class="passo" data-titulo="Várias variáveis">
    <div class="texto">
     <h2>Com várias variáveis: uma potência para cada uma</h2>
-    <p>O caminho mais simples é escolher $\lambda_k$ separadamente para cada variável, maximizando $\ell(\lambda_k)$ com as observações dela (4-38), (4-39). Isso torna cada marginal aproximadamente normal, o que costuma bastar na prática.</p>
+    <p>O caminho mais simples é escolher $\lambda_k$ separadamente para cada variável, maximizando $\ell(\lambda_k)$ com as observações dela. Isso torna cada marginal aproximadamente normal, o que costuma bastar na prática.</p>
     <p>Se não bastar, dá para buscar juntos os $\boldsymbol\lambda' = [\lambda_1, \dots, \lambda_p]$ que maximizam</p>
     $$\ell(\boldsymbol\lambda) = -\frac n2\ln|\mathbf{S}(\boldsymbol\lambda)| + \sum_{k=1}^p(\lambda_k - 1)\sum_{j=1}^n\ln x_{jk}$$
-    <p>com $\mathbf{S}(\boldsymbol\lambda)$ calculada dos dados transformados (4-40). É bem mais difícil e raramente muda muito. No Ex. 4.17 (radiação com porta fechada e aberta), as potências separadas dão $\lambda_1 = \lambda_2 = 0{,}30$ e a busca conjunta dá cerca de $(0{,}16;\ 0{,}16)$: pouca diferença. O livro usa a raiz quarta nas duas, e é com ela que o cap. 5 trabalha.</p>
+    <p>com $\mathbf{S}(\boldsymbol\lambda)$ calculada dos dados transformados. É bem mais difícil e raramente muda muito. Na radiação com porta fechada e aberta, as potências separadas dão $\lambda_1 = \lambda_2 = 0{,}30$ e a busca conjunta dá cerca de $(0{,}16;\ 0{,}16)$: pouca diferença. Usa-se a raiz quarta nas duas, e é com ela que o cap. 5 trabalha.</p>
     <div class="ideia">Com várias variáveis, escolhe-se uma potência por variável (marginais quase normais); a busca conjunta por $|\mathbf{S}(\boldsymbol\lambda)|$ existe, mas raramente muda muito.</div>
     <div class="pare">
       <p>Por que tornar cada marginal normal pode não ser suficiente?</p>
       <button class="btn" data-revelar>Ver resposta</button>
-      <div class="resposta" hidden><p>Porque marginais normais não garantem distribuição conjunta normal (Exercício 4.8): a dependência entre as variáveis pode continuar não elíptica. Depois de transformar, confira as dispersões e o gráfico qui-quadrado.</p></div>
+      <div class="resposta" hidden><p>Porque marginais normais não garantem distribuição conjunta normal: a dependência entre as variáveis pode continuar não elíptica. Depois de transformar, confira as dispersões e o gráfico qui-quadrado.</p></div>
     </div>
    </div>
   </section>
@@ -691,8 +691,6 @@ window.MathJax = {
     <li>Cauda à direita: pontos acima da reta no Q-Q; corrige-se com potência menor que 1.</li>
     <li>Atípico multivariado pode ter todos os $z_{jk}$ pequenos.</li>
   </ul>
-  <h3>No livro, vale treinar</h3>
-  <p>Exercícios 4.1–4.7 (densidade, contornos, condicionais, independência), 4.8 (marginais normais sem conjunta), 4.16–4.17 (combinações de vetores), 4.18–4.22 (EMV e distribuições amostrais) e 4.23–4.27 (Q-Q, $r_Q$, gráfico qui-quadrado).</p>
   </div>
   </div>
 </div>
@@ -956,7 +954,7 @@ function eixos(svg, px, py, xmin, xmax, ymin, ymax) {
     var eL = ell(L);
     svg.appendChild(svgEl('circle', { cx: hx(L), cy: hy(eL), r: 5, fill: lar }));
     var rq = correl(z, q);
-    document.getElementById('bc-txt').innerHTML = '$\\ell(\\lambda)$ = ' + fmt(eL, 2) + ' (máximo 106,52 em $\\hat\\lambda$ = 0,28, linha pontilhada). $r_Q$ dos transformados = ' + fmt(rq, 3) + '. Dados: radiação de 42 fornos, porta fechada (Tabela 4.1 do livro).';
+    document.getElementById('bc-txt').innerHTML = '$\\ell(\\lambda)$ = ' + fmt(eL, 2) + ' (máximo 106,52 em $\\hat\\lambda$ = 0,28, linha pontilhada). $r_Q$ dos transformados = ' + fmt(rq, 3) + '. Dados: radiação de 42 fornos, porta fechada.';
     tipografar(document.getElementById('bc-txt'));
   }
   sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);

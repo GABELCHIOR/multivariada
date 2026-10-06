@@ -24,7 +24,7 @@ window.MathJax = {
     <div class="trilho-rodape" id="trilho-rodape">
       <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
       <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
-      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início do livro</a>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
     </div>
   </div>
 </nav>
@@ -32,7 +32,7 @@ window.MathJax = {
 <div class="wrap">
 
 <h1>Cap. 1 — Aspectos da análise multivariada</h1>
-<p class="contexto">Onde isso se encaixa: você já sabe resumir uma variável (média, variância). Aqui começa o caso em que cada item tem várias medições ao mesmo tempo, e aparece a ideia que sustenta o livro inteiro: medir distância levando em conta a forma dos dados.</p>
+<p class="contexto">Onde isso se encaixa: você já sabe resumir uma variável (média, variância). Aqui começa o caso em que cada item tem várias medições ao mesmo tempo, e aparece a ideia que sustenta toda a análise multivariada: medir distância levando em conta a forma dos dados.</p>
 
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
@@ -73,7 +73,7 @@ window.MathJax = {
 
   <section class="passo" data-titulo="Cinco objetivos">
    <div class="texto">
-    <h2>Toda técnica do livro serve a um de cinco objetivos</h2>
+    <h2>Toda técnica multivariada serve a um de cinco objetivos</h2>
     <p>Análise multivariada é o conjunto de métodos para dados em que cada item tem <strong>várias medições simultâneas</strong>. Não existe uma classificação perfeita das técnicas; o que decide o método é o objetivo do estudo.</p>
     <div class="definicao" data-ref-id="d-objetivos" data-ref-tipo="definicao" data-ref-nome="Os cinco objetivos">
       <p><strong>1. Redução de dados:</strong> representar o fenômeno da forma mais simples sem perder informação valiosa.<br>
@@ -82,7 +82,7 @@ window.MathJax = {
       <strong>4. Previsão:</strong> prever umas variáveis a partir de outras.<br>
       <strong>5. Construção e teste de hipóteses:</strong> testar afirmações sobre parâmetros da população.</p>
     </div>
-    <p>Dois avisos que o livro faz logo de saída: quase todos os dados aqui são <strong>observacionais</strong> (ninguém controlou as variáveis), e muitos métodos supõem uma distribuição específica para os dados, a <strong>normal multivariada</strong>, que ganha um capítulo só dela mais à frente (não precisa saber nada sobre ela agora).</p>
+    <p>Dois avisos logo de saída: quase todos os dados aqui são <strong>observacionais</strong> (ninguém controlou as variáveis), e muitos métodos supõem uma distribuição específica para os dados, a <strong>normal multivariada</strong>, que ganha um capítulo só dela mais à frente (não precisa saber nada sobre ela agora).</p>
    </div>
    <aside class="apoio">
     <div class="quiz" data-correta="c">
@@ -104,7 +104,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Desconfie do número">
    <div class="texto">
     <h2>O computador faz a conta; você decide se acredita</h2>
-    <p>Toda técnica multivariada roda no computador, e o software sempre devolve um número. O livro cita uma regra de bolso do estatístico F. H. C. Marriott que vale para o resto do curso:</p>
+    <p>Toda técnica multivariada roda no computador, e o software sempre devolve um número. Vale uma regra de bolso do estatístico F. H. C. Marriott que vale para o resto do curso:</p>
     <div class="ideia">Se o resultado contradiz quem conhece o assunto, não tem interpretação lógica e não aparece num gráfico, ele provavelmente está errado.</div>
     <p>Métodos numéricos ajudam a interpretar dados; não são máquinas que transformam números em fatos. Por isso este capítulo dá tanto espaço a gráficos.</p>
     <div class="pare">
@@ -122,16 +122,16 @@ window.MathJax = {
   <section class="passo" data-titulo="O arranjo X">
    <div class="texto">
     <h2>Item na linha, variável na coluna</h2>
-    <p>Mede-se $p \ge 1$ variáveis em cada um de $n$ itens (pessoas, empresas, amostras de papel). O livro guarda tudo num arranjo retangular:</p>
+    <p>Mede-se $p \ge 1$ variáveis em cada um de $n$ itens (pessoas, empresas, amostras de papel). Guarda-se tudo num arranjo retangular:</p>
     <div class="definicao" data-ref-id="d-xjk" data-ref-tipo="definicao" data-ref-nome="Notação x_jk e o arranjo X">
       <p>$x_{jk}$ = medição da variável $k$ no item $j$. <strong>O primeiro índice é o item (linha), o segundo é a variável (coluna).</strong></p>
       $$\mathbf{X} = \begin{bmatrix} x_{11} & x_{12} & \cdots & x_{1p} \\ x_{21} & x_{22} & \cdots & x_{2p} \\ \vdots & \vdots & & \vdots \\ x_{n1} & x_{n2} & \cdots & x_{np} \end{bmatrix}\quad (n \times p)$$
     </div>
-    <p>A ordem dos índices é a primeira armadilha do livro: $x_{32}$ é o item 3 na variável 2, e não o contrário. Negrito indica arranjo (vetor ou matriz).</p>
+    <p>A ordem dos índices é a primeira armadilha da notação: $x_{32}$ é o item 3 na variável 2, e não o contrário. Negrito indica arranjo (vetor ou matriz).</p>
     <div class="ideia">$\mathbf{X}$ tem uma linha por item e uma coluna por variável; $x_{jk}$ lê-se "item $j$, variável $k$".</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-livraria" data-ref-tipo="exemplo" data-ref-nome="Recibos da livraria (Ex. 1.1)">
+    <div class="exemplo" data-ref-id="ex-livraria" data-ref-tipo="exemplo" data-ref-nome="Recibos da livraria">
       <p>Quatro recibos de uma livraria universitária. Variável 1: valor da venda (US\$); variável 2: número de livros.</p>
       <div class="escala"><table class="tab">
         <tr><th>Recibo $j$</th><th>$x_{j1}$ (US\$)</th><th>$x_{j2}$ (livros)</th></tr>
@@ -183,7 +183,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Centro e espalhamento, variável por variável</h2>
     <p>As estatísticas descritivas resumem localização, variação e associação linear. As duas primeiras são calculadas em cada coluna de $\mathbf{X}$:</p>
-    <div class="formula" data-ref-id="f-media-var" data-ref-tipo="formula" data-ref-nome="Média e variância amostrais (1-1), (1-3)">
+    <div class="formula" data-ref-id="f-media-var" data-ref-tipo="formula" data-ref-nome="Média e variância amostrais">
       $$\class{s1}{\bar{x}_k} = \frac{1}{n}\sum_{j=1}^{n} x_{jk}$$
       $$\class{s2}{s_{kk}} = s_k^2 = \frac{1}{n}\sum_{j=1}^{n}\left(x_{jk} - \class{s1}{\bar{x}_k}\right)^2,\qquad k = 1, \dots, p$$
       <ul class="legenda">
@@ -191,13 +191,13 @@ window.MathJax = {
         <li><span class="s2">$s_{kk}$</span>: variância amostral (índice duplo)</li>
       </ul>
     </div>
-    <p><strong>Divisor $n$.</strong> Muitos livros usam $n-1$. Este usa $n$ por enquanto e sempre deixa o divisor visível; no cap. 3 aparece por que $n-1$ é melhor em amostras pequenas.</p>
+    <p><strong>Divisor $n$.</strong> Muitas vezes se usa $n-1$. Aqui usamos $n$ por enquanto e sempre deixamos o divisor visível; no cap. 3 aparece por que $n-1$ é melhor em amostras pequenas.</p>
     <p>O índice duplo $s_{kk}$ prepara o terreno: as variâncias vão morar na diagonal de um arranjo. O <strong>desvio padrão</strong> $\sqrt{s_{kk}}$ volta à unidade original.</p>
-    <div class="ideia">Média e variância resumem cada variável sozinha; o livro escreve a variância como $s_{kk}$, com divisor $n$.</div>
+    <div class="ideia">Média e variância resumem cada variável sozinha; a variância se escreve $s_{kk}$, com divisor $n$.</div>
    </div>
    <aside class="apoio">
     <div class="exemplo">
-      <p>Na <span class="ref" data-ref="ex-livraria">livraria</span> (Ex. 1.2):</p>
+      <p>Na <span class="ref" data-ref="ex-livraria">livraria</span>:</p>
       <p>$\bar{x}_1 = \tfrac14(42 + 52 + 48 + 58) = 50$; $\bar{x}_2 = \tfrac14(4 + 5 + 4 + 3) = 4$</p>
       <p>$s_{11} = \tfrac14\left[(-8)^2 + 2^2 + (-2)^2 + 8^2\right]$ $= 34$</p>
       <p>$s_{22} = \tfrac14\left[0^2 + 1^2 + 0^2 + (-1)^2\right]$ $= 0{,}5$</p>
@@ -213,7 +213,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Covariância">
    <div class="texto">
     <h2>Covariância: as duas variáveis sobem juntas?</h2>
-    <div class="formula" data-ref-id="f-cov" data-ref-tipo="formula" data-ref-nome="Covariância amostral (1-4)">
+    <div class="formula" data-ref-id="f-cov" data-ref-tipo="formula" data-ref-nome="Covariância amostral">
       $$\class{s2}{s_{ik}} = \frac{1}{n}\sum_{j=1}^{n}\left(x_{ji} - \bar{x}_i\right)\left(x_{jk} - \bar{x}_k\right)$$
     </div>
     <p>Cada item contribui com o produto dos seus dois desvios. Se valores altos de uma variável aparecem com valores altos da outra (e baixos com baixos), os produtos são quase todos positivos e $s_{ik} \gt 0$. Se alto vem com baixo, $s_{ik} \lt 0$. Sem padrão, $s_{ik} \approx 0$.</p>
@@ -241,7 +241,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Correlação">
    <div class="texto">
     <h2>Correlação: a covariância sem unidade</h2>
-    <div class="formula" data-ref-id="f-cor" data-ref-tipo="formula" data-ref-nome="Correlação amostral (1-5)">
+    <div class="formula" data-ref-id="f-cor" data-ref-tipo="formula" data-ref-nome="Correlação amostral">
       $$\class{s3}{r_{ik}} = \frac{\class{s2}{s_{ik}}}{\sqrt{\class{s2}{s_{ii}}}\,\sqrt{\class{s2}{s_{kk}}}}$$
       $$\phantom{r_{ik}} = \frac{\sum_{j}(x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)}{\sqrt{\sum_{j}(x_{ji} - \bar{x}_i)^2}\,\sqrt{\sum_{j}(x_{jk} - \bar{x}_k)^2}}$$
     </div>
@@ -289,12 +289,12 @@ window.MathJax = {
    <div class="texto">
     <h2>Tudo de uma vez: $\bar{\mathbf{x}}$, $\mathbf{S}_n$ e $\mathbf{R}$</h2>
     <p>Com $p$ variáveis, as estatísticas também viram arranjos:</p>
-    <div class="formula" data-ref-id="f-arranjos" data-ref-tipo="formula" data-ref-nome="Arranjos de estatísticas descritivas (1-8)">
+    <div class="formula" data-ref-id="f-arranjos" data-ref-tipo="formula" data-ref-nome="Arranjos de estatísticas descritivas">
       $$\bar{\mathbf{x}} = \begin{bmatrix}\bar{x}_1\\ \vdots \\ \bar{x}_p\end{bmatrix}\qquad \mathbf{S}_n = \begin{bmatrix} s_{11} & \cdots & s_{1p}\\ \vdots & \ddots & \vdots \\ s_{p1} & \cdots & s_{pp}\end{bmatrix}$$
       $$\mathbf{R} = \begin{bmatrix} 1 & \cdots & r_{1p}\\ \vdots & \ddots & \vdots\\ r_{p1} & \cdots & 1\end{bmatrix}$$
     </div>
-    <p>$\bar{\mathbf{x}}$ tem $p$ linhas; $\mathbf{S}_n$ e $\mathbf{R}$ são $p \times p$ e <strong>simétricos</strong> ($s_{ik} = s_{ki}$). O índice $n$ em $\mathbf{S}_n$ lembra o divisor. As somas sem divisor também aparecem no livro:</p>
-    <div class="formula" data-ref-id="f-w" data-ref-tipo="formula" data-ref-nome="Somas de quadrados e produtos cruzados (1-6), (1-7)">
+    <p>$\bar{\mathbf{x}}$ tem $p$ linhas; $\mathbf{S}_n$ e $\mathbf{R}$ são $p \times p$ e <strong>simétricos</strong> ($s_{ik} = s_{ki}$). O índice $n$ em $\mathbf{S}_n$ lembra o divisor. As somas sem divisor também aparecem:</p>
+    <div class="formula" data-ref-id="f-w" data-ref-tipo="formula" data-ref-nome="Somas de quadrados e produtos cruzados">
       $$w_{ik} = \sum_{j=1}^{n}(x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k) = n\,s_{ik}\qquad (w_{kk}\text{: soma de quadrados})$$
     </div>
     <div class="ideia">$\bar{\mathbf{x}}$ empilha as médias; $\mathbf{S}_n$ guarda variâncias na diagonal e covariâncias fora dela; $\mathbf{R}$ faz o mesmo com correlações e tem 1 na diagonal.</div>
@@ -362,7 +362,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Pontos atípicos">
    <div class="texto">
     <h2>Um único ponto pode mudar a correlação</h2>
-    <p>O livro mostra dados de 16 editoras: número de funcionários ($x_1$) e lucro por funcionário ($x_2$). Duas se destacam: Dun &amp; Bradstreet, com muito mais funcionários que as outras e lucro típico, e Time Warner, com funcionários típicos e lucro negativo.</p>
+    <p>Dados de 16 editoras: número de funcionários ($x_1$) e lucro por funcionário ($x_2$). Duas se destacam: Dun &amp; Bradstreet, com muito mais funcionários que as outras e lucro típico, e Time Warner, com funcionários típicos e lucro negativo.</p>
     <div class="escala"><table class="tab">
       <tr><th>Editoras usadas</th><th>$r_{12}$</th></tr>
       <tr><td>Todas as 16</td><td>−0,39</td></tr>
@@ -380,7 +380,7 @@ window.MathJax = {
         <button data-op="c">(c) Usar −0,56, porque é a correlação verdadeira da população.</button>
         <button data-op="d">(d) Usar −0,39, porque excluir dados nunca é permitido.</button>
       </div>
-      <div class="fb" data-op="a">Isso. É a recomendação do livro: corrigir erros óbvios de registro e, fora isso, mostrar o resultado com e sem a observação suspeita.</div>
+      <div class="fb" data-op="a">Isso. É a recomendação certa: corrigir erros óbvios de registro e, fora isso, mostrar o resultado com e sem a observação suspeita.</div>
       <div class="fb" data-op="b">Atípico não é sinônimo de erro: a empresa pode ser real e simplesmente maior. Exclui-se o que se prova ser erro.</div>
       <div class="fb" data-op="c">Nenhuma das duas é "a verdadeira": são estatísticas de amostras diferentes. Escolher a que agrada esconde a fragilidade do resultado.</div>
       <div class="fb" data-op="d">Corrigir ou excluir erros óbvios de registro é correto. O problema é excluir só por ser diferente, sem informar.</div>
@@ -413,7 +413,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo">
-      <p>Liga Nacional, divisão leste, 1977 (Tabela 1.1 do livro):</p>
+      <p>Liga Nacional, divisão leste, 1977:</p>
       <div class="escala"><table class="tab">
         <tr><th>Time</th><th>Folha (US\$ milhões)</th><th>Aproveitamento</th></tr>
         <tr><td>Phillies</td><td>3,50</td><td>0,623</td></tr>
@@ -434,7 +434,7 @@ window.MathJax = {
       </div>
       <div class="fb" data-op="a">Vir antes no tempo não basta para causa: times melhores podem ter mais receita e, por isso, pagar mais. Sem sorteio, explicações alternativas continuam abertas.</div>
       <div class="fb" data-op="b">A correlação descreve esses 6 times sem problema. Amostra pequena pesa na inferência para outras situações, não na descrição.</div>
-      <div class="fb" data-op="c">Isso. É exatamente o comentário do livro: o gráfico sustenta a associação; a causa não pode ser estabelecida porque não houve atribuição aleatória.</div>
+      <div class="fb" data-op="c">Isso. O gráfico sustenta a associação; a causa não pode ser estabelecida porque não houve atribuição aleatória.</div>
       <div class="fb" data-op="d">$r = 0{,}89$ já indica associação linear forte. A possibilidade de não linearidade não apaga a parte linear.</div>
     </div>
    </aside>
@@ -447,7 +447,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Dispersões ligadas">
    <div class="texto">
     <h2>Marcar um ponto e ver onde ele está em todos os gráficos</h2>
-    <p>Com $p$ variáveis, faz-se um diagrama de dispersão para cada par e arruma-se tudo numa <strong>matriz de dispersões</strong>, na posição que o par ocuparia em $\mathbf{S}_n$. Ao lado estão os dados reais de qualidade de papel do livro: densidade ($x_1$), resistência no sentido da máquina ($x_2$) e no sentido transversal ($x_3$), em 41 corpos de prova.</p>
+    <p>Com $p$ variáveis, faz-se um diagrama de dispersão para cada par e arruma-se tudo numa <strong>matriz de dispersões</strong>, na posição que o par ocuparia em $\mathbf{S}_n$. Ao lado estão os dados reais de qualidade de papel: densidade ($x_1$), resistência no sentido da máquina ($x_2$) e no sentido transversal ($x_3$), em 41 corpos de prova.</p>
     <p>Nos softwares modernos os gráficos são <strong>ligados</strong>: marcar pontos num gráfico destaca os mesmos itens em todos os outros. Varrer uma faixa de valores marcando pontos é o <strong><em>brushing</em></strong>.</p>
     <div class="ideia">Ligar os gráficos mostra em que combinações de variáveis um item é atípico, e revela grupos escondidos.</div>
     <div class="pare">
@@ -473,7 +473,7 @@ window.MathJax = {
         <button class="btn pequeno" id="papel-rolo">Marcar o rolo antigo</button>
         <button class="btn pequeno" id="papel-limpar">Limpar</button>
       </div>
-      <p style="font-size:.8rem;color:var(--muted);margin:.4rem 0 0">Dados: Tabela 1.2 do livro (SONOCO Products).</p>
+      <p style="font-size:.8rem;color:var(--muted);margin:.4rem 0 0">Dados reais de uma fábrica de papel (SONOCO Products).</p>
     </div>
    </aside>
   </section>
@@ -482,7 +482,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Um gráfico 3D girando mostra e esconde</h2>
     <p>Com três variáveis dá para ver a nuvem em 3D, mas a tela é plana: o que se vê é sempre uma <strong>projeção</strong>. Softwares giram os eixos continuamente para o analista procurar o ângulo mais informativo.</p>
-    <p>A consequência é importante: um item pode ser claramente atípico num ângulo e ficar escondido em outro. No livro, dois corpos de prova de madeira aparecem ou somem conforme a rotação.</p>
+    <p>A consequência é importante: um item pode ser claramente atípico num ângulo e ficar escondido em outro. Num caso real, dois corpos de prova de madeira aparecem ou somem conforme a rotação.</p>
     <div class="ideia">Toda vista de dados multivariados é uma projeção; um ponto atípico pode estar escondido na projeção que você escolheu.</div>
    </div>
    <aside class="apoio">
@@ -507,7 +507,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Estrelas: um desenho por item</h2>
     <p>Para comparar itens com muitas variáveis lado a lado, cada item vira uma <strong>estrela</strong>: um círculo com $p$ raios igualmente espaçados, um por variável, de comprimento proporcional ao valor. Ligando as pontas, cada item tem uma forma.</p>
-    <p>Dois cuidados do livro. Primeiro, <strong>padronizar</strong> as variáveis; depois, como surgem valores negativos, o centro do círculo passa a representar o <em>menor valor padronizado de todo o conjunto</em>. Segundo, cada variável recebe o mesmo peso visual, e a semelhança entre estrelas depende de em quais raios você presta atenção.</p>
+    <p>Dois cuidados. Primeiro, <strong>padronizar</strong> as variáveis; depois, como surgem valores negativos, o centro do círculo passa a representar o <em>menor valor padronizado de todo o conjunto</em>. Segundo, cada variável recebe o mesmo peso visual, e a semelhança entre estrelas depende de em quais raios você presta atenção.</p>
     <div class="ideia">Estrelas comparam itens pela forma; sem padronizar, a variável de maior escala domina o desenho.</div>
    </div>
    <aside class="apoio">
@@ -565,7 +565,7 @@ window.MathJax = {
    <div class="texto">
     <h2>A régua comum: distância euclidiana</h2>
     <p>Quase toda técnica multivariada se apoia numa ideia simples: distância. A primeira que vem à cabeça é a de Pitágoras. Para $P = (x_1, \dots, x_p)$ e $Q = (y_1, \dots, y_p)$:</p>
-    <div class="formula" data-ref-id="f-euclid" data-ref-tipo="formula" data-ref-nome="Distância euclidiana (1-12)">
+    <div class="formula" data-ref-id="f-euclid" data-ref-tipo="formula" data-ref-nome="Distância euclidiana">
       $$d(P, Q) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \cdots + (x_p - y_p)^2}$$
     </div>
     <p>Com $Q$ na origem $O$, os pontos a uma distância fixa $c$ satisfazem $x_1^2 + \cdots + x_p^2 = c^2$: uma <strong>hiperesfera</strong> (um círculo, se $p = 2$).</p>
@@ -582,12 +582,12 @@ window.MathJax = {
   <section class="passo" data-titulo="Padronizar">
    <div class="texto">
     <h2>Dividir pelo desvio padrão transforma o círculo em elipse</h2>
-    <p>Suponha primeiro as duas variáveis <strong>sem associação</strong> (o livro diz "variam independentemente": uma não ajuda a prever a outra). A saída natural é medir cada coordenada em desvios padrão: $x_1^* = x_1/\sqrt{s_{11}}$, $x_2^* = x_2/\sqrt{s_{22}}$, e só então usar Pitágoras.</p>
-    <div class="formula" data-ref-id="f-dest" data-ref-tipo="formula" data-ref-nome="Distância estatística sem correlação (1-13), (1-16)">
+    <p>Suponha primeiro as duas variáveis <strong>sem associação</strong> (dizemos que "variam independentemente": uma não ajuda a prever a outra). A saída natural é medir cada coordenada em desvios padrão: $x_1^* = x_1/\sqrt{s_{11}}$, $x_2^* = x_2/\sqrt{s_{22}}$, e só então usar Pitágoras.</p>
+    <div class="formula" data-ref-id="f-dest" data-ref-tipo="formula" data-ref-nome="Distância estatística sem correlação">
       $$d^2(P, Q) = \frac{(x_1 - y_1)^2}{s_{11}} + \frac{(x_2 - y_2)^2}{s_{22}} + \cdots + \frac{(x_p - y_p)^2}{s_{pp}}$$
     </div>
     <p>É a euclidiana com pesos $1/s_{kk}$: coordenada que varia muito pesa pouco. Os pontos à distância $c$ da origem formam uma <strong>elipse</strong> com eixos sobre os eixos coordenados (em $p$ dimensões, um hiperelipsoide):</p>
-    <div class="formula" data-ref-id="f-elipse" data-ref-tipo="formula" data-ref-nome="Elipse de distância constante (1-14)">
+    <div class="formula" data-ref-id="f-elipse" data-ref-tipo="formula" data-ref-nome="Elipse de distância constante">
       $$\frac{x_1^2}{s_{11}} + \frac{x_2^2}{s_{22}} = c^2,\qquad \text{semieixos } c\sqrt{s_{11}} \text{ e } c\sqrt{s_{22}}$$
     </div>
     <div class="ideia">Medir cada coordenada em desvios padrão dá a distância estatística; seus pontos equidistantes formam elipses alongadas na direção que varia mais.</div>
@@ -614,9 +614,9 @@ window.MathJax = {
   <section class="passo" data-titulo="Contas">
    <div class="texto">
     <h2>Calculando a distância estatística</h2>
-    <p>A <span class="ref" data-ref="f-dest">distância estatística</span> vale de qualquer ponto $P$ a um ponto fixo $Q$ (que pode ser a origem ou o centro da nuvem). Duas observações do livro:</p>
+    <p>A <span class="ref" data-ref="f-dest">distância estatística</span> vale de qualquer ponto $P$ a um ponto fixo $Q$ (que pode ser a origem ou o centro da nuvem). Duas observações:</p>
     <p><strong>1.</strong> A distância à origem sai pondo $y_1 = \cdots = y_p = 0$. <strong>2.</strong> Se $s_{11} = s_{22} = \cdots = s_{pp}$, todos os pesos são iguais e dá para usar a euclidiana, que só difere por um fator fixo.</p>
-    <div class="exemplo" data-ref-id="ex-1-11" data-ref-tipo="exemplo" data-ref-nome="Elipse de distância 1 (Ex. 1.11)">
+    <div class="exemplo" data-ref-id="ex-1-11" data-ref-tipo="exemplo" data-ref-nome="Elipse de distância 1">
       <p>Médias zero, $s_{11} = 4$, $s_{22} = 1$, sem associação. Distância ao quadrado: $d^2(O, P) = \dfrac{x_1^2}{4} + \dfrac{x_2^2}{1}$.</p>
       <p>Pontos a distância 1: $(0, 1)$, $(0, -1)$, $(2, 0)$ e $(1, \sqrt{3}/2)$, porque $\tfrac14 + \tfrac34 = 1$. A elipse tem semieixos $\sqrt4 = 2$ (em $x_1$) e $\sqrt1 = 1$ (em $x_2$).</p>
     </div>
@@ -639,26 +639,26 @@ window.MathJax = {
   <section class="passo" data-titulo="Com correlação">
    <div class="texto">
     <h2>Com correlação, gire os eixos antes de padronizar</h2>
-    <p>Se $x_1$ e $x_2$ são correlacionadas, a nuvem é uma elipse inclinada e dividir por $\sqrt{s_{11}}$ e $\sqrt{s_{22}}$ não basta. O truque do livro: <strong>girar os eixos</strong> por um ângulo $\theta$ até a nuvem ficar "deitada" nos novos eixos $\tilde{x}_1$, $\tilde{x}_2$, e aí medir como antes.</p>
-    <div class="formula" data-ref-id="f-rot" data-ref-tipo="formula" data-ref-nome="Rotação dos eixos (1-17), (1-18)">
+    <p>Se $x_1$ e $x_2$ são correlacionadas, a nuvem é uma elipse inclinada e dividir por $\sqrt{s_{11}}$ e $\sqrt{s_{22}}$ não basta. O truque: <strong>girar os eixos</strong> por um ângulo $\theta$ até a nuvem ficar "deitada" nos novos eixos $\tilde{x}_1$, $\tilde{x}_2$, e aí medir como antes.</p>
+    <div class="formula" data-ref-id="f-rot" data-ref-tipo="formula" data-ref-nome="Rotação dos eixos">
       $$\begin{aligned} \tilde{x}_1 &= \phantom{-}x_1\cos\theta + x_2\sin\theta \\ \tilde{x}_2 &= -x_1\sin\theta + x_2\cos\theta \end{aligned}$$
       $$d(O, P) = \sqrt{\frac{\tilde{x}_1^2}{\tilde{s}_{11}} + \frac{\tilde{x}_2^2}{\tilde{s}_{22}}}\qquad (\tilde{s}_{kk}\text{: variâncias nas coordenadas giradas})$$
     </div>
     <p>Escrevendo de volta nas coordenadas originais, aparece um termo novo, o <strong>produto cruzado</strong>:</p>
-    <div class="formula" data-ref-id="f-geral2" data-ref-tipo="formula" data-ref-nome="Distância estatística com correlação (1-19), (1-20)">
+    <div class="formula" data-ref-id="f-geral2" data-ref-tipo="formula" data-ref-nome="Distância estatística com correlação">
       $$d(O, P) = \sqrt{\class{s3}{a_{11}}x_1^2 + 2\class{s3}{a_{12}}x_1x_2 + \class{s3}{a_{22}}x_2^2}$$
       <ul class="legenda"><li><span class="s3">$a_{11}, a_{12}, a_{22}$</span>: pesos que dependem de $\theta$, $s_{11}$, $s_{12}$, $s_{22}$</li></ul>
     </div>
     <p>De $P$ a $Q$, troque $x_k$ por $x_k - y_k$. Sem correlação, $a_{12} = 0$ e $a_{kk} = 1/s_{kk}$: volta a <span class="ref" data-ref="f-dest">fórmula anterior</span>. As fórmulas exatas dos $a_{ik}$ não importam agora; no cap. 2 elas saem de forma limpa com matrizes.</p>
     <div class="ideia">A correlação faz aparecer o termo cruzado $2a_{12}x_1x_2$; as elipses de distância constante ficam inclinadas como a nuvem.</div>
     <details class="demo">
-      <summary>Demonstração: de onde vêm os $a_{ik}$ (nota de rodapé do livro)</summary>
+      <summary>Demonstração: de onde vêm os $a_{ik}$</summary>
       <p>Abreviando $c = \cos\theta$ e $s = \sin\theta$. As variâncias amostrais das coordenadas giradas são variâncias de combinações lineares:</p>
       $$\begin{aligned} \tilde{s}_{11} &= c^2 s_{11} + 2sc\, s_{12} + s^2 s_{22},\\ \tilde{s}_{22} &= s^2 s_{11} - 2sc\, s_{12} + c^2 s_{22}. \end{aligned}$$
       <p>(Por exemplo, $\tilde{x}_{j1} - \bar{\tilde{x}}_1$ $= c(x_{j1} - \bar{x}_1) + s(x_{j2} - \bar{x}_2)$; eleve ao quadrado, some em $j$ e divida por $n$.) Substituindo $\tilde{x}_1$ e $\tilde{x}_2$ em $\tilde{x}_1^2/\tilde{s}_{11} + \tilde{x}_2^2/\tilde{s}_{22}$:</p>
       $$\frac{(c x_1 + s x_2)^2}{\tilde{s}_{11}} + \frac{(-s x_1 + c x_2)^2}{\tilde{s}_{22}} =$$
       $$\begin{aligned} &x_1^2\left(\frac{c^2}{\tilde{s}_{11}} + \frac{s^2}{\tilde{s}_{22}}\right) + 2x_1x_2\left(\frac{cs}{\tilde{s}_{11}} - \frac{sc}{\tilde{s}_{22}}\right) \\ &+ x_2^2\left(\frac{s^2}{\tilde{s}_{11}} + \frac{c^2}{\tilde{s}_{22}}\right). \end{aligned}$$
-      <p>Os parênteses são $a_{11}$, $a_{12}$ e $a_{22}$. O ângulo certo é o que zera a covariância entre $\tilde{x}_1$ e $\tilde{x}_2$; com qualquer outro, a fórmula (1-17) não seria a distância estatística.</p>
+      <p>Os parênteses são $a_{11}$, $a_{12}$ e $a_{22}$. O ângulo certo é o que zera a covariância entre $\tilde{x}_1$ e $\tilde{x}_2$; com qualquer outro, a fórmula não seria a distância estatística.</p>
     </details>
    </div>
    <aside class="apoio">
@@ -685,7 +685,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Em $p$ dimensões, os pesos não podem ser quaisquer</h2>
     <p>Com $p$ variáveis correlacionadas, a forma geral tem um termo quadrado por variável e um termo cruzado por par:</p>
-    <div class="formula" data-ref-id="f-geralp" data-ref-tipo="formula" data-ref-nome="Distância estatística geral (1-22)–(1-24)">
+    <div class="formula" data-ref-id="f-geralp" data-ref-tipo="formula" data-ref-nome="Distância estatística geral">
       $$\begin{aligned} d^2(O, P) = {}&a_{11}x_1^2 + a_{22}x_2^2 + \cdots + a_{pp}x_p^2 \\ &+ 2a_{12}x_1x_2 + 2a_{13}x_1x_3 + \cdots + 2a_{p-1,p}\,x_{p-1}x_p \end{aligned}$$
       <p>Os pesos cabem num arranjo simétrico, que define a distância:</p>
       $$\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1p} \\ a_{12} & a_{22} & \cdots & a_{2p} \\ \vdots & & \ddots & \vdots \\ a_{1p} & a_{2p} & \cdots & a_{pp}\end{bmatrix}$$
@@ -710,14 +710,14 @@ window.MathJax = {
    <div class="texto">
     <h2>O que qualquer distância precisa cumprir</h2>
     <p>Elipses não são obrigatórias. Qualquer medida $d(P, Q)$ serve como distância se, para quaisquer pontos $P$, $Q$ e um intermediário $R$:</p>
-    <div class="definicao" data-ref-id="d-distancia" data-ref-tipo="definicao" data-ref-nome="Propriedades de uma distância (1-25)">
+    <div class="definicao" data-ref-id="d-distancia" data-ref-tipo="definicao" data-ref-nome="Propriedades de uma distância">
       <ul>
         <li>$d(P, Q) = d(Q, P)$ (simetria);</li>
         <li>$d(P, Q) \gt 0$ se $P \ne Q$, e $d(P, Q) = 0$ se $P = Q$;</li>
         <li>$d(P, Q) \le d(P, R) + d(R, Q)$ (desigualdade triangular).</li>
       </ul>
     </div>
-    <p>Dois exemplos dos exercícios do livro: a distância do <strong>máximo</strong>, $d(O, P) = \max(|x_1|, |x_2|)$, cujos pontos de distância 1 formam um quadrado; e a de <strong>quarteirão</strong>, $|x_1| + |x_2|$, a de quem anda numa cidade em grade, cujos pontos de distância 1 formam um losango.</p>
+    <p>Dois exemplos: a distância do <strong>máximo</strong>, $d(O, P) = \max(|x_1|, |x_2|)$, cujos pontos de distância 1 formam um quadrado; e a de <strong>quarteirão</strong>, $|x_1| + |x_2|$, a de quem anda numa cidade em grade, cujos pontos de distância 1 formam um losango.</p>
     <div class="ideia">Distância é qualquer medida simétrica, positiva para pontos diferentes, zero no mesmo ponto e que respeita a desigualdade triangular.</div>
    </div>
    <aside class="apoio">
@@ -831,15 +831,13 @@ window.MathJax = {
   <h3>Armadilhas</h3>
   <ul class="resumo-lista">
     <li>$x_{jk}$: o primeiro índice é o item, não a variável.</li>
-    <li>Variância do livro com divisor $n$ (o índice de $\mathbf{S}_n$ lembra isso); $\mathbf{R}$ não muda com o divisor.</li>
+    <li>Variância com divisor $n$ (o índice de $\mathbf{S}_n$ lembra isso); $\mathbf{R}$ não muda com o divisor.</li>
     <li>$r$ é invariante a mudanças de escala só se os dois coeficientes tiverem o mesmo sinal.</li>
     <li>Atípico não é sinônimo de erro, e nem todo atípico muda $r$.</li>
     <li>Faces de Chernoff dependem da atribuição de variáveis a traços.</li>
     <li>Uma forma quadrática com termo cruzado grande pode dar valores negativos e não ser distância.</li>
     <li>Na distância estatística, divide-se o <em>quadrado</em> pela variância (ou a diferença pelo desvio padrão).</li>
   </ul>
-  <h3>No livro, vale treinar</h3>
-  <p>Exercícios 1.2 (cálculo e sinal da covariância pelo gráfico), 1.7 (espaço das variáveis × dos itens), 1.8 (euclidiana × estatística), 1.10 (validade de uma distância), 1.12 e 1.13 (distâncias do máximo e de quarteirão).</p>
   </div>
   </div>
 </div>
