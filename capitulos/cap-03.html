@@ -32,7 +32,7 @@ window.MathJax = {
 <div class="wrap">
 
 <h1>Cap. 3 — Geometria da amostra e amostragem aleatória</h1>
-<p class="contexto">Onde isso se encaixa: o cap. 2 deu comprimento, ângulo, projeção e determinante. Aqui eles ganham sentido estatístico: a média vira projeção, a correlação vira cosseno, a variabilidade de várias variáveis vira um volume, e aparece por que dividir por $n - 1$.</p>
+<p class="contexto">Onde isso se encaixa: o cap. 2 deu <span class="ref" data-ref="f-comp">comprimento</span>, <span class="ref" data-ref="f-cos">ângulo</span>, <span class="ref" data-ref="f-proj">projeção</span> e <span class="ref" data-ref="d-det-tr">determinante</span>. Aqui eles ganham sentido estatístico: a média vira projeção, a correlação vira cosseno, a variabilidade de várias variáveis vira um volume, e aparece por que dividir por $n - 1$.</p>
 
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
@@ -62,7 +62,7 @@ window.MathJax = {
       <svg viewBox="0 0 360 230" class="fig" id="fig-pontos" role="img" aria-label="Três pontos no plano e a média no centro"></svg>
     </div>
     <div class="lacunas">
-      <p>$\bar x_1 =$ <input class="lacuna" data-resp="2" data-tol="0" aria-label="média 1"> · $\bar x_2 =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="média 2"></p>
+      <p>$\bar x_1 =$ <input class="lacuna" data-resp="2" data-tol="0" aria-label="média 1"><br>$\bar x_2 =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="média 2"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: média de cada coluna; a primeira é $(4 - 1 + 3)/3$.</p>
       <div class="resolucao" hidden><p>$\bar{\mathbf{x}} = [(4 - 1 + 3)/3,\ (1 + 3 + 5)/3]'$ $= [2, 3]'$: o ponto destacado na figura.</p></div>
@@ -93,7 +93,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Projeção em 1">
    <div class="texto">
     <h2>A média é a sombra da coluna na direção dos uns</h2>
-    <p>Seja $\mathbf{1}' = [1, 1, \dots, 1]$ ($n$ uns). Ele forma o mesmo ângulo com todos os eixos, e $(1/\sqrt n)\mathbf{1}$ tem comprimento 1. Pela fórmula da projeção do cap. 2:</p>
+    <p>Seja $\mathbf{1}' = [1, 1, \dots, 1]$ ($n$ uns). Ele forma o mesmo ângulo com todos os eixos, e $(1/\sqrt n)\mathbf{1}$ tem comprimento 1. Pela <span class="ref" data-ref="f-proj">fórmula da projeção do cap. 2</span>:</p>
     <div class="formula" data-ref-id="f-proj1" data-ref-tipo="formula" data-ref-nome="Média como projeção em 1 (3-3)">
       $$\text{projeção de } \mathbf{y}_i \text{ em } \mathbf{1} = \frac{\mathbf{y}_i'\mathbf{1}}{\mathbf{1}'\mathbf{1}}\,\mathbf{1} = \frac{x_{1i} + x_{2i} + \cdots + x_{ni}}{n}\,\mathbf{1} = \bar{x}_i\,\mathbf{1}$$
     </div>
@@ -184,7 +184,7 @@ window.MathJax = {
   <section class="passo" data-titulo="r = cosseno">
    <div class="texto">
     <h2>A correlação amostral é o cosseno do ângulo entre os desvios</h2>
-    <p>Junte o <span class="ref" data-ref="f-comp-desvio">comprimento e o produto interno dos desvios</span> com o cosseno do cap. 2:</p>
+    <p>Junte o <span class="ref" data-ref="f-comp-desvio">comprimento e o produto interno dos desvios</span> com o <span class="ref" data-ref="f-cos">cosseno do cap. 2</span>:</p>
     <div class="formula" data-ref-id="f-r-cos" data-ref-tipo="formula" data-ref-nome="Correlação como cosseno (3-7)">
       $$\class{s3}{r_{ik}} = \frac{s_{ik}}{\sqrt{s_{ii}}\sqrt{s_{kk}}} = \frac{\mathbf{d}_i'\mathbf{d}_k}{L_{\mathbf{d}_i}L_{\mathbf{d}_k}} = \cos(\theta_{ik})$$
     </div>
@@ -224,8 +224,8 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p>$\mathbf{d}_1'\mathbf{d}_1 =$ <input class="lacuna" data-resp="14" data-tol="0" aria-label="d1 d1"> · $\mathbf{d}_2'\mathbf{d}_2 =$ <input class="lacuna" data-resp="8" data-tol="0" aria-label="d2 d2"> · $\mathbf{d}_1'\mathbf{d}_2 =$ <input class="lacuna" data-resp="-2" data-tol="0" aria-label="d1 d2"></p>
-      <p>$s_{12}$ (divisor $n = 3$): <input class="lacuna" data-resp="-0.6667" data-tol="0.005" aria-label="s12"> · $r_{12}$: <input class="lacuna" data-resp="-0.189" data-tol="0.003" aria-label="r12"></p>
+      <p>$\mathbf{d}_1'\mathbf{d}_1 =$ <input class="lacuna" data-resp="14" data-tol="0" aria-label="d1 d1"><br>$\mathbf{d}_2'\mathbf{d}_2 =$ <input class="lacuna" data-resp="8" data-tol="0" aria-label="d2 d2"><br>$\mathbf{d}_1'\mathbf{d}_2 =$ <input class="lacuna" data-resp="-2" data-tol="0" aria-label="d1 d2"></p>
+      <p>$s_{12}$ (divisor $n = 3$): <input class="lacuna" data-resp="-0.6667" data-tol="0.005" aria-label="s12"><br>$r_{12}$: <input class="lacuna" data-resp="-0.189" data-tol="0.003" aria-label="r12"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $r_{12} = \mathbf{d}_1'\mathbf{d}_2/\sqrt{14 \times 8}$.</p>
       <div class="resolucao" hidden><p>$\mathbf{d}_1'\mathbf{d}_1 = 4 + 9 + 1 = 14$, $\mathbf{d}_2'\mathbf{d}_2 = 4 + 0 + 4 = 8$, $\mathbf{d}_1'\mathbf{d}_2 = -4 + 0 + 2 = -2$. Dividindo por 3: $s_{11} = 14/3$, $s_{22} = 8/3$, $s_{12} = -2/3$. E $r_{12} = -2/\sqrt{112} = -0{,}189$.</p>
@@ -284,13 +284,13 @@ window.MathJax = {
         <li><span class="s2">$\boldsymbol\Sigma$</span>: matriz de covariâncias da população</li>
       </ul>
     </div>
-    <p>Vale para qualquer distribuição com $\boldsymbol\mu$ e $\boldsymbol\Sigma$, só usando que a amostra é aleatória (Result 3.1). $\bar{\mathbf{X}}$ é <strong>não viesado</strong>, e sua nuvem tem a mesma forma da população (mesma orientação), encolhida: cada variância dividida por $n$, cada desvio padrão por $\sqrt n$.</p>
+    <p>Vale para qualquer distribuição com $\boldsymbol\mu$ e $\boldsymbol\Sigma$, só usando que a amostra é aleatória (Resultado 3.1). $\bar{\mathbf{X}}$ é <strong>não viesado</strong>, e sua nuvem tem a mesma forma da população (mesma orientação), encolhida: cada variância dividida por $n$, cada desvio padrão por $\sqrt n$.</p>
     <div class="ideia">$\bar{\mathbf{X}}$ é não viesado para $\boldsymbol\mu$ e tem covariância $\boldsymbol\Sigma/n$: mesma forma da população, com os desvios padrão divididos por $\sqrt n$.</div>
     <details class="demo">
-      <summary>Demonstração (Result 3.1, primeira parte)</summary>
-      <p>Pela linearidade (2-24): $E(\bar{\mathbf{X}}) = \frac1n\sum_j E(\mathbf{X}_j)$ $= \frac1n(n\boldsymbol\mu) = \boldsymbol\mu$. Para a covariância:</p>
+      <summary>Demonstração (Resultado 3.1, primeira parte)</summary>
+      <p>Pela <span class="ref" data-ref="f-esp">linearidade (2-24)</span>: $E(\bar{\mathbf{X}}) = \frac1n\sum_j E(\mathbf{X}_j)$ $= \frac1n(n\boldsymbol\mu) = \boldsymbol\mu$. Para a covariância:</p>
       $$(\bar{\mathbf{X}} - \boldsymbol\mu)(\bar{\mathbf{X}} - \boldsymbol\mu)' = \frac{1}{n^2}\sum_{j=1}^{n}\sum_{\ell=1}^{n}(\mathbf{X}_j - \boldsymbol\mu)(\mathbf{X}_\ell - \boldsymbol\mu)'$$
-      <p>Para $j \ne \ell$, a esperança de cada termo é zero: suas entradas são covariâncias entre componentes de itens independentes (2-29). Sobram os $n$ termos com $j = \ell$, cada um com esperança $\boldsymbol\Sigma$: $\mathrm{Cov}(\bar{\mathbf{X}}) = \frac{1}{n^2}(n\boldsymbol\Sigma) = \frac1n\boldsymbol\Sigma$.</p>
+      <p>Para $j \ne \ell$, a esperança de cada termo é zero: suas entradas são covariâncias entre componentes de itens independentes (<span class="ref" data-ref="f-indep">2-29</span>). Sobram os $n$ termos com $j = \ell$, cada um com esperança $\boldsymbol\Sigma$: $\mathrm{Cov}(\bar{\mathbf{X}}) = \frac{1}{n^2}(n\boldsymbol\Sigma) = \frac1n\boldsymbol\Sigma$.</p>
     </details>
    </div>
    <aside class="apoio">
@@ -322,7 +322,7 @@ window.MathJax = {
     <p>A partir daqui, <strong>$\mathbf{S}$ (divisor $n - 1$) é a matriz de covariância amostral do livro</strong>; os testes dos próximos capítulos usam ela. Atenção: mesmo assim, $\sqrt{s_{ii}}$ não é não viesado para $\sqrt{\sigma_{ii}}$, nem $r_{ik}$ para $\rho_{ik}$; com $n$ moderado, o viés é desprezível.</p>
     <div class="ideia">$E(\mathbf{S}_n) = \frac{n-1}{n}\boldsymbol\Sigma$ (viesado para baixo); $\mathbf{S}$, com divisor $n - 1$, é não viesado e passa a ser a matriz de covariância amostral padrão.</div>
     <details class="demo">
-      <summary>Demonstração (Result 3.1, segunda parte)</summary>
+      <summary>Demonstração (Resultado 3.1, segunda parte)</summary>
       <p>Como $\sum_j(\mathbf{X}_j - \bar{\mathbf{X}}) = \mathbf{0}$ e $n\bar{\mathbf{X}} = \sum_j \mathbf{X}_j$:</p>
       $$\sum_{j=1}^n(\mathbf{X}_j - \bar{\mathbf{X}})(\mathbf{X}_j - \bar{\mathbf{X}})' = \sum_{j=1}^n \mathbf{X}_j\mathbf{X}_j' - n\bar{\mathbf{X}}\bar{\mathbf{X}}'$$
       <p>Para qualquer vetor aleatório $\mathbf{V}$, $E(\mathbf{VV}') = \boldsymbol\Sigma_V + \boldsymbol\mu_V\boldsymbol\mu_V'$ (Exercício 3.16). Então $E(\mathbf{X}_j\mathbf{X}_j') = \boldsymbol\Sigma + \boldsymbol{\mu\mu}'$ e, pela primeira parte, $E(\bar{\mathbf{X}}\bar{\mathbf{X}}') = \frac1n\boldsymbol\Sigma + \boldsymbol{\mu\mu}'$. Logo</p>
@@ -333,7 +333,7 @@ window.MathJax = {
    <aside class="apoio">
     <div class="lacunas">
       <p>Amostra aleatória de tamanho $n = 5$ de uma população com $\sigma_{11} = 10$.</p>
-      <p>$E(s_{11})$ com divisor $n$: <input class="lacuna" data-resp="8" data-tol="0.01" aria-label="esperança com divisor n"> · com divisor $n - 1$: <input class="lacuna" data-resp="10" data-tol="0.01" aria-label="esperança com divisor n menos 1"></p>
+      <p>$E(s_{11})$ com divisor $n$: <input class="lacuna" data-resp="8" data-tol="0.01" aria-label="esperança com divisor n"><br>com divisor $n - 1$: <input class="lacuna" data-resp="10" data-tol="0.01" aria-label="esperança com divisor n menos 1"></p>
       <p>Variância de $\bar X_1$: <input class="lacuna" data-resp="2" data-tol="0.01" aria-label="variância da média"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $E(\mathbf{S}_n) = \frac{n-1}{n}\boldsymbol\Sigma$ e $\mathrm{Cov}(\bar{\mathbf{X}}) = \boldsymbol\Sigma/n$, entrada por entrada.</p>
@@ -406,7 +406,7 @@ window.MathJax = {
     <div class="formula" data-ref-id="f-elipsoide" data-ref-tipo="formula" data-ref-nome="Elipsoide da amostra e seu volume (3-16), (3-17)">
       $$(\mathbf{x} - \bar{\mathbf{x}})'\,\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le c^2,\qquad \text{volume} = k_p\,|\mathbf{S}|^{1/2}\,c^p$$
     </div>
-    <p>Se $\mathbf{Se} = \lambda\mathbf{e}$, então $\mathbf{S}^{-1}\mathbf{e} = \lambda^{-1}\mathbf{e}$: mesmos autovetores, autovalores invertidos. Pela regra dos semi-eixos do cap. 2 ($c/\sqrt{\lambda}$ com os autovalores de $\mathbf{A} = \mathbf{S}^{-1}$, que são $1/\lambda_i$), o elipsoide se estende $c\sqrt{\lambda_i}$ na direção $\mathbf{e}_i$ (autovalores de $\mathbf{S}$). Com $p = 2$ e $c^2 = 5{,}99$, a elipse contém cerca de 95% das observações (cap. 4). Como $|\mathbf{S}| = \lambda_1\lambda_2\cdots\lambda_p$, o volume cresce com o produto dos autovalores.</p>
+    <p>Se $\mathbf{Se} = \lambda\mathbf{e}$, então $\mathbf{S}^{-1}\mathbf{e} = \lambda^{-1}\mathbf{e}$: mesmos autovetores, autovalores invertidos. Pela <span class="ref" data-ref="f-eixos">regra dos semi-eixos do cap. 2</span> ($c/\sqrt{\lambda}$ com os autovalores de $\mathbf{A} = \mathbf{S}^{-1}$, que são $1/\lambda_i$), o elipsoide se estende $c\sqrt{\lambda_i}$ na direção $\mathbf{e}_i$ (autovalores de $\mathbf{S}$). Com $p = 2$ e $c^2 = 5{,}99$, a elipse contém cerca de 95% das observações quando os dados são normais (o cap. 4 mostra por quê). Como $|\mathbf{S}| = \lambda_1\lambda_2\cdots\lambda_p$, o volume cresce com o produto dos autovalores.</p>
     <p>O defeito (Ex. 3.8): matrizes com orientações completamente diferentes podem ter o mesmo $|\mathbf{S}|$. Por isso o livro recomenda informar também os autovalores, não só o produto.</p>
     <div class="ideia">O elipsoide $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le c^2$ tem eixos $c\sqrt{\lambda_i}\,\mathbf{e}_i$ e volume proporcional a $|\mathbf{S}|^{1/2}$; nuvens com orientações diferentes podem ter o mesmo $|\mathbf{S}|$.</div>
    </div>
@@ -452,7 +452,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Variável redundante">
    <div class="texto">
     <h2>$|\mathbf{S}| = 0$ denuncia uma variável feita das outras</h2>
-    <div class="definicao" data-ref-id="d-s-zero" data-ref-tipo="definicao" data-ref-nome="Quando |S| = 0 (Result 3.2)">
+    <div class="definicao" data-ref-id="d-s-zero" data-ref-tipo="definicao" data-ref-nome="Quando |S| = 0 (Resultado 3.2)">
       <p>$|\mathbf{S}| = 0$ se e só se as colunas da matriz de desvios $\mathbf{X} - \mathbf{1}\bar{\mathbf{x}}'$ (3-18) são linearmente dependentes: algum $\mathbf{d}_i$ está no plano (hiperplano) gerado pelos outros.</p>
       <p>Para $\mathbf{a} \ne \mathbf{0}$, são equivalentes: (1) $\mathbf{Sa} = \mathbf{0}$ ($\mathbf{a}$ é autovetor de autovalor 0); (2) $\mathbf{a}'(\mathbf{x}_j - \bar{\mathbf{x}}) = 0$ para todo $j$; (3) $\mathbf{a}'\mathbf{x}_j = c$ para todo $j$ (com $c = \mathbf{a}'\bar{\mathbf{x}}$).</p>
     </div>
@@ -460,7 +460,7 @@ window.MathJax = {
     <p>Diagnóstico do livro: calcule os autovetores de $\mathbf{S}$; o de autovalor zero dá os coeficientes da dependência. Depois, retire variáveis até $\mathbf{S}$ ter posto cheio (de preferência mantendo as "causais").</p>
     <div class="ideia">$|\mathbf{S}| = 0$ exatamente quando uma combinação $\mathbf{a}'\mathbf{x}_j$ é constante em todos os itens; o autovetor de autovalor 0 mostra qual.</div>
     <details class="demo">
-      <summary>Demonstração (Result 3.2)</summary>
+      <summary>Demonstração (Resultado 3.2)</summary>
       <p>Note que $(n-1)\mathbf{S} = (\mathbf{X} - \mathbf{1}\bar{\mathbf{x}}')'(\mathbf{X} - \mathbf{1}\bar{\mathbf{x}}')$. Se $(\mathbf{X} - \mathbf{1}\bar{\mathbf{x}}')\mathbf{a} = \mathbf{0}$ com $\mathbf{a} \ne \mathbf{0}$, então $(n-1)\mathbf{Sa} = \mathbf{0}$: as colunas de $\mathbf{S}$ são dependentes e $|\mathbf{S}| = 0$.</p>
       <p>Na volta, se $|\mathbf{S}| = 0$, existe $\mathbf{a} \ne \mathbf{0}$ com $\mathbf{Sa} = \mathbf{0}$. Multiplicando por $\mathbf{a}'$: $0 = (n-1)\mathbf{a}'\mathbf{Sa}$, que é o comprimento ao quadrado de $(\mathbf{X} - \mathbf{1}\bar{\mathbf{x}}')\mathbf{a}$. Comprimento zero obriga $(\mathbf{X} - \mathbf{1}\bar{\mathbf{x}}')\mathbf{a} = \mathbf{0}$: colunas de desvios dependentes.</p>
     </details>
@@ -485,9 +485,11 @@ window.MathJax = {
   <section class="passo" data-titulo="n ≤ p">
    <div class="texto">
     <h2>Com $n \le p$, $|\mathbf{S}| = 0$ sempre</h2>
-    <p><strong>Result 3.3:</strong> se o tamanho da amostra não passa do número de variáveis ($n \le p$), então $|\mathbf{S}| = 0$ para qualquer amostra. Motivo: as $n$ linhas da matriz de desvios somam o vetor zero, então ela tem posto no máximo $n - 1 \le p - 1$, e $\mathbf{S}$ herda esse posto.</p>
-    <p><strong>Result 3.4:</strong> se toda combinação $\mathbf{a}'\mathbf{X}_j$ tem variância positiva e $p \lt n$, então $|\mathbf{S}| \gt 0$ com probabilidade 1. Se, ao contrário, alguma combinação $\mathbf{a}'\mathbf{X}_j$ é constante, $|\mathbf{S}| = 0$.</p>
-    <p>Ex. 3.9: com $n = p = 3$ (linhas $[1, 2, 5]$, $[4, 1, 6]$, $[4, 0, 4]$), os desvios são $\mathbf{d}_1' = [-2, 1, 1]$, $\mathbf{d}_2' = [1, 0, -1]$, $\mathbf{d}_3' = [0, 1, -1]$, e $\mathbf{d}_3 = \mathbf{d}_1 + 2\mathbf{d}_2$. Volume zero, $|\mathbf{S}| = 0$, como o Result 3.3 garantia.</p>
+    <p><strong>Resultado 3.3:</strong> se o tamanho da amostra não passa do número de variáveis ($n \le p$), então $|\mathbf{S}| = 0$ para qualquer amostra. Motivo: as $n$ linhas da matriz de desvios somam o vetor zero, então ela tem posto no máximo $n - 1 \le p - 1$, e $\mathbf{S}$ herda esse posto.</p>
+    <p><strong>Resultado 3.4:</strong> se toda combinação $\mathbf{a}'\mathbf{X}_j$ tem variância positiva e $p \lt n$, então $|\mathbf{S}| \gt 0$ com probabilidade 1. Se, ao contrário, alguma combinação $\mathbf{a}'\mathbf{X}_j$ é constante, $|\mathbf{S}| = 0$.</p>
+    <p>Ex. 3.9: com $n = p = 3$ e</p>
+    $$\mathbf{X} = \begin{bmatrix} 1 & 2 & 5 \\ 4 & 1 & 6 \\ 4 & 0 & 4 \end{bmatrix},$$
+    <p>os desvios são $\mathbf{d}_1' = [-2, 1, 1]$, $\mathbf{d}_2' = [1, 0, -1]$, $\mathbf{d}_3' = [0, 1, -1]$, e $\mathbf{d}_3 = \mathbf{d}_1 + 2\mathbf{d}_2$. Volume zero, $|\mathbf{S}| = 0$, como o Resultado 3.3 garantia.</p>
     <div class="ideia">Com $n \le p$, os desvios não têm dimensões suficientes e $|\mathbf{S}| = 0$; é preciso ter mais itens do que variáveis.</div>
    </div>
    <aside class="apoio">
@@ -500,9 +502,9 @@ window.MathJax = {
         <button data-op="d">(d) $|\mathbf{S}|$ é pequeno, mas positivo com probabilidade 1.</button>
       </div>
       <div class="fb" data-op="a">Isso: $n = 10 \le p = 12$. O posto de $\mathbf{S}$ é no máximo $n - 1 = 9$.</div>
-      <div class="fb" data-op="b">Essa é uma das causas, mas aqui o problema é estrutural: com $n \le p$, $|\mathbf{S}| = 0$ sempre (Result 3.3).</div>
+      <div class="fb" data-op="b">Essa é uma das causas, mas aqui o problema é estrutural: com $n \le p$, $|\mathbf{S}| = 0$ sempre (Resultado 3.3).</div>
       <div class="fb" data-op="c">$\mathbf{S}$ e $\mathbf{S}_n$ diferem só pelo fator $n/(n-1)$: ou as duas têm inversa, ou nenhuma.</div>
-      <div class="fb" data-op="d">O Result 3.4 garante $|\mathbf{S}| \gt 0$ só quando $p \lt n$, o que não é o caso.</div>
+      <div class="fb" data-op="d">O Resultado 3.4 garante $|\mathbf{S}| \gt 0$ só quando $p \lt n$, o que não é o caso.</div>
     </div>
    </aside>
   </section>
@@ -526,7 +528,7 @@ window.MathJax = {
     <div class="lacunas">
       <p><strong>Ex. 3.11.</strong></p>
       $$\mathbf{S} = \begin{bmatrix} 4 & 3 & 1 \\ 3 & 9 & 2 \\ 1 & 2 & 1 \end{bmatrix},\qquad |\mathbf{S}| = 14$$
-      <p>$r_{12} =$ <input class="lacuna" data-resp="0.5" data-tol="0.002" aria-label="r12"> · $r_{23} =$ <input class="lacuna" data-resp="0.6667" data-tol="0.003" aria-label="r23"></p>
+      <p>$r_{12} =$ <input class="lacuna" data-resp="0.5" data-tol="0.002" aria-label="r12"><br>$r_{23} =$ <input class="lacuna" data-resp="0.6667" data-tol="0.003" aria-label="r23"></p>
       <p>Pela relação com $|\mathbf{S}|$: $|\mathbf{R}| =$ <input class="lacuna" data-resp="0.3889" data-tol="0.003" aria-label="determinante de R"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $r_{12} = 3/\sqrt{4 \times 9}$; $|\mathbf{R}| = |\mathbf{S}|/(s_{11}s_{22}s_{33})$.</p>
@@ -544,7 +546,7 @@ window.MathJax = {
     <p>Geometricamente, é a soma dos comprimentos ao quadrado dos $\mathbf{d}_i$, dividida por $n - 1$: não olha para os ângulos. No Ex. 3.12: $252{,}04 + 123{,}67 = 375{,}71$ (editoras) e $3 + 1 + 1 = 5$ (Ex. 3.9, que tem $|\mathbf{S}| = 0$!).</p>
     <div class="compara">
       <div><h4>$|\mathbf{S}|$</h4><p>Produto dos autovalores. Sente a correlação (cai quando $|r|$ cresce) e zera com variável redundante. Não vê orientação.</p></div>
-      <div><h4>$\mathrm{tr}(\mathbf{S})$</h4><p>Soma dos autovalores (cap. 2). Não sente a correlação: mesmo valor com desvios perpendiculares ou paralelos. Não vê orientação.</p></div>
+      <div><h4>$\mathrm{tr}(\mathbf{S})$</h4><p>Soma dos autovalores (<span class="ref" data-ref="d-det-tr">cap. 2</span>). Não sente a correlação: mesmo valor com desvios perpendiculares ou paralelos. Não vê orientação.</p></div>
     </div>
     <div class="ideia">A variância total $\mathrm{tr}(\mathbf{S})$ soma as variâncias e ignora as correlações; $|\mathbf{S}|$ é sensível a elas.</div>
    </div>
@@ -592,7 +594,7 @@ window.MathJax = {
     <div class="formula" data-ref-id="f-r-s" data-ref-tipo="formula" data-ref-nome="R a partir de S e vice-versa (3-28)–(3-30)">
       $$\mathbf{D}^{1/2} = \begin{bmatrix} \sqrt{s_{11}} & & 0 \\ & \ddots & \\ 0 & & \sqrt{s_{pp}} \end{bmatrix},\qquad \mathbf{R} = \mathbf{D}^{-1/2}\,\mathbf{S}\,\mathbf{D}^{-1/2},\qquad \mathbf{S} = \mathbf{D}^{1/2}\,\mathbf{R}\,\mathbf{D}^{1/2}$$
     </div>
-    <p>São as versões amostrais de $\boldsymbol\rho = (\mathbf{V}^{1/2})^{-1}\boldsymbol\Sigma(\mathbf{V}^{1/2})^{-1}$ e $\boldsymbol\Sigma = \mathbf{V}^{1/2}\boldsymbol\rho\mathbf{V}^{1/2}$ do cap. 2 (veja a <span class="ref" data-ref="f-var-gen">variância generalizada</span> para o $\mathbf{S}$ das editoras). Dividir linhas e colunas pelos desvios padrão transforma cada $s_{ik}$ em $r_{ik}$.</p>
+    <p>São as versões amostrais de $\boldsymbol\rho = (\mathbf{V}^{1/2})^{-1}\boldsymbol\Sigma(\mathbf{V}^{1/2})^{-1}$ e $\boldsymbol\Sigma = \mathbf{V}^{1/2}\boldsymbol\rho\mathbf{V}^{1/2}$ do <span class="ref" data-ref="f-rho">cap. 2</span> (veja a <span class="ref" data-ref="f-var-gen">variância generalizada</span> para o $\mathbf{S}$ das editoras). Dividir linhas e colunas pelos desvios padrão transforma cada $s_{ik}$ em $r_{ik}$.</p>
     <div class="ideia">$\mathbf{R} = \mathbf{D}^{-1/2}\mathbf{S}\mathbf{D}^{-1/2}$ e $\mathbf{S} = \mathbf{D}^{1/2}\mathbf{R}\mathbf{D}^{1/2}$, com $\mathbf{D}^{1/2}$ diagonal dos desvios padrão amostrais.</div>
    </div>
    <aside class="apoio">
@@ -611,22 +613,23 @@ window.MathJax = {
    <div class="texto">
     <h2>Combinações lineares na amostra: $\mathbf{c}'\bar{\mathbf{x}}$, $\mathbf{c}'\mathbf{S}\mathbf{c}$, $\mathbf{b}'\mathbf{S}\mathbf{c}$</h2>
     <p>Em cada item, a combinação $\mathbf{c}'\mathbf{X}$ produz um número, $\mathbf{c}'\mathbf{x}_j$ (3-31). Os $n$ números resultantes têm média, variância e covariância que saem de $\bar{\mathbf{x}}$ e $\mathbf{S}$, sem calcular item por item:</p>
-    <div class="formula" data-ref-id="f-comb-amostra" data-ref-tipo="formula" data-ref-nome="Combinações lineares na amostra (3-36), Result 3.6">
+    <div class="formula" data-ref-id="f-comb-amostra" data-ref-tipo="formula" data-ref-nome="Combinações lineares na amostra (3-36), Resultado 3.6">
       $$\text{média de } \mathbf{c}'\mathbf{X} = \mathbf{c}'\bar{\mathbf{x}},\qquad \text{variância} = \mathbf{c}'\mathbf{S}\mathbf{c},\qquad \text{covariância de } \mathbf{b}'\mathbf{X} \text{ e } \mathbf{c}'\mathbf{X} = \mathbf{b}'\mathbf{S}\mathbf{c}$$
       $$q \text{ combinações } \mathbf{AX}:\quad \text{média } \mathbf{A}\bar{\mathbf{x}},\qquad \text{covariância } \mathbf{ASA}'$$
     </div>
-    <p>São as versões amostrais de $\mathbf{c}'\boldsymbol\mu$, $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ e $\mathbf{C}\boldsymbol\Sigma\mathbf{C}'$ do cap. 2: troque os parâmetros pelas estatísticas. A prova é a mesma conta, com somas no lugar de esperanças: $(\mathbf{c}'\mathbf{x}_j - \mathbf{c}'\bar{\mathbf{x}})^2 = \mathbf{c}'(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{c}$.</p>
+    <p>São as versões amostrais de $\mathbf{c}'\boldsymbol\mu$, $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ e $\mathbf{C}\boldsymbol\Sigma\mathbf{C}'$ do cap. 2 (<span class="ref" data-ref="f-cx">$\mathbf{c}'\mathbf{X}$</span> e <span class="ref" data-ref="f-cxx">$\mathbf{CX}$</span>): troque os parâmetros pelas estatísticas. A prova é a mesma conta, com somas no lugar de esperanças: $(\mathbf{c}'\mathbf{x}_j - \mathbf{c}'\bar{\mathbf{x}})^2 = \mathbf{c}'(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{c}$.</p>
     <div class="ideia">Na amostra, $\mathbf{c}'\mathbf{X}$ tem média $\mathbf{c}'\bar{\mathbf{x}}$ e variância $\mathbf{c}'\mathbf{S}\mathbf{c}$; duas combinações têm covariância $\mathbf{b}'\mathbf{S}\mathbf{c}$; várias, $\mathbf{ASA}'$.</div>
    </div>
    <aside class="apoio">
     <div class="exemplo">
-      <p><strong>Ex. 3.13.</strong> Dados do Ex. 3.9 (linhas $[1, 2, 5]$, $[4, 1, 6]$, $[4, 0, 4]$):</p>
+      <p><strong>Ex. 3.13.</strong> Dados do Ex. 3.9:</p>
+      $$\mathbf{X} = \begin{bmatrix} 1 & 2 & 5 \\ 4 & 1 & 6 \\ 4 & 0 & 4 \end{bmatrix}$$
       $$\bar{\mathbf{x}} = \begin{bmatrix} 3 \\ 1 \\ 5 \end{bmatrix},\qquad \mathbf{S} = \begin{bmatrix} 3 & -3/2 & 0 \\ -3/2 & 1 & 1/2 \\ 0 & 1/2 & 1 \end{bmatrix}$$
       <p>$\mathbf{b}' = [2, 2, -1]$ e $\mathbf{c}' = [1, -1, 3]$. Direto: os valores de $\mathbf{b}'\mathbf{x}_j$ são 1, 4, 4 e os de $\mathbf{c}'\mathbf{x}_j$ são 14, 21, 16.</p>
     </div>
     <div class="lacunas">
-      <p>$\mathbf{b}'\bar{\mathbf{x}} =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="média de b'X"> · $\mathbf{c}'\bar{\mathbf{x}} =$ <input class="lacuna" data-resp="17" data-tol="0" aria-label="média de c'X"></p>
-      <p>$\mathbf{b}'\mathbf{S}\mathbf{b} =$ <input class="lacuna" data-resp="3" data-tol="0.01" aria-label="variância de b'X"> · $\mathbf{b}'\mathbf{S}\mathbf{c} =$ <input class="lacuna" data-resp="4.5" data-tol="0.01" aria-label="covariância"></p>
+      <p>$\mathbf{b}'\bar{\mathbf{x}} =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="média de b'X"><br>$\mathbf{c}'\bar{\mathbf{x}} =$ <input class="lacuna" data-resp="17" data-tol="0" aria-label="média de c'X"></p>
+      <p>$\mathbf{b}'\mathbf{S}\mathbf{b} =$ <input class="lacuna" data-resp="3" data-tol="0.01" aria-label="variância de b'X"><br>$\mathbf{b}'\mathbf{S}\mathbf{c} =$ <input class="lacuna" data-resp="4.5" data-tol="0.01" aria-label="covariância"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: primeiro $\mathbf{Sc} = [4{,}5;\ -1;\ 2{,}5]'$; depois $\mathbf{b}'(\mathbf{Sc})$.</p>
       <div class="resolucao" hidden><p>$\mathbf{b}'\bar{\mathbf{x}} = 6 + 2 - 5 = 3$; $\mathbf{c}'\bar{\mathbf{x}} = 3 - 1 + 15 = 17$. $\mathbf{Sb} = [3;\ -1{,}5;\ 0]'$ e $\mathbf{b}'\mathbf{Sb} = 6 - 3 + 0 = 3$. $\mathbf{Sc} = [4{,}5;\ -1;\ 2{,}5]'$ e $\mathbf{b}'\mathbf{Sc} = 9 - 2 - 2{,}5 = 4{,}5$. Direto: $[(1-3)(14-17)$ $+ (4-3)(21-17)$ $+ (4-3)(16-17)]/2$ $= 9/2$. Confere. (E $\mathbf{c}'\mathbf{Sc} = 13$.)</p></div>
@@ -669,8 +672,13 @@ window.MathJax = {
     <li>Combinações na amostra: $\mathbf{c}'\bar{\mathbf{x}}$, $\mathbf{c}'\mathbf{Sc}$, $\mathbf{b}'\mathbf{Sc}$, $\mathbf{ASA}'$.</li>
   </ul>
   <h3>Fórmulas</h3>
-  <p>$$\mathbf{d}_i = \mathbf{y}_i - \bar x_i\mathbf{1}\qquad r_{ik} = \frac{\mathbf{d}_i'\mathbf{d}_k}{L_{\mathbf{d}_i}L_{\mathbf{d}_k}}\qquad \mathrm{Cov}(\bar{\mathbf{X}}) = \frac1n\boldsymbol\Sigma\qquad \mathbf{S} = \frac{1}{n-1}\sum_{j=1}^n(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$$</p>
-  <p>$$|\mathbf{S}| = (n-1)^{-p}(\text{volume})^2\qquad |\mathbf{S}| = (s_{11}\cdots s_{pp})|\mathbf{R}|\qquad \text{total} = \mathrm{tr}(\mathbf{S})$$</p>
+  <p>$$\mathbf{d}_i = \mathbf{y}_i - \bar x_i\mathbf{1}$$
+  $$r_{ik} = \frac{\mathbf{d}_i'\mathbf{d}_k}{L_{\mathbf{d}_i}L_{\mathbf{d}_k}}$$
+  $$\mathrm{Cov}(\bar{\mathbf{X}}) = \frac1n\boldsymbol\Sigma$$
+  $$\mathbf{S} = \frac{1}{n-1}\sum_{j=1}^n(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$$</p>
+  <p>$$|\mathbf{S}| = (n-1)^{-p}(\text{volume})^2$$
+  $$|\mathbf{S}| = (s_{11}\cdots s_{pp})|\mathbf{R}|$$
+  $$\text{total} = \mathrm{tr}(\mathbf{S})$$</p>
   </div>
   <div>
   <h3>Quando usar e quando não usar</h3>
@@ -713,6 +721,7 @@ window.MathJax = {
 </div>
 
 <script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
 <script src="../assets/estudo.js"></script>
 <script>
 /* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
@@ -852,7 +861,7 @@ function caminhoElipse(s11, s12, s22, c, px, py, cx, cy) {
       var y = r * u + Math.sqrt(1 - r * r) * z.z2[i];
       g.appendChild(svgEl('circle', { cx: cx + u * k, cy: cy - y * k, r: 2.8, fill: m, 'fill-opacity': 0.7 }));
     });
-    document.getElementById('cs-txt').innerHTML = '$\\theta$ = ' + ai + '° · $r_{12} = \\cos\\theta$ = ' + fmt(r, 2) + '. ' + (Math.abs(r) < 0.1 ? 'Quase perpendiculares: quase sem correlação.' : (r > 0 ? 'Mesma direção geral: a nuvem sobe.' : 'Sentidos opostos: a nuvem desce.'));
+    document.getElementById('cs-txt').innerHTML = '$\\theta$ = ' + ai + '°; $r_{12} = \\cos\\theta$ = ' + fmt(r, 2) + '. ' + (Math.abs(r) < 0.1 ? 'Quase perpendiculares: quase sem correlação.' : (r > 0 ? 'Mesma direção geral: a nuvem sobe.' : 'Sentidos opostos: a nuvem desce.'));
     tipografar(document.getElementById('cs-txt'));
   }
   sa.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);

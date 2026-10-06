@@ -82,7 +82,7 @@ window.MathJax = {
       <strong>4. Previsão:</strong> prever umas variáveis a partir de outras.<br>
       <strong>5. Construção e teste de hipóteses:</strong> testar afirmações sobre parâmetros da população.</p>
     </div>
-    <p>Dois avisos que o livro faz logo de saída: quase todos os dados aqui são <strong>observacionais</strong> (ninguém controlou as variáveis; planejamento de experimentos só nos caps. 6 e 7), e muitos métodos se apoiam na <strong>normal multivariada</strong> (cap. 4).</p>
+    <p>Dois avisos que o livro faz logo de saída: quase todos os dados aqui são <strong>observacionais</strong> (ninguém controlou as variáveis), e muitos métodos supõem uma distribuição específica para os dados, a <strong>normal multivariada</strong>, que ganha um capítulo só dela mais à frente (não precisa saber nada sobre ela agora).</p>
    </div>
    <aside class="apoio">
     <div class="quiz" data-correta="c">
@@ -95,7 +95,7 @@ window.MathJax = {
       </div>
       <div class="fb" data-op="a">Ordenar é uma consequência possível, mas o que o pesquisador fez foi condensar 8 variáveis em 1. Agrupamento seria formar grupos de países parecidos.</div>
       <div class="fb" data-op="b">Nada no estudo prevê uma variável a partir de outras; o índice resume as 8 que já existem.</div>
-      <div class="fb" data-op="c">Isso. Trocar muitas variáveis por poucas combinações delas, perdendo pouco, é redução de dados (o caminho da PCA, no cap. 8).</div>
+      <div class="fb" data-op="c">Isso. Trocar muitas variáveis por poucas combinações delas, perdendo pouco, é redução de dados.</div>
       <div class="fb" data-op="d">Todo resumo "depende" das variáveis de origem. O objetivo de dependência pergunta como as variáveis se relacionam entre si, e não é isso que o índice responde.</div>
     </div>
    </aside>
@@ -143,8 +143,8 @@ window.MathJax = {
       <p>$$\mathbf{X} = \begin{bmatrix} 42 & 4 \\ 52 & 5 \\ 48 & 4 \\ 58 & 3 \end{bmatrix}$$</p>
     </div>
     <div class="lacunas">
-      <p>No arranjo da livraria: $n =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="n"> · $p =$ <input class="lacuna" data-resp="2" data-tol="0" aria-label="p"></p>
-      <p>$x_{31} =$ <input class="lacuna" data-resp="48" data-tol="0" aria-label="x 3 1"> · $x_{22} =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="x 2 2"> · $x_{42} =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="x 4 2"></p>
+      <p>No arranjo da livraria: $n =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="n"><br>$p =$ <input class="lacuna" data-resp="2" data-tol="0" aria-label="p"></p>
+      <p>$x_{31} =$ <input class="lacuna" data-resp="48" data-tol="0" aria-label="x 3 1"><br>$x_{22} =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="x 2 2"><br>$x_{42} =$ <input class="lacuna" data-resp="3" data-tol="0" aria-label="x 4 2"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: primeiro índice = linha (recibo), segundo = coluna (variável).</p>
       <div class="resolucao" hidden><p>4 recibos e 2 variáveis. $x_{31}$ é o recibo 3 na variável 1 (48); $x_{22}$, o recibo 2 na variável 2 (5); $x_{42}$, o recibo 4 na variável 2 (3).</p></div>
@@ -198,7 +198,7 @@ window.MathJax = {
    <aside class="apoio">
     <div class="exemplo">
       <p>Na <span class="ref" data-ref="ex-livraria">livraria</span> (Ex. 1.2):</p>
-      <p>$\bar{x}_1 = \tfrac14(42 + 52 + 48 + 58) = 50$ · $\bar{x}_2 = \tfrac14(4 + 5 + 4 + 3) = 4$</p>
+      <p>$\bar{x}_1 = \tfrac14(42 + 52 + 48 + 58) = 50$; $\bar{x}_2 = \tfrac14(4 + 5 + 4 + 3) = 4$</p>
       <p>$s_{11} = \tfrac14\left[(-8)^2 + 2^2 + (-2)^2 + 8^2\right]$ $= 34$</p>
       <p>$s_{22} = \tfrac14\left[0^2 + 1^2 + 0^2 + (-1)^2\right]$ $= 0{,}5$</p>
     </div>
@@ -312,8 +312,8 @@ window.MathJax = {
     </div>
     <div class="lacunas">
       <p>Agora você: $n = 4$ itens com $x_1 = (2, 4, 6, 8)$ e $x_2 = (5, 3, 4, 0)$.</p>
-      <p>$\bar{x}_1 =$ <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="média 1"> · $\bar{x}_2 =$ <input class="lacuna" data-resp="3" data-tol="0.001" aria-label="média 2"></p>
-      <p>$s_{11} =$ <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="s11"> · $s_{22} =$ <input class="lacuna" data-resp="3.5" data-tol="0.001" aria-label="s22"> · $s_{12} =$ <input class="lacuna" data-resp="-3.5" data-tol="0.001" aria-label="s12"></p>
+      <p>$\bar{x}_1 =$ <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="média 1"><br>$\bar{x}_2 =$ <input class="lacuna" data-resp="3" data-tol="0.001" aria-label="média 2"></p>
+      <p>$s_{11} =$ <input class="lacuna" data-resp="5" data-tol="0.001" aria-label="s11"><br>$s_{22} =$ <input class="lacuna" data-resp="3.5" data-tol="0.001" aria-label="s22"><br>$s_{12} =$ <input class="lacuna" data-resp="-3.5" data-tol="0.001" aria-label="s12"></p>
       <p>$r_{12} =$ <input class="lacuna" data-resp="-0.84" data-tol="0.01" aria-label="r12"> (duas casas)</p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: comece pelos desvios. $x_1 - \bar{x}_1 = (-3, -1, 1, 3)$ e $x_2 - \bar{x}_2 = (2, 0, 1, -3)$. Divida por $n = 4$.</p>
@@ -624,7 +624,7 @@ window.MathJax = {
    <aside class="apoio">
     <div class="lacunas">
       <p>Agora $s_{11} = 9$, $s_{22} = 1$, médias zero, sem associação.</p>
-      <p>$d^2\big(O, (3, 1)\big) =$ <input class="lacuna" data-resp="2" data-tol="0.001" aria-label="d ao quadrado"> · distância euclidiana de $(3, 1)$ à origem $=$ <input class="lacuna" data-resp="3.16" data-tol="0.01" aria-label="euclidiana"> (duas casas)</p>
+      <p>$d^2\big(O, (3, 1)\big) =$ <input class="lacuna" data-resp="2" data-tol="0.001" aria-label="d ao quadrado"><br>distância euclidiana de $(3, 1)$ à origem $=$ <input class="lacuna" data-resp="3.16" data-tol="0.01" aria-label="euclidiana"> (duas casas)</p>
       <p>O ponto $(x_1, 0)$ com $x_1 \gt 0$ a distância estatística 1 da origem tem $x_1 =$ <input class="lacuna" data-resp="3" data-tol="0.001" aria-label="x1"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: cada coordenada ao quadrado é dividida pela sua variância. Para o último, resolva $x_1^2/9 = 1$.</p>
@@ -669,7 +669,7 @@ window.MathJax = {
         <button data-op="b">Só se $r = 0$</button>
         <button data-op="c">Nunca</button>
       </div>
-      <div class="explica" hidden><p>Girando de 0° a 90°, a correlação das coordenadas giradas passa por zero: é o ângulo dos eixos da elipse. Nele, os eixos $\tilde{x}_1$, $\tilde{x}_2$ coincidem com os eixos das elipses de distância constante, e vale a fórmula sem correlação. (Esses eixos voltam no cap. 8, como componentes principais.)</p></div>
+      <div class="explica" hidden><p>Girando de 0° a 90°, a correlação das coordenadas giradas passa por zero: é o ângulo dos eixos da elipse. Nele, os eixos $\tilde{x}_1$, $\tilde{x}_2$ coincidem com os eixos das elipses de distância constante, e vale a fórmula sem correlação.</p></div>
     </div>
     <div class="sim" id="sim-gira">
       <label>Correlação $r_{12}$ <input type="range" id="gi-r" min="-0.9" max="0.9" step="0.05" value="0.6"> <strong id="gi-r-v">0,60</strong></label>
@@ -690,7 +690,7 @@ window.MathJax = {
       <p>Os pesos cabem num arranjo simétrico, que define a distância:</p>
       $$\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1p} \\ a_{12} & a_{22} & \cdots & a_{2p} \\ \vdots & & \ddots & \vdots \\ a_{1p} & a_{2p} & \cdots & a_{pp}\end{bmatrix}$$
     </div>
-    <p>A expressão dentro da raiz é uma <strong>forma quadrática</strong>. Para ser distância, ela tem que dar um número $\ge 0$ para <em>todo</em> ponto, e $0$ só na origem. Isso restringe os $a_{ik}$: o arranjo precisa ser <strong>positivo definido</strong>, conceito que o cap. 2 formaliza. Os contornos de distância constante são hiperelipsoides.</p>
+    <p>A expressão dentro da raiz é uma <strong>forma quadrática</strong>. Para ser distância, ela tem que dar um número $\ge 0$ para <em>todo</em> ponto, e $0$ só na origem. Isso restringe os $a_{ik}$; no cap. 2 essa exigência ganha nome (matriz <strong>positiva definida</strong>) e um jeito simples de conferir. Os contornos de distância constante são hiperelipsoides.</p>
     <div class="ideia">A distância estatística geral é a raiz de uma forma quadrática; ela só vale se os pesos garantirem valor positivo para todo ponto diferente da origem.</div>
    </div>
    <aside class="apoio">
@@ -700,7 +700,7 @@ window.MathJax = {
         <li data-fb="Comparando com a forma geral, a11 = 2, a22 = 2 e 2·a12 = 6, então a12 = 3. Esta linha está certa.">Na forma geral, $a_{11} = 2$, $a_{12} = 3$, $a_{22} = 2$.</li>
         <li data-fb="2 + 6 + 2 = 10, conta certa. Esta linha está certa.">Para $P = (1, 1)$: $d^2 = 2 + 6 + 2 = 10$.</li>
         <li data-fb="2 − 6 + 2 = −2, conta certa: o resultado negativo é o sintoma, não o erro.">Para $P = (1, -1)$: $d^2 = 2 - 6 + 2 = -2$.</li>
-        <li data-errada data-fb="Um quadrado de distância negativo mostra que esses pesos não definem distância (o arranjo [[2, 3], [3, 2]] não é positivo definido). Tirar o módulo esconde o defeito: com módulo, o ponto (1; −0,38) teria distância zero sem ser a origem.">Basta tirar o módulo: $d = \sqrt{|{-2}|} = \sqrt2$.</li>
+        <li data-errada data-fb="Um quadrado de distância negativo mostra que esses pesos não definem distância: com $a_{11} = a_{22} = 2$, o termo cruzado $2a_{12} = 6$ pesa demais. Tirar o módulo esconde o defeito: com módulo, o ponto (1; −0,38) teria distância zero sem ser a origem.">Basta tirar o módulo: $d = \sqrt{|{-2}|} = \sqrt2$.</li>
       </ol>
     </div>
    </aside>
@@ -711,7 +711,11 @@ window.MathJax = {
     <h2>O que qualquer distância precisa cumprir</h2>
     <p>Elipses não são obrigatórias. Qualquer medida $d(P, Q)$ serve como distância se, para quaisquer pontos $P$, $Q$ e um intermediário $R$:</p>
     <div class="definicao" data-ref-id="d-distancia" data-ref-tipo="definicao" data-ref-nome="Propriedades de uma distância (1-25)">
-      <p>$d(P, Q) = d(Q, P)$ (simetria) · $d(P, Q) \gt 0$ se $P \ne Q$ · $d(P, Q) = 0$ se $P = Q$ · $d(P, Q) \le d(P, R) + d(R, Q)$ (desigualdade triangular).</p>
+      <ul>
+        <li>$d(P, Q) = d(Q, P)$ (simetria);</li>
+        <li>$d(P, Q) \gt 0$ se $P \ne Q$, e $d(P, Q) = 0$ se $P = Q$;</li>
+        <li>$d(P, Q) \le d(P, R) + d(R, Q)$ (desigualdade triangular).</li>
+      </ul>
     </div>
     <p>Dois exemplos dos exercícios do livro: a distância do <strong>máximo</strong>, $d(O, P) = \max(|x_1|, |x_2|)$, cujos pontos de distância 1 formam um quadrado; e a de <strong>quarteirão</strong>, $|x_1| + |x_2|$, a de quem anda numa cidade em grade, cujos pontos de distância 1 formam um losango.</p>
     <div class="ideia">Distância é qualquer medida simétrica, positiva para pontos diferentes, zero no mesmo ponto e que respeita a desigualdade triangular.</div>
@@ -812,8 +816,11 @@ window.MathJax = {
     <li>Uma distância é simétrica, positiva para pontos diferentes, zero no mesmo ponto e cumpre a desigualdade triangular.</li>
   </ul>
   <h3>Fórmulas</h3>
-  <p>$$\bar{x}_k = \frac1n\sum_{j=1}^n x_{jk}\qquad s_{ik} = \frac1n\sum_{j=1}^n (x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)\qquad r_{ik} = \frac{s_{ik}}{\sqrt{s_{ii}}\sqrt{s_{kk}}}$$</p>
-  <p>$$d(P,Q) = \sqrt{\sum_{k=1}^p \frac{(x_k - y_k)^2}{s_{kk}}}\ \ \text{(sem correlação)}\qquad d(O,P) = \sqrt{a_{11}x_1^2 + 2a_{12}x_1x_2 + a_{22}x_2^2}$$</p>
+  <p>$$\bar{x}_k = \frac1n\sum_{j=1}^n x_{jk}$$
+  $$s_{ik} = \frac1n\sum_{j=1}^n (x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)$$
+  $$r_{ik} = \frac{s_{ik}}{\sqrt{s_{ii}}\sqrt{s_{kk}}}$$</p>
+  <p>$$d(P,Q) = \sqrt{\sum_{k=1}^p \frac{(x_k - y_k)^2}{s_{kk}}}\ \ \text{(sem correlação)}$$
+  $$d(O,P) = \sqrt{a_{11}x_1^2 + 2a_{12}x_1x_2 + a_{22}x_2^2}$$</p>
   </div>
   <div>
   <h3>Quando usar e quando não usar</h3>
@@ -855,6 +862,7 @@ window.MathJax = {
 </div>
 
 <script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
 <script src="../assets/estudo.js"></script>
 <script>
 /* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar. */
@@ -955,7 +963,7 @@ function desenharNuvem(svg, modo) {
     });
     svg.appendChild(svgEl('text', { x: px(10) - 4, y: py(e.my) - 5, 'text-anchor': 'end', 'font-size': 12, fill: m }, 'x̄₂'));
     svg.appendChild(svgEl('text', { x: px(e.mx) + 4, y: py(10) + 13, 'font-size': 12, fill: m }, 'x̄₁'));
-    document.getElementById('cov-txt').innerHTML = 'Produto de desvios positivo: <strong>' + pos + '</strong> de 40 pontos · $s_{12}$ = <strong>' + fmt(e.sxy, 2) + '</strong> · $r_{12}$ = <strong>' + fmt(e.r, 2) + '</strong>';
+    document.getElementById('cov-txt').innerHTML = 'Produto de desvios positivo: <strong>' + pos + '</strong> de 40 pontos; $s_{12}$ = <strong>' + fmt(e.sxy, 2) + '</strong>; $r_{12}$ = <strong>' + fmt(e.r, 2) + '</strong>';
     tipografar(document.getElementById('cov-txt'));
   }
   sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
@@ -994,8 +1002,8 @@ function desenharNuvem(svg, modo) {
   function posicionar() {
     var x1 = trocado ? x1b : x1a, e = estat(x1, x2);
     pontos.forEach(function (c, i) { c.setAttribute('cy', py(x2[i])); c.style.cx = px(x1[i]) + 'px'; c.setAttribute('cx', px(x1[i])); });
-    document.getElementById('repar-txt').innerHTML = '$\\bar{x}_1$ = ' + fmt(e.mx, 2) + ' · $\\bar{x}_2$ = ' + fmt(e.my, 2) + ' · $s_{11}$ = ' + fmt(e.sxx, 2) + ' · $s_{22}$ = ' + fmt(e.syy, 2) +
-      '<br>$s_{12}$ = <strong>' + fmt(e.sxy, 2) + '</strong> · $r_{12}$ = <strong>' + fmt(e.r, 2) + '</strong>';
+    document.getElementById('repar-txt').innerHTML = '$\\bar{x}_1$ = ' + fmt(e.mx, 2) + '; $\\bar{x}_2$ = ' + fmt(e.my, 2) + '; $s_{11}$ = ' + fmt(e.sxx, 2) + '; $s_{22}$ = ' + fmt(e.syy, 2) +
+      '<br>$s_{12}$ = <strong>' + fmt(e.sxy, 2) + '</strong>; $r_{12}$ = <strong>' + fmt(e.r, 2) + '</strong>';
     tipografar(document.getElementById('repar-txt'));
   }
   btn.addEventListener('click', function () { trocado = !trocado; posicionar(); });
@@ -1024,7 +1032,7 @@ function desenharNuvem(svg, modo) {
     recorte(svg, px(0), py(10.5), px(32) - px(0), py(0) - py(10.5)).appendChild(svgEl('line', { x1: px(0), y1: py(b0), x2: px(32), y2: py(b0 + b1 * 32), stroke: acc, 'stroke-width': 1.5, 'stroke-opacity': 0.6 }));
     x.forEach(function (v, i) { svg.appendChild(svgEl('circle', { cx: px(v), cy: py(y[i]), r: 4, fill: m })); });
     svg.appendChild(svgEl('circle', { cx: px(xo), cy: py(yo), r: 6.5, fill: lar }));
-    document.getElementById('atip-txt').innerHTML = '$r_{12}$ com o ponto laranja: <strong>' + fmt(e.r, 2) + '</strong> · sem ele: ' + fmt(rBase, 2) + '. A reta é a de mínimos quadrados, só para guiar o olho.';
+    document.getElementById('atip-txt').innerHTML = '$r_{12}$ com o ponto laranja: <strong>' + fmt(e.r, 2) + '</strong>; sem ele: ' + fmt(rBase, 2) + '. A reta é a de mínimos quadrados, só para guiar o olho.';
     tipografar(document.getElementById('atip-txt'));
   }
   sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
@@ -1166,7 +1174,7 @@ function desenharNuvem(svg, modo) {
       svg.appendChild(svgEl('path', { d: 'M' + (cx - 12) + ' ' + (cy + 17) + ' Q' + cx + ' ' + (cy + 17 + curva) + ' ' + (cx + 12) + ' ' + (cy + 17), fill: 'none', stroke: acc, 'stroke-width': 2.5, 'stroke-linecap': 'round' }));
       svg.appendChild(svgEl('text', { x: cx, y: 128, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, fill: txt }, 'Empresa ' + (i + 1)));
     });
-    document.getElementById('faces-txt').textContent = 'Boca = ' + nomesVar[at[0]] + ' · largura do rosto = ' + nomesVar[at[1]] + ' · olhos = ' + nomesVar[at[2]] + '. Os sorrisos agrupam ' + (alt ? 'as empresas 2 e 4.' : 'as empresas 1 e 2.');
+    document.getElementById('faces-txt').textContent = 'Boca = ' + nomesVar[at[0]] + '; largura do rosto = ' + nomesVar[at[1]] + '; olhos = ' + nomesVar[at[2]] + '. Os sorrisos agrupam ' + (alt ? 'as empresas 2 e 4.' : 'as empresas 1 e 2.');
   }
   btn.addEventListener('click', function () { alt = !alt; desenhar(); });
   desenhar(); quandoTema(desenhar);
@@ -1192,7 +1200,7 @@ function desenharNuvem(svg, modo) {
     svg.appendChild(svgEl('ellipse', { cx: px(0), cy: py(0), rx: dS * a * k, ry: dS * b * k, fill: 'none', stroke: roxo, 'stroke-width': 2 }));
     svg.appendChild(svgEl('circle', { cx: px(P[0]), cy: py(P[1]), r: 6, fill: acc }));
     svg.appendChild(svgEl('text', { x: px(P[0]) + 9, y: py(P[1]) - 6, 'font-size': 13, 'font-weight': 700, fill: acc }, 'P'));
-    document.getElementById('el-txt').innerHTML = 'Régua: $d$ = ' + fmt(dE, 2) + ' (círculo pontilhado) · Estatística: $d$ = ' + fmt(dS, 2) + ' (elipse roxa). Elipses tracejadas: distâncias 1, 2 e 3.';
+    document.getElementById('el-txt').innerHTML = 'Régua: $d$ = ' + fmt(dE, 2) + ' (círculo pontilhado); Estatística: $d$ = ' + fmt(dS, 2) + ' (elipse roxa). Elipses tracejadas: distâncias 1, 2 e 3.';
     tipografar(document.getElementById('el-txt'));
   }
   s1.addEventListener('input', desenhar); s2.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);

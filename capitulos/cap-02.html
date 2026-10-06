@@ -32,7 +32,7 @@ window.MathJax = {
 <div class="wrap">
 
 <h1>Cap. 2 — Álgebra de matrizes e vetores aleatórios</h1>
-<p class="contexto">Onde isso se encaixa: no cap. 1 médias, covariâncias e distâncias eram somatórios. Aqui elas viram vetores e matrizes, a língua do resto do livro, e aparece a peça que sustenta PCA, análise fatorial e quase tudo depois: autovalores e autovetores.</p>
+<p class="contexto">Onde isso se encaixa: no cap. 1 <span class="ref" data-ref="f-media-var">médias</span>, <span class="ref" data-ref="f-cov">covariâncias</span> e <span class="ref" data-ref="f-geralp">distâncias</span> eram somatórios. Aqui elas viram vetores e matrizes, a língua do resto do livro, e aparece a peça que sustenta quase tudo nos capítulos seguintes: autovalores e autovetores.</p>
 
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
@@ -83,12 +83,12 @@ window.MathJax = {
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-21" data-ref-tipo="exemplo" data-ref-nome="Vetores do Ex. 2.1">
       <p><strong>Ex. 2.1.</strong> $\mathbf{x}' = [1, 3, 2]$ e $\mathbf{y}' = [-2, 1, -1]$.</p>
-      <p>$\mathbf{x}'\mathbf{x} = 1 + 9 + 4 = 14$ · $\mathbf{y}'\mathbf{y} = 4 + 1 + 1 = 6$ · $\mathbf{x}'\mathbf{y} = -2 + 3 - 2 = -1$</p>
-      <p>$L_{\mathbf{x}} = \sqrt{14} = 3{,}742$ · $L_{\mathbf{y}} = \sqrt{6} = 2{,}449$ · $L_{3\mathbf{x}} = \sqrt{9 + 81 + 36}$ $= \sqrt{126} = 3L_{\mathbf{x}}$</p>
+      <p>$\mathbf{x}'\mathbf{x} = 1 + 9 + 4 = 14$; $\mathbf{y}'\mathbf{y} = 4 + 1 + 1 = 6$; $\mathbf{x}'\mathbf{y} = -2 + 3 - 2 = -1$</p>
+      <p>$L_{\mathbf{x}} = \sqrt{14} = 3{,}742$; $L_{\mathbf{y}} = \sqrt{6} = 2{,}449$; $L_{3\mathbf{x}} = \sqrt{9 + 81 + 36}$ $= \sqrt{126} = 3L_{\mathbf{x}}$</p>
     </div>
     <div class="lacunas">
       <p>Agora $\mathbf{u}' = [2, -1, 2]$ e $\mathbf{v}' = [1, 2, 2]$.</p>
-      <p>$L_{\mathbf{u}} =$ <input class="lacuna" data-resp="3" data-tol="0.01" aria-label="comprimento de u"> · $\mathbf{u}'\mathbf{v} =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="produto interno"></p>
+      <p>$L_{\mathbf{u}} =$ <input class="lacuna" data-resp="3" data-tol="0.01" aria-label="comprimento de u"><br>$\mathbf{u}'\mathbf{v} =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="produto interno"></p>
       <p>Primeiro elemento do vetor unitário na direção de $\mathbf{u}$: <input class="lacuna" data-resp="0.6667" data-tol="0.005" aria-label="primeiro elemento do unitário"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $\mathbf{u}'\mathbf{u} = 4 + 1 + 4$; o unitário é $\mathbf{u}/L_{\mathbf{u}}$.</p>
@@ -213,7 +213,7 @@ window.MathJax = {
     <div class="lacunas">
       <p>Complete o produto (exemplo do Supl. 2A):</p>
       $$\begin{bmatrix} 3 & -1 & 2 \\ 4 & 0 & 5 \end{bmatrix}\begin{bmatrix} 3 & 4 \\ 6 & -2 \\ 4 & 3 \end{bmatrix} = \begin{bmatrix} 11 & ? \\ ? & ? \end{bmatrix}$$
-      <p>Entrada $(1,2)$: <input class="lacuna" data-resp="20" data-tol="0" aria-label="entrada 1 2"> · $(2,1)$: <input class="lacuna" data-resp="32" data-tol="0" aria-label="entrada 2 1"> · $(2,2)$: <input class="lacuna" data-resp="31" data-tol="0" aria-label="entrada 2 2"></p>
+      <p>Entrada $(1,2)$: <input class="lacuna" data-resp="20" data-tol="0" aria-label="entrada 1 2"><br>$(2,1)$: <input class="lacuna" data-resp="32" data-tol="0" aria-label="entrada 2 1"><br>$(2,2)$: <input class="lacuna" data-resp="31" data-tol="0" aria-label="entrada 2 2"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: entrada $(1,2)$ = linha 1 da primeira $[3, -1, 2]$ com a coluna 2 da segunda $[4, -2, 3]$.</p>
       <div class="resolucao" hidden><p>$(1,2)$: $3(4) + (-1)(-2) + 2(3) = 20$. $(2,1)$: $4(3) + 0(6) + 5(4) = 32$. $(2,2)$: $4(4) + 0(-2) + 5(3) = 31$.</p></div>
@@ -227,7 +227,7 @@ window.MathJax = {
     <p>Com $\mathbf{b}' = [7, -3, 6]$ e $\mathbf{c}' = [5, 8, -4]$ (Ex. 2.6): $\mathbf{b}'\mathbf{c} = (1\times3)(3\times1)$ é $1 \times 1$, o número $35 - 24 - 24 = -13$. Já $\mathbf{b}\mathbf{c}' = (3\times1)(1\times3)$ é uma matriz $3 \times 3$:</p>
     $$\mathbf{b}\mathbf{c}' = \begin{bmatrix} 35 & 56 & -28 \\ -15 & -24 & 12 \\ 30 & 48 & -24 \end{bmatrix}$$
     <p>Diferenças em relação aos números: em geral $\mathbf{AB} \ne \mathbf{BA}$ (às vezes um dos dois nem existe), e $\mathbf{AB} = \mathbf{0}$ pode acontecer sem $\mathbf{A}$ nem $\mathbf{B}$ serem nulas. Vale $(\mathbf{AB})' = \mathbf{B}'\mathbf{A}'$, com a ordem trocada.</p>
-    <p>Dois tipos especiais de matriz quadrada: <strong>simétrica</strong>, $\mathbf{A} = \mathbf{A}'$ ($a_{ij} = a_{ji}$), como $\mathbf{S}_n$ e $\mathbf{R}$ do cap. 1; e a <strong>identidade</strong> $\mathbf{I}$, com uns na diagonal e zeros fora, que faz o papel do 1: $\mathbf{AI} = \mathbf{IA} = \mathbf{A}$ (2-11).</p>
+    <p>Dois tipos especiais de matriz quadrada: <strong>simétrica</strong>, $\mathbf{A} = \mathbf{A}'$ ($a_{ij} = a_{ji}$), como <span class="ref" data-ref="f-arranjos">$\mathbf{S}_n$ e $\mathbf{R}$ do cap. 1</span>; e a <strong>identidade</strong> $\mathbf{I}$, com uns na diagonal e zeros fora, que faz o papel do 1: $\mathbf{AI} = \mathbf{IA} = \mathbf{A}$ (2-11).</p>
     <div class="ideia">Linha vezes coluna dá um número ($\mathbf{b}'\mathbf{c}$); coluna vezes linha dá uma matriz ($\mathbf{b}\mathbf{c}'$). E a ordem importa: $\mathbf{AB} \ne \mathbf{BA}$ em geral.</div>
    </div>
    <aside class="apoio">
@@ -254,7 +254,10 @@ window.MathJax = {
       <p>$\mathbf{A}^{-1}$ é a matriz com $\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = \mathbf{I}$. Ela existe se e só se as colunas de $\mathbf{A}$ são <span class="ref" data-ref="d-dep">linearmente independentes</span>, o que equivale a $|\mathbf{A}| \ne 0$.</p>
       $$\mathbf{A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix} \;\Rightarrow\; \mathbf{A}^{-1} = \frac{1}{|\mathbf{A}|}\begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix},\quad |\mathbf{A}| = a_{11}a_{22} - a_{12}a_{21}$$
     </div>
-    <p>Ex. 2.8: $\mathbf{A}$ com linhas $[3, 2]$ e $[4, 1]$ tem $|\mathbf{A}| = 3 - 8 = -5$ e $\mathbf{A}^{-1}$ com linhas $[-0{,}2;\ 0{,}4]$ e $[0{,}8;\ -0{,}6]$. Matriz diagonal é a mais fácil: a inversa tem $1/a_{ii}$ na diagonal.</p>
+    <p>Ex. 2.8:</p>
+    $$\mathbf{A} = \begin{bmatrix} 3 & 2 \\ 4 & 1 \end{bmatrix},\qquad |\mathbf{A}| = 3 - 8 = -5,$$
+    $$\mathbf{A}^{-1} = \begin{bmatrix} -0{,}2 & 0{,}4 \\ 0{,}8 & -0{,}6 \end{bmatrix}.$$
+    <p>Matriz diagonal é a mais fácil: a inversa tem $1/a_{ii}$ na diagonal.</p>
     <p>Geometria: $\mathbf{A}$ leva o quadrado unitário no paralelogramo das suas colunas, e $|\mathbf{A}|$ é a área (com sinal). O livro avisa: se as colunas são <em>quase</em> dependentes, o computador pode errar a inversa por arredondamento. Confira sempre se $\mathbf{AA}^{-1}$ dá $\mathbf{I}$.</p>
     <div class="ideia">A inversa existe exatamente quando as colunas são LI, isto é, quando $|\mathbf{A}| \ne 0$; perto disso, ela fica instável.</div>
    </div>
@@ -290,7 +293,10 @@ window.MathJax = {
       <summary>Como se calcula o determinante em geral (cofatores)</summary>
       <p>Para $k = 1$, $|\mathbf{A}| = a_{11}$. Para $k \gt 1$, expande-se pela primeira linha:</p>
       $$|\mathbf{A}| = \sum_{j=1}^{k} a_{1j}\,|\mathbf{A}_{1j}|\,(-1)^{1+j}$$
-      <p>em que $\mathbf{A}_{1j}$ é $\mathbf{A}$ sem a linha 1 e a coluna $j$. Exemplos do livro: linhas $[1, 3]$ e $[6, 4]$ dão $1(4) - 3(6) = -14$; linhas $[3, 1, 6]$, $[7, 4, 5]$, $[2, -7, 1]$ dão $3(39) - 1(-3) + 6(-57)$ $= -222$. A inversa geral tem entrada $(j, i)$ igual a $(-1)^{i+j}|\mathbf{A}_{ij}|/|\mathbf{A}|$.</p>
+      <p>em que $\mathbf{A}_{1j}$ é $\mathbf{A}$ sem a linha 1 e a coluna $j$. Exemplos do livro:</p>
+      $$\begin{vmatrix} 1 & 3 \\ 6 & 4 \end{vmatrix} = 1(4) - 3(6) = -14,$$
+      $$\begin{aligned} \begin{vmatrix} 3 & 1 & 6 \\ 7 & 4 & 5 \\ 2 & -7 & 1 \end{vmatrix} &= 3(39) - 1(-3) + 6(-57) \\ &= -222. \end{aligned}$$
+      <p>A inversa geral tem entrada $(j, i)$ igual a $(-1)^{i+j}|\mathbf{A}_{ij}|/|\mathbf{A}|$.</p>
     </details>
    </div>
    <aside class="apoio">
@@ -298,7 +304,7 @@ window.MathJax = {
       <p>$\mathbf{A}$ é $3 \times 3$ com $|\mathbf{A}| = 5$. Uma colega calculou $|2\mathbf{A}|$. Toque na linha com erro.</p>
       <ol class="linhas">
         <li data-fb="Certo: multiplicar a matriz por 2 multiplica cada entrada, logo cada uma das 3 linhas.">$2\mathbf{A}$ é $\mathbf{A}$ com as 3 linhas multiplicadas por 2.</li>
-        <li data-errada data-fb="Aqui. Cada linha multiplicada por 2 dobra o determinante, e são 3 linhas: |2A| = 2³ · 5 = 40. É a regra |cA| = c^k |A|.">Multiplicar uma linha por 2 dobra o determinante; logo $|2\mathbf{A}| = 2 \times 5 = 10$.</li>
+        <li data-errada data-fb="Aqui. Cada linha multiplicada por 2 dobra o determinante, e são 3 linhas: |2A| = 2³ × 5 = 40. É a regra |cA| = c^k |A|.">Multiplicar uma linha por 2 dobra o determinante; logo $|2\mathbf{A}| = 2 \times 5 = 10$.</li>
         <li data-fb="Certo: como |2A| é diferente de zero (vale 40), 2A tem inversa. O erro está no valor, não nesta conclusão.">Como $|2\mathbf{A}| \ne 0$, a matriz $2\mathbf{A}$ tem inversa.</li>
       </ol>
     </div>
@@ -312,14 +318,16 @@ window.MathJax = {
       $$\mathbf{Q}\mathbf{Q}' = \mathbf{Q}'\mathbf{Q} = \mathbf{I}\qquad\text{ou seja}\qquad \mathbf{Q}' = \mathbf{Q}^{-1}$$
     </div>
     <p>$\mathbf{QQ}' = \mathbf{I}$ diz que as linhas de $\mathbf{Q}$ têm comprimento 1 e são perpendiculares entre si; $\mathbf{Q}'\mathbf{Q} = \mathbf{I}$ diz o mesmo das colunas. A inversa sai de graça: é a transposta.</p>
-    <p>O exemplo típico é a rotação no plano, com linhas $[\cos\theta, -\sin\theta]$ e $[\sin\theta, \cos\theta]$. Matriz ortogonal não muda comprimentos: $(\mathbf{Qx})'(\mathbf{Qx}) = \mathbf{x}'\mathbf{Q}'\mathbf{Q}\mathbf{x} = \mathbf{x}'\mathbf{x}$. E $|\mathbf{Q}| = \pm 1$, porque $|\mathbf{Q}|^2 = |\mathbf{QQ}'| = |\mathbf{I}| = 1$.</p>
+    <p>O exemplo típico é a rotação no plano:</p>
+    $$\mathbf{Q} = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}.$$
+    <p>Matriz ortogonal não muda comprimentos: $(\mathbf{Qx})'(\mathbf{Qx}) = \mathbf{x}'\mathbf{Q}'\mathbf{Q}\mathbf{x} = \mathbf{x}'\mathbf{x}$. E $|\mathbf{Q}| = \pm 1$, porque $|\mathbf{Q}|^2 = |\mathbf{QQ}'| = |\mathbf{I}| = 1$.</p>
     <div class="ideia">$\mathbf{Q}$ ortogonal tem linhas e colunas unitárias e perpendiculares; a inversa é a transposta e $\mathbf{Q}$ não muda comprimentos.</div>
    </div>
    <aside class="apoio">
     <div class="quiz" data-correta="a">
-      <p class="enunciado">A matriz $\mathbf{Q}$ com linhas $\tfrac{1}{13}[5, 12]$ e $\tfrac{1}{13}[-12, 5]$ é ortogonal (Exercício 2.5 do livro). Quem é $\mathbf{Q}^{-1}$?</p>
+      <p class="enunciado">A matriz abaixo é ortogonal (Exercício 2.5 do livro). Quem é $\mathbf{Q}^{-1}$? $$\mathbf{Q} = \frac{1}{13}\begin{bmatrix} 5 & 12 \\ -12 & 5 \end{bmatrix}$$</p>
       <div class="alts">
-        <button data-op="a">(a) A transposta $\mathbf{Q}'$, com linhas $\tfrac{1}{13}[5, -12]$ e $\tfrac{1}{13}[12, 5]$.</button>
+        <button data-op="a">(a) A transposta, $\mathbf{Q}' = \frac{1}{13}\begin{bmatrix} 5 & -12 \\ 12 & 5 \end{bmatrix}$.</button>
         <button data-op="b">(b) A própria $\mathbf{Q}$, porque matriz ortogonal é sua própria inversa.</button>
         <button data-op="c">(c) $-\mathbf{Q}$, porque o sinal compensa a rotação.</button>
         <button data-op="d">(d) Só dá para saber com a fórmula da inversa $2 \times 2$.</button>
@@ -378,12 +386,16 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo">
-      <p><strong>Supl. 2A.</strong> $\mathbf{A}$ com linhas $[1, 0]$ e $[1, 3]$: $|\mathbf{A} - \lambda\mathbf{I}|$ $= (1 - \lambda)(3 - \lambda) = 0$, então $\lambda_1 = 1$ e $\lambda_2 = 3$.</p>
+      <p><strong>Supl. 2A.</strong></p>
+      $$\mathbf{A} = \begin{bmatrix} 1 & 0 \\ 1 & 3 \end{bmatrix}$$
+      <p>$|\mathbf{A} - \lambda\mathbf{I}| = (1 - \lambda)(3 - \lambda) = 0$, então $\lambda_1 = 1$ e $\lambda_2 = 3$.</p>
       <p>Para $\lambda = 1$: a 2ª equação é $x_1 + 3x_2 = x_2$, logo $x_1 = -2x_2$; com $x_2 = 1$, $\mathbf{e} = [-2/\sqrt5,\ 1/\sqrt5]'$. Para $\lambda = 3$: $x_1 = 0$, $\mathbf{e} = [0, 1]'$.</p>
     </div>
     <div class="lacunas">
-      <p>$\mathbf{A}$ com linhas $[9, -2]$ e $[-2, 6]$ (Exercício 2.6). A equação é $\lambda^2 - 15\lambda + 50 = 0$.</p>
-      <p>$\lambda_1 =$ <input class="lacuna" data-resp="10" data-tol="0" aria-label="lambda 1"> (o maior) · $\lambda_2 =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="lambda 2"></p>
+      <p>Exercício 2.6 do livro:</p>
+      $$\mathbf{A} = \begin{bmatrix} 9 & -2 \\ -2 & 6 \end{bmatrix}.$$
+      <p>A equação é $\lambda^2 - 15\lambda + 50 = 0$.</p>
+      <p>$\lambda_1 =$ <input class="lacuna" data-resp="10" data-tol="0" aria-label="lambda 1"> (o maior)<br>$\lambda_2 =$ <input class="lacuna" data-resp="5" data-tol="0" aria-label="lambda 2"></p>
       <p>$\mathbf{e}_1$ é proporcional a $[2, -1]'$. Primeiro elemento de $\mathbf{e}_1$ normalizado: <input class="lacuna" data-resp="0.8944" data-tol="0.005" aria-label="primeiro elemento de e1"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $\lambda^2 - 15\lambda + 50 = (\lambda - 10)(\lambda - 5)$; o comprimento de $[2, -1]$ é $\sqrt5$.</p>
@@ -395,11 +407,13 @@ window.MathJax = {
   <section class="passo" data-titulo="Simétricas">
    <div class="texto">
     <h2>Matriz simétrica: autovetores perpendiculares, sempre</h2>
-    <div class="definicao" data-ref-id="d-res21" data-ref-tipo="definicao" data-ref-nome="Autovetores de matriz simétrica (Result 2.1)">
+    <div class="definicao" data-ref-id="d-res21" data-ref-tipo="definicao" data-ref-nome="Autovetores de matriz simétrica (Resultado 2.1)">
       <p>Uma matriz $\mathbf{A}$ ($k \times k$) <strong>simétrica</strong> tem $k$ pares $(\lambda_1, \mathbf{e}_1), \dots, (\lambda_k, \mathbf{e}_k)$, com autovalores reais e autovetores que podem ser escolhidos com $\mathbf{e}_i'\mathbf{e}_i = 1$ e $\mathbf{e}_i'\mathbf{e}_j = 0$ para $i \ne j$. Eles são únicos, a não ser que haja autovalores repetidos.</p>
     </div>
-    <p>Ex. 2.9: $\mathbf{A}$ com linhas $[1, -5]$ e $[-5, 1]$ tem $\lambda_1 = 6$ com $\mathbf{e}_1 = [1/\sqrt2, -1/\sqrt2]'$ e $\lambda_2 = -4$ com $\mathbf{e}_2 = [1/\sqrt2, 1/\sqrt2]'$. Confira: $\mathbf{e}_1'\mathbf{e}_2 = 1/2 - 1/2 = 0$.</p>
-    <p>Por que isso importa: matrizes de covariância são simétricas. Logo seus autovetores formam um sistema de eixos perpendiculares, os eixos da nuvem de dados. É a base da PCA (cap. 8).</p>
+    <p>Ex. 2.9:</p>
+    $$\mathbf{A} = \begin{bmatrix} 1 & -5 \\ -5 & 1 \end{bmatrix}$$
+    <p>tem $\lambda_1 = 6$ com $\mathbf{e}_1 = [1/\sqrt2, -1/\sqrt2]'$ e $\lambda_2 = -4$ com $\mathbf{e}_2 = [1/\sqrt2, 1/\sqrt2]'$. Confira: $\mathbf{e}_1'\mathbf{e}_2 = 1/2 - 1/2 = 0$.</p>
+    <p>Por que isso importa: matrizes de covariância são simétricas. Logo seus autovetores formam um sistema de eixos perpendiculares, os eixos da nuvem de dados.</p>
     <div class="ideia">Toda matriz simétrica $k \times k$ tem $k$ autovalores reais e $k$ autovetores unitários mutuamente perpendiculares.</div>
     <div class="pare">
       <p>Quais são os autovetores da identidade $2 \times 2$? O que isso tem a ver com "únicos, a não ser que haja autovalores repetidos"?</p>
@@ -409,7 +423,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="quiz" data-correta="b">
-      <p class="enunciado">A matriz simétrica $\mathbf{A}$ com linhas $[1, -5]$ e $[-5, 1]$ tem autovalores 6 e −4. Qual afirmação está correta?</p>
+      <p class="enunciado">A matriz simétrica abaixo tem autovalores 6 e −4. Qual afirmação está correta? $$\mathbf{A} = \begin{bmatrix} 1 & -5 \\ -5 & 1 \end{bmatrix}$$</p>
       <div class="alts">
         <button data-op="a">(a) O autovetor de $\lambda = -4$ aponta no sentido oposto ao de $\lambda = 6$.</button>
         <button data-op="b">(b) Os autovetores de 6 e de −4 são perpendiculares.</button>
@@ -443,17 +457,21 @@ window.MathJax = {
     <div class="ideia">Decomposição espectral: $\mathbf{A} = \sum \lambda_i\mathbf{e}_i\mathbf{e}_i'$; cada autovalor pesa a peça da sua direção.</div>
    </div>
    <aside class="apoio">
-    <div class="exemplo" data-ref-id="ex-22-28" data-ref-tipo="exemplo" data-ref-nome="A com linhas [2,2; 0,4] e [0,4; 2,8]">
-      <p><strong>Supl. 2A.</strong> $\mathbf{A}$ com linhas $[2{,}2;\ 0{,}4]$ e $[0{,}4;\ 2{,}8]$. Equação: $\lambda^2 - 5\lambda + 6 = 0$, então $\lambda_1 = 3$ com $\mathbf{e}_1 = [1/\sqrt5, 2/\sqrt5]'$ e $\lambda_2 = 2$ com $\mathbf{e}_2 = [2/\sqrt5, -1/\sqrt5]'$.</p>
+    <div class="exemplo" data-ref-id="ex-22-28" data-ref-tipo="exemplo" data-ref-nome="Autovalores 3 e 2 (Supl. 2A)">
+      <p><strong>Supl. 2A.</strong></p>
+      $$\mathbf{A} = \begin{bmatrix} 2{,}2 & 0{,}4 \\ 0{,}4 & 2{,}8 \end{bmatrix}$$
+      <p>Equação: $\lambda^2 - 5\lambda + 6 = 0$, então $\lambda_1 = 3$ com $\mathbf{e}_1 = [1/\sqrt5, 2/\sqrt5]'$ e $\lambda_2 = 2$ com $\mathbf{e}_2 = [2/\sqrt5, -1/\sqrt5]'$.</p>
       $$\mathbf{e}_1\mathbf{e}_1' = \begin{bmatrix} 0{,}2 & 0{,}4 \\ 0{,}4 & 0{,}8 \end{bmatrix},\qquad \mathbf{e}_2\mathbf{e}_2' = \begin{bmatrix} 0{,}8 & -0{,}4 \\ -0{,}4 & 0{,}2 \end{bmatrix}$$
     </div>
     <div class="lacunas">
       <p>Monte $3\,\mathbf{e}_1\mathbf{e}_1' + 2\,\mathbf{e}_2\mathbf{e}_2'$.</p>
-      <p>Entrada $(1,2)$ de $3\,\mathbf{e}_1\mathbf{e}_1'$: <input class="lacuna" data-resp="1.2" data-tol="0.01" aria-label="entrada 1 2 da primeira peça"> · entrada $(1,1)$ de $2\,\mathbf{e}_2\mathbf{e}_2'$: <input class="lacuna" data-resp="1.6" data-tol="0.01" aria-label="entrada 1 1 da segunda peça"></p>
+      <p>Entrada $(1,2)$ de $3\,\mathbf{e}_1\mathbf{e}_1'$: <input class="lacuna" data-resp="1.2" data-tol="0.01" aria-label="entrada 1 2 da primeira peça"><br>entrada $(1,1)$ de $2\,\mathbf{e}_2\mathbf{e}_2'$: <input class="lacuna" data-resp="1.6" data-tol="0.01" aria-label="entrada 1 1 da segunda peça"></p>
       <p>Entrada $(2,2)$ da soma: <input class="lacuna" data-resp="2.8" data-tol="0.01" aria-label="entrada 2 2 da soma"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: multiplique cada entrada da peça pelo seu autovalor e some as duas matrizes.</p>
-      <div class="resolucao" hidden><p>$3\,\mathbf{e}_1\mathbf{e}_1'$ tem linhas $[0{,}6;\ 1{,}2]$ e $[1{,}2;\ 2{,}4]$; $2\,\mathbf{e}_2\mathbf{e}_2'$ tem linhas $[1{,}6;\ -0{,}8]$ e $[-0{,}8;\ 0{,}4]$. A soma tem linhas $[2{,}2;\ 0{,}4]$ e $[0{,}4;\ 2{,}8]$: é $\mathbf{A}$ de volta.</p></div>
+      <div class="resolucao" hidden>
+        $$\begin{aligned} 3\,\mathbf{e}_1\mathbf{e}_1' &= \begin{bmatrix} 0{,}6 & 1{,}2 \\ 1{,}2 & 2{,}4 \end{bmatrix} \\ 2\,\mathbf{e}_2\mathbf{e}_2' &= \begin{bmatrix} 1{,}6 & -0{,}8 \\ -0{,}8 & 0{,}4 \end{bmatrix} \\ \text{soma} &= \begin{bmatrix} 2{,}2 & 0{,}4 \\ 0{,}4 & 2{,}8 \end{bmatrix} \end{aligned}$$
+        <p>A soma é $\mathbf{A}$ de volta.</p></div>
     </div>
    </aside>
   </section>
@@ -489,7 +507,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Distância">
    <div class="texto">
     <h2>Toda distância estatística é uma forma quadrática positiva definida</h2>
-    <p>No cap. 1, a distância geral ao quadrado era $a_{11}x_1^2 + \cdots + a_{pp}x_p^2$ $+ 2(a_{12}x_1x_2 + \cdots)$, e o livro avisou que os pesos $a_{ik}$ não podiam ser quaisquer. Agora dá para dizer exatamente quais servem: arrume os pesos numa matriz simétrica $\mathbf{A}$.</p>
+    <p>No cap. 1, a <span class="ref" data-ref="f-geralp">distância geral</span> ao quadrado era $a_{11}x_1^2 + \cdots + a_{pp}x_p^2$ $+ 2(a_{12}x_1x_2 + \cdots)$, e o livro avisou que os pesos $a_{ik}$ não podiam ser quaisquer. Agora dá para dizer exatamente quais servem: arrume os pesos numa matriz simétrica $\mathbf{A}$.</p>
     <div class="formula" data-ref-id="f-dist" data-ref-tipo="formula" data-ref-nome="Distância como forma quadrática (2-19)">
       $$0 \lt d^2(O, \mathbf{x}) = \mathbf{x}'\mathbf{A}\mathbf{x}\ \ (\mathbf{x} \ne \mathbf{0}),\qquad d^2(\mathbf{x}, \boldsymbol{\mu}) = (\mathbf{x} - \boldsymbol{\mu})'\mathbf{A}(\mathbf{x} - \boldsymbol{\mu})$$
     </div>
@@ -498,7 +516,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="quiz" data-correta="a">
-      <p class="enunciado">Sem correlação, a distância estatística do cap. 1 é $d^2 = x_1^2/s_{11} + x_2^2/s_{22}$. Escrita como $\mathbf{x}'\mathbf{A}\mathbf{x}$, a matriz $\mathbf{A}$ é:</p>
+      <p class="enunciado">Sem correlação, a <span class="ref" data-ref="f-dest">distância estatística do cap. 1</span> é $d^2 = x_1^2/s_{11} + x_2^2/s_{22}$. Escrita como $\mathbf{x}'\mathbf{A}\mathbf{x}$, a matriz $\mathbf{A}$ é:</p>
       <div class="alts">
         <button data-op="a">(a) diagonal, com $1/s_{11}$ e $1/s_{22}$.</button>
         <button data-op="b">(b) diagonal, com $s_{11}$ e $s_{22}$.</button>
@@ -520,7 +538,7 @@ window.MathJax = {
     <div class="formula" data-ref-id="f-eixos" data-ref-tipo="formula" data-ref-nome="Semi-eixos da elipse de distância c">
       $$\text{semi-eixo na direção } \class{s1}{\mathbf{e}_i} = \frac{c}{\sqrt{\class{s2}{\lambda_i}}}$$
     </div>
-    <p>Para conferir: $\mathbf{x} = c\lambda_1^{-1/2}\mathbf{e}_1$ dá $\mathbf{x}'\mathbf{A}\mathbf{x} = \lambda_1(c\lambda_1^{-1/2})^2 = c^2$. Em $p \gt 2$ dimensões, o mesmo vale para um hiperelipsoide com eixos $\mathbf{e}_1, \dots, \mathbf{e}_p$. As elipses inclinadas do cap. 1 eram isto.</p>
+    <p>Para conferir: $\mathbf{x} = c\lambda_1^{-1/2}\mathbf{e}_1$ dá $\mathbf{x}'\mathbf{A}\mathbf{x} = \lambda_1(c\lambda_1^{-1/2})^2 = c^2$. Em $p \gt 2$ dimensões, o mesmo vale para um hiperelipsoide com eixos $\mathbf{e}_1, \dots, \mathbf{e}_p$. As <span class="ref" data-ref="f-geral2">elipses inclinadas do cap. 1</span> eram isto.</p>
     <div class="ideia">Os pontos a distância $c$ formam uma elipse com eixos nos autovetores de $\mathbf{A}$ e semi-eixos $c/\sqrt{\lambda_i}$: autovalor grande, eixo curto.</div>
    </div>
    <aside class="apoio">
@@ -531,7 +549,7 @@ window.MathJax = {
         <button data-op="b" data-certa>Encolhe</button>
         <button data-op="c">Não muda</button>
       </div>
-      <div class="explica" hidden><p>O semi-eixo é $c/\sqrt{\lambda_1}$. Autovalor grande quer dizer que a distância cresce depressa naquela direção, então basta andar pouco para chegar à distância $c$. Com a matriz $\mathbf{S}^{-1}$ (cap. 4), isso vira: direção de muita variância, eixo longo.</p></div>
+      <div class="explica" hidden><p>O semi-eixo é $c/\sqrt{\lambda_1}$. Autovalor grande quer dizer que a distância cresce depressa naquela direção, então basta andar pouco para chegar à distância $c$. Quando a matriz é a inversa de uma matriz de covariância, os autovalores se invertem, e isso vira: direção de muita variância, eixo longo.</p></div>
     </div>
     <div class="sim" id="sim-elipse">
       <label>$\lambda_1$ <input type="range" id="el-l1" min="0.25" max="4" step="0.05" value="1"> <strong id="el-l1-v">1,00</strong></label>
@@ -565,7 +583,7 @@ window.MathJax = {
    <aside class="apoio">
     <div class="lacunas">
       <p>Use a matriz do <span class="ref" data-ref="ex-22-28">exemplo da decomposição espectral</span> ($\lambda_1 = 3$, $\lambda_2 = 2$).</p>
-      <p>Maior autovalor de $\mathbf{A}^{-1}$: <input class="lacuna" data-resp="0.5" data-tol="0.005" aria-label="maior autovalor da inversa"> · maior autovalor de $\mathbf{A}^{1/2}$: <input class="lacuna" data-resp="1.732" data-tol="0.005" aria-label="maior autovalor da raiz"></p>
+      <p>Maior autovalor de $\mathbf{A}^{-1}$: <input class="lacuna" data-resp="0.5" data-tol="0.005" aria-label="maior autovalor da inversa"><br>maior autovalor de $\mathbf{A}^{1/2}$: <input class="lacuna" data-resp="1.732" data-tol="0.005" aria-label="maior autovalor da raiz"></p>
       <p>Entrada $(1,1)$ de $\mathbf{A}^{-1} = \tfrac13\mathbf{e}_1\mathbf{e}_1' + \tfrac12\mathbf{e}_2\mathbf{e}_2'$: <input class="lacuna" data-resp="0.4667" data-tol="0.005" aria-label="entrada 1 1 da inversa"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: os autovalores da inversa são 1/3 e 1/2; a entrada (1,1) é $\tfrac13(0{,}2) + \tfrac12(0{,}8)$.</p>
@@ -577,11 +595,13 @@ window.MathJax = {
   <section class="passo" data-titulo="SVD">
    <div class="texto">
     <h2>Matriz retangular também se decompõe: valores singulares</h2>
-    <div class="formula" data-ref-id="f-svd" data-ref-tipo="formula" data-ref-nome="Decomposição em valores singulares (Result 2A.15)">
+    <div class="formula" data-ref-id="f-svd" data-ref-tipo="formula" data-ref-nome="Decomposição em valores singulares (Resultado 2A.15)">
       $$\underset{(m\times k)}{\mathbf{A}} = \mathbf{U}\boldsymbol{\Lambda}\mathbf{V}' = \sum_{i=1}^{r}\lambda_i\,\mathbf{u}_i\mathbf{v}_i'$$
     </div>
     <p>$\mathbf{U}$ ($m \times m$) e $\mathbf{V}$ ($k \times k$) são ortogonais; $\boldsymbol{\Lambda}$ ($m \times k$) tem os <strong>valores singulares</strong> $\lambda_i \gt 0$ na diagonal e zeros fora; $r$ é o posto. Os $\mathbf{u}_i$ são autovetores de $\mathbf{AA}'$, com autovalores $\lambda_i^2$; os $\mathbf{v}_i$ são autovetores de $\mathbf{A}'\mathbf{A}$, com os mesmos autovalores não nulos, e $\mathbf{v}_i = \lambda_i^{-1}\mathbf{A}'\mathbf{u}_i$.</p>
-    <p>Exemplo do livro: $\mathbf{A}$ com linhas $[3, 1, 1]$ e $[-1, 3, 1]$ tem $\mathbf{AA}'$ com linhas $[11, 1]$ e $[1, 11]$, autovalores 12 e 10. Os valores singulares são $\sqrt{12}$ e $\sqrt{10}$, e $\mathbf{A}'\mathbf{A}$ ($3 \times 3$) tem autovalores 12, 10 e 0.</p>
+    <p>Exemplo do livro:</p>
+    $$\mathbf{A} = \begin{bmatrix} 3 & 1 & 1 \\ -1 & 3 & 1 \end{bmatrix},\qquad \mathbf{AA}' = \begin{bmatrix} 11 & 1 \\ 1 & 11 \end{bmatrix},$$
+    <p>com autovalores 12 e 10. Os valores singulares são $\sqrt{12}$ e $\sqrt{10}$, e $\mathbf{A}'\mathbf{A}$ ($3 \times 3$) tem autovalores 12, 10 e 0.</p>
     <div class="ideia">SVD: $\mathbf{A} = \sum\lambda_i\mathbf{u}_i\mathbf{v}_i'$; os $\lambda_i^2$ são os autovalores não nulos de $\mathbf{AA}'$ e de $\mathbf{A}'\mathbf{A}$.</div>
     <div class="pare">
       <p>$\mathbf{A}$ é $2 \times 3$. Quantos autovalores não nulos $\mathbf{A}'\mathbf{A}$ ($3 \times 3$) pode ter, no máximo? Por quê?</p>
@@ -617,10 +637,11 @@ window.MathJax = {
         <tr><th>$x_2$</th><td>0</td><td>1</td></tr>
         <tr><th>$p_2(x_2)$</th><td>0,8</td><td>0,2</td></tr>
       </table></div>
-      <p>$E(X_1) = -0{,}3 + 0 + 0{,}4$ $= 0{,}1$ · $E(X_2) = 0{,}2$ · $E(\mathbf{X}) = [0{,}1;\ 0{,}2]'$</p>
+      <p>$E(X_1) = -0{,}3 + 0 + 0{,}4$ $= 0{,}1$; $E(X_2) = 0{,}2$; $E(\mathbf{X}) = [0{,}1;\ 0{,}2]'$</p>
     </div>
     <div class="lacunas">
-      <p>Com $\mathbf{A}$ de linhas $[1, 1]$ e $[1, -1]$, $E(\mathbf{AX}) = \mathbf{A}\,E(\mathbf{X})$ tem elementos <input class="lacuna" data-resp="0.3" data-tol="0.001" aria-label="E de X1 mais X2"> e <input class="lacuna" data-resp="-0.1" data-tol="0.001" aria-label="E de X1 menos X2">.</p>
+      $$\mathbf{A} = \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}$$
+      <p>Com essa $\mathbf{A}$, $E(\mathbf{AX}) = \mathbf{A}\,E(\mathbf{X})$ tem elementos <input class="lacuna" data-resp="0.3" data-tol="0.001" aria-label="E de X1 mais X2"> e <input class="lacuna" data-resp="-0.1" data-tol="0.001" aria-label="E de X1 menos X2">.</p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: o primeiro elemento é $E(X_1 + X_2)$.</p>
       <div class="resolucao" hidden><p>$\mathbf{AX} = [X_1 + X_2,\ X_1 - X_2]'$, então $E(\mathbf{AX}) = [0{,}1 + 0{,}2;\ 0{,}1 - 0{,}2]'$ $= [0{,}3;\ -0{,}1]'$. Não foi preciso conhecer a distribuição conjunta.</p></div>
@@ -654,7 +675,7 @@ window.MathJax = {
       </table></div>
     </div>
     <div class="lacunas">
-      <p>$\sigma_{11} =$ <input class="lacuna" data-resp="0.69" data-tol="0.002" aria-label="sigma 1 1"> · $\sigma_{22} =$ <input class="lacuna" data-resp="0.16" data-tol="0.002" aria-label="sigma 2 2"> · $\sigma_{12} =$ <input class="lacuna" data-resp="-0.08" data-tol="0.002" aria-label="sigma 1 2"></p>
+      <p>$\sigma_{11} =$ <input class="lacuna" data-resp="0.69" data-tol="0.002" aria-label="sigma 1 1"><br>$\sigma_{22} =$ <input class="lacuna" data-resp="0.16" data-tol="0.002" aria-label="sigma 2 2"><br>$\sigma_{12} =$ <input class="lacuna" data-resp="-0.08" data-tol="0.002" aria-label="sigma 1 2"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $\sigma_{12} = \sum\sum (x_1 - 0{,}1)(x_2 - 0{,}2)$ $\times\, p_{12}(x_1, x_2)$, seis parcelas.</p>
       <div class="resolucao" hidden>
@@ -712,7 +733,7 @@ window.MathJax = {
       $$\boldsymbol{\Sigma} = \begin{bmatrix} 4 & 1 & 2 \\ 1 & 9 & -3 \\ 2 & -3 & 25 \end{bmatrix} \;\Rightarrow\; \mathbf{V}^{1/2} = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 5 \end{bmatrix}$$
     </div>
     <div class="lacunas">
-      <p>$\rho_{12} =$ <input class="lacuna" data-resp="0.1667" data-tol="0.002" aria-label="rho 1 2"> · $\rho_{13} =$ <input class="lacuna" data-resp="0.2" data-tol="0.002" aria-label="rho 1 3"> · $\rho_{23} =$ <input class="lacuna" data-resp="-0.2" data-tol="0.002" aria-label="rho 2 3"></p>
+      <p>$\rho_{12} =$ <input class="lacuna" data-resp="0.1667" data-tol="0.002" aria-label="rho 1 2"><br>$\rho_{13} =$ <input class="lacuna" data-resp="0.2" data-tol="0.002" aria-label="rho 1 3"><br>$\rho_{23} =$ <input class="lacuna" data-resp="-0.2" data-tol="0.002" aria-label="rho 2 3"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: divida cada covariância pelo produto dos dois desvios padrão: $\rho_{12} = 1/(2 \times 3)$.</p>
       <div class="resolucao" hidden><p>$\rho_{12} = 1/6 = 0{,}167$; $\rho_{13} = 2/(2 \times 5) = 0{,}2$; $\rho_{23} = -3/(3 \times 5) = -0{,}2$.</p>
@@ -748,7 +769,7 @@ window.MathJax = {
         <button data-op="b" data-certa>No eixo maior da nuvem</button>
         <button data-op="c">É igual em todas</button>
       </div>
-      <div class="explica" hidden><p>No eixo maior da nuvem, que só coincide com o eixo de $x_1$ quando a correlação é zero. O máximo de $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ é o maior autovalor de $\boldsymbol\Sigma$, atingido no autovetor $\mathbf{e}_1$: é o que a seção 2.8 demonstra e o que a PCA (cap. 8) usa.</p></div>
+      <div class="explica" hidden><p>No eixo maior da nuvem, que só coincide com o eixo de $x_1$ quando a correlação é zero. O máximo de $\mathbf{c}'\boldsymbol\Sigma\mathbf{c}$ é o maior autovalor de $\boldsymbol\Sigma$, atingido no autovetor $\mathbf{e}_1$: é o que a seção 2.8 demonstra.</p></div>
     </div>
     <div class="sim" id="sim-dir">
       <label>Correlação $\rho_{12}$ <input type="range" id="dir-r" min="-0.9" max="0.9" step="0.05" value="0.6"> <strong id="dir-r-v">0,60</strong></label>
@@ -777,7 +798,7 @@ window.MathJax = {
     <div class="acheerro">
       <p>Com $\sigma_{11} = 5$, $\sigma_{22} = 2$ e $\sigma_{12} = 1$, um colega calculou a covariância entre $Z_1 = X_1 - X_2$ e $Z_2 = X_1 + X_2$. Toque na linha com erro.</p>
       <ol class="linhas">
-        <li data-fb="Certo: cada linha de C traz os coeficientes de uma combinação.">$\mathbf{C}$ tem linhas $[1, -1]$ e $[1, 1]$.</li>
+        <li data-fb="Certo: cada linha de C traz os coeficientes de uma combinação.">$\mathbf{C} = \begin{bmatrix} 1 & -1 \\ 1 & 1 \end{bmatrix}$.</li>
         <li data-fb="Certo: 5 + 2 − 2(1) = 5.">$\mathrm{Var}(Z_1) = \sigma_{11} + \sigma_{22} - 2\sigma_{12} = 5$.</li>
         <li data-errada data-fb="Aqui. A entrada (1,2) de CΣC' é [1, −1] Σ [1, 1]' = σ11 + σ12 − σ12 − σ22 = σ11 − σ22 = 3. O σ22 entra com sinal negativo (coeficientes −1 e +1).">$\mathrm{Cov}(Z_1, Z_2) = \sigma_{11} + \sigma_{22} = 7$.</li>
         <li data-fb="Certo como conclusão: a covariância (3) é diferente de zero, porque σ11 ≠ σ22.">Logo $Z_1$ e $Z_2$ são correlacionadas.</li>
@@ -794,7 +815,7 @@ window.MathJax = {
       $$\mathbf{X} = \begin{bmatrix} \mathbf{X}^{(1)} \\ \mathbf{X}^{(2)} \end{bmatrix} \begin{matrix} \}\,q \\ \}\,p - q \end{matrix},\qquad \boldsymbol{\Sigma} = \begin{bmatrix} \boldsymbol{\Sigma}_{11} & \boldsymbol{\Sigma}_{12} \\ \boldsymbol{\Sigma}_{21} & \boldsymbol{\Sigma}_{22} \end{bmatrix},\qquad \boldsymbol{\Sigma}_{21} = \boldsymbol{\Sigma}_{12}'$$
     </div>
     <p>$\boldsymbol\Sigma_{11}$ ($q \times q$) é a covariância de $\mathbf{X}^{(1)}$ e $\boldsymbol\Sigma_{22}$ a de $\mathbf{X}^{(2)}$. $\boldsymbol\Sigma_{12}$ $= E(\mathbf{X}^{(1)} - \boldsymbol\mu^{(1)})(\mathbf{X}^{(2)} - \boldsymbol\mu^{(2)})'$ ($q \times (p - q)$) guarda as covariâncias <em>entre</em> os grupos; ela não precisa ser simétrica, nem quadrada.</p>
-    <p>Na amostra é igual: $\bar{\mathbf{x}}$ parte em $\bar{\mathbf{x}}^{(1)}, \bar{\mathbf{x}}^{(2)}$ e $\mathbf{S}_n$ em $\mathbf{S}_{11}, \mathbf{S}_{12}, \mathbf{S}_{21} = \mathbf{S}_{12}', \mathbf{S}_{22}$ (2-46, 2-47). A partição volta na normal condicional (cap. 4) e na correlação canônica (cap. 10).</p>
+    <p>Na amostra é igual: $\bar{\mathbf{x}}$ parte em $\bar{\mathbf{x}}^{(1)}, \bar{\mathbf{x}}^{(2)}$ e $\mathbf{S}_n$ em $\mathbf{S}_{11}, \mathbf{S}_{12}, \mathbf{S}_{21} = \mathbf{S}_{12}', \mathbf{S}_{22}$ (2-46, 2-47).</p>
     <div class="ideia">Partindo $\mathbf{X}$ em $\mathbf{X}^{(1)}$ e $\mathbf{X}^{(2)}$, $\boldsymbol\Sigma$ vira blocos: $\boldsymbol\Sigma_{11}$ e $\boldsymbol\Sigma_{22}$ dentro de cada grupo, $\boldsymbol\Sigma_{12} = \boldsymbol\Sigma_{21}'$ entre eles.</div>
    </div>
    <aside class="apoio">
@@ -821,7 +842,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Cauchy–Schwarz">
    <div class="texto">
     <h2>Cauchy–Schwarz: $(\mathbf{b}'\mathbf{d})^2$ nunca passa de $(\mathbf{b}'\mathbf{b})(\mathbf{d}'\mathbf{d})$</h2>
-    <p>Várias técnicas do livro escolhem a "melhor" combinação linear: a de maior variância (componentes principais), a que mais separa grupos (discriminante). As desigualdades desta seção resolvem esses problemas de uma vez.</p>
+    <p>Várias técnicas do livro escolhem a "melhor" combinação linear: a de maior variância, a que mais separa grupos. As desigualdades desta seção resolvem esses problemas de uma vez.</p>
     <div class="formula" data-ref-id="f-cs" data-ref-tipo="formula" data-ref-nome="Desigualdade de Cauchy–Schwarz (2-48)">
       $$(\mathbf{b}'\mathbf{d})^2 \le (\mathbf{b}'\mathbf{b})(\mathbf{d}'\mathbf{d}),\qquad \text{com igualdade se e só se } \mathbf{b} = c\,\mathbf{d}$$
     </div>
@@ -850,7 +871,7 @@ window.MathJax = {
       $$(\mathbf{b}'\mathbf{d})^2 \le (\mathbf{b}'\mathbf{B}\mathbf{b})(\mathbf{d}'\mathbf{B}^{-1}\mathbf{d})$$
       $$\max_{\mathbf{x} \ne \mathbf{0}}\ \frac{(\mathbf{x}'\mathbf{d})^2}{\mathbf{x}'\mathbf{B}\mathbf{x}} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d},\qquad \text{atingido em } \mathbf{x} = c\,\mathbf{B}^{-1}\mathbf{d}\ (c \ne 0)$$
     </div>
-    <p>$\mathbf{B}$ é positiva definida. Uma leitura útil: $\mathbf{d}$ é um "sinal" fixo (por exemplo, uma diferença de médias), $\mathbf{x}'\mathbf{B}\mathbf{x}$ é o "ruído" da combinação $\mathbf{x}$, e a razão mede sinal ao quadrado sobre ruído. A melhor combinação não é $\mathbf{d}$, e sim $\mathbf{B}^{-1}\mathbf{d}$: ela desconta as direções ruidosas. Isso volta no $T^2$ de Hotelling (cap. 5) e no discriminante de Fisher (cap. 11).</p>
+    <p>$\mathbf{B}$ é positiva definida. Uma leitura útil: $\mathbf{d}$ é um "sinal" fixo (por exemplo, uma diferença de médias), $\mathbf{x}'\mathbf{B}\mathbf{x}$ é o "ruído" da combinação $\mathbf{x}$, e a razão mede sinal ao quadrado sobre ruído. A melhor combinação não é $\mathbf{d}$, e sim $\mathbf{B}^{-1}\mathbf{d}$: ela desconta as direções ruidosas.</p>
     <div class="ideia">Com $\mathbf{B}$ positiva definida, $(\mathbf{x}'\mathbf{d})^2/\mathbf{x}'\mathbf{B}\mathbf{x}$ é no máximo $\mathbf{d}'\mathbf{B}^{-1}\mathbf{d}$, valor atingido em $\mathbf{x} = \mathbf{B}^{-1}\mathbf{d}$ (ou qualquer múltiplo).</div>
     <details class="demo">
       <summary>Demonstração da estendida e do lema</summary>
@@ -878,7 +899,7 @@ window.MathJax = {
       $$\max_{\mathbf{x} \perp \mathbf{e}_1, \dots, \mathbf{e}_k}\frac{\mathbf{x}'\mathbf{B}\mathbf{x}}{\mathbf{x}'\mathbf{x}} = \lambda_{k+1}\ \ (\text{em } \mathbf{x} = \mathbf{e}_{k+1})$$
     </div>
     <p>$\mathbf{B}$ é positiva definida, com $\lambda_1 \ge \cdots \ge \lambda_p$. A razão não depende do comprimento de $\mathbf{x}$, então basta olhar os vetores unitários (a "esfera unitária"). Os autovalores intermediários também são máximos, quando $\mathbf{x}$ é obrigado a ser perpendicular às direções já escolhidas.</p>
-    <p>Com $\mathbf{B} = \boldsymbol\Sigma$, $\mathbf{x}'\boldsymbol\Sigma\mathbf{x}$ é a <span class="ref" data-ref="f-cx">variância de $\mathbf{x}'\mathbf{X}$</span>: a combinação unitária de maior variância é $\mathbf{e}_1'\mathbf{X}$, com variância $\lambda_1$. A segunda melhor, perpendicular à primeira, é $\mathbf{e}_2'\mathbf{X}$. Isso é a PCA do cap. 8.</p>
+    <p>Com $\mathbf{B} = \boldsymbol\Sigma$, $\mathbf{x}'\boldsymbol\Sigma\mathbf{x}$ é a <span class="ref" data-ref="f-cx">variância de $\mathbf{x}'\mathbf{X}$</span>: a combinação unitária de maior variância é $\mathbf{e}_1'\mathbf{X}$, com variância $\lambda_1$. A segunda melhor, perpendicular à primeira, é $\mathbf{e}_2'\mathbf{X}$.</p>
     <div class="ideia">$\mathbf{x}'\mathbf{B}\mathbf{x}/\mathbf{x}'\mathbf{x}$ é máximo ($\lambda_1$) na direção $\mathbf{e}_1$ e mínimo ($\lambda_p$) em $\mathbf{e}_p$; perpendicular aos $k$ primeiros autovetores, o máximo é $\lambda_{k+1}$.</div>
     <details class="demo">
       <summary>Demonstração</summary>
@@ -889,7 +910,8 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="prever" data-sim="sim-raz">
-      <p>$\mathbf{B}$ tem linhas $[3, 1]$ e $[1, 2]$. Girando o vetor unitário $\mathbf{x}$ por todas as direções, o maior valor de $\mathbf{x}'\mathbf{B}\mathbf{x}$ é:</p>
+      $$\mathbf{B} = \begin{bmatrix} 3 & 1 \\ 1 & 2 \end{bmatrix}$$
+      <p>Girando o vetor unitário $\mathbf{x}$ por todas as direções, o maior valor de $\mathbf{x}'\mathbf{B}\mathbf{x}$ é:</p>
       <div class="alts">
         <button data-op="a">$b_{11} = 3$</button>
         <button data-op="b" data-certa>O maior autovalor</button>
@@ -957,9 +979,14 @@ window.MathJax = {
     <li>Cauchy–Schwarz; $\max (\mathbf{x}'\mathbf{d})^2/\mathbf{x}'\mathbf{Bx} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d}$; $\max \mathbf{x}'\mathbf{Bx}/\mathbf{x}'\mathbf{x} = \lambda_1$ em $\mathbf{e}_1$.</li>
   </ul>
   <h3>Fórmulas</h3>
-  <p>$$\cos\theta = \frac{\mathbf{x}'\mathbf{y}}{\sqrt{\mathbf{x}'\mathbf{x}}\sqrt{\mathbf{y}'\mathbf{y}}}\qquad \mathbf{A} = \sum_{i=1}^k\lambda_i\mathbf{e}_i\mathbf{e}_i'\qquad \mathbf{A}^{-1} = \sum_{i=1}^k\frac{1}{\lambda_i}\mathbf{e}_i\mathbf{e}_i'$$</p>
-  <p>$$\boldsymbol\Sigma = E(\mathbf{X} - \boldsymbol\mu)(\mathbf{X} - \boldsymbol\mu)'\qquad \boldsymbol\rho = (\mathbf{V}^{1/2})^{-1}\boldsymbol\Sigma(\mathbf{V}^{1/2})^{-1}\qquad \mathrm{Cov}(\mathbf{CX}) = \mathbf{C}\boldsymbol\Sigma\mathbf{C}'$$</p>
-  <p>$$\max_{\mathbf{x} \ne \mathbf{0}}\frac{(\mathbf{x}'\mathbf{d})^2}{\mathbf{x}'\mathbf{Bx}} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d}\qquad \max_{\mathbf{x} \ne \mathbf{0}}\frac{\mathbf{x}'\mathbf{Bx}}{\mathbf{x}'\mathbf{x}} = \lambda_1$$</p>
+  <p>$$\cos\theta = \frac{\mathbf{x}'\mathbf{y}}{\sqrt{\mathbf{x}'\mathbf{x}}\sqrt{\mathbf{y}'\mathbf{y}}}$$
+  $$\mathbf{A} = \sum_{i=1}^k\lambda_i\mathbf{e}_i\mathbf{e}_i'$$
+  $$\mathbf{A}^{-1} = \sum_{i=1}^k\frac{1}{\lambda_i}\mathbf{e}_i\mathbf{e}_i'$$</p>
+  <p>$$\boldsymbol\Sigma = E(\mathbf{X} - \boldsymbol\mu)(\mathbf{X} - \boldsymbol\mu)'$$
+  $$\boldsymbol\rho = (\mathbf{V}^{1/2})^{-1}\boldsymbol\Sigma(\mathbf{V}^{1/2})^{-1}$$
+  $$\mathrm{Cov}(\mathbf{CX}) = \mathbf{C}\boldsymbol\Sigma\mathbf{C}'$$</p>
+  <p>$$\max_{\mathbf{x} \ne \mathbf{0}}\frac{(\mathbf{x}'\mathbf{d})^2}{\mathbf{x}'\mathbf{Bx}} = \mathbf{d}'\mathbf{B}^{-1}\mathbf{d}$$
+  $$\max_{\mathbf{x} \ne \mathbf{0}}\frac{\mathbf{x}'\mathbf{Bx}}{\mathbf{x}'\mathbf{x}} = \lambda_1$$</p>
   </div>
   <div>
   <h3>Quando usar e quando não usar</h3>
@@ -1005,6 +1032,7 @@ window.MathJax = {
 </div>
 
 <script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
 <script src="../assets/estudo.js"></script>
 <script>
 /* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
@@ -1097,7 +1125,7 @@ function eig2(a, b, d) {
     rotulo(svg, px(X[0]) + 12, py(X[1]) + 12, 'x', acc);
     rotulo(svg, px(Y[0]) + 12 * Math.cos(f) , py(Y[1]) - 12 * Math.sin(f) - 2, 'y', roxo);
     var sinal = Math.abs(xy) < 0.05 ? 'zero: perpendiculares' : (xy > 0 ? 'positivo: ângulo agudo' : 'negativo: ângulo obtuso');
-    document.getElementById('vet-txt').innerHTML = "$\\mathbf{x}'\\mathbf{y}$ = " + fmt(xy, 2) + ' (' + sinal + ') · $\\cos\\theta$ = ' + fmt(cs, 3) + ' · $\\theta$ = ' + fmt(th, 0) + '°. Em laranja, a projeção de $\\mathbf{y}$ em $\\mathbf{x}$, de comprimento ' + fmt(Math.abs(xy) / LX, 2) + '.';
+    document.getElementById('vet-txt').innerHTML = "$\\mathbf{x}'\\mathbf{y}$ = " + fmt(xy, 2) + ' (' + sinal + '); $\\cos\\theta$ = ' + fmt(cs, 3) + '; $\\theta$ = ' + fmt(th, 0) + '°. Em laranja, a projeção de $\\mathbf{y}$ em $\\mathbf{x}$, de comprimento ' + fmt(Math.abs(xy) / LX, 2) + '.';
     tipografar(document.getElementById('vet-txt'));
   }
   sa.addEventListener('input', desenhar); sl.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
@@ -1127,7 +1155,10 @@ function eig2(a, b, d) {
     rotulo(svg, px(0.5) , py(1) - 9, 'quadrado unitário', m, { 'font-size': 11, 'font-weight': 400 });
     var t = '$|\\mathbf{A}|$ = ' + fmt(det, 3) + ' (área do paralelogramo: ' + fmt(Math.abs(det), 3) + '). ';
     if (Math.abs(det) < 0.02) t += 'Colunas praticamente paralelas: $\\mathbf{A}^{-1}$ não existe (ou é numericamente inútil).';
-    else t += '$\\mathbf{A}^{-1}$ tem linhas [' + fmt(A2[1] / det, 2) + '; ' + fmt(-A2[0] / det, 2) + '] e [' + fmt(-A1[1] / det, 2) + '; ' + fmt(A1[0] / det, 2) + '].';
+    else {
+      var nt = function (v) { return fmt(v, 2).replace(',', '{,}').replace('−', '-'); };
+      t += '$$\\mathbf{A}^{-1} = \\begin{bmatrix} ' + nt(A2[1] / det) + ' & ' + nt(-A2[0] / det) + ' \\\\ ' + nt(-A1[1] / det) + ' & ' + nt(A1[0] / det) + ' \\end{bmatrix}$$';
+    }
     document.getElementById('inv-txt').innerHTML = t;
     tipografar(document.getElementById('inv-txt'));
   }
@@ -1160,7 +1191,7 @@ function eig2(a, b, d) {
     rotulo(svg, px(Ax[0]) + 16 * Ax[0] / nAx, py(Ax[1]) - 16 * Ax[1] / nAx, 'Ax', lar);
     rotulo(svg, px(x[0]) - 12 * x[1] , py(x[1]) - 12 * x[0], 'x', acc);
     var ang = Math.asin(Math.max(-1, Math.min(1, sen))) * 180 / Math.PI;
-    var txt = 'Ângulo entre $\\mathbf{x}$ e $\\mathbf{Ax}$: ' + fmt(Math.abs(ang), 1) + '° · comprimento de $\\mathbf{Ax}$: ' + fmt(nAx, 2) + '.';
+    var txt = 'Ângulo entre $\\mathbf{x}$ e $\\mathbf{Ax}$: ' + fmt(Math.abs(ang), 1) + '°; comprimento de $\\mathbf{Ax}$: ' + fmt(nAx, 2) + '.';
     if (alinh) txt += ' <strong>Alinhados: $\\mathbf{Ax} = \\lambda\\mathbf{x}$ com $\\lambda \\approx$ ' + fmt(nAx, 2) + '.</strong>';
     document.getElementById('eig-txt').innerHTML = txt;
     tipografar(document.getElementById('eig-txt'));

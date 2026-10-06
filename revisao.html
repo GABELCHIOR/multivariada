@@ -67,7 +67,7 @@ window.MathJax = {
     var quiz = cont.firstElementChild; palco.appendChild(quiz);
     var origem = document.createElement('a'); origem.className = 'ir-passo'; origem.hidden = true;
     origem.href = c.arquivo + '#passo-' + q.passo;
-    origem.textContent = 'Rever no Cap. ' + c.numero + ' · ' + q.secao;
+    origem.textContent = 'Rever no Cap. ' + c.numero + ', seção ' + q.secao;
     palco.appendChild(origem);
     ligarQuiz(quiz, function (certa, primeira) {
       if (primeira) {
@@ -84,14 +84,14 @@ window.MathJax = {
     var h = '<h2>Resultado</h2><div class="placar">';
     Object.keys(placar).forEach(function (id) {
       var p = placar[id], c = cap(id);
-      h += '<div><strong>Cap. ' + c.numero + '</strong> · ' + c.titulo + ': ' + p.certas + ' de ' + p.total + ' de primeira</div>';
+      h += '<div><strong>Cap. ' + c.numero + '</strong> — ' + c.titulo + ': ' + p.certas + ' de ' + p.total + ' de primeira</div>';
     });
     h += '</div>';
     var erradas = [];
     Object.keys(placar).forEach(function (id) { erradas = erradas.concat(placar[id].erradas); });
     if (erradas.length) {
       h += '<p>Vale rever:</p><ul class="resumo-lista">';
-      erradas.forEach(function (q) { var c = cap(q.cap); h += '<li><a href="' + c.arquivo + '#passo-' + q.passo + '">Cap. ' + c.numero + ' · ' + q.secao + '</a></li>'; });
+      erradas.forEach(function (q) { var c = cap(q.cap); h += '<li><a href="' + c.arquivo + '#passo-' + q.passo + '">Cap. ' + c.numero + ', seção ' + q.secao + '</a></li>'; });
       h += '</ul>';
     } else h += '<p>Tudo certo de primeira.</p>';
     palco.innerHTML = h;

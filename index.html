@@ -23,7 +23,7 @@
   var L = S.livro;
   document.title = L.titulo;
   document.getElementById('titulo').textContent = L.titulo;
-  document.getElementById('sub').textContent = [L.autores, L.edicao].filter(Boolean).join(' · ') +
+  document.getElementById('sub').textContent = [L.autores, L.edicao].filter(Boolean).join(', ') +
     (L.autores || L.edicao ? ' — ' : '') + 'material de estudo baseado no livro, com a mesma notação.';
   var lista = document.getElementById('capitulos');
   S.capitulos.forEach(function (c) {
@@ -35,7 +35,7 @@
     if (pronto) { var a = document.createElement('a'); a.href = c.arquivo; a.textContent = c.titulo; h.appendChild(a); }
     else h.textContent = c.titulo;
     var sec = document.createElement('p'); sec.className = 'secoes';
-    sec.textContent = pronto ? (c.secoes || []).map(function (s) { return s.numero + ' ' + s.titulo; }).join(' · ') : 'Ainda não preparado.';
+    sec.textContent = pronto ? (c.secoes || []).map(function (s) { return s.numero + ' ' + s.titulo; }).join('; ') : 'Ainda não preparado.';
     meio.appendChild(h); meio.appendChild(sec);
     var acao = document.createElement('div'); acao.className = 'acao';
     if (pronto) {

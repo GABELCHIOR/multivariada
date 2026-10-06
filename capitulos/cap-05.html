@@ -32,7 +32,7 @@ window.MathJax = {
 <div class="wrap">
 
 <h1>Cap. 5 — Inferências sobre um vetor de médias</h1>
-<p class="contexto">Onde isso se encaixa: é o primeiro capítulo de métodos. Com a normal multivariada (cap. 4) e o lema de maximização (cap. 2), o teste $t$ e o intervalo de confiança viram o $T^2$ de Hotelling, elipsoides de confiança e intervalos simultâneos. A mensagem do livro: variáveis correlacionadas se analisam juntas.</p>
+<p class="contexto">Onde isso se encaixa: é o primeiro capítulo de métodos. Com a <span class="ref" data-ref="f-densidade">normal multivariada (cap. 4)</span> e o <span class="ref" data-ref="f-lema">lema de maximização (cap. 2)</span>, o teste $t$ e o intervalo de confiança viram o $T^2$ de Hotelling, elipsoides de confiança e intervalos simultâneos. A mensagem do livro: variáveis correlacionadas se analisam juntas.</p>
 
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
@@ -77,14 +77,16 @@ window.MathJax = {
         <li><span class="s2">$\mathbf{S}$</span>: covariância amostral (divisor $n - 1$)</li>
       </ul>
     </div>
-    <p>A distribuição vale sob $H_0$, para amostras de $N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, quaisquer que sejam $\boldsymbol\mu$ e $\boldsymbol\Sigma$. Não precisa de tabela nova: basta a $F$. A estrutura (5-8) imita a do $t$: um vetor normal, vezes a inversa de uma Wishart dividida pelos seus graus de liberdade, vezes o vetor normal de novo (são independentes pelo cap. 4).</p>
+    <p>A distribuição vale sob $H_0$, para amostras de $N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, quaisquer que sejam $\boldsymbol\mu$ e $\boldsymbol\Sigma$. Não precisa de tabela nova: basta a $F$. A estrutura (5-8) imita a do $t$: um vetor normal, vezes a inversa de uma Wishart dividida pelos seus graus de liberdade, vezes o vetor normal de novo (são independentes pelo <span class="ref" data-ref="f-wishart">cap. 4</span>).</p>
     <div class="ideia">$T^2 = n(\bar{\mathbf{X}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu_0)$ tem, sob $H_0$, a distribuição de $\frac{(n-1)p}{n-p}F_{p,n-p}$; rejeita-se $H_0$ quando ele passa desse percentil.</div>
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p><strong>Ex. 5.1.</strong> $n = 3$, dados com linhas $[6, 9]$, $[10, 6]$, $[8, 3]$; $\boldsymbol\mu_0 = [9, 5]'$. Então $\bar{\mathbf{x}} = [8, 6]'$ e</p>
+      <p><strong>Ex. 5.1.</strong> $n = 3$ e $\boldsymbol\mu_0 = [9, 5]'$, com os dados</p>
+      $$\mathbf{X} = \begin{bmatrix} 6 & 9 \\ 10 & 6 \\ 8 & 3 \end{bmatrix}.$$
+      <p>Então $\bar{\mathbf{x}} = [8, 6]'$ e</p>
       $$\mathbf{S} = \begin{bmatrix} 4 & -3 \\ -3 & 9 \end{bmatrix},\qquad \mathbf{S}^{-1} = \frac{1}{27}\begin{bmatrix} 9 & 3 \\ 3 & 4 \end{bmatrix}$$
-      <p>$(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu_0) =$ <input class="lacuna" data-resp="0.2593" data-tol="0.002" aria-label="distância"> · $T^2 =$ <input class="lacuna" data-resp="0.7778" data-tol="0.003" aria-label="T2"></p>
+      <p>$(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu_0) =$ <input class="lacuna" data-resp="0.2593" data-tol="0.002" aria-label="distância"><br>$T^2 =$ <input class="lacuna" data-resp="0.7778" data-tol="0.003" aria-label="T2"></p>
       <p>Sob $H_0$, $T^2 \sim c\,F_{2,1}$ com $c =$ <input class="lacuna" data-resp="4" data-tol="0" aria-label="constante"></p>
       <button class="btn" data-conferir>Conferir</button>
       <p class="dica" hidden>Dica: $\bar{\mathbf{x}} - \boldsymbol\mu_0 = [-1, 1]'$; $\mathbf{S}^{-1}[-1, 1]' = \tfrac{1}{27}[-6, 1]'$.</p>
@@ -97,7 +99,7 @@ window.MathJax = {
    <div class="texto">
     <h2>$T^2$ pode rejeitar mesmo quando nenhum teste $t$ rejeita</h2>
     <p>Ex. 5.2: suor de 20 mulheres, com $X_1$ = taxa de suor, $X_2$ = sódio e $X_3$ = potássio. Testando $\boldsymbol\mu_0 = [4, 50, 10]'$ a 10%: $\bar{\mathbf{x}} = [4{,}640;\ 45{,}400;\ 9{,}965]'$, $T^2 = 9{,}74$ e o valor crítico é $\frac{19 \times 3}{17}F_{3,17}(0{,}10) = 3{,}353 \times 2{,}44 = 8{,}18$. Rejeita.</p>
-    <p>Refazendo a conta com os dados do livro, os três testes $t$ separados, também a 10%, dão $|t| = 1{,}69$, $1{,}46$ e $0{,}08$, todos abaixo de $t_{19}(0{,}05) = 1{,}73$: nenhum rejeita. Não há contradição. O $T^2$ leva em conta a correlação: a <em>combinação</em> dos desvios é rara, mesmo que cada um sozinho não seja (o mesmo fenômeno dos atípicos multivariados do cap. 4).</p>
+    <p>Refazendo a conta com os dados do livro, os três testes $t$ separados, também a 10%, dão $|t| = 1{,}69$, $1{,}46$ e $0{,}08$, todos abaixo de $t_{19}(0{,}05) = 1{,}73$: nenhum rejeita. Não há contradição. O $T^2$ leva em conta a correlação: a <em>combinação</em> dos desvios é rara, mesmo que cada um sozinho não seja (o mesmo fenômeno dos <span class="ref" data-ref="d-atipicos">atípicos multivariados do cap. 4</span>).</p>
     <p>Por isso o livro diz que, ao rejeitar, "ainda não sabemos qual" média está errada: para isso servem os intervalos simultâneos (seção 5.4).</p>
     <div class="ideia">Como usa a correlação, o $T^2$ pode rejeitar $\boldsymbol\mu_0$ mesmo quando cada teste $t$ isolado não rejeita a sua componente.</div>
    </div>
@@ -154,15 +156,15 @@ window.MathJax = {
   <section class="passo" data-titulo="Wilks">
    <div class="texto">
     <h2>O $T^2$ é o teste da razão de verossimilhanças</h2>
-    <p>A razão de verossimilhanças compara o melhor ajuste com $\boldsymbol\mu$ fixado em $\boldsymbol\mu_0$ com o melhor ajuste livre. Usando os máximos do cap. 4:</p>
+    <p>A razão de verossimilhanças compara o melhor ajuste com $\boldsymbol\mu$ fixado em $\boldsymbol\mu_0$ com o melhor ajuste livre. Usando os <span class="ref" data-ref="f-emv">máximos do cap. 4</span>:</p>
     <div class="formula" data-ref-id="f-wilks" data-ref-tipo="formula" data-ref-nome="Razão de verossimilhanças e lambda de Wilks (5-12)–(5-15)">
       $$\Lambda = \frac{\max_{\boldsymbol\Sigma} L(\boldsymbol\mu_0, \boldsymbol\Sigma)}{\max_{\boldsymbol\mu, \boldsymbol\Sigma} L(\boldsymbol\mu, \boldsymbol\Sigma)} = \left(\frac{|\hat{\boldsymbol\Sigma}|}{|\hat{\boldsymbol\Sigma}_0|}\right)^{n/2},\qquad \Lambda^{2/n} = \Big(1 + \frac{T^2}{n-1}\Big)^{-1}$$
     </div>
-    <p>Aqui $\hat{\boldsymbol\Sigma} = \frac1n\sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$ e $\hat{\boldsymbol\Sigma}_0 = \frac1n\sum(\mathbf{x}_j - \boldsymbol\mu_0)(\mathbf{x}_j - \boldsymbol\mu_0)'$. $\Lambda^{2/n}$ é o <strong>lambda de Wilks</strong>, uma razão de variâncias generalizadas. Rejeita-se $H_0$ para $\Lambda$ <em>pequeno</em>, o que é o mesmo que $T^2$ grande (Result 5.1). Bônus: $T^2 = (n-1)|\hat{\boldsymbol\Sigma}_0|/|\hat{\boldsymbol\Sigma}| - (n-1)$, sem inverter $\mathbf{S}$.</p>
+    <p>Aqui $\hat{\boldsymbol\Sigma} = \frac1n\sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$ e $\hat{\boldsymbol\Sigma}_0 = \frac1n\sum(\mathbf{x}_j - \boldsymbol\mu_0)(\mathbf{x}_j - \boldsymbol\mu_0)'$. $\Lambda^{2/n}$ é o <strong>lambda de Wilks</strong>, uma razão de variâncias generalizadas. Rejeita-se $H_0$ para $\Lambda$ <em>pequeno</em>, o que é o mesmo que $T^2$ grande (Resultado 5.1). Bônus: $T^2 = (n-1)|\hat{\boldsymbol\Sigma}_0|/|\hat{\boldsymbol\Sigma}| - (n-1)$, sem inverter $\mathbf{S}$.</p>
     <div class="ideia">O teste da razão de verossimilhanças para $\boldsymbol\mu = \boldsymbol\mu_0$ equivale ao $T^2$: $\Lambda^{2/n} = (1 + T^2/(n-1))^{-1}$, e Wilks pequeno corresponde a $T^2$ grande.</div>
     <details class="demo">
-      <summary>Demonstração do Result 5.1</summary>
-      <p>Pela decomposição do cap. 4,</p>
+      <summary>Demonstração do Resultado 5.1</summary>
+      <p>Pela <span class="ref" data-ref="f-decomp-soma">decomposição do cap. 4</span>,</p>
       $$\begin{aligned} \sum_j(\mathbf{x}_j - \boldsymbol\mu_0)(\mathbf{x}_j - \boldsymbol\mu_0)' &= \sum_j(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})' \\ &\quad + n(\bar{\mathbf{x}} - \boldsymbol\mu_0)(\bar{\mathbf{x}} - \boldsymbol\mu_0)' \end{aligned}$$
       <p>Escreva $\mathbf{A} = \sum(\mathbf{x}_j - \bar{\mathbf{x}})(\mathbf{x}_j - \bar{\mathbf{x}})'$ e $\mathbf{v} = \sqrt n(\bar{\mathbf{x}} - \boldsymbol\mu_0)$. Para a matriz particionada com blocos $\mathbf{A}$, $\mathbf{v}$, $\mathbf{v}'$ e $-1$, o determinante sai de dois jeitos (Exercício 4.11):</p>
       $$|\mathbf{A}|\,(-1 - \mathbf{v}'\mathbf{A}^{-1}\mathbf{v}) = (-1)\,|\mathbf{A} + \mathbf{vv}'|$$
@@ -184,7 +186,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Método geral">
    <div class="texto">
     <h2>Razão de verossimilhanças em geral: $-2\ln\Lambda \approx \chi^2$</h2>
-    <div class="formula" data-ref-id="f-rv-geral" data-ref-tipo="formula" data-ref-nome="Razão de verossimilhanças geral (5-16), Result 5.2">
+    <div class="formula" data-ref-id="f-rv-geral" data-ref-tipo="formula" data-ref-nome="Razão de verossimilhanças geral (5-16), Resultado 5.2">
       $$\Lambda = \frac{\max_{\boldsymbol\theta \in \Theta_0} L(\boldsymbol\theta)}{\max_{\boldsymbol\theta \in \Theta} L(\boldsymbol\theta)},\qquad -2\ln\Lambda \;\approx\; \chi^2_{\nu - \nu_0}\ \ (n \text{ grande})$$
     </div>
     <p>$\Theta$ é o conjunto de todos os valores dos parâmetros (dimensão $\nu$) e $\Theta_0$ o subconjunto da hipótese (dimensão $\nu_0$). Rejeita-se $H_0$ quando $\Lambda$ é pequeno: o melhor que a hipótese consegue explicar é bem pior que o melhor sem restrição.</p>
@@ -247,7 +249,7 @@ window.MathJax = {
   <section class="passo" data-titulo="Muitas afirmações">
    <div class="texto">
     <h2>Vários intervalos de 95% não dão 95% juntos</h2>
-    <p>O elipsoide resume tudo, mas na prática se quer falar de cada média. Para uma combinação fixa $\mathbf{a}'\boldsymbol\mu$, a amostra $z_j = \mathbf{a}'\mathbf{x}_j$ tem média $\mathbf{a}'\bar{\mathbf{x}}$ e variância $\mathbf{a}'\mathbf{S}\mathbf{a}$ (cap. 3), e o intervalo $t$ é:</p>
+    <p>O elipsoide resume tudo, mas na prática se quer falar de cada média. Para uma combinação fixa $\mathbf{a}'\boldsymbol\mu$, a amostra $z_j = \mathbf{a}'\mathbf{x}_j$ tem média $\mathbf{a}'\bar{\mathbf{x}}$ e variância $\mathbf{a}'\mathbf{S}\mathbf{a}$ (<span class="ref" data-ref="f-comb-amostra">cap. 3</span>), e o intervalo $t$ é:</p>
     <div class="formula" data-ref-id="f-t-combinacao" data-ref-tipo="formula" data-ref-nome="Intervalo t para a'μ (5-21)">
       $$\mathbf{a}'\bar{\mathbf{x}} \pm t_{n-1}(\alpha/2)\,\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$
     </div>
@@ -266,16 +268,16 @@ window.MathJax = {
   <section class="passo" data-titulo="T²-intervalos">
    <div class="texto">
     <h2>$T^2$-intervalos: valem para todas as combinações ao mesmo tempo</h2>
-    <p>O maior $t^2$ possível, entre todos os $\mathbf{a}$, sai do lema de maximização do cap. 2 (com $\mathbf{d} = \bar{\mathbf{x}} - \boldsymbol\mu$ e $\mathbf{B} = \mathbf{S}$): $\max_{\mathbf{a}} n(\mathbf{a}'(\bar{\mathbf{x}} - \boldsymbol\mu))^2/\mathbf{a}'\mathbf{S}\mathbf{a} = T^2$ (5-23). Então, se $T^2 \le c^2$, todos os $t^2$ ficam abaixo de $c^2$:</p>
-    <div class="formula" data-ref-id="f-t2-intervalos" data-ref-tipo="formula" data-ref-nome="T²-intervalos simultâneos (Result 5.3, (5-24))">
+    <p>O maior $t^2$ possível, entre todos os $\mathbf{a}$, sai do <span class="ref" data-ref="f-lema">lema de maximização do cap. 2</span> (com $\mathbf{d} = \bar{\mathbf{x}} - \boldsymbol\mu$ e $\mathbf{B} = \mathbf{S}$): $\max_{\mathbf{a}} n(\mathbf{a}'(\bar{\mathbf{x}} - \boldsymbol\mu))^2/\mathbf{a}'\mathbf{S}\mathbf{a} = T^2$ (5-23). Então, se $T^2 \le c^2$, todos os $t^2$ ficam abaixo de $c^2$:</p>
+    <div class="formula" data-ref-id="f-t2-intervalos" data-ref-tipo="formula" data-ref-nome="T²-intervalos simultâneos (Resultado 5.3, (5-24))">
       $$\mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\;\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}\quad \text{para todo } \mathbf{a}$$
       $$\bar x_i \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\;\sqrt{\frac{s_{ii}}{n}},\qquad i = 1, \dots, p$$
     </div>
-    <p>Todos juntos têm confiança $1 - \alpha$ (Result 5.3), inclusive diferenças $\mu_i - \mu_k$ ($\mathbf{a}'\mathbf{S}\mathbf{a} = s_{ii} - 2s_{ik} + s_{kk}$, (5-25)) e combinações escolhidas depois de olhar os dados. Geometricamente, o intervalo de $\mu_i$ é a <strong>sombra</strong> do elipsoide de confiança no eixo $i$ (Supl. 5A).</p>
+    <p>Todos juntos têm confiança $1 - \alpha$ (Resultado 5.3), inclusive diferenças $\mu_i - \mu_k$ ($\mathbf{a}'\mathbf{S}\mathbf{a} = s_{ii} - 2s_{ik} + s_{kk}$, (5-25)) e combinações escolhidas depois de olhar os dados. Geometricamente, o intervalo de $\mu_i$ é a <strong>sombra</strong> do elipsoide de confiança no eixo $i$ (Supl. 5A).</p>
     <p>No Ex. 5.5 (87 estudantes, $p = 3$), o multiplicador é $\sqrt{8{,}29} = 2{,}88$, contra $t_{86}(0{,}025) \approx 1{,}99$; o intervalo de $\mu_1$ (ciências sociais e história) fica em 504,45 a 551,03.</p>
     <div class="ideia">Os $T^2$-intervalos $\mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\sqrt{\mathbf{a}'\mathbf{S}\mathbf{a}/n}$ valem para todo $\mathbf{a}$ com confiança conjunta $1 - \alpha$; para as médias, são as sombras do elipsoide.</div>
     <details class="demo">
-      <summary>Por que a sombra do elipsoide é o $T^2$-intervalo (Result 5A.1)</summary>
+      <summary>Por que a sombra do elipsoide é o $T^2$-intervalo (Resultado 5A.1)</summary>
       <p>Para o elipsoide $\{\mathbf{z}: \mathbf{z}'\mathbf{A}^{-1}\mathbf{z} \le c^2\}$ e um vetor unitário $\mathbf{u}$, a Cauchy–Schwarz estendida dá $(\mathbf{z}'\mathbf{u})^2 \le (\mathbf{z}'\mathbf{A}^{-1}\mathbf{z})(\mathbf{u}'\mathbf{A}\mathbf{u})$ $\le c^2\,\mathbf{u}'\mathbf{A}\mathbf{u}$, com igualdade em $\mathbf{z} = c\mathbf{A}\mathbf{u}/\sqrt{\mathbf{u}'\mathbf{A}\mathbf{u}}$, que está na borda. A sombra vai de $-c\sqrt{\mathbf{u}'\mathbf{A}\mathbf{u}}$ a $+c\sqrt{\mathbf{u}'\mathbf{A}\mathbf{u}}$. Com $\mathbf{A} = \mathbf{S}/n$, $c^2 = \frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)$ e $\mathbf{u}$ o eixo $i$: $\pm c\sqrt{s_{ii}/n}$.</p>
     </details>
    </div>
@@ -289,7 +291,7 @@ window.MathJax = {
         <button data-op="d">(d) continua 95% só se a combinação tiver coeficientes que somam zero.</button>
       </div>
       <div class="fb" data-op="a">Isso valeria para intervalos $t$. A garantia dos $T^2$-intervalos cobre todos os $\mathbf{a}$, escolhidos antes ou depois.</div>
-      <div class="fb" data-op="b">Isso: o Result 5.3 garante $1 - \alpha$ para a família inteira de combinações; por isso eles são ideais para "bisbilhotar".</div>
+      <div class="fb" data-op="b">Isso: o Resultado 5.3 garante $1 - \alpha$ para a família inteira de combinações; por isso eles são ideais para "bisbilhotar".</div>
       <div class="fb" data-op="c">A conta $0{,}95^m$ é para intervalos separados e independentes; os $T^2$-intervalos vêm de um único evento, $T^2 \le c^2$.</div>
       <div class="fb" data-op="d">Qualquer $\mathbf{a}$ serve; somar zero (contraste) não é exigido.</div>
     </div>
@@ -332,8 +334,8 @@ window.MathJax = {
   <section class="passo" data-titulo="Qui-quadrado">
    <div class="texto">
     <h2>Com $n$ grande, troque a $F$ pela qui-quadrado e esqueça a normalidade</h2>
-    <p>Pelo cap. 4, $n(\bar{\mathbf{X}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu) \approx \chi^2_p$ para quase qualquer população (5-31). Daí:</p>
-    <div class="formula" data-ref-id="f-grande" data-ref-tipo="formula" data-ref-nome="Inferência para μ com amostras grandes (Result 5.4, 5.5)">
+    <p>Pelo <span class="ref" data-ref="f-tlc">cap. 4</span>, $n(\bar{\mathbf{X}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{X}} - \boldsymbol\mu) \approx \chi^2_p$ para quase qualquer população (5-31). Daí:</p>
+    <div class="formula" data-ref-id="f-grande" data-ref-tipo="formula" data-ref-nome="Inferência para μ com amostras grandes (Resultado 5.4, 5.5)">
       $$\text{rejeita } H_0 \text{ se } n(\bar{\mathbf{x}} - \boldsymbol\mu_0)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu_0) \gt \chi^2_p(\alpha),\qquad \mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\chi^2_p(\alpha)}\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$
     </div>
     <p>Os intervalos valem para todo $\mathbf{a}$ com confiança aproximada $1 - \alpha$, quando $n - p$ é grande. Para $n$ grande, $\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha) \approx \chi^2_p(\alpha)$, então os dois métodos quase coincidem. Mesmo assim, confira os dados: desvios extremos da normal (atípicos, assimetria forte) podem estragar a confiança real.</p>
@@ -387,7 +389,7 @@ window.MathJax = {
       $$\text{elipse: } (\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}05)$$
       $$\text{gráfico } T^2\text{: } T_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}}),\quad \text{LSC} = \chi^2_p(0{,}05) \text{ ou } \chi^2_p(0{,}01)$$
     </div>
-    <p>A elipse é a mais intuitiva, mas só funciona com $p = 2$ e perde a ordem no tempo. O gráfico $T^2$ marca $T_j^2$ contra o período, com limite inferior 0 e sem linha central, para qualquer $p$. (É o mesmo $d_j^2$ do teste de normalidade do cap. 4.) No Ex. 5.10, com $\alpha = 0{,}01$, o período 11 passa do limite por causa das horas extras em eventos extraordinários.</p>
+    <p>A elipse é a mais intuitiva, mas só funciona com $p = 2$ e perde a ordem no tempo. O gráfico $T^2$ marca $T_j^2$ contra o período, com limite inferior 0 e sem linha central, para qualquer $p$. (É o mesmo <span class="ref" data-ref="f-dj2">$d_j^2$ do teste de normalidade do cap. 4</span>.) No Ex. 5.10, com $\alpha = 0{,}01$, o período 11 passa do limite por causa das horas extras em eventos extraordinários.</p>
     <p>Quando o $T^2$ acusa um ponto, falta saber qual variável é a culpada: compare cada $x_{jk}$ com $\bar x_k \pm t_{n-1}(0{,}005/p)\sqrt{s_{kk}}$, um intervalo de Bonferroni.</p>
     <div class="ideia">O gráfico $T^2$ marca $(\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$ no tempo com limite $\chi^2_p(\alpha)$; um ponto acima pede investigar a variável responsável com intervalos de Bonferroni.</div>
    </div>
@@ -408,7 +410,7 @@ window.MathJax = {
    <div class="texto">
     <h2>Região para observações futuras: um pouco maior que a de controle</h2>
     <p>Com dados de um período estável, quer-se uma região onde uma observação <em>futura</em> $\mathbf{X}$ deveria cair. Como $\mathbf{X} - \bar{\mathbf{X}}$ carrega a variação de $\mathbf{X}$ e a de $\bar{\mathbf{X}}$, aparece o fator $\frac{n}{n+1}$:</p>
-    <div class="formula" data-ref-id="f-previsao" data-ref-tipo="formula" data-ref-nome="Elipsoide de previsão para uma observação futura (Result 5.6)">
+    <div class="formula" data-ref-id="f-previsao" data-ref-tipo="formula" data-ref-nome="Elipsoide de previsão para uma observação futura (Resultado 5.6)">
       $$\frac{n}{n+1}(\mathbf{X} - \bar{\mathbf{X}})'\mathbf{S}^{-1}(\mathbf{X} - \bar{\mathbf{X}}) \;\sim\; \frac{(n-1)p}{n-p}F_{p,n-p}$$
       $$(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \frac{(n^2 - 1)p}{n(n-p)}F_{p,n-p}(\alpha)$$
     </div>
@@ -444,7 +446,7 @@ window.MathJax = {
       <p><strong>Previsão:</strong> com as estimativas atuais $\tilde{\boldsymbol\mu}$, $\tilde{\boldsymbol\Sigma}$, troque cada parte faltante $\mathbf{x}^{(1)}_j$ pela média condicional da normal dada a parte observada: $\tilde{\mathbf{x}}^{(1)}_j = \tilde{\boldsymbol\mu}^{(1)} + \tilde{\boldsymbol\Sigma}_{12}\tilde{\boldsymbol\Sigma}_{22}^{-1}(\mathbf{x}^{(2)}_j - \tilde{\boldsymbol\mu}^{(2)})$, e some $\tilde{\boldsymbol\Sigma}_{11} - \tilde{\boldsymbol\Sigma}_{12}\tilde{\boldsymbol\Sigma}_{22}^{-1}\tilde{\boldsymbol\Sigma}_{21}$ na contribuição para $\sum\mathbf{x}_j\mathbf{x}_j'$.<br>
       <strong>Estimação:</strong> recalcule $\tilde{\boldsymbol\mu} = \frac1n\sum\tilde{\mathbf{x}}_j$ e $\tilde{\boldsymbol\Sigma} = \frac1n\sum\widetilde{\mathbf{x}_j\mathbf{x}_j'} - \tilde{\boldsymbol\mu}\tilde{\boldsymbol\mu}'$. Repita até estabilizar.</p>
     </div>
-    <p>A previsão usa a média condicional da normal do cap. 4 (Result 4.6). Começa-se, como no Ex. 5.12, preenchendo com as médias das observações disponíveis. No fim, com poucas faltas, trata-se $n(\tilde{\boldsymbol\mu} - \boldsymbol\mu)'\tilde{\boldsymbol\Sigma}^{-1}(\tilde{\boldsymbol\mu} - \boldsymbol\mu) \le \chi^2_p(\alpha)$ como região aproximada. O aviso do livro: se a falta depende da resposta (quem ganha muito não responde o salário), o EM introduz viés sério.</p>
+    <p>A previsão usa a <span class="ref" data-ref="f-condicional">média condicional da normal do cap. 4 (Resultado 4.6)</span>. Começa-se, como no Ex. 5.12, preenchendo com as médias das observações disponíveis. No fim, com poucas faltas, trata-se $n(\tilde{\boldsymbol\mu} - \boldsymbol\mu)'\tilde{\boldsymbol\Sigma}^{-1}(\tilde{\boldsymbol\mu} - \boldsymbol\mu) \le \chi^2_p(\alpha)$ como região aproximada. O aviso do livro: se a falta depende da resposta (quem ganha muito não responde o salário), o EM introduz viés sério.</p>
     <div class="ideia">O EM alterna prever as partes faltantes pela média condicional da normal e reestimar $\boldsymbol\mu$ e $\boldsymbol\Sigma$; só é confiável se a falta for ao acaso.</div>
    </div>
    <aside class="apoio">
@@ -519,8 +521,10 @@ window.MathJax = {
     <li>Dependência no tempo derruba a confiança real.</li>
   </ul>
   <h3>Fórmulas</h3>
-  <p>$$n(\bar{\mathbf{x}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu) \le \frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)\qquad \mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$</p>
-  <p>$$\bar x_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s_{ii}}{n}}\qquad \Lambda^{2/n} = \Big(1 + \frac{T^2}{n-1}\Big)^{-1}$$</p>
+  <p>$$n(\bar{\mathbf{x}} - \boldsymbol\mu)'\mathbf{S}^{-1}(\bar{\mathbf{x}} - \boldsymbol\mu) \le \frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)$$
+  $$\mathbf{a}'\bar{\mathbf{x}} \pm \sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}\sqrt{\frac{\mathbf{a}'\mathbf{S}\mathbf{a}}{n}}$$</p>
+  <p>$$\bar x_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s_{ii}}{n}}$$
+  $$\Lambda^{2/n} = \Big(1 + \frac{T^2}{n-1}\Big)^{-1}$$</p>
   </div>
   <div>
   <h3>Quando usar e quando não usar</h3>
@@ -563,6 +567,7 @@ window.MathJax = {
 </div>
 
 <script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
 <script src="../assets/estudo.js"></script>
 <script>
 /* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */

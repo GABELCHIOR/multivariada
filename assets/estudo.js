@@ -50,7 +50,7 @@ function ligarQuiz(q, aoResponder) {
   var voltouDepois = estado.ultimo > 0 && Date.now() - estado.ultimo > 30 * 60 * 1000;
   function salvar() {
     estado.ultimo = Date.now();
-    estado.onde = nomeSecao(secaoDe(estado.atual)) + ' · ' + (passos[estado.atual].dataset.titulo || '');
+    estado.onde = nomeSecao(secaoDe(estado.atual)) + ' — ' + (passos[estado.atual].dataset.titulo || '');
     estado.total = passos.length;
     try { localStorage.setItem(chave, JSON.stringify(estado)); } catch (e) {}
   }
@@ -339,7 +339,20 @@ function ligarQuiz(q, aoResponder) {
   var temHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var nomesTipo = { formula: 'Fórmula', definicao: 'Definição', exemplo: 'Exemplo' };
 
-  function ancora(id) { return document.querySelector('[data-ref-id="' + id + '"]'); }
+  /* Âncora deste capítulo; se não houver, a de um capítulo anterior (assets/refs.js, gerado pelo montar). */
+  function ancora(id) {
+    var el = document.querySelector('[data-ref-id="' + id + '"]');
+    var r = window.REFS && window.REFS[id];
+    if (el || !r) return el;
+    var caixa = document.createElement('div'); caixa.innerHTML = r.html;
+    el = caixa.firstElementChild;
+    if (!el) return null;
+    /* figura desenhada pelo script do outro capítulo chega vazia: some (o link abre o original) */
+    el.querySelectorAll('svg').forEach(function (s) { if (!s.children.length) s.remove(); });
+    el.dataset.refTipo = r.tipo; el.dataset.refNome = r.nome || '';
+    el.dataset.refCap = r.numero; el.dataset.refPasso = r.passo; el.dataset.refArquivo = r.arquivo;
+    return el;
+  }
   function passoDe(el) { var s = el.closest('.passo'); return s ? passos.indexOf(s) : -1; }
   function copia(el) {
     var c = el.cloneNode(true);
@@ -350,11 +363,19 @@ function ligarQuiz(q, aoResponder) {
   }
   function bloco(el) {
     var d = document.createElement('div');
-    var i = passoDe(el);
+    var externo = !!el.dataset.refCap, i = externo ? -1 : passoDe(el);
     var r = document.createElement('p'); r.className = 'rotulo-ref';
-    r.textContent = (nomesTipo[el.dataset.refTipo] || 'Referência') + (i >= 0 ? ' · passo ' + (i + 1) : '') + (el.dataset.refNome ? ' — ' + el.dataset.refNome : '');
+    var onde = externo ? ' do cap. ' + el.dataset.refCap + ', passo ' + el.dataset.refPasso : (i >= 0 ? ' do passo ' + (i + 1) : '');
+    r.textContent = (nomesTipo[el.dataset.refTipo] || 'Referência') + onde + (el.dataset.refNome ? ': ' + el.dataset.refNome : '');
     d.appendChild(r); d.appendChild(copia(el));
-    if (i >= 0) {
+    if (externo) {
+      /* outro capítulo abre em nova aba: o leitor não perde o lugar onde está */
+      var a = document.createElement('a'); a.className = 'ir-passo';
+      a.href = '../' + el.dataset.refArquivo + '#passo-' + el.dataset.refPasso;
+      a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Abrir o cap. ' + el.dataset.refCap + ' nesse passo (nova aba)';
+      d.appendChild(a);
+    } else if (i >= 0) {
       var b = document.createElement('button'); b.className = 'ir-passo'; b.textContent = 'Ir para o passo ' + (i + 1);
       b.addEventListener('click', function (e) { e.stopPropagation(); irParaAncora(el); });
       d.appendChild(b);
