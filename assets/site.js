@@ -303,8 +303,54 @@ window.SITE = {
    "titulo": "Modelos de regressão linear multivariada",
    "arquivo": "capitulos/cap-07.html",
    "paginas": "377-457",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "7.1",
+     "titulo": "O modelo",
+     "livro": "§7.1–7.2"
+    },
+    {
+     "numero": "7.2",
+     "titulo": "Mínimos quadrados",
+     "livro": "§7.3"
+    },
+    {
+     "numero": "7.3",
+     "titulo": "Inferência sobre β",
+     "livro": "§7.4"
+    },
+    {
+     "numero": "7.4",
+     "titulo": "Previsão",
+     "livro": "§7.5"
+    },
+    {
+     "numero": "7.5",
+     "titulo": "Diagnóstico",
+     "livro": "§7.6"
+    },
+    {
+     "numero": "7.6",
+     "titulo": "Várias respostas",
+     "livro": "§7.7"
+    },
+    {
+     "numero": "7.7",
+     "titulo": "Média condicional",
+     "livro": "§7.8"
+    },
+    {
+     "numero": "7.8",
+     "titulo": "Duas formulações",
+     "livro": "§7.9"
+    },
+    {
+     "numero": "7.9",
+     "titulo": "Erros no tempo",
+     "livro": "§7.10"
+    }
+   ]
   },
   {
    "id": "cap-08",

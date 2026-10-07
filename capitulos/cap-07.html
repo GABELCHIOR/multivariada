@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-07">
+<title>Cap. 7 — Regressão linear multivariada</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 7 — Regressão linear multivariada</h1>
+<p class="contexto">Onde isso se encaixa: até aqui as variáveis eram tratadas por igual. Agora algumas são <strong>preditoras</strong> e outras são <strong>respostas</strong>, e o objetivo é prever as respostas a partir das preditoras. O capítulo começa com uma resposta só, usando as ferramentas de matrizes do <span class="ref" data-ref="f-proj">cap. 2</span>, e termina com várias respostas ao mesmo tempo, onde voltam a <span class="ref" data-ref="f-condicional">normal condicional (cap. 4)</span> e o <span class="ref" data-ref="f-wilks-star">lambda de Wilks (cap. 6)</span>.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 7.1 ================= -->
+  <div class="secao" data-numero="7.1" data-titulo="O modelo" data-livro="§7.1–7.2">
+
+  <section class="passo" data-titulo="Média + erro">
+   <div class="texto">
+    <h2>Resposta = média que depende das preditoras + erro</h2>
+    <p>Quer-se prever o preço de venda de uma casa ($Y$) a partir do tamanho, do valor de avaliação, da região. O modelo de regressão linear diz que $Y$ é uma média, que muda com as preditoras $z_1, \dots, z_r$, mais um erro aleatório que junta tudo o que o modelo não vê:</p>
+    <div class="formula" data-ref-id="f-reg-modelo" data-ref-tipo="formula" data-ref-nome="Modelo de regressão linear clássico">
+      $$\mathbf{Y} = \mathbf{Z}\class{s1}{\boldsymbol\beta} + \class{s2}{\boldsymbol\varepsilon}$$
+      $$E(\boldsymbol\varepsilon) = \mathbf{0}$$
+      $$\mathrm{Cov}(\boldsymbol\varepsilon) = \sigma^2\mathbf{I}$$
+      $$\underset{(n\times 1)}{\mathbf{Y}} = \begin{bmatrix} Y_1 \\ \vdots \\ Y_n \end{bmatrix}$$
+      $$\underset{(n\times(r+1))}{\mathbf{Z}} = \begin{bmatrix} 1 & z_{11} & \cdots & z_{1r} \\ \vdots & \vdots & & \vdots \\ 1 & z_{n1} & \cdots & z_{nr} \end{bmatrix}$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\beta$</span>: coeficientes $[\beta_0, \beta_1, \dots, \beta_r]'$, desconhecidos</li>
+        <li><span class="s2">$\boldsymbol\varepsilon$</span>: erros, com variância $\sigma^2$ constante e sem correlação entre observações</li>
+        <li>$\mathbf{Z}$: matriz de planejamento; a coluna de uns multiplica $\beta_0$</li>
+      </ul>
+    </div>
+    <p>As preditoras são tratadas como fixas (escolhidas ou registradas sem erro); só o erro é aleatório. "Linear" quer dizer linear nos <em>parâmetros</em>: $\beta_0 + \beta_1 z + \beta_2 z^2$ é um modelo linear, com $z_2 = z^2$ como mais uma coluna de $\mathbf{Z}$. A normalidade dos erros só vai ser pedida quando chegarmos a testes e intervalos.</p>
+    <div class="ideia">Na regressão linear, $\mathbf{Y} = \mathbf{Z}\boldsymbol\beta + \boldsymbol\varepsilon$: cada linha de $\mathbf{Z}$ guarda as preditoras de uma observação, e os erros têm média zero, variância constante e são não correlacionados.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-reta" data-ref-tipo="exemplo" data-ref-nome="Reta com cinco pontos">
+      <p>Cinco pontos para ajustar uma reta $E(Y) = \beta_0 + \beta_1 z_1$:</p>
+      <table>
+        <thead><tr><th>$z_1$</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr></thead>
+        <tbody><tr><th>$y$</th><td>1</td><td>4</td><td>3</td><td>8</td><td>9</td></tr></tbody>
+      </table>
+      $$\mathbf{y} = \begin{bmatrix} 1 \\ 4 \\ 3 \\ 8 \\ 9 \end{bmatrix}$$
+      $$\mathbf{Z} = \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 2 \\ 1 & 3 \\ 1 & 4 \end{bmatrix}$$
+    </div>
+    <div class="pare">
+      <p>Para ajustar uma parábola $\beta_0 + \beta_1 z + \beta_2 z^2$ aos mesmos cinco pontos, o que muda em $\mathbf{Z}$?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Ganha uma terceira coluna com $z^2$: $[0, 1, 4, 9, 16]'$. O modelo continua linear (nos $\beta$), e tudo o que vem a seguir vale do mesmo jeito.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Indicadoras">
+   <div class="texto">
+    <h2>Com variáveis indicadoras, a ANOVA vira uma regressão</h2>
+    <p>Preditoras não precisam ser medidas contínuas. Para dizer "de qual grupo veio a observação", usam-se <strong>variáveis indicadoras</strong>: $z_\ell = 1$ se a observação é do grupo $\ell$ e 0 se não é. Com as <span class="ref" data-ref="ex-anova-peq">três amostras pequenas do cap. 6</span> (9, 6, 9 / 0, 2 / 3, 1, 2), o modelo $Y = \beta_0 + \beta_1 z_1 + \beta_2 z_2 + \beta_3 z_3 + \varepsilon$ tem</p>
+    $$\mathbf{y} = \begin{bmatrix} 9 \\ 6 \\ 9 \\ 0 \\ 2 \\ 3 \\ 1 \\ 2 \end{bmatrix}$$
+      $$\mathbf{Z} = \begin{bmatrix} 1 & 1 & 0 & 0 \\ 1 & 1 & 0 & 0 \\ 1 & 1 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 1 & 0 & 1 & 0 \\ 1 & 0 & 0 & 1 \\ 1 & 0 & 0 & 1 \\ 1 & 0 & 0 & 1 \end{bmatrix}$$
+    <p>Aqui $\beta_0$ faz o papel de $\mu$ e $\beta_\ell$ o do efeito $\tau_\ell$. Repare: a primeira coluna é a soma das outras três, então $\mathbf{Z}$ não tem posto cheio. Isso não impede o ajuste (os programas usam uma inversa generalizada), só faz os $\beta$ não serem únicos, como os efeitos da ANOVA, que precisavam de uma restrição.</p>
+    <div class="ideia">Variáveis indicadoras (0 ou 1) colocam grupos dentro da regressão; assim toda a análise de variância cabe no modelo $\mathbf{Y} = \mathbf{Z}\boldsymbol\beta + \boldsymbol\varepsilon$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Num estudo com 3 tratamentos, alguém monta $\mathbf{Z}$ com a coluna de uns e uma indicadora para cada tratamento. Por que $\mathbf{Z}'\mathbf{Z}$ não tem inversa?</p>
+      <div class="alts">
+        <button data-op="a">(a) Porque indicadoras só valem 0 ou 1, e matrizes de 0 e 1 não têm inversa.</button>
+        <button data-op="b">(b) Porque há menos observações do que colunas.</button>
+        <button data-op="c">(c) Porque as três indicadoras somam a coluna de uns: as colunas são linearmente dependentes.</button>
+        <button data-op="d">(d) Porque os grupos têm tamanhos diferentes.</button>
+      </div>
+      <div class="fb" data-op="a">Muitas matrizes de 0 e 1 têm inversa (a identidade, por exemplo). O problema é a dependência entre as colunas.</div>
+      <div class="fb" data-op="b">No exemplo há 8 observações e 4 colunas. Faltar observação seria outro problema; aqui é a dependência linear.</div>
+      <div class="fb" data-op="c">Isso: cada observação pertence a exatamente um grupo, então $z_1 + z_2 + z_3 = 1$ em toda linha. Tirar uma indicadora (ou impor uma restrição) resolve.</div>
+      <div class="fb" data-op="d">Tamanhos diferentes não criam dependência entre colunas; a soma das indicadoras dá 1 em qualquer caso.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.2 ================= -->
+  <div class="secao" data-numero="7.2" data-titulo="Mínimos quadrados" data-livro="§7.3">
+
+  <section class="passo" data-titulo="Mínimos quadrados">
+   <div class="texto">
+    <h2>Mínimos quadrados: a reta que deixa a menor soma de quadrados dos resíduos</h2>
+    <p>Para um candidato $\mathbf{b}$, cada observação fica a $y_j - b_0 - b_1z_{j1} - \cdots - b_rz_{jr}$ da reta (ou do plano). O método de mínimos quadrados escolhe o $\mathbf{b}$ que minimiza a soma dos quadrados dessas diferenças:</p>
+    <div class="formula" data-ref-id="f-mq" data-ref-tipo="formula" data-ref-nome="Estimador de mínimos quadrados e resíduos">
+      $$S(\mathbf{b}) = (\mathbf{y} - \mathbf{Zb})'(\mathbf{y} - \mathbf{Zb})$$
+      $$\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$$
+      $$\hat{\mathbf{y}} = \mathbf{Z}\hat{\boldsymbol\beta}$$
+      $$\hat{\boldsymbol\varepsilon} = \mathbf{y} - \hat{\mathbf{y}}$$
+      $$\mathbf{Z}'\hat{\boldsymbol\varepsilon} = \mathbf{0}$$
+    </div>
+    <p>Vale quando $\mathbf{Z}$ tem posto cheio ($r + 1 \le n$ colunas independentes). Os $\hat{\boldsymbol\varepsilon}$ são os <strong>resíduos</strong>. A condição $\mathbf{Z}'\hat{\boldsymbol\varepsilon} = \mathbf{0}$ diz que os resíduos são perpendiculares a todas as colunas de $\mathbf{Z}$; como uma delas é a de uns, os resíduos somam zero.</p>
+    <details class="demo">
+      <summary>Demonstração: por que esse $\hat{\boldsymbol\beta}$ é o mínimo</summary>
+      <p>Some e subtraia $\mathbf{Z}\hat{\boldsymbol\beta}$: $\mathbf{y} - \mathbf{Zb} = \hat{\boldsymbol\varepsilon} + \mathbf{Z}(\hat{\boldsymbol\beta} - \mathbf{b})$. Com $\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$, vale $\mathbf{Z}'\hat{\boldsymbol\varepsilon} = \mathbf{Z}'\mathbf{y} - \mathbf{Z}'\mathbf{Z}\hat{\boldsymbol\beta} = \mathbf{0}$, e o termo cruzado some:</p>
+      $$S(\mathbf{b}) = \hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon} + (\hat{\boldsymbol\beta} - \mathbf{b})'\mathbf{Z}'\mathbf{Z}(\hat{\boldsymbol\beta} - \mathbf{b}).$$
+      <p>A primeira parcela não depende de $\mathbf{b}$; a segunda é o comprimento ao quadrado de $\mathbf{Z}(\hat{\boldsymbol\beta} - \mathbf{b})$, que só é zero quando $\mathbf{b} = \hat{\boldsymbol\beta}$ (porque $\mathbf{Z}$ tem posto cheio). Logo o mínimo é único e vale $\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon} = \mathbf{y}'\mathbf{y} - \mathbf{y}'\mathbf{Z}\hat{\boldsymbol\beta}$.</p>
+    </details>
+    <div class="ideia">Mínimos quadrados escolhe $\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$, que minimiza a soma dos quadrados dos resíduos; os resíduos ficam perpendiculares às colunas de $\mathbf{Z}$ e somam zero.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-mq">
+      <p>Com intercepto no modelo, a reta de mínimos quadrados passa sempre por qual ponto?</p>
+      <div class="alts">
+        <button data-op="a">Pelo primeiro ponto dos dados</button>
+        <button data-op="b" data-certa>Por $(\bar z, \bar y)$, as médias</button>
+        <button data-op="c">Pela origem</button>
+      </div>
+      <div class="explica" hidden><p>Os resíduos somam zero, então $\bar y = \hat\beta_0 + \hat\beta_1\bar z$: a reta passa pelo ponto das médias, aqui $(2, 5)$. Mexa nos controles: qualquer outra reta tem soma de quadrados maior que 6.</p></div>
+    </div>
+    <div class="sim" id="sim-mq">
+      <label>Intercepto $b_0$ <input type="range" id="mq-a" min="-3" max="5" step="0.1" value="3"> <strong id="mq-a-v">3,0</strong></label>
+      <label>Inclinação $b_1$ <input type="range" id="mq-b" min="0" max="4" step="0.05" value="1"> <strong id="mq-b-v">1,00</strong></label>
+      <svg viewBox="0 0 360 260" id="mq-svg" role="img" aria-label="Cinco pontos, uma reta tentativa e os resíduos"></svg>
+      <p id="mq-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="A reta à mão">
+   <div class="texto">
+    <h2>A conta completa numa reta com cinco pontos</h2>
+    <p>Para a <span class="ref" data-ref="ex-reta">reta com cinco pontos</span>, monte $\mathbf{Z}'\mathbf{Z}$ e $\mathbf{Z}'\mathbf{y}$:</p>
+    $$\mathbf{Z}'\mathbf{Z} = \begin{bmatrix} 5 & 10 \\ 10 & 30 \end{bmatrix}$$
+      $$(\mathbf{Z}'\mathbf{Z})^{-1} = \begin{bmatrix} 0{,}6 & -0{,}2 \\ -0{,}2 & 0{,}1 \end{bmatrix}$$
+      $$\mathbf{Z}'\mathbf{y} = \begin{bmatrix} 25 \\ 70 \end{bmatrix}$$
+    <p>A primeira entrada de $\mathbf{Z}'\mathbf{Z}$ é $n$; a segunda, $\sum z_j$; a última, $\sum z_j^2$. Em $\mathbf{Z}'\mathbf{y}$: $\sum y_j$ e $\sum z_jy_j$. A reta ajustada é $\hat y = 1 + 2z$, com valores ajustados $1, 3, 5, 7, 9$ e resíduos $0, 1, -2, 1, 0$, cuja soma de quadrados é 6.</p>
+    <div class="ideia">Com uma preditora, $\mathbf{Z}'\mathbf{Z}$ guarda $n$, $\sum z$ e $\sum z^2$, e $\mathbf{Z}'\mathbf{y}$ guarda $\sum y$ e $\sum zy$; o resto é inverter uma matriz $2 \times 2$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Calcule $\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$ com as matrizes ao lado.</p>
+      <p>$\hat\beta_0 =$ <input class="lacuna" data-resp="1" data-tol="0.001" aria-label="beta 0"><br>$\hat\beta_1 =$ <input class="lacuna" data-resp="2" data-tol="0.001" aria-label="beta 1"></p>
+      <p>Resíduo do terceiro ponto ($z = 2$, $y = 3$): <input class="lacuna" data-resp="-2" data-tol="0.001" aria-label="resíduo 3"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\hat\beta_0 = 0{,}6 \times 25 - 0{,}2 \times 70$; o resíduo é $y - \hat y$.</p>
+      <div class="resolucao" hidden><p>$\hat\beta_0 = 15 - 14 = 1$; $\hat\beta_1 = -5 + 7 = 2$. Em $z = 2$, $\hat y = 5$, e o resíduo é $3 - 5 = -2$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="R²">
+   <div class="texto">
+    <h2>A variação total se divide em explicada e residual: daí o $R^2$</h2>
+    <p>Como $\hat{\mathbf{y}}$ e $\hat{\boldsymbol\varepsilon}$ são perpendiculares, os comprimentos ao quadrado somam (Pitágoras). Tirando a média dos dois lados:</p>
+    <div class="formula" data-ref-id="f-r2" data-ref-tipo="formula" data-ref-nome="Decomposição da soma de quadrados e R²">
+      $$\underbrace{\sum_j(y_j - \bar y)^2}_{\text{total}} = \underbrace{\sum_j(\hat y_j - \bar y)^2}_{\text{regressão}} + \underbrace{\sum_j\hat\varepsilon_j^2}_{\text{residual}}$$
+      $$R^2 = 1 - \frac{\sum_j\hat\varepsilon_j^2}{\sum_j(y_j - \bar y)^2} = \frac{\sum_j(\hat y_j - \bar y)^2}{\sum_j(y_j - \bar y)^2}$$
+    </div>
+    <p>$R^2$ é a fração da variação de $y$ em torno da média que as preditoras "explicam". Vale 1 quando a reta passa por todos os pontos e 0 quando $\hat\beta_1 = \cdots = \hat\beta_r = 0$ (a reta ajustada é só $\bar y$). Sua raiz positiva, $R$, é a <strong>correlação múltipla</strong>. Na <span class="ref" data-ref="ex-reta">reta com cinco pontos</span>: total 46, regressão 40, residual 6, e $R^2 = 40/46 = 0{,}87$.</p>
+    <div class="ideia">A soma de quadrados total se divide em regressão + resíduo, e $R^2$ é a fração explicada pela regressão, de 0 a 1.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Num modelo com $R^2 = 0{,}60$, alguém acrescenta uma preditora sem relação nenhuma com a resposta (um número sorteado). O que acontece com o $R^2$ calculado nos mesmos dados?</p>
+      <div class="alts">
+        <button data-op="a">(a) Cai, porque a preditora nova só traz ruído.</button>
+        <button data-op="b">(b) Fica igual ou sobe um pouco: o $R^2$ nunca cai quando se acrescenta preditora.</button>
+        <button data-op="c">(c) Fica exatamente igual, porque o coeficiente dela será zero.</button>
+        <button data-op="d">(d) Vai para 1, porque há mais parâmetros.</button>
+      </div>
+      <div class="fb" data-op="a">O ajuste com mais colunas pode sempre repetir o anterior (pondo coeficiente zero na nova), então a soma de quadrados residual não aumenta e o $R^2$ não cai.</div>
+      <div class="fb" data-op="b">Isso: mínimos quadrados aproveita até ruído para reduzir um pouco os resíduos. Por isso $R^2$ sozinho não serve para escolher variáveis; a seção de diagnóstico mostra alternativas.</div>
+      <div class="fb" data-op="c">Na amostra, o coeficiente estimado quase nunca sai exatamente zero; um número sorteado tem alguma correlação por acaso com os resíduos.</div>
+      <div class="fb" data-op="d">Só chegaria a 1 com tantas colunas quanto observações. Uma preditora a mais aumenta pouco.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Projeção">
+   <div class="texto">
+    <h2>Mínimos quadrados é projetar $\mathbf{y}$ no espaço das colunas de $\mathbf{Z}$</h2>
+    <p>Pense em $\mathbf{y}$ como um vetor em $n$ dimensões. Os vetores da forma $\mathbf{Zb}$ formam o "plano do modelo", gerado pelas colunas de $\mathbf{Z}$. Minimizar $S(\mathbf{b})$, o comprimento ao quadrado de $\mathbf{y} - \mathbf{Zb}$, é achar o ponto do plano mais perto de $\mathbf{y}$: a <span class="ref" data-ref="f-proj">projeção perpendicular (cap. 2)</span>. O resíduo é o pedaço perpendicular ao plano.</p>
+    <div class="formula" data-ref-id="d-chapeu" data-ref-tipo="definicao" data-ref-nome="Matriz chapéu H (projeção)">
+      $$\hat{\mathbf{y}} = \mathbf{H}\mathbf{y}$$
+      $$\mathbf{H} = \mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'$$
+      $$\hat{\boldsymbol\varepsilon} = (\mathbf{I} - \mathbf{H})\mathbf{y}$$
+      <p>$\mathbf{H}$ ("matriz chapéu", porque põe o chapéu em $\mathbf{y}$) e $\mathbf{I} - \mathbf{H}$ são simétricas e idempotentes ($\mathbf{HH} = \mathbf{H}$): projetar duas vezes é o mesmo que projetar uma.</p>
+    </div>
+    <p>É a mesma ideia da <span class="ref" data-ref="f-proj1">média como projeção em $\mathbf{1}$ (cap. 3)</span>: lá o "plano" era só a reta de $\mathbf{1}$, e a projeção dava $\bar x\mathbf{1}$.</p>
+    <details class="demo">
+      <summary>Por que $\mathbf{H}$ projeta (pela decomposição espectral)</summary>
+      <p>Pela <span class="ref" data-ref="f-espectral">decomposição espectral</span>, $\mathbf{Z}'\mathbf{Z} = \sum_i\lambda_i\mathbf{e}_i\mathbf{e}_i'$ e $(\mathbf{Z}'\mathbf{Z})^{-1} = \sum_i\lambda_i^{-1}\mathbf{e}_i\mathbf{e}_i'$. Os vetores $\mathbf{q}_i = \lambda_i^{-1/2}\mathbf{Z}\mathbf{e}_i$ são combinações das colunas de $\mathbf{Z}$, têm comprimento 1 e são perpendiculares entre si: $\mathbf{q}_i'\mathbf{q}_k = \lambda_i^{-1/2}\lambda_k^{-1/2}\mathbf{e}_i'\mathbf{Z}'\mathbf{Z}\mathbf{e}_k$, que vale 1 se $i = k$ e 0 se não. Então</p>
+      $$\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}' = \sum_i\lambda_i^{-1}\mathbf{Z}\mathbf{e}_i\mathbf{e}_i'\mathbf{Z}' = \sum_i\mathbf{q}_i\mathbf{q}_i',$$
+      <p>e $\sum_i(\mathbf{q}_i'\mathbf{y})\mathbf{q}_i$ é exatamente a soma das projeções de $\mathbf{y}$ numa base perpendicular do plano.</p>
+    </details>
+    <div class="ideia">$\hat{\mathbf{y}} = \mathbf{Hy}$ é a projeção perpendicular de $\mathbf{y}$ no espaço das colunas de $\mathbf{Z}$, com $\mathbf{H} = \mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'$; o resíduo é a parte perpendicular.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Se $\mathbf{y}$ já está no plano do modelo (os dados caem exatamente sobre a reta), quanto valem $\hat{\mathbf{y}}$ e $\hat{\boldsymbol\varepsilon}$? E o $R^2$?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Projetar um vetor que já está no plano não muda nada: $\hat{\mathbf{y}} = \mathbf{y}$ e $\hat{\boldsymbol\varepsilon} = \mathbf{0}$. Sem resíduo, $R^2 = 1$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Propriedades">
+   <div class="texto">
+    <h2>$\hat{\boldsymbol\beta}$ é não viesado, e nenhum estimador linear não viesado é melhor</h2>
+    <p>Antes de observar, $\mathbf{Y}$ é aleatório, e $\hat{\boldsymbol\beta} = \boldsymbol\beta + (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\boldsymbol\varepsilon$. Pelas regras de <span class="ref" data-ref="f-cxx">média e covariância de $\mathbf{CX}$ (cap. 2)</span>:</p>
+    <div class="formula" data-ref-id="f-prop-mq" data-ref-tipo="formula" data-ref-nome="Propriedades do estimador de mínimos quadrados">
+      $$E(\hat{\boldsymbol\beta}) = \boldsymbol\beta$$
+      $$\mathrm{Cov}(\hat{\boldsymbol\beta}) = \sigma^2(\mathbf{Z}'\mathbf{Z})^{-1}$$
+      $$\mathrm{Cov}(\hat{\boldsymbol\varepsilon}) = \sigma^2(\mathbf{I} - \mathbf{H})$$
+      $$s^2 = \frac{\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}}{n - r - 1}$$
+      $$E(s^2) = \sigma^2$$
+    </div>
+    <p>$s^2$ divide por $n - r - 1$: são $n$ observações menos os $r + 1$ coeficientes estimados (a mesma lógica do divisor $n - 1$ da variância amostral). Além disso, $\hat{\boldsymbol\beta}$ e $\hat{\boldsymbol\varepsilon}$ são não correlacionados.</p>
+    <p><strong>Teorema de Gauss:</strong> para qualquer combinação $\mathbf{c}'\boldsymbol\beta$, o estimador $\mathbf{c}'\hat{\boldsymbol\beta}$ tem a menor variância entre todos os estimadores lineares em $\mathbf{Y}$ ($\mathbf{a}'\mathbf{Y}$) que são não viesados. Isso não precisa de normalidade, só das suposições do modelo.</p>
+    <details class="demo">
+      <summary>Demonstrações: $E(s^2)$ e o teorema de Gauss</summary>
+      <p><strong>$E(s^2)$.</strong> $\hat{\boldsymbol\varepsilon} = (\mathbf{I} - \mathbf{H})\boldsymbol\varepsilon$, e $\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon} = \boldsymbol\varepsilon'(\mathbf{I} - \mathbf{H})\boldsymbol\varepsilon = \mathrm{tr}[(\mathbf{I} - \mathbf{H})\boldsymbol\varepsilon\boldsymbol\varepsilon']$ (um número é seu próprio traço). Tomando a esperança: $\sigma^2\,\mathrm{tr}(\mathbf{I} - \mathbf{H})$ $= \sigma^2[n - \mathrm{tr}((\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{Z})]$ $= \sigma^2(n - r - 1)$.</p>
+      <p><strong>Gauss.</strong> Se $\mathbf{a}'\mathbf{Y}$ é não viesado para $\mathbf{c}'\boldsymbol\beta$, então $\mathbf{a}'\mathbf{Z}\boldsymbol\beta = \mathbf{c}'\boldsymbol\beta$ para todo $\boldsymbol\beta$, logo $\mathbf{a}'\mathbf{Z} = \mathbf{c}'$. O estimador de mínimos quadrados é $\mathbf{c}'\hat{\boldsymbol\beta} = \mathbf{a}^{*\prime}\mathbf{Y}$ com $\mathbf{a}^* = \mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{c}$. Então</p>
+      $$\begin{aligned} \mathrm{Var}(\mathbf{a}'\mathbf{Y}) &= \sigma^2\mathbf{a}'\mathbf{a} \\ &= \sigma^2[(\mathbf{a} - \mathbf{a}^*)'(\mathbf{a} - \mathbf{a}^*) + \mathbf{a}^{*\prime}\mathbf{a}^*], \end{aligned}$$
+      <p>porque o termo cruzado $(\mathbf{a} - \mathbf{a}^*)'\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{c}$ $= (\mathbf{c}' - \mathbf{c}')(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{c}$ $= 0$. O mínimo é em $\mathbf{a} = \mathbf{a}^*$.</p>
+    </details>
+    <div class="ideia">$\hat{\boldsymbol\beta}$ é não viesado com covariância $\sigma^2(\mathbf{Z}'\mathbf{Z})^{-1}$, $s^2 = \hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}/(n - r - 1)$ estima $\sigma^2$, e $\mathbf{c}'\hat{\boldsymbol\beta}$ é o estimador linear não viesado de menor variância (Gauss).</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="d">
+      <p class="enunciado">O teorema de Gauss garante que $\mathbf{c}'\hat{\boldsymbol\beta}$ de mínimos quadrados tem a menor variância...</p>
+      <div class="alts">
+        <button data-op="a">(a) entre todos os estimadores possíveis de $\mathbf{c}'\boldsymbol\beta$.</button>
+        <button data-op="b">(b) entre os estimadores não viesados, desde que os erros sejam normais.</button>
+        <button data-op="c">(c) entre os estimadores lineares, viesados ou não.</button>
+        <button data-op="d">(d) entre os estimadores lineares em $\mathbf{Y}$ e não viesados, sob média zero, variância constante e erros não correlacionados.</button>
+      </div>
+      <div class="fb" data-op="a">Estimadores viesados ou não lineares podem ter variância (ou até erro quadrático médio) menor. O teorema compara só dentro de uma classe.</div>
+      <div class="fb" data-op="b">O teorema não pede normalidade. (Com normalidade vale algo mais forte, mas não é esse o enunciado.)</div>
+      <div class="fb" data-op="c">Um estimador viesado, como a constante zero, tem variância zero. Por isso a comparação é só entre os não viesados.</div>
+      <div class="fb" data-op="d">Isso: lineares, não viesados, e as suposições do modelo clássico sobre os erros. Nada sobre normalidade.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.3 ================= -->
+  <div class="secao" data-numero="7.3" data-titulo="Inferência sobre β" data-livro="§7.4">
+
+  <section class="passo" data-titulo="Intervalos">
+   <div class="texto">
+    <h2>Com erros normais: intervalos e região de confiança para $\boldsymbol\beta$</h2>
+    <p>Supondo agora $\boldsymbol\varepsilon \sim N_n(\mathbf{0}, \sigma^2\mathbf{I})$, o estimador de mínimos quadrados também é o de máxima verossimilhança, e as distribuições ficam exatas:</p>
+    <div class="formula" data-ref-id="f-reg-ic" data-ref-tipo="formula" data-ref-nome="Distribuições e intervalos para β">
+      $$\hat{\boldsymbol\beta} \sim N_{r+1}\big(\boldsymbol\beta,\ \sigma^2(\mathbf{Z}'\mathbf{Z})^{-1}\big)$$
+      $$\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon} \sim \sigma^2\chi^2_{n-r-1},\quad\text{independentes}$$
+      <p>Um de cada vez:</p>
+      $$\beta_i:\quad \hat\beta_i \pm t_{n-r-1}(\alpha/2)\sqrt{\widehat{\mathrm{Var}}(\hat\beta_i)}$$
+      <p>Região conjunta:</p>
+      $$\begin{aligned} &(\boldsymbol\beta - \hat{\boldsymbol\beta})'\mathbf{Z}'\mathbf{Z}(\boldsymbol\beta - \hat{\boldsymbol\beta}) \\ &\quad\le (r + 1)s^2F_{r+1,\,n-r-1}(\alpha) \end{aligned}$$
+      <p>$\widehat{\mathrm{Var}}(\hat\beta_i)$ é a entrada da diagonal de $s^2(\mathbf{Z}'\mathbf{Z})^{-1}$. Para intervalos simultâneos, troca-se $t_{n-r-1}(\alpha/2)$ por $\sqrt{(r+1)F_{r+1,n-r-1}(\alpha)}$.</p>
+    </div>
+    <p>A região conjunta é um elipsoide centrado em $\hat{\boldsymbol\beta}$, com forma dada por $\mathbf{Z}'\mathbf{Z}$; um autovalor de $\mathbf{Z}'\mathbf{Z}$ perto de zero deixa o elipsoide muito comprido naquela direção. Na prática, quem procura preditoras importantes costuma usar o intervalo $t$ um de cada vez.</p>
+    <details class="demo">
+      <summary>De onde vêm as distribuições</summary>
+      <p>Com erros normais, a verossimilhança é proporcional a $\sigma^{-n}e^{-(\mathbf{y} - \mathbf{Z}\boldsymbol\beta)'(\mathbf{y} - \mathbf{Z}\boldsymbol\beta)/2\sigma^2}$; para cada $\sigma^2$, o máximo em $\boldsymbol\beta$ é o mínimo de $S(\boldsymbol\beta)$, ou seja, $\hat{\boldsymbol\beta}$ de mínimos quadrados. $\hat{\boldsymbol\beta}$ e $\hat{\boldsymbol\varepsilon}$ são combinações lineares de $\boldsymbol\varepsilon$, logo conjuntamente normais, e não correlacionados, logo <span class="ref" data-ref="f-indep-normal">independentes (cap. 4)</span>.</p>
+      <p>$\mathbf{I} - \mathbf{H}$ é idempotente com traço $n - r - 1$, então tem $n - r - 1$ autovalores iguais a 1 e os outros iguais a 0. Pela decomposição espectral, $\boldsymbol\varepsilon'(\mathbf{I} - \mathbf{H})\boldsymbol\varepsilon = V_1^2 + \cdots + V_{n-r-1}^2$, com $V_\ell = \mathbf{e}_\ell'\boldsymbol\varepsilon$ independentes $N(0, \sigma^2)$: uma $\sigma^2\chi^2_{n-r-1}$.</p>
+    </details>
+    <div class="ideia">Com erros normais, $\hat{\boldsymbol\beta} \sim N(\boldsymbol\beta, \sigma^2(\mathbf{Z}'\mathbf{Z})^{-1})$ independente de $s^2$, e cada $\beta_i$ tem intervalo $\hat\beta_i \pm t_{n-r-1}(\alpha/2)$ vezes seu erro padrão estimado.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-imoveis" data-ref-tipo="exemplo" data-ref-nome="Preço de 20 casas">
+      <p>Preço de venda ($y$, em mil dólares) de 20 casas de um bairro, com $z_1$ = área construída (centenas de pés quadrados) e $z_2$ = valor de avaliação (mil dólares).</p>
+      <table>
+        <thead><tr><th>$z_1$</th><th>$z_2$</th><th>$y$</th><th>$z_1$</th><th>$z_2$</th><th>$y$</th></tr></thead>
+        <tbody>
+          <tr><td>15,31</td><td>57,3</td><td>74,8</td><td>15,18</td><td>62,6</td><td>71,5</td></tr>
+          <tr><td>15,20</td><td>63,8</td><td>74,0</td><td>14,44</td><td>63,4</td><td>71,0</td></tr>
+          <tr><td>16,25</td><td>65,4</td><td>72,9</td><td>14,87</td><td>60,2</td><td>78,9</td></tr>
+          <tr><td>14,33</td><td>57,0</td><td>70,0</td><td>18,63</td><td>67,2</td><td>86,5</td></tr>
+          <tr><td>14,57</td><td>63,8</td><td>74,9</td><td>15,20</td><td>57,1</td><td>68,0</td></tr>
+          <tr><td>17,33</td><td>63,2</td><td>76,0</td><td>25,76</td><td>89,6</td><td>102,0</td></tr>
+          <tr><td>14,48</td><td>60,2</td><td>72,0</td><td>19,05</td><td>68,6</td><td>84,0</td></tr>
+          <tr><td>14,91</td><td>57,7</td><td>73,5</td><td>15,37</td><td>60,1</td><td>69,0</td></tr>
+          <tr><td>15,25</td><td>56,4</td><td>74,5</td><td>18,06</td><td>66,3</td><td>88,0</td></tr>
+          <tr><td>13,89</td><td>55,6</td><td>73,5</td><td>16,35</td><td>65,8</td><td>76,0</td></tr>
+        </tbody>
+      </table>
+      $$\hat y = 30{,}967 + 2{,}634z_1 + 0{,}045z_2$$
+      <p>Erros padrão 7,88; 0,786; 0,285. $s = 3{,}473$, $R^2 = 0{,}834$.</p>
+    </div>
+    <div class="lacunas">
+      <p>Intervalo de 95% para $\beta_2$ (valor de avaliação), um de cada vez, com $t_{17}(0{,}025) = 2{,}110$.</p>
+      <p>Limite inferior: <input class="lacuna" data-resp="-0.556" data-tol="0.005" aria-label="limite inferior"><br>Limite superior: <input class="lacuna" data-resp="0.647" data-tol="0.005" aria-label="limite superior"></p>
+      <p>O intervalo contém o zero? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="contém zero"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $0{,}045 \pm 2{,}110 \times 0{,}285$.</p>
+      <div class="resolucao" hidden><p>$2{,}110 \times 0{,}285 = 0{,}601$; o intervalo é $(-0{,}556;\ 0{,}647)$ e contém o zero. Dado o tamanho, o valor de avaliação parece acrescentar pouco à previsão do preço; daria para tirar $z_2$ e refazer o ajuste.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Soma de quadrados extra">
+   <div class="texto">
+    <h2>Para testar um grupo de coeficientes, compare os resíduos com e sem eles</h2>
+    <p>"As preditoras $z_{q+1}, \dots, z_r$ não influenciam $Y$" é $H_0: \boldsymbol\beta_{(2)} = \mathbf{0}$, com $\boldsymbol\beta_{(2)} = [\beta_{q+1}, \dots, \beta_r]'$. Ajusta-se o modelo completo ($\mathbf{Z}$) e o reduzido ($\mathbf{Z}_1$, só com as primeiras $q + 1$ colunas). A melhora na soma de quadrados residual é a <strong>soma de quadrados extra</strong>:</p>
+    <div class="formula" data-ref-id="f-ss-extra" data-ref-tipo="formula" data-ref-nome="Teste F da soma de quadrados extra">
+      $$F = \frac{\big(SS_{\text{res}}(\mathbf{Z}_1) - SS_{\text{res}}(\mathbf{Z})\big)/(r - q)}{s^2}$$
+      <p>Rejeita $H_0$ se $F \gt F_{r-q,\,n-r-1}(\alpha)$, com $s^2 = SS_{\text{res}}(\mathbf{Z})/(n - r - 1)$ do modelo completo. É o teste da razão de verossimilhanças. Se $\mathbf{Z}$ não tem posto cheio, $r + 1$ vira o posto de $\mathbf{Z}$ e $q + 1$ o posto de $\mathbf{Z}_1$.</p>
+    </div>
+    <p>O mesmo vale para hipóteses $\mathbf{C}\boldsymbol\beta = \mathbf{0}$ com $r - q$ combinações: rejeita-se se $\mathbf{0}$ cai fora do elipsoide de confiança de $\mathbf{C}\boldsymbol\beta$, e o numerador do $F$ é a soma extra causada pela restrição. Em planejamentos desbalanceados, como o do <span class="ref" data-ref="ex-restaurante">restaurante</span> ao lado, as contribuições das preditoras não se separam em partes independentes; o jeito é ajustar com e sem os termos.</p>
+    <div class="ideia">Para testar se um grupo de preditoras pode sair, ajusta-se o modelo com e sem elas e compara-se a soma de quadrados extra, por grau de liberdade, com $s^2$ do modelo completo numa $F$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-restaurante" data-ref-tipo="exemplo" data-ref-nome="Serviço de um restaurante: local e gênero">
+      <p>Índice de qualidade do serviço ($y$) dado por 18 clientes de 3 unidades de uma rede, homens (0) e mulheres (1).</p>
+      <table>
+        <thead><tr><th>Local</th><th>Gên.</th><th>$y$</th><th>Local</th><th>Gên.</th><th>$y$</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>0</td><td>15,2</td><td>2</td><td>0</td><td>9,1</td></tr>
+          <tr><td>1</td><td>0</td><td>21,2</td><td>2</td><td>0</td><td>18,2</td></tr>
+          <tr><td>1</td><td>0</td><td>27,3</td><td>2</td><td>0</td><td>50,0</td></tr>
+          <tr><td>1</td><td>0</td><td>21,2</td><td>2</td><td>1</td><td>44,0</td></tr>
+          <tr><td>1</td><td>0</td><td>21,2</td><td>2</td><td>1</td><td>63,6</td></tr>
+          <tr><td>1</td><td>1</td><td>36,4</td><td>3</td><td>0</td><td>15,2</td></tr>
+          <tr><td>1</td><td>1</td><td>92,4</td><td>3</td><td>0</td><td>30,3</td></tr>
+          <tr><td>2</td><td>0</td><td>27,3</td><td>3</td><td>1</td><td>36,4</td></tr>
+          <tr><td>2</td><td>0</td><td>15,2</td><td>3</td><td>1</td><td>40,9</td></tr>
+        </tbody>
+      </table>
+      <p>Modelo com constante, 3 indicadoras de local, 2 de gênero e 6 de interação (posto 6): $SS_{\text{res}} = 2977{,}4$. Sem a interação (posto 4): $SS_{\text{res}} = 3419{,}1$.</p>
+    </div>
+    <div class="acheerro">
+      <p>Um colega testou a interação local × gênero no restaurante. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: 3419,1 − 2977,4 = 441,7.">Soma de quadrados extra: $3419{,}1 - 2977{,}4 = 441{,}7$.</li>
+        <li data-errada data-fb="Aqui. Os graus de liberdade vêm dos postos, não do número de colunas: o modelo completo tem posto 6 e o reduzido posto 4, então a diferença é 2, e s² usa 18 − 6 = 12 g.l. A conta certa é F = (441,7/2)/(2977,4/12) = 220,9/248,1 = 0,89, sem significância.">Com 12 colunas no modelo completo e 6 no reduzido, $F = (441{,}7/6)/(2977{,}4/6) = 0{,}15$.</li>
+        <li data-fb="A conclusão (interação desprezível) coincide com a certa, mas veio de uma conta errada na linha anterior.">Não há interação; ela pode sair do modelo.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.4 ================= -->
+  <div class="secao" data-numero="7.4" data-titulo="Previsão" data-livro="§7.5">
+
+  <section class="passo" data-titulo="Média × nova observação">
+   <div class="texto">
+    <h2>Prever uma observação nova é mais incerto que estimar a média</h2>
+    <p>Fixadas as preditoras em $\mathbf{z}_0 = [1, z_{01}, \dots, z_{0r}]'$, há duas perguntas diferentes. Qual é a <strong>média</strong> da resposta nesse ponto, $E(Y_0 \mid \mathbf{z}_0) = \mathbf{z}_0'\boldsymbol\beta$? E qual será o valor de <strong>uma nova observação</strong> $Y_0 = \mathbf{z}_0'\boldsymbol\beta + \varepsilon_0$? As duas usam $\mathbf{z}_0'\hat{\boldsymbol\beta}$, mas a segunda carrega também o erro novo $\varepsilon_0$:</p>
+    <div class="formula" data-ref-id="f-reg-prev" data-ref-tipo="formula" data-ref-nome="Intervalo de confiança para a média e intervalo de previsão">
+      <p>Média $E(Y_0 \mid \mathbf{z}_0)$:</p>
+      $$\mathbf{z}_0'\hat{\boldsymbol\beta} \pm t_{n-r-1}(\alpha/2)\,s\sqrt{\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0}$$
+      <p>Observação nova $Y_0$:</p>
+      $$\mathbf{z}_0'\hat{\boldsymbol\beta} \pm t_{n-r-1}(\alpha/2)\,s\sqrt{1 + \mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0}$$
+    </div>
+    <p>$\mathbf{z}_0'\hat{\boldsymbol\beta}$ é o estimador linear não viesado de menor variância de $\mathbf{z}_0'\boldsymbol\beta$ (Gauss), com variância $\sigma^2\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0$. O erro de previsão $Y_0 - \mathbf{z}_0'\hat{\boldsymbol\beta} = \varepsilon_0 + \mathbf{z}_0'(\boldsymbol\beta - \hat{\boldsymbol\beta})$ soma as duas incertezas, que são independentes: daí o "1 +". O termo $\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0$ cresce quando $\mathbf{z}_0$ se afasta do centro das preditoras.</p>
+    <div class="ideia">A média em $\mathbf{z}_0$ tem intervalo com $\sqrt{\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0}$; uma observação nova, com $\sqrt{1 + \mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0}$, porque inclui o erro dela.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-faixas">
+      <p>Com muitos dados, a incerteza sobre a reta vai a zero. E a faixa de previsão de uma observação nova?</p>
+      <div class="alts">
+        <button data-op="a">Também vai a zero</button>
+        <button data-op="b" data-certa>Não fica mais estreita que cerca de $\pm 2\sigma$</button>
+        <button data-op="c">Fica cada vez mais larga</button>
+      </div>
+      <div class="explica" hidden><p>O termo $\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0$ encolhe com $n$, mas o "1" (o erro da observação nova) fica. Na simulação, com os cinco pontos, as duas faixas são mais estreitas perto de $\bar z = 2$ e abrem nas pontas.</p></div>
+    </div>
+    <div class="sim" id="sim-faixas">
+      <label>Ponto $z_0$ <input type="range" id="fx-z" min="-2" max="6" step="0.1" value="2"> <strong id="fx-z-v">2,0</strong></label>
+      <svg viewBox="0 0 360 260" id="fx-svg" role="img" aria-label="Reta ajustada com faixas de confiança e de previsão"></svg>
+      <p id="fx-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Computador">
+   <div class="texto">
+    <h2>Quanto tempo de processamento uma filial nova vai precisar?</h2>
+    <p>Empresas que vão comprar computadores precisam prever a demanda. Em 7 filiais parecidas, mediu-se o tempo de processamento ($y$, em horas) com $z_1$ = pedidos de clientes (milhares) e $z_2$ = itens incluídos ou excluídos (milhares). O ajuste é</p>
+    $$\hat y = 8{,}42 + 1{,}08z_1 + 0{,}42z_2$$
+      $$s = 1{,}204$$
+    <p>Para uma filial nova com $\mathbf{z}_0 = [1, 130, 7{,}5]'$: $\mathbf{z}_0'\hat{\boldsymbol\beta} = 151{,}84$ e $\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0 = 0{,}370$. Com $t_4(0{,}025) = 2{,}776$, o intervalo de 95% para o tempo <em>médio</em> nesse ponto é $(149{,}81;\ 153{,}87)$ horas. Para decidir que máquina comprar, interessa o tempo da filial nova, e aí vale o intervalo de previsão, que você calcula ao lado.</p>
+    <div class="ideia">Para planejar uma unidade específica, use o intervalo de previsão (mais largo), não o intervalo de confiança da média.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-computador" data-ref-tipo="exemplo" data-ref-nome="Computador: tempo de processamento em 7 filiais">
+      <p>7 filiais: pedidos ($z_1$), itens incluídos ou excluídos ($z_2$), tempo de processamento em horas ($y_1$) e capacidade de entrada e saída de disco ($y_2$), que aparece mais adiante.</p>
+      <table>
+        <thead><tr><th>$z_1$</th><th>$z_2$</th><th>$y_1$</th><th>$y_2$</th></tr></thead>
+        <tbody>
+          <tr><td>123,5</td><td>2,108</td><td>141,5</td><td>301,8</td></tr>
+          <tr><td>146,1</td><td>9,213</td><td>168,9</td><td>396,1</td></tr>
+          <tr><td>133,9</td><td>1,905</td><td>154,8</td><td>328,2</td></tr>
+          <tr><td>128,5</td><td>0,815</td><td>146,5</td><td>307,4</td></tr>
+          <tr><td>151,5</td><td>1,061</td><td>172,8</td><td>362,4</td></tr>
+          <tr><td>136,2</td><td>8,603</td><td>160,1</td><td>369,5</td></tr>
+          <tr><td>92,0</td><td>1,125</td><td>108,5</td><td>229,1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lacunas">
+      <p>Intervalo de previsão de 95% para o tempo da filial nova: $151{,}84 \pm 2{,}776$ $\times 1{,}204 \times \sqrt{1 + 0{,}370}$.</p>
+      <p>Meia largura: <input class="lacuna" data-resp="3.91" data-tol="0.03" aria-label="meia largura"></p>
+      <p>Limite superior: <input class="lacuna" data-resp="155.75" data-tol="0.05" aria-label="limite superior"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\sqrt{1{,}370} = 1{,}170$.</p>
+      <div class="resolucao" hidden><p>$2{,}776 \times 1{,}204 \times 1{,}170 = 3{,}91$; o intervalo é $(147{,}93;\ 155{,}75)$, quase o dobro do de confiança, $(149{,}81;\ 153{,}87)$.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.5 ================= -->
+  <div class="secao" data-numero="7.5" data-titulo="Diagnóstico" data-livro="§7.6">
+
+  <section class="passo" data-titulo="Resíduos">
+   <div class="texto">
+    <h2>Toda informação sobre a falta de ajuste está nos resíduos</h2>
+    <p>Se o modelo vale, cada resíduo estima o erro correspondente. Mas os resíduos não têm todos a mesma variância: $\mathrm{Cov}(\hat{\boldsymbol\varepsilon}) = \sigma^2(\mathbf{I} - \mathbf{H})$, e por isso compara-se cada um com o seu próprio desvio padrão:</p>
+    <div class="formula" data-ref-id="f-residuos" data-ref-tipo="formula" data-ref-nome="Resíduos estudentizados e autocorrelação dos resíduos">
+      $$\hat\varepsilon_j^* = \frac{\hat\varepsilon_j}{\sqrt{s^2(1 - h_{jj})}}$$
+      $$r_1 = \frac{\sum_{j=2}^n\hat\varepsilon_j\hat\varepsilon_{j-1}}{\sum_{j=1}^n\hat\varepsilon_j^2}$$
+      <p>O primeiro é o resíduo estudentizado; $h_{jj}$ é a entrada $j$ da diagonal de $\mathbf{H}$. Os estudentizados devem parecer sorteios independentes de uma $N(0, 1)$. $r_1$ é a autocorrelação de defasagem 1, usada quando os dados vêm em ordem no tempo; o teste de Durbin–Watson usa $\sum(\hat\varepsilon_j - \hat\varepsilon_{j-1})^2/\sum\hat\varepsilon_j^2 \approx 2(1 - r_1)$.</p>
+    </div>
+    <p>Quatro gráficos cobrem quase tudo. <strong>1. Resíduo contra $\hat y$:</strong> curvatura indica erro de conta ou falta do $\beta_0$; funil indica variância não constante (transforme ou use mínimos quadrados ponderados). <strong>2. Resíduo contra cada preditora</strong> (ou produtos delas): padrão sistemático pede mais termos. <strong>3. <span class="ref" data-ref="d-qq">Gráfico Q-Q (cap. 4)</span></strong> dos resíduos, para normalidade e atípicos. <strong>4. Resíduo contra o tempo:</strong> sequências longas acima ou abaixo de zero indicam dependência. Com $n$ grande, desvios leves de normalidade pouco afetam as conclusões sobre $\boldsymbol\beta$.</p>
+    <div class="ideia">Compare cada resíduo com seu desvio padrão $s\sqrt{1 - h_{jj}}$ e faça os quatro gráficos: contra $\hat y$, contra as preditoras, Q-Q e contra o tempo.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Quatro padrões de resíduos (eixo horizontal: $\hat y$ ou tempo; eixo vertical: resíduo).</p>
+      <svg viewBox="0 0 340 250" class="fig" id="res-svg" role="img" aria-label="Quatro padrões de resíduos: faixa horizontal, funil, curva e sequência no tempo"></svg>
+    </div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">No gráfico de resíduos contra $\hat y$, os pontos formam um funil: espalhamento pequeno para $\hat y$ pequeno e grande para $\hat y$ grande. O que isso indica?</p>
+      <div class="alts">
+        <button data-op="a">(a) Falta um termo quadrático no modelo.</button>
+        <button data-op="b">(b) A variância do erro não é constante; vale transformar a resposta ou usar mínimos quadrados ponderados.</button>
+        <button data-op="c">(c) Os erros são dependentes no tempo.</button>
+        <button data-op="d">(d) Nada: resíduos sempre variam mais quando $\hat y$ é grande.</button>
+      </div>
+      <div class="fb" data-op="a">Falta de termo aparece como curva (o centro dos resíduos sobe e desce), não como abertura do espalhamento.</div>
+      <div class="fb" data-op="b">Isso: o modelo supõe $\mathrm{Var}(\varepsilon) = \sigma^2$ constante, e o funil mostra que ela cresce com a média. Um logaritmo ou uma raiz da resposta costuma resolver.</div>
+      <div class="fb" data-op="c">Dependência no tempo se vê no gráfico contra o tempo (sequências de sinais iguais), não contra $\hat y$.</div>
+      <div class="fb" data-op="d">Com variância constante, o ideal é uma faixa horizontal de largura constante. O funil é um aviso, não algo esperado.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Alavanca">
+   <div class="texto">
+    <h2>Pontos com alavanca alta puxam o ajuste para si</h2>
+    <p>Um atípico pode não aparecer nos resíduos justamente porque puxou a reta para perto dele. A <strong>alavanca</strong> $h_{jj}$ mede quão longe, no espaço das preditoras, a observação $j$ está das outras. Com uma preditora só:</p>
+    <div class="formula" data-ref-id="f-alavanca" data-ref-tipo="formula" data-ref-nome="Alavanca de uma observação">
+      $$h_{jj} = \frac1n + \frac{(z_j - \bar z)^2}{\sum_{k=1}^n(z_k - \bar z)^2}$$
+      $$\text{média dos } h_{jj} = \frac{r + 1}{n}$$
+    </div>
+    <p>Quando $h_{jj}$ chega perto de 1, o valor ajustado em $z_j$ é decidido quase só por $y_j$: mudar $y_j$ muda $\hat y_j$ em $h_{jj}$ vezes a mesma quantidade, e o resto dos dados quase não opina. Observações que mudam muito $\hat{\boldsymbol\beta}$ quando retiradas são chamadas de <strong>influentes</strong>. Nas <span class="ref" data-ref="ex-imoveis">20 casas</span>, a casa com área 25,76 (bem maior que as outras) tem $h = 0{,}75$, contra a média $3/20 = 0{,}15$.</p>
+    <div class="ideia">A alavanca $h_{jj}$ mede o quanto a observação $j$ está afastada nas preditoras; com $h_{jj}$ perto de 1, ela decide sozinha o ajuste naquele ponto, e o resíduo dela fica pequeno mesmo se for atípica.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-alav">
+      <p>Um ponto novo fica 4 unidades acima da reta. Ele muda mais a reta quando está em $z = 2$ (no meio dos dados) ou em $z = 10$ (bem à direita)?</p>
+      <div class="alts">
+        <button data-op="a">Em $z = 2$</button>
+        <button data-op="b" data-certa>Em $z = 10$</button>
+        <button data-op="c">Muda igual</button>
+      </div>
+      <div class="explica" hidden><p>Em $z = 10$ a alavanca é alta (passa de 0,7): o ponto gira a reta na direção dele e quase não deixa resíduo. Em $z = 2$ ele só sobe a reta um pouco, e o resíduo dele fica grande e visível.</p></div>
+    </div>
+    <div class="sim" id="sim-alav">
+      <label>Posição $z$ do ponto novo <input type="range" id="al-z" min="0" max="10" step="0.5" value="2"> <strong id="al-z-v">2,0</strong></label>
+      <label>Distância vertical à reta original <input type="range" id="al-d" min="-6" max="6" step="0.5" value="4"> <strong id="al-d-v">4,0</strong></label>
+      <svg viewBox="0 0 360 260" id="al-svg" role="img" aria-label="Cinco pontos, um ponto novo e as retas com e sem ele"></svg>
+      <p id="al-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Seleção">
+   <div class="texto">
+    <h2>Escolher preditoras: o $R^2$ sempre sobe, então use critérios que punem excesso</h2>
+    <p>Com muitas preditoras candidatas, quais entram? Os bons programas testam todos os subconjuntos ($z_1$ sozinha, $z_2$ sozinha, $z_1$ e $z_2$...). Como o <span class="ref" data-ref="f-r2">$R^2$</span> nunca cai quando se acrescenta preditora, ele não serve para comparar modelos de tamanhos diferentes. Duas alternativas:</p>
+    <div class="formula" data-ref-id="f-cp" data-ref-tipo="formula" data-ref-nome="R² ajustado e Cp de Mallows">
+      $$\bar R^2 = 1 - (1 - R^2)\frac{n - 1}{n - r - 1}$$
+      $$C_p = \frac{SS_{\text{res}}(p)}{s^2} - (n - 2p)$$
+      <p>$SS_{\text{res}}(p)$ é a soma de quadrados residual do subconjunto com $p$ parâmetros (incluindo o intercepto), e $s^2$ vem do modelo completo. Bons modelos têm $C_p$ perto de $p$: no gráfico de $(p, C_p)$, ficam perto da reta de 45°.</p>
+    </div>
+    <p>Com listas muito longas, usa-se a <strong>seleção passo a passo</strong>: (1) entra a preditora de maior correlação com $Y$; (2) entra a que mais aumenta a soma de quadrados da regressão, se o <span class="ref" data-ref="f-ss-extra">$F$ da soma extra</span> passar de um limite ("$F$ para entrar"); (3) as que já estão são reavaliadas e saem se o $F$ cair abaixo de outro limite ("$F$ para sair"); (4) repete até nada entrar nem sair. Limitações: não garante o melhor subconjunto de cada tamanho e não sugere transformações.</p>
+    <div class="ideia">Para escolher preditoras, compare modelos com $\bar R^2$ ou $C_p$ (bons modelos têm $C_p \approx p$), ou use seleção passo a passo, sabendo que ela não garante o melhor subconjunto.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Três subconjuntos de preditoras deram, com $p$ parâmetros cada: A ($p = 2$, $C_p = 9{,}1$), B ($p = 3$, $C_p = 3{,}2$) e C ($p = 4$, $C_p = 4{,}0$). Qual escolha segue o critério do $C_p$?</p>
+      <div class="alts">
+        <button data-op="a">(a) B: $C_p$ perto de $p$ com menos parâmetros que C.</button>
+        <button data-op="b">(b) A: o menor $p$ é sempre o melhor.</button>
+        <button data-op="c">(c) C: tem $C_p = p$ exatamente.</button>
+        <button data-op="d">(d) A, porque tem o maior $C_p$.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: A está bem acima da reta ($C_p \gg p$, sinal de viés por falta de preditora); B e C estão perto da reta, e B é mais simples. C pode ser defendido, mas o $C_p$ não pede o parâmetro extra.</div>
+      <div class="fb" data-op="b">Um modelo pequeno demais deixa de fora preditoras importantes, e o $C_p$ muito maior que $p$ denuncia isso.</div>
+      <div class="fb" data-op="c">$C_p$ exatamente igual a $p$ não é obrigatório: perto de $p$ já basta, e com menos parâmetros é melhor.</div>
+      <div class="fb" data-op="d">$C_p$ grande em relação a $p$ é o sinal ruim, não o bom.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Colinearidade">
+   <div class="texto">
+    <h2>Preditoras muito correlacionadas inflam a variância; preditoras omitidas viesam</h2>
+    <p><strong>Colinearidade.</strong> Se alguma combinação $\mathbf{Za}$ das colunas é quase zero, $\mathbf{Z}'\mathbf{Z}$ quase não tem inversa, e a diagonal de $(\mathbf{Z}'\mathbf{Z})^{-1}$ fica grande. Os <span class="ref" data-ref="f-prop-mq">erros padrão</span> dos $\hat\beta_i$ explodem, e fica difícil achar coeficientes "significativos" mesmo quando o conjunto prevê bem. Nas <span class="ref" data-ref="ex-imoveis">20 casas</span>, área e valor de avaliação têm correlação 0,93: é por isso que o intervalo de $\beta_2$ contém o zero. Remédios: tirar uma de cada par muito correlacionado, ou trocar o par por uma combinação dele.</p>
+    <p><strong>Viés por variável omitida.</strong> Se o modelo verdadeiro é $\mathbf{Y} = \mathbf{Z}_1\boldsymbol\beta_{(1)} + \mathbf{Z}_2\boldsymbol\beta_{(2)} + \boldsymbol\varepsilon$ e só $\mathbf{Z}_1$ é usada:</p>
+    <div class="formula" data-ref-id="f-vies-omissao" data-ref-tipo="formula" data-ref-nome="Viés por variável omitida">
+      $$E(\hat{\boldsymbol\beta}_{(1)}) = \boldsymbol\beta_{(1)} + (\mathbf{Z}_1'\mathbf{Z}_1)^{-1}\mathbf{Z}_1'\mathbf{Z}_2\boldsymbol\beta_{(2)}$$
+    </div>
+    <p>O viés só some se as colunas omitidas forem perpendiculares às usadas ($\mathbf{Z}_1'\mathbf{Z}_2 = \mathbf{0}$). Uma preditora importante deixada de fora "empresta" seu efeito às que ficaram e correlacionam com ela.</p>
+    <div class="ideia">Colinearidade não causa viés, mas infla os erros padrão; omitir uma preditora importante causa viés nos coeficientes das que ficaram, a não ser que sejam perpendiculares a ela.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-colin">
+      <p>Com correlação 0,95 entre $z_1$ e $z_2$ (padronizadas, $n = 20$), o desvio padrão de $\hat\beta_1$ fica, em relação ao caso sem correlação...</p>
+      <div class="alts">
+        <button data-op="a">Igual</button>
+        <button data-op="b" data-certa>Cerca de 3 vezes maior</button>
+        <button data-op="c">Cerca de 20 vezes maior</button>
+      </div>
+      <div class="explica" hidden><p>A variância de $\hat\beta_1$ é multiplicada por $1/(1 - r^2) = 1/0{,}0975 \approx 10{,}3$; o desvio padrão, por $\sqrt{10{,}3} \approx 3{,}2$. A elipse de confiança fica comprida na direção $\beta_1 + \beta_2$ constante: os dados sabem a soma dos efeitos, mas não como dividi-la.</p></div>
+    </div>
+    <div class="sim" id="sim-colin">
+      <label>Correlação entre $z_1$ e $z_2$ <input type="range" id="cl-r" min="-0.95" max="0.95" step="0.05" value="0"> <strong id="cl-r-v">0,00</strong></label>
+      <svg viewBox="0 0 360 300" id="cl-svg" role="img" aria-label="Elipse de confiança para beta1 e beta2 e os intervalos de cada um"></svg>
+      <p id="cl-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.6 ================= -->
+  <div class="secao" data-numero="7.6" data-titulo="Várias respostas" data-livro="§7.7">
+
+  <section class="passo" data-titulo="O modelo">
+   <div class="texto">
+    <h2>Várias respostas: uma regressão por coluna, com erros correlacionados entre si</h2>
+    <p>Agora há $m$ respostas $Y_1, \dots, Y_m$ e as mesmas preditoras. Cada resposta tem sua própria regressão, e os erros de uma mesma observação podem ser correlacionados (covariância $\boldsymbol\Sigma$); observações diferentes continuam sem correlação.</p>
+    <div class="formula" data-ref-id="f-reg-multi" data-ref-tipo="formula" data-ref-nome="Regressão multivariada múltipla e seus estimadores">
+      $$\underset{(n\times m)}{\mathbf{Y}} = \underset{(n\times(r+1))}{\mathbf{Z}}\ \underset{((r+1)\times m)}{\class{s1}{\boldsymbol\beta}} + \underset{(n\times m)}{\boldsymbol\varepsilon}$$
+      $$\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{Y}$$
+      $$\mathbf{Y}'\mathbf{Y} = \hat{\mathbf{Y}}'\hat{\mathbf{Y}} + \hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}$$
+      $$E\Big(\frac{\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}}{n - r - 1}\Big) = \class{s2}{\boldsymbol\Sigma}$$
+      $$\mathrm{Cov}(\hat{\boldsymbol\beta}_{(i)}, \hat{\boldsymbol\beta}_{(k)}) = \sigma_{ik}(\mathbf{Z}'\mathbf{Z})^{-1}$$
+      <ul class="legenda">
+        <li><span class="s1">$\boldsymbol\beta$</span>: coluna $i$ = coeficientes da resposta $i$</li>
+        <li><span class="s2">$\boldsymbol\Sigma$</span>: covariância dos $m$ erros de uma mesma observação</li>
+      </ul>
+    </div>
+    <p>Nada de conta nova: cada coluna $\hat{\boldsymbol\beta}_{(i)}$ é a regressão de mínimos quadrados da resposta $i$ sozinha. Essa escolha minimiza ao mesmo tempo o traço e a <span class="ref" data-ref="f-var-gen">variância generalizada</span> da matriz de somas de quadrados e produtos dos resíduos. Com erros normais, $\hat{\boldsymbol\beta}$ é o estimador de máxima verossimilhança, $\hat{\boldsymbol\Sigma} = \hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}/n$, e $n\hat{\boldsymbol\Sigma}$ tem distribuição de <span class="ref" data-ref="f-wishart">Wishart (cap. 4)</span> com $n - r - 1$ graus de liberdade, independente de $\hat{\boldsymbol\beta}$. O modelo exige as mesmas preditoras para todas as respostas, e os diagnósticos da seção anterior valem para cada uma.</p>
+    <div class="ideia">Na regressão multivariada múltipla, $\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{Y}$ é a regressão de cada resposta separada; a novidade está em $\boldsymbol\Sigma$, estimada por $\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}/(n - r - 1)$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-reta2" data-ref-tipo="exemplo" data-ref-nome="Reta com cinco pontos e duas respostas">
+      <p>A <span class="ref" data-ref="ex-reta">reta com cinco pontos</span>, agora com uma segunda resposta:</p>
+      <table>
+        <thead><tr><th>$z_1$</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr></thead>
+        <tbody><tr><th>$y_1$</th><td>1</td><td>4</td><td>3</td><td>8</td><td>9</td></tr><tr><th>$y_2$</th><td>−1</td><td>−1</td><td>2</td><td>3</td><td>2</td></tr></tbody>
+      </table>
+      $$\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon} = \begin{bmatrix} 6 & -2 \\ -2 & 4 \end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>Com $(\mathbf{Z}'\mathbf{Z})^{-1} = \begin{bmatrix} 0{,}6 & -0{,}2 \\ -0{,}2 & 0{,}1 \end{bmatrix}$ e $\mathbf{Z}'\mathbf{y}_2 = [5;\ 20]'$:</p>
+      <p>Intercepto da segunda reta: <input class="lacuna" data-resp="-1" data-tol="0.001" aria-label="intercepto 2"><br>Inclinação da segunda reta: <input class="lacuna" data-resp="1" data-tol="0.001" aria-label="inclinação 2"></p>
+      <p>Estimativa não viesada da covariância entre os dois erros, $\hat\sigma_{12}$: <input class="lacuna" data-resp="-0.6667" data-tol="0.005" aria-label="sigma 12"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: a covariância divide a entrada $(1,2)$ de $\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}$ por $n - r - 1 = 3$.</p>
+      <div class="resolucao" hidden><p>$0{,}6 \times 5 - 0{,}2 \times 20 = -1$ e $-0{,}2 \times 5 + 0{,}1 \times 20 = 1$: $\hat y_2 = -1 + z_1$. $\hat\sigma_{12} = -2/3 = -0{,}667$: quando uma reta erra para cima, a outra tende a errar para baixo.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Teste">
+   <div class="texto">
+    <h2>Testar se preditoras saem de todas as respostas: lambda de Wilks outra vez</h2>
+    <p>"As preditoras $z_{q+1}, \dots, z_r$ não influenciam nenhuma resposta" é $H_0: \boldsymbol\beta_{(2)} = \mathbf{0}$, agora com $\boldsymbol\beta_{(2)}$ sendo as últimas $r - q$ <em>linhas</em> de $\boldsymbol\beta$. O papel da soma de quadrados extra é feito por uma matriz:</p>
+    <div class="formula" data-ref-id="f-reg-multi-wilks" data-ref-tipo="formula" data-ref-nome="Teste da razão de verossimilhanças na regressão multivariada">
+      $$\mathbf{E} = n\hat{\boldsymbol\Sigma}$$
+      $$\mathbf{H} = n(\hat{\boldsymbol\Sigma}_1 - \hat{\boldsymbol\Sigma})$$
+      $$\Lambda^* = \frac{|\mathbf{E}|}{|\mathbf{E} + \mathbf{H}|}$$
+      <p>e, com $n$ grande, rejeita $H_0$ se</p>
+      $$\begin{aligned} &-\Big[n - r - 1 - \tfrac12(m - r + q + 1)\Big]\ln\Lambda^* \\ &\qquad\gt \chi^2_{m(r-q)}(\alpha) \end{aligned}$$
+      <p>$\hat{\boldsymbol\Sigma}_1$ vem do modelo reduzido. Sob $H_0$, $\mathbf{E} \sim W_{n-r-1}(\boldsymbol\Sigma)$ e $\mathbf{H} \sim W_{r-q}(\boldsymbol\Sigma)$, independentes. (Aqui $\mathbf{H}$ é a matriz da hipótese, não a matriz chapéu.)</p>
+    </div>
+    <p>É a mesma estrutura do <span class="ref" data-ref="f-wilks-star">$\Lambda^*$ da MANOVA (cap. 6)</span>: resíduo contra resíduo + efeito. As <span class="ref" data-ref="d-quatro-estat">quatro estatísticas (cap. 6)</span> também valem, com os autovalores de $\mathbf{H}\mathbf{E}^{-1}$; alguns programas relatam a de Roy como $\eta_1/(1 + \eta_1)$ em vez de $\eta_1$, o que dá o mesmo teste.</p>
+    <p>No <span class="ref" data-ref="ex-restaurante">restaurante</span>, com uma segunda medida de qualidade do serviço dada pelos mesmos clientes, testa-se a interação local × gênero nas duas respostas ($n = 18$, posto 6 contra 4):</p>
+    $$\mathbf{E} = \begin{bmatrix} 2977{,}39 & 1021{,}72 \\ 1021{,}72 & 2050{,}95 \end{bmatrix}$$
+      $$\mathbf{H} = \begin{bmatrix} 441{,}76 & 246{,}16 \\ 246{,}16 & 366{,}12 \end{bmatrix}$$
+    <p>$\Lambda^* = 0{,}7605$, e a estatística vale $-11{,}5\ln(0{,}7605) = 3{,}15$ $\lt \chi^2_4(0{,}05) = 9{,}49$: a interação não é necessária em nenhuma das duas respostas.</p>
+    <div class="ideia">Na regressão com várias respostas, testa-se um grupo de preditoras com $\Lambda^* = |\mathbf{E}|/|\mathbf{E} + \mathbf{H}|$, em que $\mathbf{H}$ é a matriz de somas de quadrados e produtos extra, e a aproximação de Bartlett com $m(r - q)$ graus de liberdade.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Numa regressão com $m = 3$ respostas e $r = 5$ preditoras, testa-se se as duas últimas preditoras podem sair. Quantos graus de liberdade tem a qui-quadrado de Bartlett?</p>
+      <div class="alts">
+        <button data-op="a">(a) 2, o número de preditoras testadas.</button>
+        <button data-op="b">(b) 3, o número de respostas.</button>
+        <button data-op="c">(c) 6: duas preditoras em cada uma das três respostas.</button>
+        <button data-op="d">(d) 15: todas as preditoras em todas as respostas.</button>
+      </div>
+      <div class="fb" data-op="a">Com uma resposta seriam 2. Com três respostas, cada preditora testada tem 3 coeficientes.</div>
+      <div class="fb" data-op="b">O número de respostas entra multiplicando, mas o que se testa são as duas preditoras.</div>
+      <div class="fb" data-op="c">Isso: $m(r - q) = 3 \times 2 = 6$, o número de coeficientes que $H_0$ zera.</div>
+      <div class="fb" data-op="d">Só as duas últimas linhas de $\boldsymbol\beta$ estão sendo testadas, não a matriz inteira.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Previsão">
+   <div class="texto">
+    <h2>Com várias respostas, os intervalos viram elipses</h2>
+    <p>Em $\mathbf{z}_0$, a estimativa das $m$ médias é $\hat{\boldsymbol\beta}'\mathbf{z}_0$, normal com covariância $\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0\,\boldsymbol\Sigma$. Combinando com a Wishart de $n\hat{\boldsymbol\Sigma}$ vem um $T^2$, e daí as regiões:</p>
+    <div class="formula" data-ref-id="f-reg-multi-prev" data-ref-tipo="formula" data-ref-nome="Elipsoides de confiança e de previsão com várias respostas">
+      $$\begin{aligned} &(\boldsymbol\beta'\mathbf{z}_0 - \hat{\boldsymbol\beta}'\mathbf{z}_0)'\Big(\tfrac{n}{n - r - 1}\hat{\boldsymbol\Sigma}\Big)^{-1}(\boldsymbol\beta'\mathbf{z}_0 - \hat{\boldsymbol\beta}'\mathbf{z}_0) \\ &\qquad\le \mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0\,c^2 \end{aligned}$$
+      $$c^2 = \frac{m(n - r - 1)}{n - r - m}F_{m,\,n-r-m}(\alpha)$$
+      <p>Para uma observação nova $\mathbf{Y}_0$, troca-se $\mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0$ por $1 + \mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0$: mesma forma e mesmo centro, elipse maior. As sombras dão intervalos simultâneos para cada resposta.</p>
+    </div>
+    <p>No <span class="ref" data-ref="ex-computador">computador</span>, a segunda resposta é a capacidade de disco, com $\hat y_2 = 14{,}14 + 2{,}25z_1 + 5{,}67z_2$. Em $\mathbf{z}_0 = [1, 130, 7{,}5]'$, o centro é $[151{,}84;\ 349{,}63]'$; com $n = 7$, $r = 2$, $m = 2$, $c^2 = \frac{2 \times 4}{3}F_{2,3}(0{,}05) = 25{,}5$, e o fator é 0,370 para a confiança e 1,370 para a previsão.</p>
+    <div class="ideia">Com $m$ respostas, a média em $\mathbf{z}_0$ tem um elipsoide de confiança, e uma observação nova tem um elipsoide de previsão de mesmo centro e forma, maior pelo fator $1 + \mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Elipses de 95% no <span class="ref" data-ref="ex-computador">computador</span>, em $\mathbf{z}_0 = [1, 130, 7{,}5]'$.</p>
+      <svg viewBox="0 0 340 230" class="fig" id="elp-svg" role="img" aria-label="Elipse de confiança dentro da elipse de previsão para tempo e disco"></svg>
+    </div>
+    <div class="pare">
+      <p>A empresa vai comprar o equipamento de <strong>uma</strong> filial nova com essas características. Qual das duas elipses ela deve usar para dimensionar tempo e disco ao mesmo tempo?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>A de previsão: o que importa é o par de valores dessa filial, que inclui o erro dela. A elipse de confiança diz onde está a média de muitas filiais iguais, o que não ajuda a dimensionar uma só.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.7 ================= -->
+  <div class="secao" data-numero="7.7" data-titulo="Média condicional" data-livro="§7.8">
+
+  <section class="passo" data-titulo="Melhor preditor">
+   <div class="texto">
+    <h2>Se as preditoras também são aleatórias: o melhor preditor linear</h2>
+    <p>Outra situação: $Y, Z_1, \dots, Z_r$ são todos aleatórios, com vetor de médias e matriz de covariâncias conhecidos, divididos em blocos ($\sigma_{YY}$, $\boldsymbol\sigma_{ZY}$, $\boldsymbol\Sigma_{ZZ}$). Qual combinação $b_0 + \mathbf{b}'\mathbf{Z}$ prevê $Y$ com o menor erro quadrático médio $E(Y - b_0 - \mathbf{b}'\mathbf{Z})^2$?</p>
+    <div class="formula" data-ref-id="f-melhor-preditor" data-ref-tipo="formula" data-ref-nome="Melhor preditor linear e correlação múltipla populacional">
+      $$\boldsymbol\beta = \boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}$$
+      $$\beta_0 = \mu_Y - \boldsymbol\beta'\boldsymbol\mu_Z$$
+      $$\text{EQM} = \sigma_{YY} - \boldsymbol\sigma_{ZY}'\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}$$
+      $$\rho_{Y(Z)} = \sqrt{\frac{\boldsymbol\sigma_{ZY}'\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}}{\sigma_{YY}}}$$
+      $$\text{EQM} = \sigma_{YY}\big(1 - \rho^2_{Y(Z)}\big)$$
+    </div>
+    <p>Esse preditor também é a combinação linear de $\mathbf{Z}$ com a maior correlação com $Y$; essa correlação máxima, $\rho_{Y(Z)}$, é a <strong>correlação múltipla</strong> populacional (sempre entre 0 e 1). $\rho^2_{Y(Z)} = 0$: $\mathbf{Z}$ não ajuda a prever; $\rho^2_{Y(Z)} = 1$: prevê sem erro. Uma forma equivalente: $1 - \rho^2_{Y(Z)} = 1/\rho^{YY}$, com $\rho^{YY}$ a primeira entrada da inversa da matriz de correlações.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Abrindo o quadrado com $\mathbf{b}$ e $b_0$ quaisquer:</p>
+      $$\begin{aligned} &E(Y - b_0 - \mathbf{b}'\mathbf{Z})^2 \\ &= \sigma_{YY} - \boldsymbol\sigma_{ZY}'\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY} \\ &\quad+ (\mathbf{b} - \boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY})'\boldsymbol\Sigma_{ZZ}(\mathbf{b} - \boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}) \\ &\quad+ (\mu_Y - b_0 - \mathbf{b}'\boldsymbol\mu_Z)^2 \end{aligned}$$
+      <p>As duas últimas parcelas são $\ge 0$ e zeram com $\mathbf{b} = \boldsymbol\beta$ e $b_0 = \beta_0$. Para a correlação: $\mathrm{Corr}^2(Y, \mathbf{b}'\mathbf{Z})$ $= (\mathbf{b}'\boldsymbol\sigma_{ZY})^2/(\sigma_{YY}\,\mathbf{b}'\boldsymbol\Sigma_{ZZ}\mathbf{b})$, e o <span class="ref" data-ref="f-lema">lema de maximização (cap. 2)</span> dá o máximo $\boldsymbol\sigma_{ZY}'\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}/\sigma_{YY}$, atingido em $\mathbf{b} \propto \boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}$.</p>
+    </details>
+    <div class="ideia">Com tudo aleatório, o melhor preditor linear de $Y$ tem $\boldsymbol\beta = \boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}$ e erro quadrático médio $\sigma_{YY}(1 - \rho^2_{Y(Z)})$, em que $\rho_{Y(Z)}$ é a correlação múltipla.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Médias: $\mu_Y = 5$ e $\boldsymbol\mu_Z = [2;\ 0]'$. Covariâncias: $\sigma_{YY} = 10$, $\boldsymbol\sigma_{ZY} = [1;\ -1]'$ e</p>
+      $$\boldsymbol\Sigma_{ZZ} = \begin{bmatrix} 7 & 3 \\ 3 & 2 \end{bmatrix}$$
+      $$\boldsymbol\Sigma_{ZZ}^{-1} = \begin{bmatrix} 0{,}4 & -0{,}6 \\ -0{,}6 & 1{,}4 \end{bmatrix}$$
+      <p>$\beta_1 =$ <input class="lacuna" data-resp="1" data-tol="0.001" aria-label="beta 1"><br>$\beta_2 =$ <input class="lacuna" data-resp="-2" data-tol="0.001" aria-label="beta 2"><br>$\beta_0 =$ <input class="lacuna" data-resp="3" data-tol="0.001" aria-label="beta 0"></p>
+      <p>Erro quadrático médio: <input class="lacuna" data-resp="7" data-tol="0.001" aria-label="EQM"><br>$\rho_{Y(Z)} =$ <input class="lacuna" data-resp="0.548" data-tol="0.003" aria-label="correlação múltipla"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\boldsymbol\beta = \boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}$; o EQM é $10 - \boldsymbol\sigma_{ZY}'\boldsymbol\beta$.</p>
+      <div class="resolucao" hidden><p>$\boldsymbol\beta = [0{,}4 + 0{,}6;\ -0{,}6 - 1{,}4]'$ $= [1;\ -2]'$; $\beta_0 = 5 - (1 \times 2 - 2 \times 0) = 3$. EQM $= 10 - (1 + 2) = 7$; $\rho^2 = 3/10$, $\rho = 0{,}548$. Confere: $10(1 - 0{,}3) = 7$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Normal">
+   <div class="texto">
+    <h2>Na normal, a média condicional é esse preditor, e ele vence até os não lineares</h2>
+    <p>Se $(Y, \mathbf{Z})$ é normal multivariado, a <span class="ref" data-ref="f-condicional">distribuição condicional (cap. 4)</span> de $Y$ dado $\mathbf{z}$ tem média $\mu_Y + \boldsymbol\sigma_{ZY}'\boldsymbol\Sigma_{ZZ}^{-1}(\mathbf{z} - \boldsymbol\mu_Z) = \beta_0 + \boldsymbol\beta'\mathbf{z}$: exatamente o melhor preditor linear. E a média condicional é o melhor preditor entre <em>todos</em>, lineares ou não. Fora da normal, $E(Y \mid \mathbf{z})$ pode nem ser linear.</p>
+    <div class="formula" data-ref-id="f-reg-cond" data-ref-tipo="formula" data-ref-nome="Regressão como média condicional estimada por S">
+      $$\hat{\boldsymbol\beta} = \mathbf{S}_{ZZ}^{-1}\mathbf{s}_{ZY}$$
+      $$\hat\beta_0 = \bar y - \hat{\boldsymbol\beta}'\bar{\mathbf{z}}$$
+      $$\hat\sigma_{YY\cdot Z} = \frac{n - 1}{n - r - 1}\big(s_{YY} - \mathbf{s}_{ZY}'\mathbf{S}_{ZZ}^{-1}\mathbf{s}_{ZY}\big)$$
+      <p>Com várias respostas: $\boldsymbol\beta = \boldsymbol\Sigma_{YZ}\boldsymbol\Sigma_{ZZ}^{-1}$ e covariância dos erros de previsão $\boldsymbol\Sigma_{YY\cdot Z} = \boldsymbol\Sigma_{YY} - \boldsymbol\Sigma_{YZ}\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\Sigma_{ZY}$, estimadas trocando $\boldsymbol\Sigma$ por $\mathbf{S}$. (O estimador de máxima verossimilhança usa $(n-1)/n$ no lugar de $(n-1)/(n-r-1)$.)</p>
+    </div>
+    <p>Pela <span class="ref" data-ref="f-emv">invariância dos EMV (cap. 4)</span>, basta trocar $\boldsymbol\mu$ e $\boldsymbol\Sigma$ pelas estimativas. No <span class="ref" data-ref="ex-computador">computador</span>, tratando pedidos e itens como aleatórios, sai de novo $\hat y = 8{,}42 + 1{,}08z_1 + 0{,}42z_2$, a mesma reta dos mínimos quadrados.</p>
+    <div class="ideia">Na normal multivariada, a média condicional é linear, é o melhor preditor entre todos, e estimá-la com $\bar{\mathbf{x}}$ e $\mathbf{S}$ dá os mesmos coeficientes dos mínimos quadrados.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Por que, para uma população normal, não adianta procurar preditores não lineares de $Y$ a partir de $\mathbf{Z}$?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>O melhor preditor de todos (menor erro quadrático médio) é sempre a média condicional $E(Y \mid \mathbf{z})$, e na normal ela é linear. Uma curva não linear só poderia empatar, nunca ganhar.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Correlação parcial">
+   <div class="texto">
+    <h2>Correlação parcial: a associação que sobra depois de descontar as preditoras</h2>
+    <p>Duas respostas podem parecer muito associadas só porque dependem das mesmas preditoras. Para medir a associação que sobra, correlacionam-se os <em>erros</em> de prever cada uma pelas preditoras:</p>
+    <div class="formula" data-ref-id="f-corr-parcial" data-ref-tipo="formula" data-ref-nome="Correlação parcial">
+      $$\rho_{Y_1Y_2\cdot Z} = \frac{\sigma_{Y_1Y_2\cdot Z}}{\sqrt{\sigma_{Y_1Y_1\cdot Z}}\sqrt{\sigma_{Y_2Y_2\cdot Z}}}$$
+      $$r_{Y_1Y_2\cdot Z} = \frac{s_{Y_1Y_2\cdot Z}}{\sqrt{s_{Y_1Y_1\cdot Z}}\sqrt{s_{Y_2Y_2\cdot Z}}}$$
+      <p>$\sigma_{Y_iY_k\cdot Z}$ é a entrada $(i, k)$ de $\boldsymbol\Sigma_{YY\cdot Z} = \boldsymbol\Sigma_{YY} - \boldsymbol\Sigma_{YZ}\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\Sigma_{ZY}$; a versão amostral usa $\mathbf{S}$ e é o EMV na normal.</p>
+    </div>
+    <p>No <span class="ref" data-ref="ex-computador">computador</span>, tempo e disco têm correlação comum $r = 0{,}96$: filiais com mais pedidos usam mais dos dois. Descontando pedidos e itens,</p>
+    $$\mathbf{S}_{YY} - \mathbf{S}_{YZ}\mathbf{S}_{ZZ}^{-1}\mathbf{S}_{ZY} = \begin{bmatrix} 0{,}966 & 0{,}870 \\ 0{,}870 & 2{,}094 \end{bmatrix}$$
+      $$r_{Y_1Y_2\cdot Z} = \frac{0{,}870}{\sqrt{0{,}966 \times 2{,}094}} = 0{,}61$$
+    <p>A associação cai bastante, mas não some: quando o tempo é subestimado, o disco tende a ser também.</p>
+    <div class="ideia">A correlação parcial correlaciona os erros de prever duas respostas pelas mesmas preditoras; ela mede a associação que sobra depois de descontar o efeito comum delas.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Em cidades, número de bombeiros e prejuízo com incêndios têm correlação 0,8. Descontando o tamanho da cidade, a correlação parcial vira 0,05. Qual leitura é correta?</p>
+      <div class="alts">
+        <button data-op="a">(a) Bombeiros aumentam o prejuízo; a correlação parcial é que está distorcida.</button>
+        <button data-op="b">(b) A associação vinha quase toda do tamanho da cidade, que afeta as duas variáveis.</button>
+        <button data-op="c">(c) A correlação parcial baixa prova que as duas variáveis são independentes.</button>
+        <button data-op="d">(d) A correlação comum devia ser 0,05 também; houve erro de conta.</button>
+      </div>
+      <div class="fb" data-op="a">É o contrário: a correlação comum é que mistura o efeito do tamanho da cidade. Nada aqui sugere causa.</div>
+      <div class="fb" data-op="b">Isso: cidades grandes têm mais bombeiros e mais incêndios. Removido esse efeito comum, quase nada sobra.</div>
+      <div class="fb" data-op="c">Correlação perto de zero não é independência (fora da normal), e ainda é uma estimativa com erro.</div>
+      <div class="fb" data-op="d">As duas medem coisas diferentes e podem diferir muito; é justamente para isso que a parcial existe.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.8 ================= -->
+  <div class="secao" data-numero="7.8" data-titulo="Duas formulações" data-livro="§7.9">
+
+  <section class="passo" data-titulo="Forma centrada">
+   <div class="texto">
+    <h2>Centrando as preditoras, as duas formulações dão o mesmo preditor</h2>
+    <p>Subtraindo as médias das preditoras, o modelo fica $Y_j = \beta_* + \beta_1(z_{j1} - \bar z_1)$ $+ \cdots + \beta_r(z_{jr} - \bar z_r) + \varepsilon_j$, com $\beta_* = \beta_0 + \beta_1\bar z_1 + \cdots + \beta_r\bar z_r$. As colunas centradas são perpendiculares à coluna de uns, e as contas se separam:</p>
+    <div class="formula" data-ref-id="f-centrado" data-ref-tipo="formula" data-ref-nome="Forma centrada da regressão">
+      $$\hat\beta_* = \bar y$$
+      $$\hat{\boldsymbol\beta}_c = (\mathbf{Z}_{c2}'\mathbf{Z}_{c2})^{-1}\mathbf{Z}_{c2}'\mathbf{y} = \mathbf{S}_{ZZ}^{-1}\mathbf{s}_{ZY}$$
+      $$\hat y = \bar y + \hat{\boldsymbol\beta}_c'(\mathbf{z} - \bar{\mathbf{z}})$$
+      <p>$\mathbf{Z}_{c2}$ tem as preditoras centradas nas colunas. As inclinações são as mesmas do modelo original; só o intercepto muda de significado.</p>
+    </div>
+    <p>A última igualdade vem de $\mathbf{Z}_{c2}'\mathbf{Z}_{c2} = (n - 1)\mathbf{S}_{ZZ}$ e $\mathbf{Z}_{c2}'\mathbf{y} = (n - 1)\mathbf{s}_{ZY}$. Assim, o preditor de mínimos quadrados (preditoras fixas) é o mesmo da média condicional estimada (tudo aleatório e normal). A diferença é de interpretação: no primeiro caso as preditoras são escolhidas pelo pesquisador; no segundo são observadas junto com a resposta, as suposições são mais fortes, e o preditor é ótimo entre todos, não só entre os lineares. Às vezes também se padronizam as preditoras, dividindo pelo desvio padrão; os coeficientes ficam multiplicados por $\sqrt{(n-1)s_{z_iz_i}}$ e passam a ser comparáveis entre preditoras.</p>
+    <div class="ideia">Com as preditoras centradas, o intercepto estimado é $\bar y$ e as inclinações são $\mathbf{S}_{ZZ}^{-1}\mathbf{s}_{ZY}$: mínimos quadrados e média condicional normal dão o mesmo preditor, com interpretações diferentes.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Ao centrar as preditoras (subtrair as médias), o que muda no ajuste de mínimos quadrados?</p>
+      <div class="alts">
+        <button data-op="a">(a) Só o intercepto, que passa a ser $\bar y$; inclinações, valores ajustados e resíduos ficam iguais.</button>
+        <button data-op="b">(b) As inclinações mudam, porque os $z$ mudaram.</button>
+        <button data-op="c">(c) O $R^2$ aumenta, porque as colunas ficam perpendiculares à de uns.</button>
+        <button data-op="d">(d) Os resíduos mudam, mas os valores ajustados não.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: é só uma reparametrização. O plano gerado pelas colunas é o mesmo, então a projeção $\hat{\mathbf{y}}$ e os resíduos não mudam.</div>
+      <div class="fb" data-op="b">Subtrair uma constante de $z$ não muda quanto $y$ varia por unidade de $z$; as inclinações ficam iguais.</div>
+      <div class="fb" data-op="c">O espaço das colunas é o mesmo, então a projeção e o $R^2$ não mudam. A perpendicularidade só deixa as contas mais estáveis.</div>
+      <div class="fb" data-op="d">Se $\hat{\mathbf{y}}$ não muda, $\hat{\boldsymbol\varepsilon} = \mathbf{y} - \hat{\mathbf{y}}$ também não.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 7.9 ================= -->
+  <div class="secao" data-numero="7.9" data-titulo="Erros no tempo" data-livro="§7.10">
+
+  <section class="passo" data-titulo="Gás natural">
+   <div class="texto">
+    <h2>Com dados no tempo, os erros podem lembrar o dia anterior</h2>
+    <p>Uma distribuidora precisa prever quanto gás natural vai entregar por dia no inverno. Durante 63 dias registrou-se a entrega ($Y$) com quatro preditoras: o "frio do dia", medido por $\text{DHD} = 65 - $ temperatura média (em Fahrenheit); o frio do dia anterior (DHDLag); a velocidade média do vento; e uma indicadora de fim de semana. O primeiro ajuste foi</p>
+    $$\begin{aligned} \widehat{\text{Entrega}} &= 1{,}858 + 5{,}874\,\text{DHD} \\ &\quad+ 1{,}405\,\text{DHDLag} + 1{,}315\,\text{Vento} \\ &\quad- 15{,}857\,\text{FimDeSemana} \end{aligned}$$
+    <p>com $R^2 = 0{,}952$ e todos os coeficientes (menos o intercepto) significativos. Parece ótimo. Mas a <span class="ref" data-ref="f-residuos">autocorrelação de defasagem 1 dos resíduos</span> deu $r_1 = 0{,}52$: o erro de hoje se parece com o de ontem. Os erros não são independentes, e os testes $t$ e P-valores do ajuste deixam de valer.</p>
+    <div class="formula" data-ref-id="f-ar-erros" data-ref-tipo="formula" data-ref-nome="Regressão com ruído autorregressivo">
+      $$Y_j = \beta_0 + \beta_1 z_{j1} + \cdots + \beta_r z_{jr} + N_j$$
+      $$N_j = \phi_1N_{j-1} + \phi_7N_{j-7} + \varepsilon_j$$
+      <p>com $\varepsilon_j$ independentes $N(0, \sigma^2)$: o ruído depende do dia anterior e do mesmo dia da semana anterior. É o mesmo tipo de <span class="ref" data-ref="f-ar1">modelo autorregressivo do cap. 5</span>.</p>
+    </div>
+    <p>Ajustando os dois juntos: $N_j = 0{,}470N_{j-1} + 0{,}240N_{j-7} + \varepsilon_j$, com coeficientes da regressão parecidos (DHD 5,810; DHDLag 1,426; vento 1,207; fim de semana −10,109) e autocorrelações dos novos resíduos todas pequenas. Agora os testes valem.</p>
+    <div class="ideia">Em dados coletados no tempo, confira a autocorrelação dos resíduos; se ela for grande, modele o ruído (por exemplo, autorregressivo) junto com a regressão, senão os testes e P-valores enganam.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-gas" data-ref-tipo="exemplo" data-ref-nome="Gás natural: entrega diária no inverno">
+      <p>Os 10 primeiros dos 63 dias (entrega, frio do dia, frio da véspera, vento, fim de semana).</p>
+      <table>
+        <thead><tr><th>Entrega</th><th>DHD</th><th>Lag</th><th>Vento</th><th>FDS</th></tr></thead>
+        <tbody>
+          <tr><td>227</td><td>32</td><td>30</td><td>12</td><td>1</td></tr>
+          <tr><td>236</td><td>31</td><td>32</td><td>8</td><td>1</td></tr>
+          <tr><td>228</td><td>30</td><td>31</td><td>8</td><td>0</td></tr>
+          <tr><td>252</td><td>34</td><td>30</td><td>8</td><td>0</td></tr>
+          <tr><td>238</td><td>28</td><td>34</td><td>12</td><td>0</td></tr>
+          <tr><td>333</td><td>46</td><td>41</td><td>8</td><td>0</td></tr>
+          <tr><td>266</td><td>33</td><td>46</td><td>8</td><td>0</td></tr>
+          <tr><td>280</td><td>38</td><td>33</td><td>18</td><td>0</td></tr>
+          <tr><td>386</td><td>52</td><td>38</td><td>22</td><td>0</td></tr>
+          <tr><td>415</td><td>57</td><td>52</td><td>18</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pare">
+      <p>Com erros positivamente autocorrelacionados, os erros padrão calculados pela fórmula comum tendem a sair grandes ou pequenos demais? E o que isso faz com os testes?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Pequenos demais: erros parecidos em dias seguidos trazem menos informação nova do que $n$ observações independentes trariam. Os intervalos ficam estreitos demais e os testes rejeitam mais do que deveriam, que é o que aconteceu no primeiro ajuste do gás.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>$\mathbf{Y} = \mathbf{Z}\boldsymbol\beta + \boldsymbol\varepsilon$, erros com média zero, variância constante e sem correlação; indicadoras põem grupos no modelo.</li>
+    <li>$\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$ minimiza a soma de quadrados; $\hat{\mathbf{y}} = \mathbf{Hy}$ é uma projeção.</li>
+    <li>$R^2$ = fração explicada; nunca cai ao acrescentar preditora.</li>
+    <li>$\mathrm{Cov}(\hat{\boldsymbol\beta}) = \sigma^2(\mathbf{Z}'\mathbf{Z})^{-1}$, $s^2 = \hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}/(n - r - 1)$; Gauss: melhor linear não viesado.</li>
+    <li>Testes de grupos de coeficientes: soma de quadrados extra e $F$.</li>
+    <li>Previsão de observação nova tem o "1 +" a mais que a confiança para a média.</li>
+    <li>Diagnóstico: resíduos estudentizados, quatro gráficos, alavanca, $C_p$, colinearidade, viés por omissão.</li>
+    <li>Várias respostas: mesma $\hat{\boldsymbol\beta}$ coluna a coluna; teste com $\Lambda^* = |\mathbf{E}|/|\mathbf{E} + \mathbf{H}|$; elipses de confiança e de previsão.</li>
+    <li>Tudo aleatório: melhor preditor linear $\boldsymbol\Sigma_{ZZ}^{-1}\boldsymbol\sigma_{ZY}$; na normal é a média condicional; correlação múltipla e parcial.</li>
+    <li>Erros autocorrelacionados no tempo invalidam os testes; modele o ruído.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$\hat{\boldsymbol\beta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$$
+  $$s^2 = \frac{\hat{\boldsymbol\varepsilon}'\hat{\boldsymbol\varepsilon}}{n - r - 1}$$</p>
+  <p>$$\mathbf{z}_0'\hat{\boldsymbol\beta} \pm t_{n-r-1}(\alpha/2)\,s\sqrt{1 + \mathbf{z}_0'(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{z}_0}$$</p>
+  <p>$$F = \frac{\big(SS_{\text{res}}(\mathbf{Z}_1) - SS_{\text{res}}(\mathbf{Z})\big)/(r - q)}{s^2}$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Intervalo de confiança da média</strong><ul class="resumo-lista"><li>média de muitas unidades com as mesmas preditoras</li></ul></div>
+    <div><strong>Intervalo de previsão</strong><ul class="resumo-lista"><li>valor de uma unidade nova</li><li>sempre mais largo</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>Indicadoras de todos os grupos mais a coluna de uns: $\mathbf{Z}$ sem posto cheio.</li>
+    <li>$R^2$ não serve para comparar modelos de tamanhos diferentes.</li>
+    <li>Gauss vale só entre estimadores lineares e não viesados.</li>
+    <li>Graus de liberdade do $F$ vêm dos postos, não do número de colunas.</li>
+    <li>Funil nos resíduos: variância não constante; curva: falta de termo.</li>
+    <li>Ponto de alavanca alta pode ter resíduo pequeno e ainda assim mandar no ajuste.</li>
+    <li>Colinearidade infla erros padrão; omitir preditora importante causa viés.</li>
+    <li>Com $m$ respostas, a qui-quadrado de Bartlett tem $m(r - q)$ graus de liberdade.</li>
+    <li>Correlação comum alta pode vir de preditoras em comum (veja a parcial).</li>
+    <li>Dados no tempo: confira a autocorrelação dos resíduos.</li>
+  </ul>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+/* ===== Utilitários do capítulo ===== */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+function caminhoElipse(s11, s12, s22, c, px, py, cx, cy) {
+  cx = cx || 0; cy = cy || 0;
+  var tr = s11 + s22, det = s11 * s22 - s12 * s12, d = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  var l1 = tr / 2 + d, l2 = tr / 2 - d, ang = 0.5 * Math.atan2(2 * s12, s11 - s22);
+  var e1 = [Math.cos(ang), Math.sin(ang)], e2 = [-Math.sin(ang), Math.cos(ang)], s = '';
+  for (var t = 0; t <= 72; t++) {
+    var a = t / 72 * 2 * Math.PI, u = c * Math.sqrt(l1) * Math.cos(a), v = c * Math.sqrt(l2) * Math.sin(a);
+    s += (t ? 'L' : 'M') + px(cx + u * e1[0] + v * e2[0]).toFixed(1) + ' ' + py(cy + u * e1[1] + v * e2[1]).toFixed(1);
+  }
+  return s + 'Z';
+}
+var RZ = [0, 1, 2, 3, 4], RY = [1, 4, 3, 8, 9];   /* reta com cinco pontos */
+function ajusteReta(zs, ys) {
+  var n = zs.length, mz = 0, my = 0, szz = 0, szy = 0;
+  for (var i = 0; i < n; i++) { mz += zs[i]; my += ys[i]; } mz /= n; my /= n;
+  for (i = 0; i < n; i++) { szz += (zs[i] - mz) * (zs[i] - mz); szy += (zs[i] - mz) * (ys[i] - my); }
+  var b1 = szy / szz; return { b0: my - b1 * mz, b1: b1, mz: mz, my: my, szz: szz, n: n };
+}
+
+/* ===== 7.2 Reta tentativa e soma de quadrados ===== */
+(function () {
+  var sa = document.getElementById('mq-a');
+  if (!sa) return;
+  var sb = document.getElementById('mq-b'), svg = document.getElementById('mq-svg');
+  function desenhar() {
+    var b0 = +sa.value, b1 = +sb.value;
+    document.getElementById('mq-a-v').textContent = fmt(b0, 1); document.getElementById('mq-b-v').textContent = fmt(b1, 2);
+    var px = function (z) { return 40 + (z + 0.5) * 60; }, py = function (y) { return 232 - (y + 2) * 15; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 30, y1: py(0), x2: 350, y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: 10, x2: px(0), y2: 250, stroke: bo }));
+    [0, 1, 2, 3, 4].forEach(function (z) { svg.appendChild(svgEl('text', { x: px(z), y: py(0) + 14, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, String(z))); });
+    [5, 10].forEach(function (y) { svg.appendChild(svgEl('text', { x: px(0) - 6, y: py(y) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, String(y))); });
+    var g = recorte(svg, 30, 8, 320, 244), S = 0;
+    g.appendChild(svgEl('line', { x1: px(-0.5), y1: py(b0 - 0.5 * b1), x2: px(4.5), y2: py(b0 + 4.5 * b1), stroke: acc, 'stroke-width': 2.2 }));
+    g.appendChild(svgEl('line', { x1: px(-0.5), y1: py(1 - 1), x2: px(4.5), y2: py(1 + 9), stroke: roxo, 'stroke-width': 1.2, 'stroke-dasharray': '5 4' }));
+    for (var i = 0; i < 5; i++) {
+      var yh = b0 + b1 * RZ[i]; S += (RY[i] - yh) * (RY[i] - yh);
+      g.appendChild(svgEl('line', { x1: px(RZ[i]), y1: py(RY[i]), x2: px(RZ[i]), y2: py(yh), stroke: lar, 'stroke-width': 2 }));
+    }
+    for (i = 0; i < 5; i++) svg.appendChild(svgEl('circle', { cx: px(RZ[i]), cy: py(RY[i]), r: 4.5, fill: txt }));
+    svg.appendChild(svgEl('circle', { cx: px(2), cy: py(5), r: 5, fill: 'none', stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('text', { x: px(2) + 8, y: py(5) + 16, 'font-size': 11, fill: roxo }, '(z̄, ȳ)'));
+    document.getElementById('mq-txt').innerHTML = 'Sua reta: $S(\\mathbf{b})$ = ' + fmt(S, 2) + ' (soma dos quadrados dos segmentos laranja). O mínimo é 6, na reta tracejada $\\hat y = 1 + 2z$, que passa pelo ponto das médias $(2, 5)$.';
+    tipografar(document.getElementById('mq-txt'));
+  }
+  sa.addEventListener('input', desenhar); sb.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 7.4 Faixas de confiança e de previsão (reta com cinco pontos, s² = 2, t₃ = 3,182) ===== */
+(function () {
+  var sz = document.getElementById('fx-z');
+  if (!sz) return;
+  var svg = document.getElementById('fx-svg'), s = Math.sqrt(2), t = 3.1824;
+  function h(z) { return 0.2 + (z - 2) * (z - 2) / 10; }
+  function desenhar() {
+    var z0 = +sz.value;
+    document.getElementById('fx-z-v').textContent = fmt(z0, 1);
+    var px = function (z) { return 30 + (z + 2) * 38; }, py = function (y) { return 238 - (y + 11) * 7; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 24, y1: py(0), x2: 340, y2: py(0), stroke: bo }));
+    [-2, 0, 2, 4, 6].forEach(function (z) { svg.appendChild(svgEl('text', { x: px(z), y: py(0) + 14, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, String(z))); });
+    function faixa(mult, cor, op) {
+      var cima = '', baixo = '';
+      for (var k = 0; k <= 40; k++) {
+        var z = -2 + k * 0.2, yh = 1 + 2 * z, w = mult(z);
+        cima += (k ? 'L' : 'M') + px(z).toFixed(1) + ' ' + py(yh + w).toFixed(1);
+        baixo = 'L' + px(z).toFixed(1) + ' ' + py(yh - w).toFixed(1) + baixo;
+      }
+      svg.appendChild(svgEl('path', { d: cima + baixo + 'Z', fill: cor, 'fill-opacity': op, stroke: cor, 'stroke-width': 1 }));
+    }
+    faixa(function (z) { return t * s * Math.sqrt(1 + h(z)); }, roxo, 0.12);
+    faixa(function (z) { return t * s * Math.sqrt(h(z)); }, acc, 0.25);
+    svg.appendChild(svgEl('line', { x1: px(-2), y1: py(-3), x2: px(6), y2: py(13), stroke: txt, 'stroke-width': 1.5 }));
+    for (var i = 0; i < 5; i++) svg.appendChild(svgEl('circle', { cx: px(RZ[i]), cy: py(RY[i]), r: 4, fill: txt }));
+    var yh0 = 1 + 2 * z0, wc = t * s * Math.sqrt(h(z0)), wp = t * s * Math.sqrt(1 + h(z0));
+    svg.appendChild(svgEl('line', { x1: px(z0), y1: py(yh0 + wp), x2: px(z0), y2: py(yh0 - wp), stroke: roxo, 'stroke-width': 3 }));
+    svg.appendChild(svgEl('line', { x1: px(z0), y1: py(yh0 + wc), x2: px(z0), y2: py(yh0 - wc), stroke: lar, 'stroke-width': 5 }));
+    svg.appendChild(svgEl('text', { x: 28, y: 18, 'font-size': 11, fill: acc }, '■ confiança (média)'));
+    svg.appendChild(svgEl('text', { x: 190, y: 18, 'font-size': 11, fill: roxo }, '■ previsão (nova)'));
+    document.getElementById('fx-txt').innerHTML = 'Em $z_0$ = ' + fmt(z0, 1) + ': $\\mathbf{z}_0\'(\\mathbf{Z}\'\\mathbf{Z})^{-1}\\mathbf{z}_0$ = ' + fmt(h(z0), 3) + '. Intervalo para a média: $\\pm$' + fmt(wc, 2) + '; para uma observação nova: $\\pm$' + fmt(wp, 2) + '.';
+    tipografar(document.getElementById('fx-txt'));
+  }
+  sz.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 7.5 Figura: quatro padrões de resíduos ===== */
+(function () {
+  var svg = document.getElementById('res-svg');
+  if (!svg) return;
+  function aleat(sem) { var x = sem; return function () { x = (x * 16807) % 2147483647; return (x - 1) / 2147483646; }; }
+  function normal(u) { return function () { var a = u(), b = u(); return Math.sqrt(-2 * Math.log(a + 1e-12)) * Math.cos(2 * Math.PI * b); }; }
+  var paineis = [
+    ['faixa: tudo certo', function (x, e) { return 0.8 * e; }],
+    ['funil: variância cresce', function (x, e) { return (0.2 + 1.6 * x) * e; }],
+    ['curva: falta um termo', function (x, e) { return 3.2 * (x - 0.5) * (x - 0.5) - 0.27 + 0.35 * e; }],
+    ['no tempo: sequências', null]
+  ];
+  function desenhar() {
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), txt = corVar('--text');
+    limpar(svg);
+    paineis.forEach(function (p, k) {
+      var x0 = 8 + (k % 2) * 168, y0 = 8 + Math.floor(k / 2) * 122, w = 156, hgt = 96;
+      var px = function (x) { return x0 + 6 + x * (w - 12); }, py = function (v) { return y0 + hgt / 2 - v * (hgt / 2 - 8) / 2.4; };
+      svg.appendChild(svgEl('rect', { x: x0, y: y0, width: w, height: hgt, fill: 'none', stroke: bo }));
+      svg.appendChild(svgEl('line', { x1: x0, y1: py(0), x2: x0 + w, y2: py(0), stroke: m, 'stroke-dasharray': '3 3' }));
+      var e = normal(aleat(97 + 31 * k)), anterior = 0;
+      for (var i = 0; i < 40; i++) {
+        var x = (i + 0.5) / 40, v;
+        if (p[1]) v = p[1](x, e()); else { anterior = 0.85 * anterior + 0.5 * e(); v = anterior; }
+        v = Math.max(-2.3, Math.min(2.3, v));
+        svg.appendChild(svgEl('circle', { cx: px(x), cy: py(v), r: 2.3, fill: acc, 'fill-opacity': 0.8 }));
+      }
+      svg.appendChild(svgEl('text', { x: x0 + w / 2, y: y0 + hgt + 14, 'font-size': 10.5, fill: txt, 'text-anchor': 'middle' }, p[0]));
+    });
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 7.5 Alavanca: um ponto novo junto dos cinco pontos ===== */
+(function () {
+  var sz = document.getElementById('al-z');
+  if (!sz) return;
+  var sd = document.getElementById('al-d'), svg = document.getElementById('al-svg');
+  function desenhar() {
+    var zp = +sz.value, d = +sd.value, yp = 1 + 2 * zp + d;
+    document.getElementById('al-z-v').textContent = fmt(zp, 1); document.getElementById('al-d-v').textContent = fmt(d, 1);
+    var A = ajusteReta(RZ.concat([zp]), RY.concat([yp])), hP = 1 / 6 + (zp - A.mz) * (zp - A.mz) / A.szz, res = yp - (A.b0 + A.b1 * zp);
+    var px = function (z) { return 30 + (z + 0.5) * 29; }, py = function (y) { return 238 - (y + 8) * 6.2; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 24, y1: py(0), x2: 350, y2: py(0), stroke: bo }));
+    [0, 2, 4, 6, 8, 10].forEach(function (z) { svg.appendChild(svgEl('text', { x: px(z), y: py(0) + 14, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, String(z))); });
+    var g = recorte(svg, 24, 8, 330, 244);
+    g.appendChild(svgEl('line', { x1: px(-0.5), y1: py(0), x2: px(10.5), y2: py(22), stroke: m, 'stroke-width': 1.3, 'stroke-dasharray': '5 4' }));
+    g.appendChild(svgEl('line', { x1: px(-0.5), y1: py(A.b0 - 0.5 * A.b1), x2: px(10.5), y2: py(A.b0 + 10.5 * A.b1), stroke: acc, 'stroke-width': 2.2 }));
+    for (var i = 0; i < 5; i++) svg.appendChild(svgEl('circle', { cx: px(RZ[i]), cy: py(RY[i]), r: 4, fill: txt }));
+    svg.appendChild(svgEl('circle', { cx: px(zp), cy: py(yp), r: 6, fill: lar }));
+    svg.appendChild(svgEl('text', { x: 28, y: 18, 'font-size': 11, fill: m }, '- - sem o ponto novo'));
+    svg.appendChild(svgEl('text', { x: 180, y: 18, 'font-size': 11, fill: acc }, '— com o ponto novo'));
+    document.getElementById('al-txt').innerHTML = 'Alavanca do ponto novo: $h$ = ' + fmt(hP, 2) + ' (média ' + fmt(2 / 6, 2) + '). Reta com ele: $\\hat y$ = ' + fmt(A.b0, 2) + ' + ' + fmt(A.b1, 2) + '$z$ (sem ele: $1 + 2z$). Resíduo do ponto novo: ' + fmt(res, 2) + ', embora ele esteja ' + fmt(d, 1) + ' acima da reta original.';
+    tipografar(document.getElementById('al-txt'));
+  }
+  sz.addEventListener('input', desenhar); sd.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 7.5 Colinearidade: elipse de confiança de (β₁, β₂), preditoras padronizadas, n = 20, σ = 1 ===== */
+(function () {
+  var sr = document.getElementById('cl-r');
+  if (!sr) return;
+  var svg = document.getElementById('cl-svg'), b = [0.7, 0.7], c2 = 5.991, t = 2.1098, n = 20;
+  function desenhar() {
+    var r = +sr.value;
+    document.getElementById('cl-r-v').textContent = fmt(r, 2);
+    var k = 75, px = function (x) { return 180 + (x - b[0]) * k; }, py = function (y) { return 150 - (y - b[1]) * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 10, y1: py(0), x2: 350, y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: 8, x2: px(0), y2: 292, stroke: bo }));
+    svg.appendChild(svgEl('text', { x: 350, y: py(0) + 14, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'β₁'));
+    svg.appendChild(svgEl('text', { x: px(0) + 6, y: 18, 'font-size': 11, fill: m }, 'β₂'));
+    var f = 1 / ((n - 1) * (1 - r * r)), v = f, cv = -r * f, se = Math.sqrt(v);
+    svg.appendChild(svgEl('path', { d: caminhoElipse(v, cv, v, Math.sqrt(c2), px, py, b[0], b[1]), fill: roxo, 'fill-opacity': 0.12, stroke: roxo, 'stroke-width': 2 }));
+    var w = t * se;
+    svg.appendChild(svgEl('line', { x1: px(b[0] - w), y1: 286, x2: px(b[0] + w), y2: 286, stroke: lar, 'stroke-width': 4 }));
+    svg.appendChild(svgEl('line', { x1: 14, y1: py(b[1] - w), x2: 14, y2: py(b[1] + w), stroke: lar, 'stroke-width': 4 }));
+    svg.appendChild(svgEl('circle', { cx: px(b[0]), cy: py(b[1]), r: 4, fill: txt }));
+    svg.appendChild(svgEl('circle', { cx: px(0), cy: py(0), r: 3.5, fill: m }));
+    var se0 = Math.sqrt(1 / (n - 1)), contem = b[0] - w < 0;
+    document.getElementById('cl-txt').innerHTML = 'Estimativas $\\hat\\beta_1 = \\hat\\beta_2 = 0{,}7$. Desvio padrão de cada uma: ' + fmt(se, 3) + ' (' + fmt(se / se0, 1) + ' vezes o de correlação zero). Intervalos de 95% um de cada vez (laranja): $0{,}7 \\pm$' + fmt(w, 2) + (contem ? ', <strong>contêm o zero</strong>' : ', sem o zero') + '. Elipse roxa: região conjunta.';
+    tipografar(document.getElementById('cl-txt'));
+  }
+  sr.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 7.6 Figura: elipses de confiança e de previsão no computador ===== */
+(function () {
+  var svg = document.getElementById('elp-svg');
+  if (!svg) return;
+  var c = [151.84, 349.63], M = [1.4495, 1.3048, 3.1414], cc = 0.370 * 8 / 3 * 9.552, cp = 1.370 * 8 / 3 * 9.552;
+  function desenhar() {
+    var px = function (x) { return 40 + (x - 140) * 12; }, py = function (y) { return 205 - (y - 337) * 7.4; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 36, y1: 210, x2: 336, y2: 210, stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 36, y1: 210, x2: 36, y2: 8, stroke: bo }));
+    [145, 150, 155, 160].forEach(function (x) { svg.appendChild(svgEl('text', { x: px(x), y: 224, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, String(x))); });
+    [340, 350, 360].forEach(function (y) { svg.appendChild(svgEl('text', { x: 32, y: py(y) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, String(y))); });
+    svg.appendChild(svgEl('path', { d: caminhoElipse(M[0], M[1], M[2], Math.sqrt(cp), px, py, c[0], c[1]), fill: roxo, 'fill-opacity': 0.1, stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('path', { d: caminhoElipse(M[0], M[1], M[2], Math.sqrt(cc), px, py, c[0], c[1]), fill: acc, 'fill-opacity': 0.2, stroke: acc, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('circle', { cx: px(c[0]), cy: py(c[1]), r: 3.5, fill: txt }));
+    svg.appendChild(svgEl('text', { x: 48, y: 22, 'font-size': 11, fill: roxo }, '■ previsão (filial nova)'));
+    svg.appendChild(svgEl('text', { x: 48, y: 38, 'font-size': 11, fill: acc }, '■ confiança (média)'));
+    svg.appendChild(svgEl('text', { x: 336, y: 204, 'font-size': 10, fill: m, 'text-anchor': 'end' }, 'tempo (h) →'));
+    svg.appendChild(svgEl('text', { x: 300, y: 22, 'font-size': 10, fill: m, 'text-anchor': 'end' }, '↑ disco'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>
