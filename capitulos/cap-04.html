@@ -449,10 +449,13 @@ window.MathJax = {
     <div class="definicao" data-ref-id="d-qq" data-ref-tipo="definicao" data-ref-nome="Gráfico Q-Q (passos)">
       <p><strong>Gráfico Q-Q:</strong> (1) ordene os dados, $x_{(1)} \le \cdots \le x_{(n)}$, com probabilidades $(j - \frac12)/n$; (2) calcule os quantis da normal padrão $q_{(j)}$ com $P[Z \le q_{(j)}] = (j - \frac12)/n$; (3) marque os pares $(q_{(j)}, x_{(j)})$. Dados normais formam uma reta.</p>
     </div>
-    <p>O formato do desvio diz o tipo de problema. Com $n \lt 20$, o gráfico oscila muito mesmo para dados normais. A radiação de 42 fornos de micro-ondas não forma uma reta.</p>
+    <p>O formato do desvio diz o tipo de problema. Com $n \lt 20$, o gráfico oscila muito mesmo para dados normais. A <span class="ref" data-ref="ex-radiacao">radiação dos 42 fornos de micro-ondas</span>, ao lado, não forma uma reta: os pontos fazem uma curva, sinal da cauda longa à direita.</p>
     <div class="ideia">No gráfico Q-Q, dados normais ficam perto de uma reta; curvas e pontas soltas indicam assimetria, caudas pesadas ou atípicos.</div>
    </div>
    <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-radiacao" data-ref-tipo="exemplo" data-ref-nome="Radiação de 42 fornos de micro-ondas">
+      <p>Num controle de segurança, mediu-se a radiação emitida com a porta fechada por 42 fornos de micro-ondas. Os valores vão de 0,01 a 0,40, metade fica abaixo de 0,10 e seis chegam a 0,30 ou 0,40: muitos valores perto de zero e uma cauda longa à direita. Esses dados voltam na seção de transformações.</p>
+    </div>
     <div class="prever" data-sim="sim-qq">
       <p>Dados com cauda longa à direita: no gráfico Q-Q, os pontos da ponta direita ficam...</p>
       <div class="alts">
@@ -481,7 +484,7 @@ window.MathJax = {
     <div class="formula" data-ref-id="f-rq" data-ref-tipo="formula" data-ref-nome="Correlação do gráfico Q-Q">
       $$r_Q = \frac{\sum_{j=1}^n (x_{(j)} - \bar x)(q_{(j)} - \bar q)}{\sqrt{\sum_{j}(x_{(j)} - \bar x)^2}\,\sqrt{\sum_{j}(q_{(j)} - \bar q)^2}}$$
     </div>
-    <p>Quanto mais reto o gráfico, mais perto de 1. Rejeita-se a normalidade no nível $\alpha$ se $r_Q$ fica <strong>abaixo</strong> do valor crítico tabelado (por exemplo, $n = 10$: 0,8801, 0,9198 e 0,9351 para $\alpha$ = 0,01, 0,05 e 0,10; $n = 40$: 0,9599, 0,9726, 0,9771). É parente próximo do teste de Shapiro–Wilk; com $n$ grande, os dois quase coincidem.</p>
+    <p>Quanto mais reto o gráfico, mais perto de 1. Rejeita-se a normalidade no nível $\alpha$ se $r_Q$ fica <strong>abaixo</strong> do valor crítico tabelado (por exemplo, $n = 10$: 0,8801, 0,9198 e 0,9351 para $\alpha$ = 0,01, 0,05 e 0,10; $n = 40$: 0,9599, 0,9726, 0,9771). Se você já viu o teste de Shapiro–Wilk em outra disciplina, o $r_Q$ é parente próximo dele; com $n$ grande, os dois quase coincidem.</p>
     <p>Além das marginais, vale olhar a combinação $\hat{\mathbf{e}}_1'\mathbf{x}_j$, com o autovetor do maior autovalor de $\mathbf{S}$ (e a do menor).</p>
     <div class="ideia">$r_Q$ é a correlação dos pontos do gráfico Q-Q; rejeita-se a normalidade quando ele fica abaixo do valor crítico tabelado.</div>
    </div>
@@ -500,11 +503,11 @@ window.MathJax = {
   <section class="passo" data-titulo="Gráfico qui-quadrado">
    <div class="texto">
     <h2>Várias variáveis: as distâncias $d_j^2$ deveriam parecer uma $\chi^2_p$</h2>
-    <p>Dados bivariados normais formam uma nuvem elíptica, e cerca de 50% dos pontos devem cair dentro do contorno estimado $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}5) = 1{,}39$. Com as 10 maiores empresas de um levantamento, 7 caíram dentro: sinal de alerta, mas $n = 10$ é pouco para concluir.</p>
+    <p>Dados bivariados normais formam uma nuvem elíptica, e cerca de 50% dos pontos devem cair dentro do contorno estimado $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}5) = 1{,}39$. Por exemplo, se 7 de 10 pontos caem dentro (o esperado seria uns 5), é um sinal de alerta, mas com $n = 10$ é pouco para concluir.</p>
     <div class="formula" data-ref-id="f-dj2" data-ref-tipo="formula" data-ref-nome="Distâncias generalizadas e gráfico qui-quadrado">
       $$d_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\,\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}}),\qquad j = 1, \dots, n$$
     </div>
-    <p><strong>Gráfico qui-quadrado</strong> (vale para qualquer $p$): ordene os $d_j^2$ e marque contra os quantis $q_{c,p}\big((j - \frac12)/n\big)$ da $\chi^2_p$. Com dados normais (e $n$, $n - p$ acima de 25 ou 30), os pontos seguem a reta de inclinação 1 pela origem. Curvatura sistemática: falta de normalidade. Pontos bem acima da reta, no alto: atípicos (nas tábuas, os espécimes 9 e 16).</p>
+    <p><strong>Gráfico qui-quadrado</strong> (vale para qualquer $p$): ordene os $d_j^2$ e marque contra os quantis $q_{c,p}\big((j - \frac12)/n\big)$ da $\chi^2_p$. Com dados normais (e $n$, $n - p$ acima de 25 ou 30), os pontos seguem a reta de inclinação 1 pela origem. Curvatura sistemática: falta de normalidade. Pontos bem acima da reta, no alto: atípicos.</p>
     <div class="ideia">No gráfico qui-quadrado, as distâncias $d_j^2$ ordenadas contra os quantis da $\chi^2_p$ devem seguir a reta de inclinação 1; pontos altos fora da reta são candidatos a atípicos.</div>
    </div>
    <aside class="apoio">
@@ -536,7 +539,7 @@ window.MathJax = {
     <div class="definicao" data-ref-id="d-atipicos" data-ref-tipo="definicao" data-ref-nome="Passos para detectar atípicos">
       <p><strong>1.</strong> Gráfico de pontos de cada variável. <strong>2.</strong> Dispersão de cada par. <strong>3.</strong> Valores padronizados $z_{jk} = (x_{jk} - \bar x_k)/\sqrt{s_{kk}}$, procurando os muito grandes ou pequenos. <strong>4.</strong> Distâncias $d_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$, os pontos mais afastados no gráfico qui-quadrado.</p>
     </div>
-    <p>"Grande" depende de $n$ e $p$: com $n = 100$ e $p = 5$ são 500 valores $z$, e alguns acima de 3 são esperados; no passo 4, uns 5% dos $d_j^2$ passam do percentil de 5% da $\chi^2_p$. Nas tábuas, o espécime 9 ficava escondido nas dispersões, mas aparecia claramente em $d^2$. Num caso real, dois valores com $z \gt 4{,}5$ eram erros de digitação (2791 no lugar de 1241).</p>
+    <p>"Grande" depende de $n$ e $p$: com $n = 100$ e $p = 5$ são 500 valores $z$, e alguns acima de 3 são esperados; no passo 4, uns 5% dos $d_j^2$ passam do percentil de 5% da $\chi^2_p$. Um item pode parecer normal em todas as dispersões de pares e mesmo assim ter $d^2$ enorme, porque contraria a correlação entre as variáveis. Num caso real, dois valores com $z \gt 4{,}5$ eram erros de digitação (2791 no lugar de 1241).</p>
     <p>Atípico não é sinônimo de erro: investigue, e só então corrija, retire ou dê menos peso.</p>
     <div class="ideia">Atípicos multivariados podem não aparecer em nenhum gráfico de uma ou duas variáveis; as distâncias $d_j^2$ (passo 4) os revelam.</div>
    </div>
@@ -550,8 +553,8 @@ window.MathJax = {
         <button data-op="d">(d) O $d_j^2$ está errado, porque ele deveria concordar com os $z_{jk}$.</button>
       </div>
       <div class="fb" data-op="a">É exatamente o caso que só o passo 4 pega: cada valor é comum, a combinação não.</div>
-      <div class="fb" data-op="b">Isso: valores comuns um a um, mas que contrariam a correlação entre as variáveis, dão $d^2$ grande (como o espécime 9 das tábuas).</div>
-      <div class="fb" data-op="c">Atípico pede investigação; pode ser um item real e interessante (o espécime 9 era uma tábua excepcionalmente limpa e rígida).</div>
+      <div class="fb" data-op="b">Isso: valores comuns um a um, mas que contrariam a correlação entre as variáveis, dão $d^2$ grande.</div>
+      <div class="fb" data-op="c">Atípico pede investigação; pode ser um item real e interessante (por exemplo, uma peça de madeira excepcionalmente rígida).</div>
       <div class="fb" data-op="d">$d_j^2$ usa a correlação, e os $z_{jk}$ não; os dois podem discordar sem erro nenhum.</div>
     </div>
    </aside>
@@ -596,7 +599,7 @@ window.MathJax = {
       $$\ell(\lambda) = -\frac n2\ln\Big[\frac1n\sum_{j=1}^n\big(x_j^{(\lambda)} - \overline{x^{(\lambda)}}\big)^2\Big] + (\lambda - 1)\sum_{j=1}^n\ln x_j$$
     </div>
     <p>Escolha o $\lambda$ que maximiza $\ell(\lambda)$ (o primeiro termo vem da verossimilhança normal; o segundo corrige a mudança de escala). Na prática, arredonde para um valor simples perto do máximo, como $0$ (log) ou $\frac12$ (raiz). Uma forma equivalente minimiza a variância dos dados transformados e reescalados.</p>
-    <p>Na radiação dos 42 fornos, $\hat\lambda = 0{,}28$, e usa-se $\lambda = 0{,}25$: a raiz quarta. Atenção: nem o melhor $\lambda$ garante normalidade; confira sempre com um gráfico Q-Q.</p>
+    <p>Na <span class="ref" data-ref="ex-radiacao">radiação dos 42 fornos</span>, $\hat\lambda = 0{,}28$, e usa-se $\lambda = 0{,}25$: a raiz quarta. Atenção: nem o melhor $\lambda$ garante normalidade; confira sempre com um gráfico Q-Q.</p>
     <div class="ideia">Box–Cox escolhe a potência $\lambda$ que maximiza $\ell(\lambda)$; arredonda-se para um valor simples e confere-se o resultado no gráfico Q-Q.</div>
    </div>
    <aside class="apoio">
@@ -623,7 +626,7 @@ window.MathJax = {
     <p>O caminho mais simples é escolher $\lambda_k$ separadamente para cada variável, maximizando $\ell(\lambda_k)$ com as observações dela. Isso torna cada marginal aproximadamente normal, o que costuma bastar na prática.</p>
     <p>Se não bastar, dá para buscar juntos os $\boldsymbol\lambda' = [\lambda_1, \dots, \lambda_p]$ que maximizam</p>
     $$\ell(\boldsymbol\lambda) = -\frac n2\ln|\mathbf{S}(\boldsymbol\lambda)| + \sum_{k=1}^p(\lambda_k - 1)\sum_{j=1}^n\ln x_{jk}$$
-    <p>com $\mathbf{S}(\boldsymbol\lambda)$ calculada dos dados transformados. É bem mais difícil e raramente muda muito. Na radiação com porta fechada e aberta, as potências separadas dão $\lambda_1 = \lambda_2 = 0{,}30$ e a busca conjunta dá cerca de $(0{,}16;\ 0{,}16)$: pouca diferença. Usa-se a raiz quarta nas duas, e é com ela que o cap. 5 trabalha.</p>
+    <p>com $\mathbf{S}(\boldsymbol\lambda)$ calculada dos dados transformados. É bem mais difícil e raramente muda muito. Na <span class="ref" data-ref="ex-radiacao">radiação</span>, medida também com a porta aberta, as potências separadas dão $\lambda_1 = \lambda_2 = 0{,}30$ e a busca conjunta dá cerca de $(0{,}16;\ 0{,}16)$: pouca diferença. Usa-se a raiz quarta nas duas, e é com ela que o cap. 5 trabalha.</p>
     <div class="ideia">Com várias variáveis, escolhe-se uma potência por variável (marginais quase normais); a busca conjunta por $|\mathbf{S}(\boldsymbol\lambda)|$ existe, mas raramente muda muito.</div>
     <div class="pare">
       <p>Por que tornar cada marginal normal pode não ser suficiente?</p>

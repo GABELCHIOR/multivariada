@@ -203,7 +203,7 @@ window.MathJax = {
       <p>$s_{22} = \tfrac14\left[0^2 + 1^2 + 0^2 + (-1)^2\right]$ $= 0{,}5$</p>
     </div>
     <div class="pare">
-      <p>Na livraria, $s_{11} = 34$ e $s_{22} = 0{,}5$. Dá para concluir que o valor da venda "varia mais" que o número de livros?</p>
+      <p>Na <span class="ref" data-ref="ex-livraria">livraria</span>, $s_{11} = 34$ e $s_{22} = 0{,}5$. Dá para concluir que o valor da venda "varia mais" que o número de livros?</p>
       <button class="btn" data-revelar>Ver resposta</button>
       <div class="resposta" hidden><p>Não. As unidades são diferentes (dólares² contra livros²). Se o valor estivesse em centavos, $s_{11}$ seria 340 000. Variâncias só se comparam diretamente na mesma unidade; é por isso que a correlação, que não tem unidade, vai ser útil.</p></div>
     </div>
@@ -245,7 +245,7 @@ window.MathJax = {
       $$\class{s3}{r_{ik}} = \frac{\class{s2}{s_{ik}}}{\sqrt{\class{s2}{s_{ii}}}\,\sqrt{\class{s2}{s_{kk}}}}$$
       $$\phantom{r_{ik}} = \frac{\sum_{j}(x_{ji} - \bar{x}_i)(x_{jk} - \bar{x}_k)}{\sqrt{\sum_{j}(x_{ji} - \bar{x}_i)^2}\,\sqrt{\sum_{j}(x_{jk} - \bar{x}_k)^2}}$$
     </div>
-    <p>É a covariância das variáveis <strong>padronizadas</strong> (centradas e divididas pelo desvio padrão). Como o divisor aparece em cima e embaixo, $r_{ik}$ é o mesmo com $n$ ou $n-1$. Na livraria, $r_{12} = -1{,}5 / (\sqrt{34}\sqrt{0{,}5}) = -0{,}36$.</p>
+    <p>É a covariância das variáveis <strong>padronizadas</strong> (centradas e divididas pelo desvio padrão). Como o divisor aparece em cima e embaixo, $r_{ik}$ é o mesmo com $n$ ou $n-1$. Na <span class="ref" data-ref="ex-livraria">livraria</span>, $r_{12} = -1{,}5 / (\sqrt{34}\sqrt{0{,}5}) = -0{,}36$.</p>
     <div class="definicao" data-ref-id="d-props-r" data-ref-tipo="definicao" data-ref-nome="Propriedades da correlação">
       <p><strong>1.</strong> $-1 \le r \le 1$. <strong>2.</strong> $r$ mede associação <em>linear</em>; o sinal dá a direção. <strong>3.</strong> Trocar $x_{ji}$ por $a x_{ji} + b$ e $x_{jk}$ por $c x_{jk} + d$ não muda $r_{ik}$, <em>se $a$ e $c$ tiverem o mesmo sinal</em> (com sinais opostos, só o sinal de $r$ inverte).</p>
     </div>
@@ -745,7 +745,7 @@ window.MathJax = {
    <div class="texto">
     <h2>A resposta da primeira pergunta</h2>
     <p>Volte à <span class="ref" data-ref="ex-nuvem">nuvem do começo</span>. Pela <span class="ref" data-ref="f-euclid">régua</span>, A está a 4,24 de $Q$ e B a 2,83. Mas a nuvem é inclinada (correlação 0,8): ao longo da diagonal de A, os itens variam muito; na direção de B, quase nada.</p>
-    <p>Com a <span class="ref" data-ref="f-geral2">distância estatística</span> calculada para essa nuvem, A fica a 2,24 e B a 4,47. B está duas vezes mais "longe" em termos do que é comum nos dados. É essa distância, e não a euclidiana, que fundamenta a análise multivariada: ela volta como distância de Mahalanobis, nos testes de médias, na classificação e no agrupamento.</p>
+    <p>Com a <span class="ref" data-ref="f-geral2">distância estatística</span> calculada para essa nuvem, A fica a 2,24 e B a 4,47. B está duas vezes mais "longe" em termos do que é comum nos dados. É essa distância, e não a euclidiana, que fundamenta a análise multivariada: ela volta em quase todos os capítulos seguintes (às vezes com o nome de distância de Mahalanobis).</p>
     <div class="ideia">Atípico é estar longe em relação à variabilidade e à correlação dos dados; a distância estatística mede isso, a régua não.</div>
     <div class="quiz" data-correta="b">
       <p class="enunciado">Uma nuvem tem desvio padrão 4 ao longo do seu eixo maior e 1 ao longo do eixo menor. O item A está sobre o eixo maior, a 4 unidades do centro pela régua; B está sobre o eixo menor, a 3 unidades. Qual é mais atípico?</p>

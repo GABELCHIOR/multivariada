@@ -98,7 +98,9 @@ window.MathJax = {
   <section class="passo" data-titulo="Suor">
    <div class="texto">
     <h2>$T^2$ pode rejeitar mesmo quando nenhum teste $t$ rejeita</h2>
-    <p>Exemplo: suor de 20 mulheres, com $X_1$ = taxa de suor, $X_2$ = sódio e $X_3$ = potássio. Testando $\boldsymbol\mu_0 = [4, 50, 10]'$ a 10%: $\bar{\mathbf{x}} = [4{,}640;\ 45{,}400;\ 9{,}965]'$, $T^2 = 9{,}74$ e o valor crítico é $\frac{19 \times 3}{17}F_{3,17}(0{,}10) = 3{,}353 \times 2{,}44 = 8{,}18$. Rejeita.</p>
+    <div class="exemplo" data-ref-id="ex-suor" data-ref-tipo="exemplo" data-ref-nome="Suor de 20 mulheres">
+    <p>Suor de 20 mulheres, com $X_1$ = taxa de suor, $X_2$ = sódio e $X_3$ = potássio. Testando $\boldsymbol\mu_0 = [4, 50, 10]'$ a 10%: $\bar{\mathbf{x}} = [4{,}640;\ 45{,}400;\ 9{,}965]'$, $T^2 = 9{,}74$ e o valor crítico é $\frac{19 \times 3}{17}F_{3,17}(0{,}10)$ $= 3{,}353 \times 2{,}44$ $= 8{,}18$. Rejeita.</p>
+    </div>
     <p>Refazendo a conta com os dados completos, os três testes $t$ separados, também a 10%, dão $|t| = 1{,}69$, $1{,}46$ e $0{,}08$, todos abaixo de $t_{19}(0{,}05) = 1{,}73$: nenhum rejeita. Não há contradição. O $T^2$ leva em conta a correlação: a <em>combinação</em> dos desvios é rara, mesmo que cada um sozinho não seja (o mesmo fenômeno dos <span class="ref" data-ref="d-atipicos">atípicos multivariados do cap. 4</span>).</p>
     <p>Por isso, ao rejeitar, "ainda não sabemos qual" média está errada: para isso servem os intervalos simultâneos (seção 5.4).</p>
     <div class="ideia">Como usa a correlação, o $T^2$ pode rejeitar $\boldsymbol\mu_0$ mesmo quando cada teste $t$ isolado não rejeita a sua componente.</div>
@@ -173,7 +175,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="lacunas">
-      <p>Com o $T^2 = 9{,}74$ do suor ($n = 20$):</p>
+      <p>Com o $T^2 = 9{,}74$ do <span class="ref" data-ref="ex-suor">suor</span> ($n = 20$):</p>
       <p>$\Lambda^{2/n} =$ <input class="lacuna" data-resp="0.661" data-tol="0.003" aria-label="Wilks"></p>
       <p>Se outro conjunto, com o mesmo $n$, tivesse $\Lambda^{2/n} = 0{,}5$, o $T^2$ seria <input class="lacuna" data-resp="19" data-tol="0.05" aria-label="T2"></p>
       <button class="btn" data-conferir>Conferir</button>
@@ -227,7 +229,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-53" data-ref-tipo="exemplo" data-ref-nome="Radiação dos micro-ondas">
-      <p><strong>Exemplo.</strong> Raízes quartas da radiação com porta fechada ($x_1$) e aberta ($x_2$), $n = 42$ fornos:</p>
+      <p>Raízes quartas da <span class="ref" data-ref="ex-radiacao">radiação dos fornos de micro-ondas</span> com porta fechada ($x_1$) e aberta ($x_2$), $n = 42$ fornos:</p>
       $$\bar{\mathbf{x}} = \begin{bmatrix} 0{,}564 \\ 0{,}603 \end{bmatrix},\quad \mathbf{S} = \begin{bmatrix} 0{,}0144 & 0{,}0117 \\ 0{,}0117 & 0{,}0146 \end{bmatrix}$$
       <p>$\lambda_1 = 0{,}026$, $\mathbf{e}_1 = [0{,}704;\ 0{,}710]'$; $\lambda_2 = 0{,}002$, $\mathbf{e}_2 = [-0{,}710;\ 0{,}704]'$; $F_{2,40}(0{,}05) = 3{,}23$.</p>
     </div>
@@ -306,7 +308,7 @@ window.MathJax = {
       $$\bar x_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s_{ii}}{n}},\qquad i = 1, \dots, p$$
       $$\frac{\text{comprimento de Bonferroni}}{\text{comprimento do } T^2} = \frac{t_{n-1}(\alpha/2m)}{\sqrt{\frac{p(n-1)}{n-p}F_{p,n-p}(\alpha)}}$$
     </div>
-    <p>Para as médias, Bonferroni fica sempre dentro do $T^2$ (na radiação: (0,521; 0,607) e (0,560; 0,646), contra (0,516; 0,612) e (0,555; 0,651)). Os intervalos $t$ um de cada vez são ainda mais curtos, mas não garantem a confiança conjunta. E nenhum retângulo substitui o elipsoide quando a correlação importa.</p>
+    <p>Para as médias, Bonferroni fica sempre dentro do $T^2$ (na <span class="ref" data-ref="ex-53">radiação</span>: (0,521; 0,607) e (0,560; 0,646), contra (0,516; 0,612) e (0,555; 0,651)). Os intervalos $t$ um de cada vez são ainda mais curtos, mas não garantem a confiança conjunta. E nenhum retângulo substitui o elipsoide quando a correlação importa.</p>
     <div class="ideia">Para poucas afirmações fixadas antes, Bonferroni ($t_{n-1}(\alpha/2m)$) dá intervalos mais curtos que os $T^2$-intervalos, com confiança conjunta de pelo menos $1 - \alpha$.</div>
    </div>
    <aside class="apoio">
@@ -362,7 +364,9 @@ window.MathJax = {
     <h2>Gráficos de controle: separar causas comuns de causas especiais</h2>
     <p>Num processo estável, a variação vem de <strong>causas comuns</strong>, sempre presentes, nenhuma dominante. Um gráfico de controle procura <strong>causas especiais</strong>, de fora do processo usual, que pedem conserto (ou sugerem melhorias).</p>
     <p>O gráfico $\bar X$ univariado: (1) marque as observações (ou médias de subamostras) em ordem no tempo; (2) trace a linha central $\bar x$; (3) trace os limites $\bar x \pm 3$ desvios padrão (o das observações, ou $s/\sqrt m$ para médias de subamostras de tamanho $m$). Com dados normais, um ponto fora dos limites por acaso é muito raro.</p>
-    <p>No exemplo da polícia, as horas extras com audiências judiciais de Madison, em 16 períodos, ficam todas dentro dos limites.</p>
+    <div class="exemplo" data-ref-id="ex-horas-extras" data-ref-tipo="exemplo" data-ref-nome="Horas extras de uma polícia">
+      <p>Um departamento de polícia acompanhou, em 16 períodos, as horas extras de seus policiais (com audiências na justiça e com eventos extraordinários). No gráfico $\bar X$ das horas com audiências, os 16 períodos ficam dentro dos limites.</p>
+    </div>
     <div class="ideia">O gráfico $\bar X$ marca os dados no tempo com linha central $\bar x$ e limites $\pm 3$ desvios padrão; pontos fora sinalizam possíveis causas especiais.</div>
    </div>
    <aside class="apoio">
@@ -377,7 +381,7 @@ window.MathJax = {
       <div class="fb" data-op="a">É o mesmo fenômeno do $T^2$ contra os testes $t$: cada gráfico olha uma variável e ignora a correlação.</div>
       <div class="fb" data-op="b">Encolher os limites aumentaria os alarmes falsos e continuaria ignorando a correlação.</div>
       <div class="fb" data-op="c">Isso: só uma região conjunta (elipse ou $T^2$) percebe combinações raras de valores comuns.</div>
-      <div class="fb" data-op="d">Dá para marcar observações individuais (como nas horas extras da polícia) ou médias de subamostras.</div>
+      <div class="fb" data-op="d">Dá para marcar observações individuais (como nas <span class="ref" data-ref="ex-horas-extras">horas extras da polícia</span>) ou médias de subamostras.</div>
     </div>
    </aside>
   </section>
@@ -389,7 +393,7 @@ window.MathJax = {
       $$\text{elipse: } (\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \chi^2_2(0{,}05)$$
       $$\text{gráfico } T^2\text{: } T_j^2 = (\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}}),\quad \text{LSC} = \chi^2_p(0{,}05) \text{ ou } \chi^2_p(0{,}01)$$
     </div>
-    <p>A elipse é a mais intuitiva, mas só funciona com $p = 2$ e perde a ordem no tempo. O gráfico $T^2$ marca $T_j^2$ contra o período, com limite inferior 0 e sem linha central, para qualquer $p$. (É o mesmo <span class="ref" data-ref="f-dj2">$d_j^2$ do teste de normalidade do cap. 4</span>.) Nas horas extras, com $\alpha = 0{,}01$, o período 11 passa do limite por causa das horas extras em eventos extraordinários.</p>
+    <p>A elipse é a mais intuitiva, mas só funciona com $p = 2$ e perde a ordem no tempo. O gráfico $T^2$ marca $T_j^2$ contra o período, com limite inferior 0 e sem linha central, para qualquer $p$. (É o mesmo <span class="ref" data-ref="f-dj2">$d_j^2$ do teste de normalidade do cap. 4</span>.) Nas <span class="ref" data-ref="ex-horas-extras">horas extras da polícia</span>, olhando as duas variáveis juntas, com $\alpha = 0{,}01$, o período 11 passa do limite por causa das horas extras em eventos extraordinários.</p>
     <p>Quando o $T^2$ acusa um ponto, falta saber qual variável é a culpada: compare cada $x_{jk}$ com $\bar x_k \pm t_{n-1}(0{,}005/p)\sqrt{s_{kk}}$, um intervalo de Bonferroni.</p>
     <div class="ideia">O gráfico $T^2$ marca $(\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$ no tempo com limite $\chi^2_p(\alpha)$; um ponto acima pede investigar a variável responsável com intervalos de Bonferroni.</div>
    </div>
@@ -414,7 +418,7 @@ window.MathJax = {
       $$\frac{n}{n+1}(\mathbf{X} - \bar{\mathbf{X}})'\mathbf{S}^{-1}(\mathbf{X} - \bar{\mathbf{X}}) \;\sim\; \frac{(n-1)p}{n-p}F_{p,n-p}$$
       $$(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \frac{(n^2 - 1)p}{n(n-p)}F_{p,n-p}(\alpha)$$
     </div>
-    <p>Tirando o período 11 (fora de controle), refaz-se a elipse com os 15 estáveis e ela passa a julgar os próximos períodos. O gráfico $T^2$ para futuras observações marca $\frac{n}{n+1}(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}})$ com limite $\frac{(n-1)p}{n-p}F_{p,n-p}(0{,}05)$. Com subamostras de tamanho $m$, usa-se uma $\mathbf{S}$ agrupada das subamostras e os limites mudam (perto de $\chi^2_p(0{,}05)/m$ para a elipse das médias).</p>
+    <p>Nas <span class="ref" data-ref="ex-horas-extras">horas extras</span>, tirando o período 11 (fora de controle), refaz-se a elipse com os 15 estáveis e ela passa a julgar os próximos períodos. O gráfico $T^2$ para futuras observações marca $\frac{n}{n+1}(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}})$ com limite $\frac{(n-1)p}{n-p}F_{p,n-p}(0{,}05)$. Com subamostras de tamanho $m$, usa-se uma $\mathbf{S}$ agrupada das subamostras e os limites mudam (perto de $\chi^2_p(0{,}05)/m$ para a elipse das médias).</p>
     <div class="ideia">Para uma observação futura, a região de previsão é $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) \le \frac{(n^2-1)p}{n(n-p)}F_{p,n-p}(\alpha)$: maior que a região para $\boldsymbol\mu$, porque soma a variação da nova observação.</div>
    </div>
    <aside class="apoio">

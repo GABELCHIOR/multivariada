@@ -57,7 +57,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-efluente" data-ref-tipo="exemplo" data-ref-nome="Efluente medido por dois laboratórios">
-      <p><strong>Exemplo.</strong> DBO e SS de 11 amostras divididas.</p>
+      <p>DBO e SS de 11 amostras divididas.</p>
       <table>
         <thead><tr><th>$j$</th><th>DBO com.</th><th>SS com.</th><th>DBO est.</th><th>SS est.</th><th>$d_{j1}$</th><th>$d_{j2}$</th></tr></thead>
         <tbody>
@@ -122,8 +122,8 @@ window.MathJax = {
       <p>ou, com Bonferroni,</p>
       $$\delta_i:\quad \bar d_i \pm t_{n-1}\Big(\frac{\alpha}{2p}\Big)\sqrt{\frac{s^2_{d_i}}{n}}$$
     </div>
-    <p>No efluente, os $T^2$-intervalos de 95% são $(-22{,}46;\ 3{,}74)$ para a DBO e $(-5{,}71;\ 32{,}25)$ para os SS. Os dois contêm o zero, e os de Bonferroni também. Contradição? Não. A confiança de 95% vale para <em>todas</em> as combinações $a_1\delta_1 + a_2\delta_2$ ao mesmo tempo. As duas escolhidas ($\mathbf{a} = [1, 0]'$ e $[0, 1]'$) contêm o zero; outras não contêm, e é por isso que o teste rejeita.</p>
-    <p>A combinação que mais pesa na rejeição tem $\mathbf{a}$ proporcional a $\mathbf{S}_d^{-1}\bar{\mathbf{d}}$, aqui perto de $[-1;\ 0{,}68]'$: DBO menor <em>e</em> SS maior no laboratório comercial, juntos. (Um cuidado: a amostra 8 parece atípica, e com $n = 11$ isso pesa.)</p>
+    <p>No <span class="ref" data-ref="ex-efluente">efluente</span>, os $T^2$-intervalos de 95% são $(-22{,}46;\ 3{,}74)$ para a DBO e $(-5{,}71;\ 32{,}25)$ para os SS. Os dois contêm o zero, e os de Bonferroni também. Contradição? Não. A confiança de 95% vale para <em>todas</em> as combinações $a_1\delta_1 + a_2\delta_2$ ao mesmo tempo. As duas escolhidas ($\mathbf{a} = [1, 0]'$ e $[0, 1]'$) contêm o zero; outras não contêm, e é por isso que o teste rejeita.</p>
+    <p>A combinação que mais pesa na rejeição tem $\mathbf{a}$ proporcional a $\mathbf{S}_d^{-1}\bar{\mathbf{d}}$, aqui perto de $[-1;\ 0{,}68]'$: DBO menor <em>e</em> SS maior no laboratório comercial, juntos. (Um cuidado: a <span class="ref" data-ref="ex-efluente">amostra 8</span> parece atípica, e com $n = 11$ isso pesa.)</p>
     <div class="ideia">Rejeitar com $T^2$ garante que alguma combinação $\mathbf{a}'\boldsymbol\delta$ tem intervalo sem o zero, mas ela pode não ser nenhuma das variáveis sozinhas.</div>
    </div>
    <aside class="apoio">
@@ -152,7 +152,7 @@ window.MathJax = {
       $$\mathbf{d}_j = \mathbf{C}\mathbf{x}_j,\qquad \bar{\mathbf{d}} = \mathbf{C}\bar{\mathbf{x}},\qquad \mathbf{S}_d = \mathbf{C}\mathbf{S}\mathbf{C}'$$
     </div>
     <p>São as regras das <span class="ref" data-ref="f-comb-amostra">combinações lineares na amostra (cap. 3)</span>. Cada linha de $\mathbf{C}$ soma zero: é um <strong>vetor de contraste</strong>, perpendicular a $\mathbf{1}$. Por isso o $T^2$ ignora o total $\mathbf{1}'\mathbf{x}_j$ e só olha para comparações. Mesmo assim, vale calcular os $\mathbf{d}_j$: é neles que se confere a normalidade e procuram-se atípicos.</p>
-    <p>No planejamento: escolha pares de unidades o mais parecidas possível e sorteie, em cada par, qual recebe o tratamento 1 (uma moeda por par). No efluente, a amostra era agitada antes de dividir; sem isso, os sólidos assentariam e as duas metades não seriam iguais.</p>
+    <p>No planejamento: escolha pares de unidades o mais parecidas possível e sorteie, em cada par, qual recebe o tratamento 1 (uma moeda por par). No <span class="ref" data-ref="ex-efluente">efluente</span>, a amostra era agitada antes de dividir; sem isso, os sólidos assentariam e as duas metades não seriam iguais.</p>
     <div class="ideia">$\bar{\mathbf{d}} = \mathbf{C}\bar{\mathbf{x}}$ e $\mathbf{S}_d = \mathbf{CSC}'$, com linhas de $\mathbf{C}$ que somam zero (contrastes); o sorteio dentro do par protege contra efeitos sistemáticos.</div>
    </div>
    <aside class="apoio">
@@ -198,7 +198,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-caes" data-ref-tipo="exemplo" data-ref-nome="Anestesia em 19 cães">
-      <p><strong>Exemplo.</strong> 19 cães, tempo entre batimentos (ms) em 4 tratamentos: CO₂ alto ou baixo, sem ou com halotano. Médias: 368,2; 404,6; 479,3; 502,9.</p>
+      <p>19 cães, tempo entre batimentos (ms) em 4 tratamentos: CO₂ alto ou baixo, sem ou com halotano. Médias: 368,2; 404,6; 479,3; 502,9.</p>
       <table>
         <thead><tr><th>Trat.</th><th>CO₂</th><th>Halotano</th></tr></thead>
         <tbody><tr><td>1</td><td>alto</td><td>não</td></tr><tr><td>2</td><td>baixo</td><td>não</td></tr><tr><td>3</td><td>alto</td><td>sim</td></tr><tr><td>4</td><td>baixo</td><td>sim</td></tr></tbody>
@@ -300,7 +300,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-sabao" data-ref-tipo="exemplo" data-ref-nome="Sabão feito de dois jeitos">
-      <p><strong>Exemplo.</strong> 50 barras de sabão de cada processo; $X_1$ = espuma, $X_2$ = suavidade.</p>
+      <p>50 barras de sabão de cada processo; $X_1$ = espuma, $X_2$ = suavidade.</p>
       $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 8{,}3 \\ 4{,}1 \end{bmatrix},\quad \mathbf{S}_1 = \begin{bmatrix} 2 & 1 \\ 1 & 6 \end{bmatrix}$$
       $$\bar{\mathbf{x}}_2 = \begin{bmatrix} 10{,}2 \\ 3{,}9 \end{bmatrix},\quad \mathbf{S}_2 = \begin{bmatrix} 2 & 1 \\ 1 & 4 \end{bmatrix}$$
       <svg viewBox="0 0 320 210" class="fig" id="sabao-svg" role="img" aria-label="Elipse de confiança de 95% para a diferença das médias do sabão, com a origem fora"></svg>
@@ -332,7 +332,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-eletricidade" data-ref-tipo="exemplo" data-ref-nome="Eletricidade com e sem ar-condicionado">
-      <p><strong>Exemplo.</strong> $n_1 = 45$ (com ar), $n_2 = 55$ (sem ar).</p>
+      <p>$n_1 = 45$ (com ar), $n_2 = 55$ (sem ar).</p>
       $$\bar{\mathbf{x}}_1 = \begin{bmatrix} 204{,}4 \\ 556{,}6 \end{bmatrix},\qquad \bar{\mathbf{x}}_2 = \begin{bmatrix} 130{,}0 \\ 355{,}0 \end{bmatrix}$$
       $$\mathbf{S}_1 = \begin{bmatrix} 13825{,}3 & 23823{,}4 \\ 23823{,}4 & 73107{,}4 \end{bmatrix}$$
       $$\mathbf{S}_2 = \begin{bmatrix} 8632{,}0 & 19616{,}7 \\ 19616{,}7 & 55964{,}5 \end{bmatrix}$$
@@ -402,7 +402,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-anova-peq" data-ref-tipo="exemplo" data-ref-nome="Três amostras pequenas">
-      <p><strong>Exemplo.</strong> População 1: 9, 6, 9. População 2: 0, 2. População 3: 3, 1, 2. Médias: $\bar x_1 = 8$, $\bar x_2 = 1$, $\bar x_3 = 2$; média geral $\bar x = 4$.</p>
+      <p>População 1: 9, 6, 9. População 2: 0, 2. População 3: 3, 1, 2. Médias: $\bar x_1 = 8$, $\bar x_2 = 1$, $\bar x_3 = 2$; média geral $\bar x = 4$.</p>
       $$\begin{aligned} &\underbrace{\begin{pmatrix} 9 & 6 & 9 \\ 0 & 2 & \\ 3 & 1 & 2 \end{pmatrix}}_{\text{observação}} = \underbrace{\begin{pmatrix} 4 & 4 & 4 \\ 4 & 4 & \\ 4 & 4 & 4 \end{pmatrix}}_{\text{média}} \\ &\quad+ \underbrace{\begin{pmatrix} 4 & 4 & 4 \\ -3 & -3 & \\ -2 & -2 & -2 \end{pmatrix}}_{\text{efeito}} + \underbrace{\begin{pmatrix} 1 & -2 & 1 \\ -1 & 1 & \\ 1 & -1 & 0 \end{pmatrix}}_{\text{resíduo}} \end{aligned}$$
     </div>
     <div class="lacunas">
@@ -474,7 +474,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-manova-peq" data-ref-tipo="exemplo" data-ref-nome="MANOVA das três amostras pequenas">
-      <p><strong>Exemplo.</strong> As mesmas <span class="ref" data-ref="ex-anova-peq">três amostras</span> do passo anterior, agora com uma segunda variável. Pares $(x_1, x_2)$:</p>
+      <p>As mesmas <span class="ref" data-ref="ex-anova-peq">três amostras</span> do passo anterior, agora com uma segunda variável. Pares $(x_1, x_2)$:</p>
       <p>População 1: $(9, 3)$, $(6, 2)$, $(9, 7)$. População 2: $(0, 4)$, $(2, 0)$. População 3: $(3, 8)$, $(1, 9)$, $(2, 7)$.</p>
       <p>Na segunda variável, as médias são 4, 2 e 8 (geral 5), e $272 = 200 + 48 + 24$.</p>
       $$\mathbf{B} = \begin{bmatrix} 78 & -12 \\ -12 & 48 \end{bmatrix},\qquad \mathbf{W} = \begin{bmatrix} 10 & 1 \\ 1 & 24 \end{bmatrix}$$
@@ -539,7 +539,10 @@ window.MathJax = {
       <p>Nos outros casos, com $n$ grande (Bartlett), rejeita se</p>
       $$-\Big(n - 1 - \frac{p + g}{2}\Big)\ln\Lambda^* \;\gt\; \chi^2_{p(g-1)}(\alpha)$$
     </div>
-    <p>Exemplo: custos de 516 asilos do Wisconsin ($p = 4$ custos por paciente-dia) em $g = 3$ tipos de dono (privado, sem fins lucrativos, governo). Com $\Lambda^* = 0{,}7714$, a linha $g = 3$ dá $F = 17{,}67 \gt F_{8,1020}(0{,}01) \approx 2{,}51$, e Bartlett dá $132{,}76 \gt \chi^2_8(0{,}01) = 20{,}09$. Os custos médios dependem do tipo de dono. Com $p$ grande, peça ao computador $\mathbf{B}$ e $\mathbf{W}$ e procure entradas grandes; confira os resíduos (normalidade e <span class="ref" data-ref="d-atipicos">atípicos, cap. 4</span>).</p>
+    <div class="exemplo" data-ref-id="ex-asilos" data-ref-tipo="exemplo" data-ref-nome="Custos de 516 asilos">
+    <p>Custos de 516 asilos do Wisconsin ($p = 4$ custos por paciente-dia) em $g = 3$ tipos de dono (privado, sem fins lucrativos, governo). Com $\Lambda^* = 0{,}7714$, a linha $g = 3$ dá $F = 17{,}67 \gt F_{8,1020}(0{,}01) \approx 2{,}51$, e Bartlett dá $132{,}76 \gt \chi^2_8(0{,}01) = 20{,}09$. Os custos médios dependem do tipo de dono.</p>
+    </div>
+    <p>Com $p$ grande, peça ao computador $\mathbf{B}$ e $\mathbf{W}$ e procure entradas grandes; confira os resíduos (normalidade e <span class="ref" data-ref="d-atipicos">atípicos, cap. 4</span>).</p>
     <div class="ideia">A tabela acima transforma $\Lambda^*$ numa $F$ exata quando $p \le 2$ ou $g \le 3$; nos outros casos, $-(n - 1 - (p+g)/2)\ln\Lambda^*$ é comparado com $\chi^2_{p(g-1)}$.</div>
    </div>
    <aside class="apoio">
@@ -604,7 +607,7 @@ window.MathJax = {
       $$\begin{aligned} &\tau_{ki} - \tau_{\ell i}:\ \bar x_{ki} - \bar x_{\ell i} \\ &\qquad\pm t_{n-g}\Big(\frac{\alpha}{pg(g-1)}\Big)\sqrt{\frac{w_{ii}}{n - g}\Big(\frac{1}{n_k} + \frac{1}{n_\ell}\Big)} \end{aligned}$$
       <p>para todas as variáveis $i = 1, \dots, p$ e todos os pares $\ell \lt k$, com confiança conjunta de pelo menos $1 - \alpha$; $n = \sum_k n_k$.</p>
     </div>
-    <p>São mais curtos que as sombras do elipsoide (que cobrem todos os contrastes) e só precisam da tabela $t$. Nos asilos, para o custo de manutenção, privado − governo dá $(-0{,}061;\ -0{,}025)$ hora por paciente-dia; privado − sem fins lucrativos, $(-0{,}058;\ -0{,}026)$; sem fins lucrativos − governo, $(-0{,}021;\ 0{,}019)$. Os privados gastam menos; entre os outros dois, nada se vê.</p>
+    <p>São mais curtos que as sombras do elipsoide (que cobrem todos os contrastes) e só precisam da tabela $t$. Nos <span class="ref" data-ref="ex-asilos">asilos</span>, para o custo de manutenção, privado − governo dá $(-0{,}061;\ -0{,}025)$ hora por paciente-dia; privado − sem fins lucrativos, $(-0{,}058;\ -0{,}026)$; sem fins lucrativos − governo, $(-0{,}021;\ 0{,}019)$. Os privados gastam menos; entre os outros dois, nada se vê.</p>
     <div class="ideia">Depois da MANOVA, cada diferença $\tau_{ki} - \tau_{\ell i}$ ganha um intervalo $t$ com $w_{ii}/(n - g)$ e nível $\alpha/(2m)$, $m = pg(g-1)/2$.</div>
    </div>
    <aside class="apoio">
@@ -677,7 +680,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo" data-ref-id="ex-filme" data-ref-tipo="exemplo" data-ref-nome="Filme plástico, dois fatores">
-      <p><strong>Exemplo.</strong> Filme plástico: resistência ao rasgo, brilho e opacidade ($p = 3$), com dois níveis da taxa de extrusão (fator 1) e da quantidade de aditivo (fator 2), $n = 5$ repetições.</p>
+      <p>Filme plástico: resistência ao rasgo, brilho e opacidade ($p = 3$), com dois níveis da taxa de extrusão (fator 1) e da quantidade de aditivo (fator 2), $n = 5$ repetições.</p>
       <table>
         <thead><tr><th>Efeito</th><th>$\Lambda^*$</th><th>$F$</th><th>g.l.</th></tr></thead>
         <tbody>
@@ -790,7 +793,7 @@ window.MathJax = {
    </div>
    <aside class="apoio">
     <div class="exemplo">
-      <p><strong>Exemplo.</strong> Médias do cálcio (pontos) e quadráticas ajustadas (linhas).</p>
+      <p>Médias do cálcio (pontos) e quadráticas ajustadas (linhas).</p>
       <svg viewBox="0 0 330 220" class="fig" id="cresc-svg" role="img" aria-label="Médias de cálcio nos tempos 0 a 3 e as duas quadráticas ajustadas"></svg>
     </div>
     <div class="quiz" data-correta="b">
