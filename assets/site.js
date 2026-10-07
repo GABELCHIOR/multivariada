@@ -358,8 +358,49 @@ window.SITE = {
    "titulo": "Componentes principais",
    "arquivo": "capitulos/cap-08.html",
    "paginas": "458-513",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "8.1",
+     "titulo": "A ideia",
+     "livro": "§8.1–8.2"
+    },
+    {
+     "numero": "8.2",
+     "titulo": "Na população",
+     "livro": "§8.2"
+    },
+    {
+     "numero": "8.3",
+     "titulo": "Padronizar ou não",
+     "livro": "§8.2"
+    },
+    {
+     "numero": "8.4",
+     "titulo": "Na amostra",
+     "livro": "§8.3"
+    },
+    {
+     "numero": "8.5",
+     "titulo": "Gráficos",
+     "livro": "§8.4"
+    },
+    {
+     "numero": "8.6",
+     "titulo": "Amostras grandes",
+     "livro": "§8.5"
+    },
+    {
+     "numero": "8.7",
+     "titulo": "Controle de qualidade",
+     "livro": "§8.6"
+    },
+    {
+     "numero": "8.8",
+     "titulo": "A melhor aproximação",
+     "livro": "Supl. 8A"
+    }
+   ]
   },
   {
    "id": "cap-09",

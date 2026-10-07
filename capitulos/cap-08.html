@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-08">
+<title>Cap. 8 — Componentes principais</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 8 — Componentes principais</h1>
+<p class="contexto">Onde isso se encaixa: com muitas variáveis correlacionadas, boa parte da informação se repete. Os componentes principais trocam as $p$ variáveis por poucas combinações lineares, sem correlação entre si, que guardam quase toda a variação. É a <span class="ref" data-ref="f-espectral">decomposição espectral do cap. 2</span> aplicada à matriz de covariância; a <span class="ref" data-ref="f-contorno">normal do cap. 4</span> só entra para dar a geometria e para a inferência.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 8.1 ================= -->
+  <div class="secao" data-numero="8.1" data-titulo="A ideia" data-livro="§8.1–8.2">
+
+  <section class="passo" data-titulo="Maior variância">
+   <div class="texto">
+    <h2>O primeiro componente é a combinação linear de maior variância</h2>
+    <p>Se o comprimento e a largura de um casco sobem juntos, uma combinação das duas medidas resume quase tudo o que as duas dizem. A pergunta do capítulo: qual combinação linear $Y = \mathbf{a}'\mathbf{X}$ varia mais? Pela regra da <span class="ref" data-ref="f-cx">variância de $\mathbf{c}'\mathbf{X}$ (cap. 2)</span>:</p>
+    <div class="definicao" data-ref-id="d-cpr" data-ref-tipo="definicao" data-ref-nome="Componentes principais (definição)">
+      $$Y_i = \mathbf{a}_i'\mathbf{X} = a_{i1}X_1 + a_{i2}X_2 + \cdots + a_{ip}X_p$$
+      $$\mathrm{Var}(Y_i) = \mathbf{a}_i'\boldsymbol\Sigma\mathbf{a}_i$$
+      $$\mathrm{Cov}(Y_i, Y_k) = \mathbf{a}_i'\boldsymbol\Sigma\mathbf{a}_k$$
+      <p><strong>1º componente:</strong> a combinação $\mathbf{a}_1'\mathbf{X}$ que maximiza a variância, com $\mathbf{a}_1'\mathbf{a}_1 = 1$.<br><strong>2º:</strong> maximiza a variância com $\mathbf{a}_2'\mathbf{a}_2 = 1$ e $\mathrm{Cov}(\mathbf{a}_1'\mathbf{X}, \mathbf{a}_2'\mathbf{X}) = 0$.<br><strong>$i$-ésimo:</strong> maximiza com $\mathbf{a}_i'\mathbf{a}_i = 1$ e sem correlação com os $i - 1$ anteriores.</p>
+    </div>
+    <p>Sem a restrição $\mathbf{a}'\mathbf{a} = 1$, bastaria multiplicar $\mathbf{a}$ por 10 para a variância ficar 100 vezes maior. Com comprimento 1, $\mathbf{a}$ é uma direção, e $\mathbf{a}'\mathbf{x}$ é o tamanho da sombra de $\mathbf{x}$ nessa direção (a <span class="ref" data-ref="f-proj">projeção do cap. 2</span>). Os componentes formam um novo sistema de eixos, girado até apontar para onde os dados mais variam.</p>
+    <div class="ideia">O $i$-ésimo componente principal é a combinação $\mathbf{a}_i'\mathbf{X}$ de maior variância, com $\mathbf{a}_i$ de comprimento 1 e sem correlação com os componentes anteriores.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-dir">
+      <p>Ao lado há uma nuvem de 20 pontos: $x_1$ tem variância 3,99, $x_2$ tem 1,80, e as duas têm correlação positiva. Em que direção as sombras dos pontos têm a maior variância?</p>
+      <div class="alts">
+        <button data-op="a">Na do eixo $x_1$, a variável de maior variância</button>
+        <button data-op="b">Na diagonal de 45°, que pesa as duas igualmente</button>
+        <button data-op="c" data-certa>Na do eixo comprido da nuvem, que mistura as duas com pesos diferentes</button>
+      </div>
+      <div class="explica" hidden><p>Na direção do eixo $x_1$ (0°), a variância das sombras é 3,99. Girando até cerca de 32°, ela sobe até 5,40. A correlação faz a melhor direção misturar as duas variáveis, com mais peso em $x_1$, que varia mais. Perpendicular a ela (122°), a variância cai para 0,39.</p></div>
+    </div>
+    <div class="sim" id="sim-dir">
+      <label>Direção $\theta$ <input type="range" id="dir-t" min="0" max="180" step="1" value="90"> <strong id="dir-t-v">90°</strong></label>
+      <svg viewBox="0 0 360 300" id="dir-svg" role="img" aria-label="Nuvem de pontos, uma reta pelo centro e as sombras dos pontos nela; embaixo, a variância das sombras para cada direção"></svg>
+      <p id="dir-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Autovetores">
+   <div class="texto">
+    <h2>A solução: os autovetores de $\boldsymbol\Sigma$, com variâncias iguais aos autovalores</h2>
+    <p>Se $\boldsymbol\Sigma$ tem os pares <span class="ref" data-ref="d-autov">autovalor e autovetor</span> $(\lambda_1, \mathbf{e}_1), \dots, (\lambda_p, \mathbf{e}_p)$, com $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_p \ge 0$ e autovetores de comprimento 1:</p>
+    <div class="formula" data-ref-id="f-cpr-pop" data-ref-tipo="formula" data-ref-nome="Componentes principais da população">
+      $$Y_i = \class{s1}{\mathbf{e}_i}'\mathbf{X} = e_{i1}X_1 + e_{i2}X_2 + \cdots + e_{ip}X_p$$
+      $$\mathrm{Var}(Y_i) = \mathbf{e}_i'\boldsymbol\Sigma\mathbf{e}_i = \class{s2}{\lambda_i}$$
+      $$\mathrm{Cov}(Y_i, Y_k) = 0,\quad i \ne k$$
+    </div>
+    <p>É o <span class="ref" data-ref="f-max">máximo de forma quadrática na esfera unitária (cap. 2)</span> com $\mathbf{B} = \boldsymbol\Sigma$. Dois avisos práticos. Se alguns $\lambda$ são iguais, os autovetores deles (e os componentes) não são únicos: qualquer par perpendicular no plano deles serve. E o sinal de cada $\mathbf{e}_i$ é arbitrário: $-\mathbf{e}_i$ também é autovetor. Programas diferentes podem trocar sinais; a interpretação não muda.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Pelo máximo da forma quadrática, $\max_{\mathbf{a} \ne \mathbf{0}}\mathbf{a}'\boldsymbol\Sigma\mathbf{a}/\mathbf{a}'\mathbf{a} = \lambda_1$, atingido em $\mathbf{a} = \mathbf{e}_1$. Como $\mathbf{e}_1'\mathbf{e}_1 = 1$, isso é $\mathrm{Var}(Y_1) = \lambda_1$.</p>
+      <p>Para os seguintes, a restrição "sem correlação" equivale a "perpendicular". Se $\mathbf{a}'\mathbf{X}$ não tem correlação com $Y_j = \mathbf{e}_j'\mathbf{X}$, então $0 = \mathbf{a}'\boldsymbol\Sigma\mathbf{e}_j = \lambda_j\mathbf{a}'\mathbf{e}_j$, e (com $\lambda_j > 0$) $\mathbf{a} \perp \mathbf{e}_j$. Perpendicular a $\mathbf{e}_1, \dots, \mathbf{e}_k$, o máximo é $\lambda_{k+1}$, em $\mathbf{a} = \mathbf{e}_{k+1}$.</p>
+      <p>Falta ver que os autovetores não têm correlação entre si. Os autovetores de uma matriz simétrica podem ser escolhidos perpendiculares (<span class="ref" data-ref="d-res21">cap. 2</span>), e $\boldsymbol\Sigma\mathbf{e}_k = \lambda_k\mathbf{e}_k$ dá</p>
+      $$\mathrm{Cov}(Y_i, Y_k) = \mathbf{e}_i'\boldsymbol\Sigma\mathbf{e}_k = \lambda_k\mathbf{e}_i'\mathbf{e}_k = 0.$$
+    </details>
+    <div class="ideia">Os componentes principais são $Y_i = \mathbf{e}_i'\mathbf{X}$, com $\mathbf{e}_i$ os autovetores de $\boldsymbol\Sigma$; a variância de $Y_i$ é o autovalor $\lambda_i$, e os componentes não têm correlação entre si.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Na definição de componentes principais, por que se exige que o vetor de coeficientes $\mathbf{a}$ tenha comprimento 1?</p>
+      <div class="alts">
+        <button data-op="a">(a) Para os componentes não terem correlação entre si.</button>
+        <button data-op="b">(b) Porque sem ela a variância $\mathbf{a}'\boldsymbol\Sigma\mathbf{a}$ cresce sem limite: basta multiplicar $\mathbf{a}$ por uma constante grande.</button>
+        <button data-op="c">(c) Para os coeficientes serem as correlações entre o componente e as variáveis.</button>
+        <button data-op="d">(d) Para a soma das variâncias dos componentes dar $p$.</button>
+      </div>
+      <div class="fb" data-op="a">A falta de correlação é uma restrição separada (a covariância com os anteriores igual a zero). O comprimento 1 resolve outro problema.</div>
+      <div class="fb" data-op="b">Isso: $\mathrm{Var}(c\,\mathbf{a}'\mathbf{X}) = c^2\,\mathbf{a}'\boldsymbol\Sigma\mathbf{a}$. Sem fixar o tamanho de $\mathbf{a}$, o máximo não existe; fixando, só a direção importa.</div>
+      <div class="fb" data-op="c">Os coeficientes e as correlações são coisas diferentes; a correlação ainda depende de $\lambda_i$ e da variância da variável.</div>
+      <div class="fb" data-op="d">A soma das variâncias dos componentes é a soma dos autovalores, que só dá $p$ com variáveis padronizadas.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.2 ================= -->
+  <div class="secao" data-numero="8.2" data-titulo="Na população" data-livro="§8.2">
+
+  <section class="passo" data-titulo="Variância total">
+   <div class="texto">
+    <h2>Os componentes redistribuem a variância total, sem criar nem perder nada</h2>
+    <div class="formula" data-ref-id="f-cpr-total" data-ref-tipo="formula" data-ref-nome="Variância total e proporção explicada">
+      $$\sigma_{11} + \sigma_{22} + \cdots + \sigma_{pp} = \lambda_1 + \lambda_2 + \cdots + \lambda_p$$
+      $$\text{proporção do } k\text{-ésimo} = \frac{\lambda_k}{\lambda_1 + \cdots + \lambda_p}$$
+    </div>
+    <p>O lado esquerdo é a soma das variâncias das variáveis, $\mathrm{tr}(\boldsymbol\Sigma)$ (a versão de população da <span class="ref" data-ref="f-var-total">variância total do cap. 3</span>). O direito é a soma das variâncias dos componentes. São iguais porque o traço é a soma dos autovalores (<span class="ref" data-ref="d-det-tr">cap. 2</span>).</p>
+    <p>Se os dois ou três primeiros componentes explicam boa parte da variância total (algo como 80% a 90%), eles podem substituir as $p$ variáveis com pouca perda.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Pela decomposição espectral, $\boldsymbol\Sigma = \mathbf{P}\boldsymbol\Lambda\mathbf{P}'$ com $\mathbf{P} = [\mathbf{e}_1, \dots, \mathbf{e}_p]$ e $\mathbf{P}'\mathbf{P} = \mathbf{I}$. Como $\mathrm{tr}(\mathbf{AB}) = \mathrm{tr}(\mathbf{BA})$:</p>
+      $$\begin{aligned} \mathrm{tr}(\boldsymbol\Sigma) &= \mathrm{tr}(\mathbf{P}\boldsymbol\Lambda\mathbf{P}') = \mathrm{tr}(\boldsymbol\Lambda\mathbf{P}'\mathbf{P}) \\ &= \mathrm{tr}(\boldsymbol\Lambda) = \lambda_1 + \cdots + \lambda_p. \end{aligned}$$
+    </details>
+    <div class="ideia">A variância total $\sigma_{11} + \cdots + \sigma_{pp}$ é igual a $\lambda_1 + \cdots + \lambda_p$; o $k$-ésimo componente explica a fração $\lambda_k/(\lambda_1 + \cdots + \lambda_p)$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-pop3" data-ref-tipo="exemplo" data-ref-nome="População com três variáveis">
+      <p>Três variáveis com matriz de covariância</p>
+      $$\boldsymbol\Sigma = \begin{bmatrix} 1 & -2 & 0 \\ -2 & 5 & 0 \\ 0 & 0 & 2 \end{bmatrix}$$
+      <p>Autovalores e autovetores:</p>
+      $$\lambda_1 = 5{,}83,\quad \mathbf{e}_1 = \begin{bmatrix} 0{,}383 \\ -0{,}924 \\ 0 \end{bmatrix}$$
+      $$\lambda_2 = 2{,}00,\quad \mathbf{e}_2 = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$$
+      $$\lambda_3 = 0{,}17,\quad \mathbf{e}_3 = \begin{bmatrix} 0{,}924 \\ 0{,}383 \\ 0 \end{bmatrix}$$
+      <p>Logo $Y_1 = 0{,}383X_1 - 0{,}924X_2$, $Y_2 = X_3$ e $Y_3 = 0{,}924X_1 + 0{,}383X_2$. Como $X_3$ não tem correlação com as outras, ela já é um componente sozinha.</p>
+    </div>
+    <div class="lacunas">
+      <p>Com a <span class="ref" data-ref="ex-pop3">população com três variáveis</span>:</p>
+      <p>Variância total: <input class="lacuna" data-resp="8" data-tol="0.01" aria-label="variância total"><br>Proporção explicada por $Y_1$: <input class="lacuna" data-resp="0.729" data-tol="0.005" aria-label="proporção de Y1"><br>Por $Y_1$ e $Y_2$ juntos: <input class="lacuna" data-resp="0.979" data-tol="0.005" aria-label="proporção de Y1 e Y2"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: some a diagonal de $\boldsymbol\Sigma$ (ou os autovalores) e divida.</p>
+      <div class="resolucao" hidden><p>Total: $1 + 5 + 2 = 8 = 5{,}83 + 2{,}00 + 0{,}17$. $Y_1$ explica $5{,}83/8 = 0{,}73$; os dois primeiros, $7{,}83/8 = 0{,}98$: $Y_1$ e $Y_2$ substituem as três variáveis quase sem perda. Conferindo a variância de $Y_1$ direto: $0{,}383^2 \times 1$ $+ 0{,}924^2 \times 5$ $+ 2(0{,}383)(-0{,}924)(-2)$ $= 0{,}147 + 4{,}269 + 1{,}416$ $= 5{,}83$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Correlações">
+   <div class="texto">
+    <h2>Quanto cada variável pesa: coeficientes e correlações</h2>
+    <div class="formula" data-ref-id="f-cpr-corr" data-ref-tipo="formula" data-ref-nome="Correlação entre componente e variável">
+      $$\rho_{Y_i, X_k} = \frac{e_{ik}\sqrt{\lambda_i}}{\sqrt{\sigma_{kk}}}$$
+    </div>
+    <p>O coeficiente $e_{ik}$ mede o peso de $X_k$ na combinação, junto com as outras variáveis. A correlação mede a relação de $X_k$ sozinha com $Y_i$ e leva em conta a escala de $X_k$. Na prática, variáveis de coeficiente grande costumam ter correlação grande, mas nem sempre na mesma ordem; olhe os dois.</p>
+    <p>Na <span class="ref" data-ref="ex-pop3">população com três variáveis</span>:</p>
+    $$\rho_{Y_1, X_1} = \frac{0{,}383\sqrt{5{,}83}}{\sqrt 1} = 0{,}924$$
+    $$\rho_{Y_1, X_2} = \frac{-0{,}924\sqrt{5{,}83}}{\sqrt 5} = -0{,}997$$
+    <p>E $\rho_{Y_2, X_3} = \sqrt2/\sqrt2 = 1$, como deveria: $Y_2$ é a própria $X_3$.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Com $\mathbf{a}_k = [0, \dots, 0, 1, 0, \dots, 0]'$ (1 na posição $k$), $X_k = \mathbf{a}_k'\mathbf{X}$. Então $\mathrm{Cov}(X_k, Y_i) = \mathbf{a}_k'\boldsymbol\Sigma\mathbf{e}_i$ $= \lambda_i\mathbf{a}_k'\mathbf{e}_i = \lambda_ie_{ik}$. Dividindo por $\sqrt{\mathrm{Var}(Y_i)}\sqrt{\mathrm{Var}(X_k)} = \sqrt{\lambda_i}\sqrt{\sigma_{kk}}$, sai a fórmula.</p>
+    </details>
+    <div class="ideia">A correlação entre $Y_i$ e $X_k$ é $e_{ik}\sqrt{\lambda_i}/\sqrt{\sigma_{kk}}$; o coeficiente mede o peso na combinação, a correlação mede a relação isolada, e convém olhar os dois.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Na população com três variáveis, $Y_1 = 0{,}383X_1 - 0{,}924X_2$, e as correlações de $Y_1$ com $X_1$ e $X_2$ são 0,924 e −0,997. Qual leitura é a correta?</p>
+      <div class="alts">
+        <button data-op="a">(a) $X_1$ quase não importa para $Y_1$, porque seu coeficiente é pequeno.</button>
+        <button data-op="b">(b) As duas importam: as correlações são parecidas em módulo, e os sinais opostos dizem que $Y_1$ contrapõe $X_1$ a $X_2$.</button>
+        <button data-op="c">(c) $X_1$ importa mais, porque tem correlação alta com um coeficiente bem menor.</button>
+        <button data-op="d">(d) O sinal negativo de $X_2$ quer dizer que ela diminui a variância de $Y_1$.</button>
+      </div>
+      <div class="fb" data-op="a">O coeficiente é menor, mas a correlação de $X_1$ com $Y_1$ (0,924) é quase tão grande quanto a de $X_2$. As duas ajudam a interpretar $Y_1$.</div>
+      <div class="fb" data-op="b">Isso: pelo coeficiente, $X_2$ pesa mais; pela correlação, as duas estão quase empatadas. Com sinais opostos, $Y_1$ cresce com $X_1$ e diminui com $X_2$.</div>
+      <div class="fb" data-op="c">A correlação de $X_2$ (0,997 em módulo) é a maior; e o coeficiente de $X_2$ também. Não há motivo para pôr $X_1$ na frente.</div>
+      <div class="fb" data-op="d">O sinal só diz o sentido da relação. Qualquer coeficiente diferente de zero contribui com $e_{ik}^2\sigma_{kk}$ positivo para a variância.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Elipse">
+   <div class="texto">
+    <h2>Na normal, os componentes são os eixos das elipses de densidade constante</h2>
+    <p>Se $\mathbf{X} \sim N_p(\boldsymbol\mu, \boldsymbol\Sigma)$, a densidade é constante nos elipsoides $(\mathbf{x} - \boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu) = c^2$, de eixos nas direções $\mathbf{e}_i$ e semieixos $c\sqrt{\lambda_i}$ (<span class="ref" data-ref="f-contorno">cap. 4</span>). Com $\boldsymbol\mu = \mathbf{0}$ e $y_i = \mathbf{e}_i'\mathbf{x}$:</p>
+    <div class="formula" data-ref-id="f-cpr-elipse" data-ref-tipo="formula" data-ref-nome="Componentes nos eixos do elipsoide de densidade constante">
+      $$c^2 = \mathbf{x}'\boldsymbol\Sigma^{-1}\mathbf{x} = \frac{y_1^2}{\lambda_1} + \frac{y_2^2}{\lambda_2} + \cdots + \frac{y_p^2}{\lambda_p}$$
+    </div>
+    <p>Nas coordenadas $y$, o elipsoide fica "alinhado": é a equação de um elipsoide com eixos sobre os eixos $y$. Ou seja, obter os componentes é girar os eixos originais até eles coincidirem com os eixos do elipsoide; o eixo maior é o do 1º componente. Com $\boldsymbol\mu \ne \mathbf{0}$, é o componente centrado $\mathbf{e}_i'(\mathbf{x} - \boldsymbol\mu)$ que tem média zero e fica nesse eixo.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Pela <span class="ref" data-ref="f-raiz">decomposição espectral da inversa (cap. 2)</span>, $\boldsymbol\Sigma^{-1} = \sum_i\lambda_i^{-1}\mathbf{e}_i\mathbf{e}_i'$. Então $\mathbf{x}'\boldsymbol\Sigma^{-1}\mathbf{x} = \sum_i\lambda_i^{-1}(\mathbf{e}_i'\mathbf{x})^2$ $= \sum_iy_i^2/\lambda_i$.</p>
+    </details>
+    <div class="ideia">Na normal, os componentes principais apontam nos eixos dos elipsoides de densidade constante; achar os componentes é girar os eixos até eles.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-elipse">
+      <p>Duas variáveis normais com a mesma variância ($\sigma_{11} = \sigma_{22} = 1$) e correlação 0,75. Que ângulo o 1º componente faz com o eixo $x_1$?</p>
+      <div class="alts">
+        <button data-op="a" data-certa>45°</button>
+        <button data-op="b">Cerca de 41°, o ângulo de cosseno 0,75</button>
+        <button data-op="c">Depende de $\rho$: chega a 45° só quando $\rho$ se aproxima de 1</button>
+      </div>
+      <div class="explica" hidden><p>Com variâncias iguais, $\mathbf{e}_1 = [1, 1]'/\sqrt2$ para qualquer $\rho > 0$ (e $[1, -1]'/\sqrt2$ para $\rho < 0$): o ângulo é sempre 45°. Só a proporção explicada, $(1 + \rho)/2$, muda com $\rho$. Mexa agora em $\sigma_{22}$: aí o eixo gira na direção da variável de maior variância.</p></div>
+    </div>
+    <div class="sim" id="sim-elipse">
+      <label>Correlação $\rho$ <input type="range" id="el-r" min="-0.95" max="0.95" step="0.05" value="0.75"> <strong id="el-r-v">0,75</strong></label>
+      <label>Variância $\sigma_{22}$ <input type="range" id="el-v" min="0.25" max="4" step="0.05" value="1"> <strong id="el-v-v">1,00</strong></label>
+      <svg viewBox="0 0 340 300" id="el-svg" role="img" aria-label="Elipse de densidade constante com os eixos dos dois componentes principais"></svg>
+      <p id="el-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.3 ================= -->
+  <div class="secao" data-numero="8.3" data-titulo="Padronizar ou não" data-livro="§8.2">
+
+  <section class="passo" data-titulo="Padronizadas">
+   <div class="texto">
+    <h2>Padronizar as variáveis muda os componentes</h2>
+    <p>Com variáveis em escalas muito diferentes, a de maior variância domina o 1º componente só por causa da unidade. A saída é padronizar: $Z_k = (X_k - \mu_k)/\sqrt{\sigma_{kk}}$, ou $\mathbf{Z} = (\mathbf{V}^{1/2})^{-1}(\mathbf{X} - \boldsymbol\mu)$, que tem $\mathrm{Cov}(\mathbf{Z}) = \boldsymbol\rho$ (<span class="ref" data-ref="f-rho">cap. 2</span>). Os componentes vêm então dos pares de $\boldsymbol\rho$:</p>
+    <div class="formula" data-ref-id="f-cpr-padr" data-ref-tipo="formula" data-ref-nome="Componentes de variáveis padronizadas">
+      $$Y_i = \mathbf{e}_i'\mathbf{Z} = \mathbf{e}_i'(\mathbf{V}^{1/2})^{-1}(\mathbf{X} - \boldsymbol\mu)$$
+      $$\sum_{i=1}^p\mathrm{Var}(Y_i) = \sum_{i=1}^p\mathrm{Var}(Z_i) = p$$
+      $$\rho_{Y_i, Z_k} = e_{ik}\sqrt{\lambda_i}$$
+      $$\text{proporção do } k\text{-ésimo} = \frac{\lambda_k}{p}$$
+      <p>Aqui $(\lambda_i, \mathbf{e}_i)$ são os pares de $\boldsymbol\rho$, não os de $\boldsymbol\Sigma$.</p>
+    </div>
+    <p>Tudo o que vimos vale, trocando $\mathbf{X}$ por $\mathbf{Z}$ e $\boldsymbol\Sigma$ por $\boldsymbol\rho$. Mas os pares de $\boldsymbol\rho$ não são uma transformação simples dos de $\boldsymbol\Sigma$: padronizar não é um detalhe. Regra prática: padronize quando as variáveis estão em unidades diferentes ou em faixas muito diferentes, como vendas anuais de 10 mil a 350 mil dólares ao lado de uma razão entre 0,01 e 0,60.</p>
+    <div class="ideia">Com variáveis padronizadas, os componentes vêm dos autovetores de $\boldsymbol\rho$, a variância total é $p$ e a correlação com $Z_k$ é $e_{ik}\sqrt{\lambda_i}$; o resultado é diferente do obtido com $\boldsymbol\Sigma$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-escalas" data-ref-tipo="exemplo" data-ref-nome="Variâncias 1 e 100">
+      <p>Duas variáveis com variâncias 1 e 100 e correlação 0,4:</p>
+      $$\boldsymbol\Sigma = \begin{bmatrix} 1 & 4 \\ 4 & 100 \end{bmatrix}$$
+      $$\boldsymbol\rho = \begin{bmatrix} 1 & 0{,}4 \\ 0{,}4 & 1 \end{bmatrix}$$
+      <p><strong>De $\boldsymbol\Sigma$:</strong> $\lambda_1 = 100{,}16$, $\lambda_2 = 0{,}84$, $\mathbf{e}_1 = [0{,}040;\ 0{,}999]'$. Então $Y_1 = 0{,}040X_1 + 0{,}999X_2$: quase só $X_2$.</p>
+      <p><strong>De $\boldsymbol\rho$:</strong> $\lambda_1 = 1{,}4$, $\lambda_2 = 0{,}6$, $\mathbf{e}_1 = [0{,}707;\ 0{,}707]'$. Voltando para $\mathbf{X}$:</p>
+      $$\begin{aligned} Y_1 &= 0{,}707Z_1 + 0{,}707Z_2 \\ &= 0{,}707(X_1 - \mu_1) + 0{,}0707(X_2 - \mu_2) \end{aligned}$$
+      <p>Agora $X_1$ pesa dez vezes mais que $X_2$: o contrário do que $\boldsymbol\Sigma$ dizia.</p>
+    </div>
+    <div class="lacunas">
+      <p>Com as <span class="ref" data-ref="ex-escalas">variâncias 1 e 100</span>:</p>
+      <p>Proporção da variância total explicada pelo 1º componente de $\boldsymbol\Sigma$: <input class="lacuna" data-resp="0.992" data-tol="0.002" aria-label="proporção de Sigma"><br>Pelo 1º componente de $\boldsymbol\rho$: <input class="lacuna" data-resp="0.7" data-tol="0.005" aria-label="proporção de rho"><br>Correlação de $Y_1$ (de $\boldsymbol\rho$) com $Z_1$: <input class="lacuna" data-resp="0.837" data-tol="0.003" aria-label="correlação Y1 Z1"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $100{,}16/101$; $1{,}4/2$; $0{,}707\sqrt{1{,}4}$.</p>
+      <div class="resolucao" hidden><p>$100{,}16/101 = 0{,}992$: com $\boldsymbol\Sigma$, um componente que é quase só $X_2$ "explica" 99% só porque $X_2$ tem a variância maior. Com $\boldsymbol\rho$: $1{,}4/2 = 0{,}70$, e $0{,}707\sqrt{1{,}4} = 0{,}837$, igual para $Z_1$ e $Z_2$: as duas contribuem por igual.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Estruturas especiais">
+   <div class="texto">
+    <h2>Duas estruturas em que os componentes saem sem conta</h2>
+    <p><strong>Covariância diagonal.</strong> Se $\boldsymbol\Sigma$ só tem a diagonal $\sigma_{11}, \dots, \sigma_{pp}$, cada vetor $[0, \dots, 1, \dots, 0]'$ é autovetor, e os componentes são as próprias variáveis: nada a ganhar. As elipses de densidade já estão alinhadas com os eixos. Padronizando, $\boldsymbol\rho = \mathbf{I}$, todos os autovalores valem 1 e os elipsoides viram esferas.</p>
+    <p><strong>Correlações todas iguais.</strong> Comum em medidas de tamanho de seres vivos:</p>
+    <div class="formula" data-ref-id="f-equicorr" data-ref-tipo="formula" data-ref-nome="Equicorrelação e seus componentes">
+      $$\boldsymbol\rho = \begin{bmatrix} 1 & \rho & \cdots & \rho \\ \rho & 1 & \cdots & \rho \\ \vdots & \vdots & \ddots & \vdots \\ \rho & \rho & \cdots & 1 \end{bmatrix}$$
+      $$\lambda_1 = 1 + (p - 1)\rho,\qquad \mathbf{e}_1 = \frac{1}{\sqrt p}\begin{bmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}$$
+      $$\lambda_2 = \cdots = \lambda_p = 1 - \rho$$
+      $$\frac{\lambda_1}{p} = \rho + \frac{1 - \rho}{p}$$
+    </div>
+    <p>Com $\rho > 0$, $Y_1 = (Z_1 + \cdots + Z_p)/\sqrt p$ é proporcional à soma: um "índice" com pesos iguais. Os outros $p - 1$ autovalores são iguais, então as direções deles não são únicas (uma escolha: $\mathbf{e}_i \propto [1, \dots, 1, -(i - 1), 0, \dots, 0]'$, com $i - 1$ uns). Na normal, os elipsoides têm forma de charuto, com o eixo maior na reta de $\mathbf{1}$.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Escreva $\boldsymbol\rho = (1 - \rho)\mathbf{I} + \rho\mathbf{1}\mathbf{1}'$. Então $\boldsymbol\rho\mathbf{1} = (1 - \rho)\mathbf{1} + \rho\,p\,\mathbf{1}$ $= [1 + (p - 1)\rho]\mathbf{1}$. Para qualquer $\mathbf{x}$ perpendicular a $\mathbf{1}$ ($\mathbf{1}'\mathbf{x} = 0$): $\boldsymbol\rho\mathbf{x} = (1 - \rho)\mathbf{x}$. São $p - 1$ direções independentes perpendiculares a $\mathbf{1}$, todas com autovalor $1 - \rho$.</p>
+    </details>
+    <div class="ideia">Com covariância diagonal, os componentes são as próprias variáveis; com correlações todas iguais a $\rho > 0$, o 1º componente é a soma normalizada, com $\lambda_1 = 1 + (p - 1)\rho$, e os outros têm autovalor $1 - \rho$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Cinco variáveis padronizadas com todas as correlações iguais a 0,8. Que fração da variância total o 1º componente explica? E se fossem 50 variáveis?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>$\lambda_1/p = 0{,}8 + 0{,}2/5 = 0{,}84$, ou seja, 84%. Com 50 variáveis, $0{,}8 + 0{,}2/50 = 0{,}804$. Quando $p$ cresce, a fração se aproxima de $\rho$; quando $\rho$ se aproxima de 1, os outros componentes quase não contam.</p></div>
+    </div>
+    <div class="pare">
+      <p>E se $\boldsymbol\Sigma = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 4 & 0 \\ 0 & 0 & 4 \end{bmatrix}$? Quais são os componentes?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>É diagonal: os componentes são as variáveis. $Y_3 = X_1$ (autovalor 2). Mas o autovalor 4 aparece duas vezes, então $Y_1$ e $Y_2$ podem ser $X_2$ e $X_3$ ou qualquer par de combinações perpendiculares delas, como $(X_2 + X_3)/\sqrt2$ e $(X_2 - X_3)/\sqrt2$. Autovalores iguais: componentes não únicos.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.4 ================= -->
+  <div class="secao" data-numero="8.4" data-titulo="Na amostra" data-livro="§8.3">
+
+  <section class="passo" data-titulo="Componentes amostrais">
+   <div class="texto">
+    <h2>Na amostra: os mesmos passos, com $\mathbf{S}$ no lugar de $\boldsymbol\Sigma$</h2>
+    <p>Com $n$ observações, os valores $\mathbf{a}'\mathbf{x}_j$ de uma combinação têm média $\mathbf{a}'\bar{\mathbf{x}}$ e variância amostral $\mathbf{a}'\mathbf{S}\mathbf{a}$ (<span class="ref" data-ref="f-comb-amostra">cap. 3</span>). Maximizar com $\mathbf{a}'\mathbf{a} = 1$ leva de novo aos autovetores, agora de $\mathbf{S}$:</p>
+    <div class="formula" data-ref-id="f-cpr-amostra" data-ref-tipo="formula" data-ref-nome="Componentes principais amostrais">
+      $$\begin{aligned} \hat y_i &= \class{s1}{\hat{\mathbf{e}}_i}'(\mathbf{x} - \bar{\mathbf{x}}) \\ &= \hat e_{i1}(x_1 - \bar x_1) + \cdots + \hat e_{ip}(x_p - \bar x_p) \end{aligned}$$
+      $$\text{variância amostral de } \hat y_k = \class{s2}{\hat\lambda_k}$$
+      $$\text{covariância amostral de } \hat y_i \text{ e } \hat y_k = 0$$
+      $$s_{11} + \cdots + s_{pp} = \hat\lambda_1 + \cdots + \hat\lambda_p$$
+      $$r_{\hat y_i, x_k} = \frac{\hat e_{ik}\sqrt{\hat\lambda_i}}{\sqrt{s_{kk}}}$$
+    </div>
+    <p>Centrar (subtrair $\bar{\mathbf{x}}$) não muda $\mathbf{S}$ e deixa cada componente com média amostral zero. Usar $\mathbf{S}_n$ (divisor $n$) em vez de $\mathbf{S}$ dá os mesmos componentes e as mesmas proporções: os autovalores só são multiplicados por $(n - 1)/n$.</p>
+    <div class="ideia">Os componentes amostrais são $\hat y_i = \hat{\mathbf{e}}_i'(\mathbf{x} - \bar{\mathbf{x}})$, com $\hat{\mathbf{e}}_i$ autovetores de $\mathbf{S}$; suas variâncias amostrais são os autovalores $\hat\lambda_i$, e eles não têm correlação amostral entre si.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-censo" data-ref-tipo="exemplo" data-ref-nome="Censo de 14 setores de uma cidade">
+      <p>Cinco variáveis em 14 setores censitários: $x_1$ = população (milhares), $x_2$ = anos de estudo (mediana), $x_3$ = emprego total (milhares), $x_4$ = emprego em serviços de saúde (centenas), $x_5$ = valor das casas (mediana, dezenas de milhares de dólares).</p>
+      $$\small\mathbf{S} = \begin{bmatrix} 4{,}31 & 1{,}68 & 1{,}80 & 2{,}16 & -0{,}25 \\ 1{,}68 & 1{,}77 & 0{,}59 & 0{,}18 & 0{,}18 \\ 1{,}80 & 0{,}59 & 0{,}80 & 1{,}07 & -0{,}16 \\ 2{,}16 & 0{,}18 & 1{,}07 & 1{,}97 & -0{,}36 \\ -0{,}25 & 0{,}18 & -0{,}16 & -0{,}36 & 0{,}50 \end{bmatrix}$$
+      <table>
+        <thead><tr><th></th><th>$\hat{\mathbf{e}}_1$</th><th>$r_{\hat y_1, x_k}$</th><th>$\hat{\mathbf{e}}_2$</th><th>$r_{\hat y_2, x_k}$</th></tr></thead>
+        <tbody>
+          <tr><th>$x_1$</th><td>0,781</td><td>0,99</td><td>0,071</td><td>0,05</td></tr>
+          <tr><th>$x_2$</th><td>0,306</td><td>0,60</td><td>0,764</td><td>0,77</td></tr>
+          <tr><th>$x_3$</th><td>0,334</td><td>0,98</td><td>−0,083</td><td>−0,12</td></tr>
+          <tr><th>$x_4$</th><td>0,426</td><td>0,80</td><td>−0,580</td><td>−0,55</td></tr>
+          <tr><th>$x_5$</th><td>−0,054</td><td>−0,20</td><td>0,262</td><td>0,49</td></tr>
+          <tr><th>$\hat\lambda$</th><td colspan="2">6,931</td><td colspan="2">1,786</td></tr>
+          <tr><th>acum.</th><td colspan="2">74,1%</td><td colspan="2">93,2%</td></tr>
+        </tbody>
+      </table>
+      <p>Os outros autovalores: 0,390; 0,230; 0,014.</p>
+    </div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">No censo, $\hat y_2 = 0{,}071x_1 + 0{,}764x_2$ $- 0{,}083x_3 - 0{,}580x_4$ $+ 0{,}262x_5$ (variáveis centradas). Como ler esse componente?</p>
+      <div class="alts">
+        <button data-op="a">(a) Uma média ponderada das cinco variáveis: um índice do tamanho do setor.</button>
+        <button data-op="b">(b) Um contraste: anos de estudo e valor das casas de um lado, emprego em saúde do outro.</button>
+        <button data-op="c">(c) Quase só anos de estudo, porque é o maior coeficiente.</button>
+        <button data-op="d">(d) Não tem interpretação, porque explica só 19% da variância.</button>
+      </div>
+      <div class="fb" data-op="a">O índice de tamanho é o 1º componente (pesos positivos em população, emprego e saúde). O 2º tem sinais misturados.</div>
+      <div class="fb" data-op="b">Isso: $x_2$ e $x_5$ com sinal positivo, $x_4$ com sinal negativo e peso grande; as correlações (0,77; 0,49; −0,55) confirmam. Trocar todos os sinais dá a mesma leitura.</div>
+      <div class="fb" data-op="c">O coeficiente de $x_4$ (−0,580) também é grande, e o de $x_5$ tem correlação 0,49. Ler só a maior entrada perde o contraste.</div>
+      <div class="fb" data-op="d">19% não é pouco, e junto com o 1º chega a 93%. A interpretação depende dos coeficientes, não do tamanho da fração.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Quantos componentes">
+   <div class="texto">
+    <h2>Quantos componentes guardar: proporção acumulada e o cotovelo</h2>
+    <p>Não há resposta definitiva. Pese três coisas: a proporção acumulada da variância total; o tamanho relativo dos $\hat\lambda_i$; e se os componentes têm interpretação.</p>
+    <div class="definicao" data-ref-id="d-cotovelo" data-ref-tipo="definicao" data-ref-nome="Gráfico de cotovelo">
+      <p><strong>Gráfico de cotovelo:</strong> os autovalores $\hat\lambda_i$, do maior para o menor, contra $i$. Procure o cotovelo: o ponto a partir do qual os autovalores restantes são pequenos e parecidos. Guarde os componentes antes dele.</p>
+    </div>
+    <p>Nas <span class="ref" data-ref="ex-tartarugas">tartarugas</span> o cotovelo é nítido em $i = 2$: um componente basta (96%). E ele tem uma leitura bonita. Como os dados estão em logaritmo,</p>
+    $$\begin{aligned} \hat y_1 &= 0{,}683\ln(\text{compr.}) \\ &\quad + 0{,}510\ln(\text{larg.}) \\ &\quad + 0{,}523\ln(\text{alt.}) \\ &= \ln\big(\text{compr.}^{0{,}683}\,\text{larg.}^{0{,}510}\,\text{alt.}^{0{,}523}\big), \end{aligned}$$
+    <p>o logaritmo do volume de uma caixa com as dimensões ajustadas: um componente de tamanho.</p>
+    <p>Geometricamente, os componentes amostrais vêm de transladar a origem para $\bar{\mathbf{x}}$ e girar os eixos até os eixos da elipse $(\mathbf{x} - \bar{\mathbf{x}})'\mathbf{S}^{-1}(\mathbf{x} - \bar{\mathbf{x}}) = c^2$. Se $\hat\lambda_1 \approx \hat\lambda_2$, essa elipse é quase um círculo: os eixos não ficam bem definidos, a variação é parecida em todas as direções, e não dá para resumir bem os dados em menos dimensões.</p>
+    <div class="ideia">Guarde componentes até a proporção acumulada ficar alta e os autovalores restantes ficarem pequenos e parecidos (o cotovelo do gráfico), de preferência com interpretação.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-tartarugas" data-ref-tipo="exemplo" data-ref-nome="Cascos de 24 tartarugas machos">
+      <p>Comprimento, largura e altura do casco de 24 tartarugas machos, em logaritmo natural (o logaritmo é comum em estudos de tamanho e forma).</p>
+      $$\mathbf{S} = 10^{-3}\begin{bmatrix} 11{,}072 & 8{,}019 & 8{,}160 \\ 8{,}019 & 6{,}417 & 6{,}005 \\ 8{,}160 & 6{,}005 & 6{,}773 \end{bmatrix}$$
+      <p>$\hat\lambda_1 = 23{,}30 \times 10^{-3}$, $\hat\lambda_2 = 0{,}60 \times 10^{-3}$, $\hat\lambda_3 = 0{,}36 \times 10^{-3}$.</p>
+      $$\hat{\mathbf{e}}_1 = \begin{bmatrix} 0{,}683 \\ 0{,}510 \\ 0{,}523 \end{bmatrix}$$
+      <p>Correlações de $\hat y_1$ com as três medidas: 0,99; 0,97; 0,97.</p>
+    </div>
+    <div class="exemplo">
+      <p>Gráficos de cotovelo do <span class="ref" data-ref="ex-censo">censo</span> e das <span class="ref" data-ref="ex-tartarugas">tartarugas</span>.</p>
+      <svg viewBox="0 0 340 170" class="fig" id="scree-svg" role="img" aria-label="Dois gráficos de cotovelo: censo com cotovelo em 3, tartarugas com cotovelo em 2"></svg>
+    </div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Os autovalores de uma matriz $\mathbf{S}$ são 4,1; 2,3; 0,4; 0,35; 0,3; 0,25 (soma 7,7). Quantos componentes guardar?</p>
+      <div class="alts">
+        <button data-op="a">(a) Um, o de maior autovalor (53%).</button>
+        <button data-op="b">(b) Dois: depois de $\hat\lambda_2$ os autovalores são pequenos e parecidos, e os dois juntos explicam 83%.</button>
+        <button data-op="c">(c) Quatro, para passar de 90%.</button>
+        <button data-op="d">(d) Seis, porque nenhum autovalor é zero.</button>
+      </div>
+      <div class="fb" data-op="a">O 2º autovalor (2,3) é bem maior que os seguintes; o cotovelo vem depois dele.</div>
+      <div class="fb" data-op="b">Isso: o cotovelo está em $i = 3$, e $6{,}4/7{,}7 = 0{,}83$. Os quatro últimos parecem ruído de tamanho parecido.</div>
+      <div class="fb" data-op="c">Fixar um limiar cego de 90% faz guardar componentes que mal se distinguem entre si. A proporção é um critério, não o único.</div>
+      <div class="fb" data-op="d">Autovalor diferente de zero não quer dizer componente útil: seis componentes não resumem nada.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Padronizar na amostra">
+   <div class="texto">
+    <h2>Com a amostra padronizada, use $\mathbf{R}$; e a regra do autovalor maior que 1</h2>
+    <p>Padronizando cada coluna, $z_{jk} = (x_{jk} - \bar x_k)/\sqrt{s_{kk}}$, os dados ficam com média zero e matriz de covariância amostral $\mathbf{R}$ (<span class="ref" data-ref="f-r-s">cap. 3</span>). Os componentes vêm de $\mathbf{R}$:</p>
+    <div class="formula" data-ref-id="f-cpr-r" data-ref-tipo="formula" data-ref-nome="Componentes amostrais de variáveis padronizadas">
+      $$\hat y_i = \hat{\mathbf{e}}_i'\mathbf{z} = \hat e_{i1}z_1 + \hat e_{i2}z_2 + \cdots + \hat e_{ip}z_p$$
+      $$\hat\lambda_1 + \cdots + \hat\lambda_p = \mathrm{tr}(\mathbf{R}) = p$$
+      $$r_{\hat y_i, z_k} = \hat e_{ik}\sqrt{\hat\lambda_i}$$
+    </div>
+    <p><strong>Regra do autovalor maior que 1:</strong> guardar os componentes com $\hat\lambda_i > 1$, isto é, que explicam mais que uma variável sozinha ($1/p$ da variância total). Tem pouco apoio teórico; use junto com o cotovelo. Nas <span class="ref" data-ref="ex-acoes">ações</span>, $\hat\lambda_2 = 0{,}81 &lt; 1$, e mesmo assim vale guardar $\hat y_2$: ele tem uma interpretação clara.</p>
+    <p>A escala pesa: no <span class="ref" data-ref="ex-censo">censo</span>, medir o valor das casas em milhares de dólares (em vez de dezenas de milhares) multiplica $s_{55}$ por 100. O 1º componente de $\mathbf{S}$ vira quase só essa variável (coeficiente 0,994) e "explica" 86%. Com $\mathbf{R}$, a mudança de unidade não muda nada.</p>
+    <div class="ideia">Com variáveis padronizadas, os componentes vêm de $\mathbf{R}$, a variância total é $p$ e $r_{\hat y_i, z_k} = \hat e_{ik}\sqrt{\hat\lambda_i}$; a regra $\hat\lambda_i > 1$ é só um guia.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-acoes" data-ref-tipo="exemplo" data-ref-nome="Retornos semanais de cinco ações">
+      <p>Retornos semanais, em 100 semanas, de três ações de químicas (Allied Chemical, du Pont, Union Carbide) e duas de petrolíferas (Exxon, Texaco).</p>
+      $$\mathbf{R} = \begin{bmatrix} 1 & 0{,}577 & 0{,}509 & 0{,}387 & 0{,}462 \\ 0{,}577 & 1 & 0{,}599 & 0{,}389 & 0{,}322 \\ 0{,}509 & 0{,}599 & 1 & 0{,}436 & 0{,}426 \\ 0{,}387 & 0{,}389 & 0{,}436 & 1 & 0{,}523 \\ 0{,}462 & 0{,}322 & 0{,}426 & 0{,}523 & 1 \end{bmatrix}$$
+      <p>$\hat\lambda$ = 2,857; 0,809; 0,540; 0,452; 0,343.</p>
+      $$\hat{\mathbf{e}}_1 = \begin{bmatrix} 0{,}464 \\ 0{,}457 \\ 0{,}470 \\ 0{,}421 \\ 0{,}421 \end{bmatrix}\qquad \hat{\mathbf{e}}_2 = \begin{bmatrix} 0{,}240 \\ 0{,}509 \\ 0{,}260 \\ -0{,}526 \\ -0{,}582 \end{bmatrix}$$
+      <p>$\hat y_1$ é um índice com pesos quase iguais: o componente de <strong>mercado</strong>. $\hat y_2$ contrapõe as químicas às petrolíferas: o componente de <strong>setor</strong>. Os outros três são difíceis de interpretar (variação própria de cada ação).</p>
+    </div>
+    <div class="lacunas">
+      <p>Com as <span class="ref" data-ref="ex-acoes">cinco ações</span>:</p>
+      <p>Proporção explicada pelos dois primeiros: <input class="lacuna" data-resp="0.733" data-tol="0.003" aria-label="proporção dos dois primeiros"><br>Correlação de $\hat y_1$ com $z_1$ (Allied Chemical): <input class="lacuna" data-resp="0.784" data-tol="0.003" aria-label="correlação y1 z1"><br>Correlação de $\hat y_2$ com $z_5$ (Texaco): <input class="lacuna" data-resp="-0.524" data-tol="0.004" aria-label="correlação y2 z5"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: com $\mathbf{R}$, a variância total é 5; a correlação é $\hat e_{ik}\sqrt{\hat\lambda_i}$.</p>
+      <div class="resolucao" hidden><p>$(2{,}857 + 0{,}809)/5 = 0{,}733$. $0{,}464\sqrt{2{,}857} = 0{,}784$. $-0{,}582\sqrt{0{,}809} = -0{,}524$. As correlações de $\hat y_1$ com as cinco ações ficam todas entre 0,71 e 0,79, e as de $\hat y_2$ mudam de sinal entre químicas e petrolíferas: confirmam a leitura.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Autovalor perto de zero">
+   <div class="texto">
+    <h2>Um autovalor quase zero denuncia uma variável redundante</h2>
+    <p>Os autovalores grandes são o centro da análise, mas não descarte sem olhar um autovalor muito perto de zero. Ele diz que a combinação $\hat{\mathbf{e}}'\mathbf{x}$ quase não varia: há uma dependência linear entre as variáveis (como quando <span class="ref" data-ref="d-s-zero">$|\mathbf{S}| = 0$, no cap. 3</span>).</p>
+    <p>Exemplo: $x_1$, $x_2$ e $x_3$ são notas de três provas e $x_4 = x_1 + x_2 + x_3$ é a nota total. Então $[1, 1, 1, -1]\mathbf{x} = 0$ sempre, e o menor autovalor sai zero (ou quase, por arredondamento), com autovetor proporcional a $[1, 1, 1, -1]'$. Uma das variáveis é redundante e deve sair, ou ela vai causar problemas de interpretação e de conta (matriz sem inversa) nas análises seguintes.</p>
+    <p>O outro extremo também informa. Nos <span class="ref" data-ref="ex-camundongos">camundongos</span>, $\hat\lambda_1 = 3{,}058$ fica perto de $1 + (p - 1)\bar r = 1 + 3(0{,}6855) = 3{,}056$, com $\bar r$ a média das correlações fora da diagonal, e os outros três são pequenos e parecidos: indício de <span class="ref" data-ref="f-equicorr">equicorrelação</span>. O 1º componente, $0{,}49z_1 + 0{,}52z_2 + 0{,}49z_3 + 0{,}50z_4$, explica 76%: apesar de o peso médio subir de ninhada para ninhada, a variação entre as fêmeas é quase toda um fator de "tamanho".</p>
+    <div class="ideia">Um autovalor muito perto de zero indica uma combinação quase constante, isto é, dependência linear entre as variáveis; o autovetor dele mostra qual.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-camundongos" data-ref-tipo="exemplo" data-ref-nome="Peso de 150 camundongos após quatro ninhadas">
+      <p>Peso (em gramas) de 150 fêmeas de camundongo logo após cada uma das quatro primeiras ninhadas.</p>
+      $$\mathbf{R} = \begin{bmatrix} 1 & 0{,}7501 & 0{,}6329 & 0{,}6363 \\ 0{,}7501 & 1 & 0{,}6925 & 0{,}7386 \\ 0{,}6329 & 0{,}6925 & 1 & 0{,}6625 \\ 0{,}6363 & 0{,}7386 & 0{,}6625 & 1 \end{bmatrix}$$
+      <p>$\hat\lambda$ = 3,058; 0,382; 0,342; 0,217.</p>
+    </div>
+    <div class="acheerro">
+      <p>Um colega analisou quatro variáveis: as notas $x_1$, $x_2$, $x_3$ de três provas e a nota total $x_4$. Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: um autovalor praticamente zero é o que se espera quando uma variável é soma das outras.">Os autovalores de $\mathbf{S}$ deram 9,8; 3,1; 1,2; 0,0000004.</li>
+        <li data-errada data-fb="Aqui. O autovalor zero diz que ê₄'x é constante: há uma dependência linear (x₄ = x₁ + x₂ + x₃). Uma variável é redundante e deve sair antes das análises seguintes, em que S sem inversa causaria problemas.">O último autovalor explica 0% da variância; basta ignorar esse componente e seguir com as quatro variáveis.</li>
+        <li data-fb="Certo: o autovetor do autovalor zero aponta a relação entre as variáveis.">O autovetor desse autovalor é proporcional a $[1, 1, 1, -1]'$.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.5 ================= -->
+  <div class="secao" data-numero="8.5" data-titulo="Gráficos" data-livro="§8.4">
+
+  <section class="passo" data-titulo="Observações suspeitas">
+   <div class="texto">
+    <h2>Gráficos dos componentes: normalidade e observações suspeitas</h2>
+    <p>Cada observação se escreve com todos os componentes:</p>
+    $$\mathbf{x}_j - \bar{\mathbf{x}} = \hat y_{j1}\hat{\mathbf{e}}_1 + \hat y_{j2}\hat{\mathbf{e}}_2 + \cdots + \hat y_{jp}\hat{\mathbf{e}}_p$$
+    <p>Os primeiros $q - 1$ termos aproximam $\mathbf{x}_j - \bar{\mathbf{x}}$; o que sobra tem comprimento ao quadrado $\hat y_{jq}^2 + \cdots + \hat y_{jp}^2$. Uma observação suspeita costuma ter algum dos últimos $\hat y$ grande: os primeiros componentes não a explicam bem.</p>
+    <ol>
+      <li>Para conferir a normalidade: dispersão de pares dos primeiros componentes e <span class="ref" data-ref="d-qq">gráfico Q-Q (cap. 4)</span> de cada um. Importa quando os componentes vão entrar em outra análise.</li>
+      <li>Para achar observações suspeitas: dispersão e Q-Q dos últimos componentes.</li>
+    </ol>
+    <p>Nas <span class="ref" data-ref="ex-tartarugas">tartarugas</span>, a tartaruga 1 fica no canto da dispersão e no topo do Q-Q de $\hat y_2$ ($\hat y_2 = 0{,}061$, o maior). Vale conferir se houve erro de registro ou se o casco dela é anômalo. Fora ela, a nuvem é razoavelmente elíptica.</p>
+    <p>O mesmo vale para a <span class="ref" data-ref="f-reg-multi">regressão multivariada (cap. 7)</span>: os componentes da matriz de covariância dos resíduos $\hat{\boldsymbol\varepsilon}_j = \mathbf{y}_j - \hat{\boldsymbol\beta}'\mathbf{z}_j$ servem para o mesmo diagnóstico. Só lembre que os resíduos têm dependências lineares, então os últimos autovalores dão zero, a menos de arredondamento.</p>
+    <div class="ideia">Os primeiros componentes conferem a normalidade (dispersão e Q-Q); os últimos, que medem o que os primeiros não explicam, apontam observações suspeitas.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Tartarugas: dispersão de $(\hat y_1, \hat y_2)$ e gráfico Q-Q de $\hat y_2$. Em laranja, a tartaruga 1.</p>
+      <svg viewBox="0 0 340 200" class="fig" id="tart-svg" role="img" aria-label="Dispersão dos dois primeiros componentes e gráfico Q-Q do segundo, com a tartaruga 1 destacada no canto"></svg>
+    </div>
+    <div class="pare">
+      <p>Como uma tartaruga pode ter as três medidas comuns, cada uma sozinha, e mesmo assim se destacar num dos últimos componentes?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Os últimos componentes medem desvios nas direções em que os dados quase não variam: as proporções do casco. Um casco alto demais para seu comprimento tem valores comuns em cada medida, mas uma combinação rara. Como a variância nessa direção é pequena, o desvio salta à vista.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.6 ================= -->
+  <div class="secao" data-numero="8.6" data-titulo="Amostras grandes" data-livro="§8.5">
+
+  <section class="passo" data-titulo="Intervalo para λ">
+   <div class="texto">
+    <h2>Com amostra grande e normal, $\hat\lambda_i$ é aproximadamente normal</h2>
+    <p>Os $\hat\lambda_i$ e $\hat{\mathbf{e}}_i$ mudam de amostra para amostra. Supondo uma amostra de uma normal com autovalores distintos e positivos ($\lambda_1 > \cdots > \lambda_p > 0$), para $n$ grande:</p>
+    <div class="formula" data-ref-id="f-cpr-ic" data-ref-tipo="formula" data-ref-nome="Distribuição aproximada dos autovalores e intervalo para λ">
+      $$\sqrt n(\hat{\boldsymbol\lambda} - \boldsymbol\lambda) \approx N_p(\mathbf{0},\ 2\boldsymbol\Lambda^2)$$
+      $$\sqrt n(\hat{\mathbf{e}}_i - \mathbf{e}_i) \approx N_p(\mathbf{0},\ \mathbf{E}_i)$$
+      $$\mathbf{E}_i = \lambda_i\sum_{k \ne i}\frac{\lambda_k}{(\lambda_k - \lambda_i)^2}\mathbf{e}_k\mathbf{e}_k'$$
+      <p>Cada $\hat\lambda_i$ é independente de $\hat{\mathbf{e}}_i$. Intervalo de $100(1 - \alpha)\%$:</p>
+      $$\frac{\hat\lambda_i}{1 + z(\alpha/2)\sqrt{2/n}} \le \lambda_i \le \frac{\hat\lambda_i}{1 - z(\alpha/2)\sqrt{2/n}}$$
+    </div>
+    <p>$\boldsymbol\Lambda$ é a matriz diagonal dos $\lambda_i$, então os $\hat\lambda_i$ são aproximadamente independentes, cada um $N(\lambda_i, 2\lambda_i^2/n)$. Para $m$ intervalos simultâneos, troque $z(\alpha/2)$ por $z(\alpha/2m)$ (<span class="ref" data-ref="f-bonferroni">Bonferroni, cap. 5</span>).</p>
+    <p>Dois cuidados. A largura do intervalo é proporcional a $\lambda_i$: autovalores grandes têm intervalos largos, mesmo com $n$ grande. E $\mathbf{E}_i$ explode quando algum $\lambda_k$ fica perto de $\lambda_i$: autovalores próximos deixam os autovetores instáveis (a elipse quase circular de novo). Mesmo sem normalidade, esses intervalos dão alguma ideia da incerteza.</p>
+    <details class="demo">
+      <summary>De onde sai o intervalo</summary>
+      <p>Com $\hat\lambda_i \approx N(\lambda_i, 2\lambda_i^2/n)$, a probabilidade de $|\hat\lambda_i - \lambda_i| \le z(\alpha/2)\lambda_i\sqrt{2/n}$ é $1 - \alpha$. Escreva $w = z(\alpha/2)\sqrt{2/n}$. A desigualdade é $\lambda_i(1 - w) \le \hat\lambda_i \le \lambda_i(1 + w)$; isolando $\lambda_i$ em cada lado, $\hat\lambda_i/(1 + w) \le \lambda_i \le \hat\lambda_i/(1 - w)$.</p>
+    </details>
+    <div class="ideia">Para $n$ grande e dados normais, $\hat\lambda_i \approx N(\lambda_i, 2\lambda_i^2/n)$, o que dá o intervalo $\hat\lambda_i/(1 \pm z(\alpha/2)\sqrt{2/n})$; autovalores próximos deixam os autovetores instáveis.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Nas <span class="ref" data-ref="ex-acoes">cinco ações</span>, com os retornos sem padronizar (matriz $\mathbf{S}$), $\hat\lambda_1 = 0{,}0036$ e $n = 100$. Intervalo de 95% para $\lambda_1$, com $z(0{,}025) = 1{,}96$:</p>
+      <p>Limite inferior: <input class="lacuna" data-resp="0.0028" data-tol="0.00006" aria-label="limite inferior"><br>Limite superior: <input class="lacuna" data-resp="0.0050" data-tol="0.00006" aria-label="limite superior"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $1{,}96\sqrt{2/100} = 0{,}277$.</p>
+      <div class="resolucao" hidden><p>$0{,}0036/1{,}277 = 0{,}0028$ e $0{,}0036/0{,}723 = 0{,}0050$. O intervalo não é simétrico em torno de $\hat\lambda_1$: vai mais para cima que para baixo.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Equicorrelação">
+   <div class="texto">
+    <h2>Testando se todas as correlações são iguais</h2>
+    <p>Na <span class="ref" data-ref="f-equicorr">equicorrelação</span>, os autovalores não são distintos, e o resultado anterior não vale. Para testar $H_0$: $\boldsymbol\rho$ tem todas as correlações iguais, contra $H_1$: não tem, Lawley mostrou que basta olhar as correlações fora da diagonal de $\mathbf{R}$:</p>
+    <div class="formula" data-ref-id="f-lawley" data-ref-tipo="formula" data-ref-nome="Teste de equicorrelação de Lawley">
+      $$\bar r_k = \frac{1}{p - 1}\sum_{i \ne k}r_{ik}\qquad \bar r = \frac{2}{p(p - 1)}\sum_{i < k}r_{ik}$$
+      $$\hat\gamma = \frac{(p - 1)^2\,[1 - (1 - \bar r)^2]}{p - (p - 2)(1 - \bar r)^2}$$
+      $$\begin{aligned} T = \frac{n - 1}{(1 - \bar r)^2}\Big[&\sum_{i < k}(r_{ik} - \bar r)^2 \\ &- \hat\gamma\sum_{k=1}^p(\bar r_k - \bar r)^2\Big] \end{aligned}$$
+      $$\text{rejeita } H_0 \text{ se } T > \chi^2_{(p+1)(p-2)/2}(\alpha)$$
+    </div>
+    <p>$\bar r_k$ é a média da coluna $k$ de $\mathbf{R}$ fora da diagonal; $\bar r$, a média geral. $T$ mede o quanto as correlações se espalham em torno de $\bar r$, descontando a parte que vem de colunas com médias diferentes. É um teste de amostra grande.</p>
+    <p>Nos <span class="ref" data-ref="ex-camundongos">camundongos</span> ($p = 4$, $n = 150$): $\bar r = 0{,}6855$; $\bar r_k$ = 0,6731; 0,7271; 0,6626; 0,6791. As somas são 0,01277 e 0,00245, $\hat\gamma = 2{,}1329$, e $T = 11{,}36$, contra $\chi^2_5(0{,}05) = 11{,}07$. A evidência contra a equicorrelação é forte, mas não esmagadora (valor p de 0,045). Com $n = 150$, diferenças pequenas, como $\hat\lambda_4$ um pouco menor que $\hat\lambda_2$ e $\hat\lambda_3$, já aparecem como significativas.</p>
+    <div class="ideia">O teste de Lawley compara as correlações fora da diagonal com sua média; rejeita a equicorrelação se $T$ passa de $\chi^2_{(p+1)(p-2)/2}(\alpha)$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Um colega aplicou o teste aos <span class="ref" data-ref="ex-camundongos">camundongos</span> ($p = 4$, $\alpha = 0{,}05$). Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: são as médias das seis correlações fora da diagonal e o γ̂ da fórmula.">$\bar r = 0{,}6855$ e $\hat\gamma = 2{,}1329$.</li>
+        <li data-fb="Certo: (149/0,3145²) × (0,01277 − 2,1329 × 0,00245) = 11,36.">$T = 11{,}36$.</li>
+        <li data-errada data-fb="Aqui. São (p + 1)(p − 2)/2 = 5 graus de liberdade: as p(p − 1)/2 = 6 correlações menos 1, o ρ comum que H₀ deixa livre. χ²₅(0,05) = 11,07 < 11,36, então rejeita-se a 5%.">Os graus de liberdade são $p(p - 1)/2 = 6$, o número de correlações; como $\chi^2_6(0{,}05) = 12{,}59 > 11{,}36$, não rejeito.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.7 ================= -->
+  <div class="secao" data-numero="8.7" data-titulo="Controle de qualidade" data-livro="§8.6">
+
+  <section class="passo" data-titulo="Elipse com dois componentes">
+   <div class="texto">
+    <h2>Muitas variáveis no controle: uma elipse com os dois primeiros componentes</h2>
+    <p>No cap. 5 vimos os <span class="ref" data-ref="f-controle">gráficos de elipse e $T^2$</span>. Com 10 variáveis, seriam 45 pares de elipses; há fábricas que medem mais de 100 variáveis. A saída é resumir com componentes. Se o processo é estável, os dois primeiros componentes, $\hat y_{j1} = \hat{\mathbf{e}}_1'(\mathbf{x}_j - \bar{\mathbf{x}})$ e $\hat y_{j2} = \hat{\mathbf{e}}_2'(\mathbf{x}_j - \bar{\mathbf{x}})$, também são. Eles não têm correlação e têm variâncias $\hat\lambda_1$ e $\hat\lambda_2$, então, para $n$ grande:</p>
+    <div class="formula" data-ref-id="f-cpr-elipse-ctrl" data-ref-tipo="formula" data-ref-nome="Gráfico de elipse com os dois primeiros componentes">
+      $$\frac{\hat y_1^2}{\hat\lambda_1} + \frac{\hat y_2^2}{\hat\lambda_2} \le \chi^2_2(\alpha)$$
+    </div>
+    <p>Nas <span class="ref" data-ref="ex-horas-extras">horas extras da polícia (cap. 5)</span>, agora com os cinco tipos de hora extra (<span class="ref" data-ref="ex-policia">autovetores ao lado</span>), os dois primeiros componentes explicam 82%. Com $\alpha = 0{,}05$, o limite é $\chi^2_2(0{,}05) = 5{,}99$, e o período 11 fica fora (10,87), por causa de $\hat y_2 = 3936{,}9$. Como $\hat{\mathbf{e}}_2$ é quase só horas em eventos extraordinários (0,985), chega-se à mesma conclusão do cap. 5.</p>
+    <div class="ideia">Com $p$ grande, um único gráfico de elipse com $(\hat y_1, \hat y_2)$ e limite $\hat y_1^2/\hat\lambda_1 + \hat y_2^2/\hat\lambda_2 \le \chi^2_2(\alpha)$ acompanha as duas direções de maior variação.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-policia" data-ref-tipo="exemplo" data-ref-nome="Horas extras da polícia: cinco tipos">
+      <p>16 períodos, cinco tipos de hora extra: $x_1$ = audiências na justiça, $x_2$ = eventos extraordinários, $x_3$ = permanência após o turno, $x_4$ = horas compensatórias, $x_5$ = reuniões.</p>
+      <table>
+        <thead><tr><th></th><th>$\hat{\mathbf{e}}_1$</th><th>$\hat{\mathbf{e}}_2$</th><th>$\hat{\mathbf{e}}_3$</th></tr></thead>
+        <tbody>
+          <tr><th>$x_1$</th><td>0,046</td><td>−0,048</td><td>0,629</td></tr>
+          <tr><th>$x_2$</th><td>0,039</td><td>0,985</td><td>−0,077</td></tr>
+          <tr><th>$x_3$</th><td>−0,658</td><td>0,107</td><td>0,582</td></tr>
+          <tr><th>$x_4$</th><td>0,734</td><td>0,069</td><td>0,503</td></tr>
+          <tr><th>$x_5$</th><td>−0,155</td><td>0,107</td><td>0,081</td></tr>
+        </tbody>
+      </table>
+      <p>$\hat\lambda$ = 2 770 226; 1 429 206; 628 129; 221 138; 99 824.</p>
+      <svg viewBox="0 0 340 250" class="fig" id="pol-el-svg" role="img" aria-label="Elipse de controle de 95% com os 16 pares de componentes; o período 11 fica acima da elipse"></svg>
+    </div>
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Por que a elipse de controle dos componentes, $\hat y_1^2/\hat\lambda_1 + \hat y_2^2/\hat\lambda_2 \le \chi^2_2(\alpha)$, não tem termo cruzado em $\hat y_1\hat y_2$?</p>
+      <div class="alts">
+        <button data-op="a">(a) Porque os dois componentes não têm correlação amostral: a matriz de covariância deles é diagonal, com $\hat\lambda_1$ e $\hat\lambda_2$.</button>
+        <button data-op="b">(b) Porque componentes são independentes mesmo sem normalidade.</button>
+        <button data-op="c">(c) Porque $\hat\lambda_1$ e $\hat\lambda_2$ somam a variância total.</button>
+        <button data-op="d">(d) Porque com só dois componentes o termo cruzado é sempre desprezível.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: a distância estatística com matriz diagonal $\mathrm{diag}(\hat\lambda_1, \hat\lambda_2)$ é exatamente $\hat y_1^2/\hat\lambda_1 + \hat y_2^2/\hat\lambda_2$. É a mesma elipse do cap. 5, só que escrita nos eixos dela.</div>
+      <div class="fb" data-op="b">Sem correlação não implica independência fora da normal. E para a fórmula basta a falta de correlação.</div>
+      <div class="fb" data-op="c">Eles só somam a variância total quando $p = 2$; aqui $p = 5$. E isso não tem a ver com o termo cruzado.</div>
+      <div class="fb" data-op="d">O termo cruzado não é pequeno: ele é exatamente zero, porque a covariância amostral entre componentes é zero.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="T² do resto">
+   <div class="texto">
+    <h2>O que os dois primeiros não explicam vai para um gráfico $T^2$</h2>
+    <p>O desvio é a soma de suas projeções nos autovetores: $\mathbf{X} - \boldsymbol\mu = Y_1\mathbf{e}_1 + Y_2\mathbf{e}_2$ $+ Y_3\mathbf{e}_3 + \cdots + Y_p\mathbf{e}_p$, com $Y_i = \mathbf{e}_i'(\mathbf{X} - \boldsymbol\mu)$. Os dois primeiros deixam de fora $Y_3\mathbf{e}_3 + \cdots + Y_p\mathbf{e}_p$, cujas coordenadas nos novos eixos são $Y_3, \dots, Y_p$. Elas não têm correlação e têm variâncias $\lambda_3, \dots, \lambda_p$:</p>
+    <div class="formula" data-ref-id="f-cpr-t2" data-ref-tipo="formula" data-ref-nome="Gráfico T² dos componentes restantes">
+      $$\frac{Y_3^2}{\lambda_3} + \frac{Y_4^2}{\lambda_4} + \cdots + \frac{Y_p^2}{\lambda_p} \sim \chi^2_{p-2}$$
+      $$T_j^2 = \frac{\hat y_{j3}^2}{\hat\lambda_3} + \frac{\hat y_{j4}^2}{\hat\lambda_4} + \cdots + \frac{\hat y_{jp}^2}{\hat\lambda_p}$$
+      $$\text{LSC} = \chi^2_{p-2}(\alpha)$$
+    </div>
+    <p>Na população normal, a soma é de $p - 2$ normais padrão independentes ao quadrado: uma qui-quadrado. Na amostra, os $\hat{\mathbf{e}}_i$ também são estimados, e os $\hat y$ não são exatamente normais; mesmo assim, usa-se o limite qui-quadrado como aproximação de amostra grande. Com $p = 20$, esse $T^2$ olha as 18 dimensões perpendiculares a $\hat{\mathbf{e}}_1$ e $\hat{\mathbf{e}}_2$, e costuma ser muito eficaz para pegar causas especiais.</p>
+    <p>Na polícia, $p - 2 = 3$ e o limite é $\chi^2_3(0{,}05) = 7{,}81$. Os períodos 12 (8,19) e 13 (7,72) passam ou chegam perto, logo depois do pico de eventos extraordinários no 11. No 12, $\hat y_3$ é grande, e os maiores coeficientes de $\hat{\mathbf{e}}_3$ são audiências, permanência e horas compensatórias: houve algum ajuste nessas horas depois do pico?</p>
+    <div class="ideia">O gráfico $T^2$ dos componentes restantes soma $\hat y_{jk}^2/\hat\lambda_k$ de $k = 3$ a $p$, com limite $\chi^2_{p-2}(\alpha)$, e pega desvios nas direções que a elipse não vê.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Gráfico $T^2$ dos três últimos componentes da <span class="ref" data-ref="ex-policia">polícia</span>, com o limite de 95%.</p>
+      <svg viewBox="0 0 340 200" class="fig" id="pol-t2-svg" role="img" aria-label="Gráfico T² dos 16 períodos; os períodos 12 e 13 chegam ao limite de 7,81"></svg>
+    </div>
+    <div class="lacunas">
+      <p>No período 1, $\hat y_3 = 425{,}8$, $\hat y_4 = -189{,}1$ e $\hat y_5 = -209{,}8$. Os autovalores são $\hat\lambda_3 = 628\,129$, $\hat\lambda_4 = 221\,138$ e $\hat\lambda_5 = 99\,824$.</p>
+      <p>$T_1^2 =$ <input class="lacuna" data-resp="0.891" data-tol="0.005" aria-label="T² do período 1"><br>Ficou abaixo do limite? (1 = sim, 0 = não) <input class="lacuna" data-resp="1" data-tol="0" aria-label="abaixo do limite"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $425{,}8^2/628\,129 = 0{,}289$; faça o mesmo com os outros dois e some.</p>
+      <div class="resolucao" hidden><p>$0{,}289 + 0{,}162 + 0{,}441 = 0{,}891$, bem abaixo de 7,81. (O sinal de cada $\hat y$ não importa: só entram os quadrados.)</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Valores futuros">
+   <div class="texto">
+    <h2>Para controlar o futuro, recalcule com um período estável</h2>
+    <p>Os limites qui-quadrado já são aproximações de amostra grande, então valem para observações futuras sem ajuste. Mas os componentes precisam vir de um período estável. Tirando o período 11 da polícia e recalculando com 15 observações, os componentes mudam: o de eventos extraordinários (coeficiente 0,939 em $x_2$) vira o 3º e sai da elipse dos dois primeiros. Com só 16 observações, uma a menos muda muito; o recomendado é ter pelo menos 50 observações de operação estável antes de fixar limites futuros.</p>
+    <p>Com $p$ muito grande, alguns autovalores são minúsculos, e dividir $\hat y^2$ por eles dá instabilidade. Uma alternativa é a soma de quadrados do que sobra:</p>
+    <div class="formula" data-ref-id="f-cpr-d2" data-ref-tipo="formula" data-ref-nome="Gráfico da soma de quadrados não explicada">
+      $$d_{Uj}^2 = \hat y_{j3}^2 + \hat y_{j4}^2 + \cdots + \hat y_{jp}^2$$
+      $$\text{LSC} = c\,\chi^2_\nu(\alpha)$$
+      $$c = \frac{s_{d^2}^2}{2\,\overline{d_U^2}}\qquad \nu = \frac{2\,(\overline{d_U^2})^2}{s_{d^2}^2}$$
+      <p>$\overline{d_U^2}$ e $s_{d^2}^2$ são a média e a variância amostrais dos $d_{Uj}^2$.</p>
+    </div>
+    <p>$d_{Uj}^2$ é o comprimento ao quadrado de $\mathbf{x}_j - \bar{\mathbf{x}} - \hat y_{j1}\hat{\mathbf{e}}_1 - \hat y_{j2}\hat{\mathbf{e}}_2$, a parte não explicada. Os valores de $c$ e $\nu$ fazem $c\chi^2_\nu$ (de média $c\nu$ e variância $2c^2\nu$) ter a mesma média e variância dos $d_{Uj}^2$ observados.</p>
+    <div class="ideia">Limites para o futuro devem vir de componentes calculados num período estável e longo (50 ou mais observações); com $p$ muito grande, o gráfico de $d_{Uj}^2$ evita dividir por autovalores minúsculos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Depois de tirar o período 11 da polícia, o componente dominado por eventos extraordinários passou de 2º para 3º. O que isso mostra?</p>
+      <div class="alts">
+        <button data-op="a">(a) Que o período 11 nunca esteve fora de controle.</button>
+        <button data-op="b">(b) Que, com poucas observações, um único ponto muda bastante os componentes; por isso limites futuros pedem uma base estável maior.</button>
+        <button data-op="c">(c) Que as horas em eventos extraordinários deixaram de variar.</button>
+        <button data-op="d">(d) Que os componentes devem ser recalculados a cada período novo.</button>
+      </div>
+      <div class="fb" data-op="a">Ao contrário: ele era tão extremo que sozinho inflava a variância de $x_2$ a ponto de criar o 2º componente.</div>
+      <div class="fb" data-op="b">Isso: com $n = 16$, um ponto extremo redesenha os componentes. Para fixar limites, use 50 ou mais observações de operação estável.</div>
+      <div class="fb" data-op="c">A variância de $x_2$ caiu (o valor extremo saiu), mas não zerou; o componente dela só deixou de estar entre os dois maiores.</div>
+      <div class="fb" data-op="d">Recalcular a cada ponto faria os limites seguirem o próprio processo, inclusive suas falhas. Os limites vêm de uma base estável e ficam fixos.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 8.8 ================= -->
+  <div class="secao" data-numero="8.8" data-titulo="A melhor aproximação" data-livro="Supl. 8A">
+
+  <section class="passo" data-titulo="Plano mais próximo">
+   <div class="texto">
+    <h2>Os primeiros componentes dão o plano que passa mais perto dos dados</h2>
+    <p>Os componentes também resolvem um problema de aproximação. Quer-se trocar cada desvio $\mathbf{x}_j - \bar{\mathbf{x}}$ por um vetor $\mathbf{a}_j$, todos num mesmo subespaço de dimensão $r$, com o menor erro total:</p>
+    <div class="formula" data-ref-id="f-cpr-aprox" data-ref-tipo="formula" data-ref-nome="Melhor aproximação de dimensão r">
+      $$\text{erro} = \sum_{j=1}^n(\mathbf{x}_j - \bar{\mathbf{x}} - \mathbf{a}_j)'(\mathbf{x}_j - \bar{\mathbf{x}} - \mathbf{a}_j)$$
+      $$\text{mínimo em } \mathbf{a}_j = \hat y_{j1}\hat{\mathbf{e}}_1 + \cdots + \hat y_{jr}\hat{\mathbf{e}}_r$$
+      $$\text{erro mínimo} = (n - 1)(\hat\lambda_{r+1} + \cdots + \hat\lambda_p)$$
+    </div>
+    <p>Em termos de pontos: entre todos os planos de dimensão $r$ (retas, se $r = 1$), o que minimiza a soma das distâncias ao quadrado dos pontos passa por $\bar{\mathbf{x}}$ e é gerado por $\hat{\mathbf{e}}_1, \dots, \hat{\mathbf{e}}_r$. Esse mesmo plano maximiza a dispersão das sombras dos pontos nele, $(n - 1)(\hat\lambda_1 + \cdots + \hat\lambda_r)$. São o mesmo fato: sombra² + distância² = $|\mathbf{x}_j - \bar{\mathbf{x}}|^2$ (Pitágoras), e a soma do lado direito não depende do plano.</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p><strong>Direções fixas.</strong> Seja $\mathbf{U}$ ($p \times r$) com colunas perpendiculares de comprimento 1. O vetor de $\mathbf{U}\mathbf{b}$ mais perto de $\mathbf{x}_j - \bar{\mathbf{x}}$ é a <span class="ref" data-ref="f-proj">projeção</span> $\mathbf{UU}'(\mathbf{x}_j - \bar{\mathbf{x}})$, e o erro fica</p>
+      $$\begin{aligned} &\sum_j(\mathbf{x}_j - \bar{\mathbf{x}})'(\mathbf{I} - \mathbf{UU}')(\mathbf{x}_j - \bar{\mathbf{x}}) \\ &\quad= (n - 1)\,\mathrm{tr}(\mathbf{S}) - (n - 1)\,\mathrm{tr}(\mathbf{U}'\mathbf{SU}), \end{aligned}$$
+      <p>usando que $\sum_j(\mathbf{x}_j - \bar{\mathbf{x}})'\mathbf{UU}'(\mathbf{x}_j - \bar{\mathbf{x}})$ $= (n - 1)\,\mathrm{tr}(\mathbf{UU}'\mathbf{S})$ $= (n - 1)\,\mathrm{tr}(\mathbf{U}'\mathbf{SU})$: um número é seu próprio traço, e $\mathrm{tr}(\mathbf{AB}) = \mathrm{tr}(\mathbf{BA})$.</p>
+      <p><strong>Melhores direções.</strong> Minimizar o erro é maximizar $\mathrm{tr}(\mathbf{U}'\mathbf{SU}) = \sum_k\mathbf{u}_k'\mathbf{S}\mathbf{u}_k$. Pelo <span class="ref" data-ref="f-max">máximo de forma quadrática</span>, $\mathbf{u}_1 = \hat{\mathbf{e}}_1$; perpendicular a ele, $\mathbf{u}_2 = \hat{\mathbf{e}}_2$; e assim por diante, com total $\hat\lambda_1 + \cdots + \hat\lambda_r$. Como $\mathrm{tr}(\mathbf{S}) = \hat\lambda_1 + \cdots + \hat\lambda_p$, o erro mínimo é $(n - 1)(\hat\lambda_{r+1} + \cdots + \hat\lambda_p)$.</p>
+      <p><strong>O plano passa por $\bar{\mathbf{x}}$.</strong> Para um plano $\mathbf{a} + \mathbf{U}\mathbf{b}$ qualquer, com os $\mathbf{b}_j$ somando zero (a média deles pode ir para $\mathbf{a}$):</p>
+      $$\begin{aligned} &\sum_j|\mathbf{x}_j - \mathbf{a} - \mathbf{U}\mathbf{b}_j|^2 \\ &\quad= \sum_j|\mathbf{x}_j - \bar{\mathbf{x}} - \mathbf{U}\mathbf{b}_j|^2 \\ &\qquad + n|\bar{\mathbf{x}} - \mathbf{a}|^2, \end{aligned}$$
+      <p>e a última parcela só some com $\mathbf{a} = \bar{\mathbf{x}}$.</p>
+    </details>
+    <div class="ideia">O plano de dimensão $r$ que passa mais perto dos pontos (menor soma de distâncias ao quadrado) passa por $\bar{\mathbf{x}}$ e é gerado pelos $r$ primeiros autovetores; o erro mínimo é $(n - 1)$ vezes a soma dos autovalores descartados.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-plano">
+      <p>Na mesma nuvem de 20 pontos do primeiro passo, procura-se a reta com a menor soma de distâncias perpendiculares ao quadrado. Por onde ela passa?</p>
+      <div class="alts">
+        <button data-op="a" data-certa>Pelo ponto médio $\bar{\mathbf{x}}$, na direção do 1º componente</button>
+        <button data-op="b">Pela origem, na direção do 1º componente</button>
+        <button data-op="c">Pelo ponto médio, na direção da reta de mínimos quadrados de $x_2$ contra $x_1$</button>
+      </div>
+      <div class="explica" hidden><p>Deslocar a reta para longe de $\bar{\mathbf{x}}$ soma $20 \times (\text{deslocamento})^2$; girar para longe de $\hat{\mathbf{e}}_1$ troca sombra por distância. O mínimo é $(n - 1)\hat\lambda_2 = 19 \times 0{,}39 = 7{,}44$, a 32°. A <span class="ref" data-ref="f-mq">reta de mínimos quadrados (cap. 7)</span> minimiza distâncias verticais, não perpendiculares; aqui ela teria inclinação $s_{12}/s_{11} = 0{,}56$ (29°).</p></div>
+    </div>
+    <div class="sim" id="sim-plano">
+      <label>Direção $\theta$ <input type="range" id="pl-t" min="0" max="180" step="1" value="70"> <strong id="pl-t-v">70°</strong></label>
+      <label>Deslocamento <input type="range" id="pl-d" min="-2" max="2" step="0.1" value="1"> <strong id="pl-d-v">1,0</strong></label>
+      <svg viewBox="0 0 360 230" id="pl-svg" role="img" aria-label="Nuvem de pontos, uma reta e as distâncias perpendiculares dos pontos à reta"></svg>
+      <p id="pl-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Em n dimensões">
+   <div class="texto">
+    <h2>Visto pelas colunas: a direção que melhor aproxima todas as variáveis</h2>
+    <p>A mesma aproximação, lida por colunas (as variáveis como vetores em $n$ dimensões, como na <span class="ref" data-ref="d-geo-amostra">geometria da amostra do cap. 3</span>). Com $r = 1$, cada vetor de desvios da variável $i$,</p>
+    $$\mathbf{d}_i = \begin{bmatrix} x_{1i} - \bar x_i \\ x_{2i} - \bar x_i \\ \vdots \\ x_{ni} - \bar x_i \end{bmatrix},$$
+    <p>é aproximado por um múltiplo $c_i\mathbf{b}$ de um mesmo vetor $\mathbf{b}$ de $\mathbb{R}^n$. Seja $L_i^2$ a distância ao quadrado de $\mathbf{d}_i$ à reta de $\mathbf{b}$. A soma $L_1^2 + \cdots + L_p^2$ é mínima quando $\mathbf{b}$ é o vetor dos valores do 1º componente, $[\hat y_{11}, \hat y_{21}, \dots, \hat y_{n1}]'$. O 2º componente faz o mesmo entre os vetores perpendiculares ao primeiro.</p>
+    <p>Vetores de desvios mais compridos (variáveis de $s_{ii}$ maior) puxam mais essa escolha. Padronizando, todos os $\mathbf{d}_i$ ficam com o mesmo comprimento $\sqrt{n - 1}$ e influenciam por igual: é a versão geométrica de "padronizar muda os componentes".</p>
+    <div class="ideia">Por colunas, o vetor de valores do 1º componente é a direção de $\mathbb{R}^n$ mais perto do conjunto dos vetores de desvios; sem padronizar, as variáveis de maior variância pesam mais.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Sem padronizar, por que uma variável de variância muito maior que as outras tende a dominar o 1º componente?</p>
+      <div class="alts">
+        <button data-op="a">(a) Porque o vetor de desvios dela é muito mais comprido, e a soma das distâncias ao quadrado fica dominada por ele.</button>
+        <button data-op="b">(b) Porque variáveis de maior variância têm correlações maiores com as outras.</button>
+        <button data-op="c">(c) Porque o 1º componente é sempre a variável de maior variância.</button>
+        <button data-op="d">(d) Porque padronizar elimina as correlações.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: o comprimento ao quadrado de $\mathbf{d}_i$ é $(n - 1)s_{ii}$. Uma reta longe do vetor mais comprido deixa uma distância enorme; então a melhor reta se alinha a ele.</div>
+      <div class="fb" data-op="b">A correlação não depende da escala; a variância, sim. Uma variável pode ter variância enorme e correlação baixa.</div>
+      <div class="fb" data-op="c">Só tende a isso quando a variância dela é muito maior; com variâncias parecidas e correlação, o 1º componente mistura as variáveis (como na população com três variáveis).</div>
+      <div class="fb" data-op="d">Padronizar mantém as correlações ($\mathbf{R}$ é a matriz de covariância dos dados padronizados); só iguala as variâncias.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>Componente principal = combinação $\mathbf{a}'\mathbf{X}$ de maior variância, com $\mathbf{a}'\mathbf{a} = 1$, sem correlação com os anteriores.</li>
+    <li>Solução: $Y_i = \mathbf{e}_i'\mathbf{X}$, $\mathrm{Var}(Y_i) = \lambda_i$; sinais arbitrários, autovalores iguais dão componentes não únicos.</li>
+    <li>Variância total $= \lambda_1 + \cdots + \lambda_p$; proporção $\lambda_k/\sum\lambda$.</li>
+    <li>Correlação $\rho_{Y_i,X_k} = e_{ik}\sqrt{\lambda_i}/\sqrt{\sigma_{kk}}$; olhe coeficientes e correlações.</li>
+    <li>Na normal, os componentes são os eixos dos elipsoides de densidade constante.</li>
+    <li>Padronizar (usar $\boldsymbol\rho$ ou $\mathbf{R}$) muda os componentes; total vira $p$.</li>
+    <li>Equicorrelação: $\lambda_1 = 1 + (p - 1)\rho$, $\mathbf{e}_1 \propto \mathbf{1}$, os outros $1 - \rho$.</li>
+    <li>Quantos guardar: proporção acumulada, cotovelo, interpretação; $\hat\lambda > 1$ só como guia.</li>
+    <li>Autovalor quase zero: dependência linear.</li>
+    <li>Primeiros componentes: normalidade; últimos: observações suspeitas.</li>
+    <li>$\hat\lambda_i \approx N(\lambda_i, 2\lambda_i^2/n)$; teste de equicorrelação de Lawley.</li>
+    <li>Controle: elipse dos dois primeiros + $T^2$ dos restantes.</li>
+    <li>Os $r$ primeiros componentes dão o plano mais perto dos dados, passando por $\bar{\mathbf{x}}$.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$\hat y_i = \hat{\mathbf{e}}_i'(\mathbf{x} - \bar{\mathbf{x}})$$
+  $$r_{\hat y_i, x_k} = \frac{\hat e_{ik}\sqrt{\hat\lambda_i}}{\sqrt{s_{kk}}}$$</p>
+  <p>$$\frac{\hat\lambda_i}{1 + z(\alpha/2)\sqrt{2/n}} \le \lambda_i \le \frac{\hat\lambda_i}{1 - z(\alpha/2)\sqrt{2/n}}$$</p>
+  <p>$$\frac{\hat y_1^2}{\hat\lambda_1} + \frac{\hat y_2^2}{\hat\lambda_2} \le \chi^2_2(\alpha)$$
+  $$T_j^2 = \sum_{k=3}^p\frac{\hat y_{jk}^2}{\hat\lambda_k} \le \chi^2_{p-2}(\alpha)$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Com $\mathbf{S}$ (sem padronizar)</strong><ul class="resumo-lista"><li>mesmas unidades e faixas parecidas</li><li>a escala tem significado</li></ul></div>
+    <div><strong>Com $\mathbf{R}$ (padronizado)</strong><ul class="resumo-lista"><li>unidades diferentes</li><li>faixas muito diferentes</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>Sem $\mathbf{a}'\mathbf{a} = 1$ o problema não tem solução.</li>
+    <li>Coeficiente pequeno não quer dizer variável sem importância: veja a correlação.</li>
+    <li>Variâncias iguais: o 1º componente fica a 45° qualquer que seja $\rho$.</li>
+    <li>Componentes de $\boldsymbol\Sigma$ e de $\boldsymbol\rho$ não se convertem um no outro.</li>
+    <li>Limiar cego de 90% ou $\hat\lambda > 1$ não substitui o cotovelo e a interpretação.</li>
+    <li>Não ignore um autovalor zero: ele aponta variável redundante.</li>
+    <li>Intervalo para $\lambda$ alarga com $\lambda$; autovalores próximos dão autovetores instáveis.</li>
+    <li>Lawley: $(p + 1)(p - 2)/2$ graus de liberdade, não $p(p - 1)/2$.</li>
+    <li>Limites futuros pedem uma base estável e grande.</li>
+    <li>A reta dos componentes minimiza distâncias perpendiculares, não verticais.</li>
+  </ul>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+/* ===== Utilitários do capítulo ===== */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+function caminhoElipse(s11, s12, s22, c, px, py, cx, cy) {
+  cx = cx || 0; cy = cy || 0;
+  var tr = s11 + s22, det = s11 * s22 - s12 * s12, d = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  var l1 = tr / 2 + d, l2 = tr / 2 - d, ang = 0.5 * Math.atan2(2 * s12, s11 - s22);
+  var e1 = [Math.cos(ang), Math.sin(ang)], e2 = [-Math.sin(ang), Math.cos(ang)], s = '';
+  for (var t = 0; t <= 72; t++) {
+    var a = t / 72 * 2 * Math.PI, u = c * Math.sqrt(l1) * Math.cos(a), v = c * Math.sqrt(l2) * Math.sin(a);
+    s += (t ? 'L' : 'M') + px(cx + u * e1[0] + v * e2[0]).toFixed(1) + ' ' + py(cy + u * e1[1] + v * e2[1]).toFixed(1);
+  }
+  return s + 'Z';
+}
+/* Nuvem de 20 pontos usada no primeiro e no último passo */
+var NUVEM = [[7.3, 4.4], [5.8, 4.3], [3.3, 2.3], [2.5, 1.7], [6.8, 4.4], [5.6, 4.3], [5.3, 2.2], [8.2, 5.4], [7.6, 4.5], [5.2, 2.9],
+  [2.2, 1.5], [4.8, 4.7], [2.2, 1.9], [5.6, 3.7], [5.6, 3.9], [7.6, 3.4], [7.5, 4.5], [3.9, 1.1], [2.2, 1.8], [3.6, 1.6]];
+var NM = [0, 0], NS = [0, 0, 0];
+(function () {
+  var n = NUVEM.length;
+  NUVEM.forEach(function (p) { NM[0] += p[0] / n; NM[1] += p[1] / n; });
+  NUVEM.forEach(function (p) { var a = p[0] - NM[0], b = p[1] - NM[1]; NS[0] += a * a / (n - 1); NS[1] += a * b / (n - 1); NS[2] += b * b / (n - 1); });
+})();
+function varDir(t) { var c = Math.cos(t), s = Math.sin(t); return c * c * NS[0] + 2 * c * s * NS[1] + s * s * NS[2]; }
+function eixosNuvem(svg, px, py) {
+  var bo = corVar('--border'), m = corVar('--muted');
+  svg.appendChild(svgEl('line', { x1: px(0), y1: py(0), x2: px(10), y2: py(0), stroke: bo }));
+  svg.appendChild(svgEl('line', { x1: px(0), y1: py(0), x2: px(0), y2: py(6.5), stroke: bo }));
+  [2, 4, 6, 8].forEach(function (x) { svg.appendChild(svgEl('text', { x: px(x), y: py(0) + 13, 'font-size': 10, fill: m, 'text-anchor': 'middle' }, String(x))); });
+  [2, 4, 6].forEach(function (y) { svg.appendChild(svgEl('text', { x: px(0) - 5, y: py(y) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, String(y))); });
+  svg.appendChild(svgEl('text', { x: px(10), y: py(0) - 5, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'x₁'));
+  svg.appendChild(svgEl('text', { x: px(0) + 6, y: py(6.5) + 4, 'font-size': 11, fill: m }, 'x₂'));
+}
+
+/* ===== 8.1 Direção de maior variância ===== */
+(function () {
+  var st = document.getElementById('dir-t');
+  if (!st) return;
+  var svg = document.getElementById('dir-svg');
+  var tr = NS[0] + NS[2], dd = Math.sqrt((NS[0] - NS[2]) * (NS[0] - NS[2]) / 4 + NS[1] * NS[1]), l1 = tr / 2 + dd, l2 = tr / 2 - dd;
+  var tMax = 0.5 * Math.atan2(2 * NS[1], NS[0] - NS[2]) * 180 / Math.PI;
+  function desenhar() {
+    var td = +st.value, t = td * Math.PI / 180, u = [Math.cos(t), Math.sin(t)];
+    document.getElementById('dir-t-v').textContent = td + '°';
+    var px = function (x) { return 26 + x * 32; }, py = function (y) { return 196 - y * 28; };
+    var m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text'), bo = corVar('--border');
+    limpar(svg);
+    eixosNuvem(svg, px, py);
+    var g = recorte(svg, 26, 8, 326, 190);
+    g.appendChild(svgEl('line', { x1: px(NM[0] - 12 * u[0]), y1: py(NM[1] - 12 * u[1]), x2: px(NM[0] + 12 * u[0]), y2: py(NM[1] + 12 * u[1]), stroke: acc, 'stroke-width': 2 }));
+    NUVEM.forEach(function (p) {
+      var s = (p[0] - NM[0]) * u[0] + (p[1] - NM[1]) * u[1], f = [NM[0] + s * u[0], NM[1] + s * u[1]];
+      g.appendChild(svgEl('line', { x1: px(p[0]), y1: py(p[1]), x2: px(f[0]), y2: py(f[1]), stroke: m, 'stroke-width': 0.8, 'stroke-dasharray': '2 2' }));
+      g.appendChild(svgEl('circle', { cx: px(f[0]), cy: py(f[1]), r: 3, fill: lar }));
+    });
+    NUVEM.forEach(function (p) { svg.appendChild(svgEl('circle', { cx: px(p[0]), cy: py(p[1]), r: 3.6, fill: txt })); });
+    /* variância das sombras para cada direção */
+    var qx = function (a) { return 40 + a / 180 * 300; }, qy = function (v) { return 280 - v * 10.5; }, cam = '';
+    svg.appendChild(svgEl('line', { x1: qx(0), y1: qy(0), x2: qx(180), y2: qy(0), stroke: bo }));
+    for (var a = 0; a <= 180; a += 2) cam += (a ? 'L' : 'M') + qx(a).toFixed(1) + ' ' + qy(varDir(a * Math.PI / 180)).toFixed(1);
+    svg.appendChild(svgEl('path', { d: cam, fill: 'none', stroke: roxo, 'stroke-width': 1.8 }));
+    [0, 90, 180].forEach(function (a) { svg.appendChild(svgEl('text', { x: qx(a), y: qy(0) + 11, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, a + '°')); });
+    svg.appendChild(svgEl('text', { x: qx(0) - 4, y: qy(5.4) + 4, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, '5,4'));
+    svg.appendChild(svgEl('text', { x: qx(0) - 4, y: qy(0) + 3, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, '0'));
+    svg.appendChild(svgEl('text', { x: qx(180), y: 218, 'font-size': 10, fill: roxo, 'text-anchor': 'end' }, 'variância das sombras × direção'));
+    var v = varDir(t);
+    svg.appendChild(svgEl('circle', { cx: qx(td), cy: qy(v), r: 4.5, fill: acc }));
+    document.getElementById('dir-txt').innerHTML = 'Direção ' + td + '°: variância das sombras (pontos laranja) = <strong>' + fmt(v, 2) + '</strong>. A variância total, ' + fmt(tr, 2) + ', não muda com a direção.';
+  }
+  st.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 8.2 Elipse de densidade constante e seus eixos ===== */
+(function () {
+  var sr = document.getElementById('el-r');
+  if (!sr) return;
+  var sv = document.getElementById('el-v'), svg = document.getElementById('el-svg');
+  function desenhar() {
+    var r = +sr.value, v2 = +sv.value, s12 = r * Math.sqrt(v2);
+    document.getElementById('el-r-v').textContent = fmt(r, 2); document.getElementById('el-v-v').textContent = fmt(v2, 2);
+    var tr = 1 + v2, dd = Math.sqrt((1 - v2) * (1 - v2) / 4 + s12 * s12), l1 = tr / 2 + dd, l2 = tr / 2 - dd;
+    var ang = 0.5 * Math.atan2(2 * s12, 1 - v2), e1 = [Math.cos(ang), Math.sin(ang)], e2 = [-Math.sin(ang), Math.cos(ang)];
+    var k = 38, c = 1.5, px = function (x) { return 170 + x * k; }, py = function (y) { return 150 - y * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 10, y1: py(0), x2: 330, y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: 8, x2: px(0), y2: 292, stroke: bo }));
+    svg.appendChild(svgEl('text', { x: 330, y: py(0) + 14, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'x₁'));
+    svg.appendChild(svgEl('text', { x: px(0) + 6, y: 18, 'font-size': 11, fill: m }, 'x₂'));
+    svg.appendChild(svgEl('path', { d: caminhoElipse(1, s12, v2, c, px, py), fill: acc, 'fill-opacity': 0.12, stroke: acc, 'stroke-width': 2 }));
+    var g = recorte(svg, 4, 4, 332, 292);
+    var a1 = c * Math.sqrt(l1) + 0.5, a2 = c * Math.sqrt(Math.max(l2, 0)) + 0.5;
+    g.appendChild(svgEl('line', { x1: px(-a1 * e1[0]), y1: py(-a1 * e1[1]), x2: px(a1 * e1[0]), y2: py(a1 * e1[1]), stroke: lar, 'stroke-width': 2.4 }));
+    g.appendChild(svgEl('line', { x1: px(-a2 * e2[0]), y1: py(-a2 * e2[1]), x2: px(a2 * e2[0]), y2: py(a2 * e2[1]), stroke: roxo, 'stroke-width': 2 }));
+    var l1x = px(a1 * e1[0]), l1y = py(a1 * e1[1]);
+    svg.appendChild(svgEl('text', { x: Math.min(318, Math.max(14, l1x + 4)), y: Math.min(290, Math.max(14, l1y - 4)), 'font-size': 12, fill: lar }, 'y₁'));
+    var l2x = px(a2 * e2[0]), l2y = py(a2 * e2[1]);
+    svg.appendChild(svgEl('text', { x: Math.min(318, Math.max(14, l2x + 4)), y: Math.min(290, Math.max(14, l2y - 4)), 'font-size': 12, fill: roxo }, 'y₂'));
+    var graus = ang * 180 / Math.PI;
+    document.getElementById('el-txt').innerHTML = '$\\lambda_1$ = ' + fmt(l1, 2) + ', $\\lambda_2$ = ' + fmt(l2, 2) + '. O 1º componente (laranja) faz <strong>' + fmt(graus, 1) + '°</strong> com o eixo $x_1$ e explica ' + fmt(100 * l1 / tr, 1) + '% da variância total.';
+    tipografar(document.getElementById('el-txt'));
+  }
+  sr.addEventListener('input', desenhar); sv.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 8.4 Figura: gráficos de cotovelo ===== */
+(function () {
+  var svg = document.getElementById('scree-svg');
+  if (!svg) return;
+  var paineis = [
+    { t: 'censo', v: [6.931, 1.786, 0.390, 0.230, 0.014], max: 7, marcas: [0, 2, 4, 6] },
+    { t: 'tartarugas (× 10⁻³)', v: [23.30, 0.60, 0.36], max: 25, marcas: [0, 10, 20] }
+  ];
+  function desenhar() {
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), txt = corVar('--text');
+    limpar(svg);
+    paineis.forEach(function (p, k) {
+      var x0 = 34 + k * 168, w = 128, y0 = 22, h = 114;
+      var px = function (i) { return x0 + (i - 0.5) / p.v.length * w; }, py = function (v) { return y0 + h - v / p.max * h; };
+      svg.appendChild(svgEl('line', { x1: x0, y1: y0 + h, x2: x0 + w, y2: y0 + h, stroke: bo }));
+      svg.appendChild(svgEl('line', { x1: x0, y1: y0, x2: x0, y2: y0 + h, stroke: bo }));
+      p.marcas.forEach(function (v) { svg.appendChild(svgEl('text', { x: x0 - 4, y: py(v) + 3.5, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, String(v))); });
+      var cam = '';
+      p.v.forEach(function (v, i) {
+        cam += (i ? 'L' : 'M') + px(i + 1).toFixed(1) + ' ' + py(v).toFixed(1);
+        svg.appendChild(svgEl('text', { x: px(i + 1), y: y0 + h + 12, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, String(i + 1)));
+      });
+      svg.appendChild(svgEl('path', { d: cam, fill: 'none', stroke: acc, 'stroke-width': 1.8 }));
+      p.v.forEach(function (v, i) { svg.appendChild(svgEl('circle', { cx: px(i + 1), cy: py(v), r: 3.5, fill: acc })); });
+      svg.appendChild(svgEl('text', { x: x0 + w / 2, y: y0 + h + 28, 'font-size': 10.5, fill: txt, 'text-anchor': 'middle' }, p.t));
+    });
+    svg.appendChild(svgEl('text', { x: 4, y: 12, 'font-size': 10, fill: m }, 'autovalor'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 8.5 Figura: tartarugas, dispersão (ŷ1, ŷ2) e Q-Q de ŷ2 ===== */
+(function () {
+  var svg = document.getElementById('tart-svg');
+  if (!svg) return;
+  var Y1 = [-0.2685, -0.2633, -0.236, -0.1199, -0.1207, -0.1526, -0.106, -0.093, -0.1064, -0.0066, -0.0063, -0.012,
+    0.0609, 0.0419, 0.0475, 0.0702, 0.0406, 0.1128, 0.105, 0.1524, 0.1795, 0.1795, 0.2068, 0.2945];
+  var Y2 = [0.0611, -0.0157, -0.0341, 0.0141, -0.015, -0.0089, 0.0166, 0.0135, -0.0012, -0.0167, -0.0114, 0.0008,
+    0.028, -0.0109, -0.0174, -0.0331, -0.0277, 0.0213, -0.0294, 0.0325, 0.0111, 0.0161, 0.0297, -0.0232];
+  function qnorm(p) { /* aproximação de Acklam */
+    var a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.3577518672690, -30.66479806614716, 2.506628277459239],
+      b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572],
+      c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783],
+      d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416], q, r;
+    if (p < 0.02425) { q = Math.sqrt(-2 * Math.log(p)); return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    if (p > 1 - 0.02425) return -qnorm(1 - p);
+    q = p - 0.5; r = q * q;
+    return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+  }
+  function desenhar() {
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), txt = corVar('--text');
+    limpar(svg);
+    /* painel 1: dispersão */
+    var x0 = 28, w = 132, y0 = 14, h = 148;
+    var px = function (v) { return x0 + (v + 0.32) / 0.64 * w; }, py = function (v) { return y0 + h - (v + 0.045) / 0.115 * h; };
+    svg.appendChild(svgEl('rect', { x: x0, y: y0, width: w, height: h, fill: 'none', stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: y0, x2: px(0), y2: y0 + h, stroke: bo, 'stroke-dasharray': '3 3' }));
+    svg.appendChild(svgEl('line', { x1: x0, y1: py(0), x2: x0 + w, y2: py(0), stroke: bo, 'stroke-dasharray': '3 3' }));
+    for (var i = 1; i < 24; i++) svg.appendChild(svgEl('circle', { cx: px(Y1[i]), cy: py(Y2[i]), r: 3, fill: acc }));
+    svg.appendChild(svgEl('circle', { cx: px(Y1[0]), cy: py(Y2[0]), r: 4.5, fill: lar }));
+    svg.appendChild(svgEl('text', { x: x0 + w / 2, y: y0 + h + 14, 'font-size': 10.5, fill: m, 'text-anchor': 'middle' }, 'ŷ₁'));
+    svg.appendChild(svgEl('text', { x: x0 - 6, y: y0 + h / 2, 'font-size': 10.5, fill: m, 'text-anchor': 'end' }, 'ŷ₂'));
+    svg.appendChild(svgEl('text', { x: x0 + w / 2, y: y0 + h + 30, 'font-size': 10.5, fill: txt, 'text-anchor': 'middle' }, 'dispersão'));
+    /* painel 2: Q-Q de ŷ2 */
+    var x1 = 200, ord = Y2.map(function (v, j) { return [v, j]; }).sort(function (a, b) { return a[0] - b[0]; });
+    var qx = function (q) { return x1 + (q + 2.3) / 4.6 * w; };
+    svg.appendChild(svgEl('rect', { x: x1, y: y0, width: w, height: h, fill: 'none', stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: qx(-2.3), y1: py(-2.3 * 0.0158), x2: qx(2.3), y2: py(2.3 * 0.0158), stroke: m, 'stroke-dasharray': '4 3' }));
+    ord.forEach(function (o, j) {
+      var q = qnorm((j + 0.5) / 24);
+      svg.appendChild(svgEl('circle', { cx: qx(q), cy: py(o[0]), r: o[1] === 0 ? 4.5 : 3, fill: o[1] === 0 ? lar : acc }));
+    });
+    svg.appendChild(svgEl('text', { x: x1 + w / 2, y: y0 + h + 14, 'font-size': 10.5, fill: m, 'text-anchor': 'middle' }, 'quantil normal'));
+    svg.appendChild(svgEl('text', { x: x1 + w / 2, y: y0 + h + 30, 'font-size': 10.5, fill: txt, 'text-anchor': 'middle' }, 'Q-Q de ŷ₂'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 8.7 Polícia: valores dos dois primeiros componentes e T² dos restantes ===== */
+var POL_Y1 = [2044.9, -2143.7, -177.8, -2186.2, -878.6, 563.2, 403.1, -1988.9, 132.8, -2787.3, 283.4, 761.6, -498.3, 2366.2, 1917.8, 2187.7];
+var POL_Y2 = [588.2, -686.2, -464.6, 450.5, -545.7, -1045.4, 66.8, -801.8, 563.7, -213.4, 3936.9, 256.0, 244.7, -1193.7, -782.0, -373.8];
+var POL_T2 = [0.891, 4.643, 3.263, 2.004, 2.336, 2.071, 2.989, 3.427, 3.792, 0.540, 0.600, 8.185, 7.722, 1.566, 0.267, 0.705];
+(function () {
+  var svg = document.getElementById('pol-el-svg');
+  if (!svg) return;
+  var l1 = 2770226, l2 = 1429206, c2 = 5.991;
+  function desenhar() {
+    var px = function (x) { return 170 + x / 5200 * 150; }, py = function (y) { return 136 - y / 4400 * 116; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 14, y1: py(0), x2: 330, y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: 10, x2: px(0), y2: 236, stroke: bo }));
+    [-2000, 2000].forEach(function (x) { svg.appendChild(svgEl('text', { x: px(x), y: py(0) + 13, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, fmt(x, 0))); });
+    [-2000, 2000].forEach(function (y) { svg.appendChild(svgEl('text', { x: px(0) - 4, y: py(y) + 3.5, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, fmt(y, 0))); });
+    svg.appendChild(svgEl('path', { d: caminhoElipse(l1, 0, l2, Math.sqrt(c2), px, py), fill: acc, 'fill-opacity': 0.1, stroke: acc, 'stroke-width': 2 }));
+    for (var i = 0; i < 16; i++) svg.appendChild(svgEl('circle', { cx: px(POL_Y1[i]), cy: py(POL_Y2[i]), r: i === 10 ? 4.5 : 3.2, fill: i === 10 ? lar : txt }));
+    svg.appendChild(svgEl('text', { x: px(POL_Y1[10]) + 8, y: py(POL_Y2[10]) + 4, 'font-size': 10.5, fill: lar }, 'período 11'));
+    svg.appendChild(svgEl('text', { x: 330, y: py(0) - 5, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'ŷ₁'));
+    svg.appendChild(svgEl('text', { x: px(0) + 6, y: 20, 'font-size': 11, fill: m }, 'ŷ₂'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+(function () {
+  var svg = document.getElementById('pol-t2-svg');
+  if (!svg) return;
+  function desenhar() {
+    var px = function (j) { return 30 + (j - 0.5) / 16 * 300; }, py = function (v) { return 172 - v / 9 * 160; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), err = corVar('--err');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: 30, y1: py(0), x2: 330, y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 30, y1: py(0), x2: 30, y2: py(9), stroke: bo }));
+    [0, 4, 8].forEach(function (v) { svg.appendChild(svgEl('text', { x: 26, y: py(v) + 3.5, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, String(v))); });
+    [1, 5, 10, 15].forEach(function (j) { svg.appendChild(svgEl('text', { x: px(j), y: py(0) + 13, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, String(j))); });
+    svg.appendChild(svgEl('line', { x1: 30, y1: py(7.815), x2: 330, y2: py(7.815), stroke: err, 'stroke-dasharray': '5 4', 'stroke-width': 1.4 }));
+    svg.appendChild(svgEl('text', { x: 328, y: py(7.815) - 5, 'font-size': 10, fill: err, 'text-anchor': 'end' }, 'LSC = 7,81'));
+    var cam = '';
+    POL_T2.forEach(function (v, i) { cam += (i ? 'L' : 'M') + px(i + 1).toFixed(1) + ' ' + py(v).toFixed(1); });
+    svg.appendChild(svgEl('path', { d: cam, fill: 'none', stroke: acc, 'stroke-width': 1.3 }));
+    POL_T2.forEach(function (v, i) { svg.appendChild(svgEl('circle', { cx: px(i + 1), cy: py(v), r: (i === 11 || i === 12) ? 4.5 : 3, fill: (i === 11 || i === 12) ? lar : acc })); });
+    svg.appendChild(svgEl('text', { x: 180, y: 196, 'font-size': 10.5, fill: m, 'text-anchor': 'middle' }, 'período'));
+  }
+  desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 8.8 Reta mais próxima: distâncias perpendiculares ===== */
+(function () {
+  var st = document.getElementById('pl-t');
+  if (!st) return;
+  var sd = document.getElementById('pl-d'), svg = document.getElementById('pl-svg'), n = NUVEM.length;
+  var tr = NS[0] + NS[2], dd = Math.sqrt((NS[0] - NS[2]) * (NS[0] - NS[2]) / 4 + NS[1] * NS[1]), l2 = tr / 2 - dd;
+  function desenhar() {
+    var td = +st.value, d = +sd.value, t = td * Math.PI / 180, u = [Math.cos(t), Math.sin(t)], nv = [-u[1], u[0]];
+    document.getElementById('pl-t-v').textContent = td + '°'; document.getElementById('pl-d-v').textContent = fmt(d, 1);
+    var px = function (x) { return 26 + x * 32; }, py = function (y) { return 196 - y * 28; };
+    var m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    eixosNuvem(svg, px, py);
+    var c = [NM[0] + d * nv[0], NM[1] + d * nv[1]], g = recorte(svg, 26, 8, 326, 190), S = 0;
+    g.appendChild(svgEl('line', { x1: px(c[0] - 12 * u[0]), y1: py(c[1] - 12 * u[1]), x2: px(c[0] + 12 * u[0]), y2: py(c[1] + 12 * u[1]), stroke: acc, 'stroke-width': 2 }));
+    NUVEM.forEach(function (p) {
+      var s = (p[0] - c[0]) * u[0] + (p[1] - c[1]) * u[1], f = [c[0] + s * u[0], c[1] + s * u[1]];
+      S += (p[0] - f[0]) * (p[0] - f[0]) + (p[1] - f[1]) * (p[1] - f[1]);
+      g.appendChild(svgEl('line', { x1: px(p[0]), y1: py(p[1]), x2: px(f[0]), y2: py(f[1]), stroke: lar, 'stroke-width': 1.6 }));
+    });
+    NUVEM.forEach(function (p) { svg.appendChild(svgEl('circle', { cx: px(p[0]), cy: py(p[1]), r: 3.6, fill: txt })); });
+    svg.appendChild(svgEl('circle', { cx: px(NM[0]), cy: py(NM[1]), r: 5, fill: 'none', stroke: roxo, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('text', { x: px(NM[0]) + 8, y: py(NM[1]) + 16, 'font-size': 11, fill: roxo }, 'x̄'));
+    var giro = (n - 1) * varDir(t + Math.PI / 2), desl = n * d * d;
+    document.getElementById('pl-txt').innerHTML = 'Soma das distâncias ao quadrado: <strong>' + fmt(S, 2) + '</strong> = ' + fmt(giro, 2) + ' (19 × variância na direção perpendicular) + ' + fmt(desl, 2) + ' (20 × deslocamento²). O mínimo possível é ' + fmt((n - 1) * l2, 2) + '.';
+  }
+  st.addEventListener('input', desenhar); sd.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>
