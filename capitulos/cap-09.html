@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-09">
+<title>Cap. 9 — Análise fatorial</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 9 — Análise fatorial</h1>
+<p class="contexto">Onde isso se encaixa: os <span class="ref" data-ref="f-cpr-pop">componentes principais (cap. 8)</span> resumem a variação com combinações das variáveis. A análise fatorial vai na direção contrária: supõe que poucas quantidades <strong>não observadas</strong>, os fatores, geram as correlações entre as variáveis, e pergunta se os dados são compatíveis com essa estrutura. No fim, o mesmo raciocínio se estende a modelos de causa e efeito entre variáveis latentes.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 9.1 ================= -->
+  <div class="secao" data-numero="9.1" data-titulo="O modelo fatorial" data-livro="§9.1–9.2">
+
+  <section class="passo" data-titulo="Fatores comuns">
+   <div class="texto">
+    <h2>Poucos fatores não observados explicam as correlações entre muitas variáveis</h2>
+    <p>Suponha que as variáveis se dividem em grupos: muito correlacionadas dentro de cada grupo, pouco entre grupos. É natural imaginar que cada grupo mede uma mesma quantidade escondida. Notas de latim, francês, inglês e música, por exemplo, sugeriram a Spearman um fator de "inteligência". O modelo fatorial ortogonal escreve isso assim:</p>
+    <div class="formula" data-ref-id="f-fat-modelo" data-ref-tipo="formula" data-ref-nome="Modelo fatorial ortogonal">
+      $$\underset{(p\times 1)}{\mathbf{X} - \boldsymbol\mu} = \underset{(p\times m)}{\class{s1}{\mathbf{L}}}\ \underset{(m\times 1)}{\mathbf{F}} + \underset{(p\times 1)}{\class{s2}{\boldsymbol\varepsilon}}$$
+      $$E(\mathbf{F}) = \mathbf{0},\qquad \mathrm{Cov}(\mathbf{F}) = \mathbf{I}$$
+      $$E(\boldsymbol\varepsilon) = \mathbf{0}$$
+      $$\mathrm{Cov}(\boldsymbol\varepsilon) = \boldsymbol\Psi = \begin{bmatrix} \psi_1 & 0 & \cdots & 0 \\ 0 & \psi_2 & \cdots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & \psi_p \end{bmatrix}$$
+      $$\mathrm{Cov}(\boldsymbol\varepsilon, \mathbf{F}) = \mathbf{0}$$
+      <ul class="legenda">
+        <li>$\mathbf{F}$: os $m$ <strong>fatores comuns</strong>, não observados, padronizados e sem correlação entre si</li>
+        <li><span class="s1">$\mathbf{L}$</span>: <strong>cargas</strong>; $\ell_{ij}$ é a carga da variável $i$ no fator $j$</li>
+        <li><span class="s2">$\boldsymbol\varepsilon$</span>: <strong>fatores específicos</strong>; $\varepsilon_i$ só afeta $X_i$, com variância $\psi_i$</li>
+      </ul>
+    </div>
+    <p>Parece a <span class="ref" data-ref="f-reg-multi">regressão multivariada (cap. 7)</span>, com $\mathbf{F}$ no lugar das preditoras. A diferença é decisiva: as preditoras eram observadas, e $\mathbf{F}$ não é. Com $p + m$ quantidades aleatórias escondidas, não dá para conferir o modelo direto nos dados; o que se confere é a estrutura de covariância que ele implica (próximo passo). Note também que o modelo é <strong>linear</strong> nos fatores; uma relação como $X_1 - \mu_1 = \ell_{11}F_1F_3 + \varepsilon_1$ fica fora dele.</p>
+    <div class="ideia">No modelo fatorial, $\mathbf{X} - \boldsymbol\mu = \mathbf{LF} + \boldsymbol\varepsilon$: poucos fatores comuns não observados, padronizados e sem correlação, mais um fator específico para cada variável.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">O que distingue o modelo fatorial $\mathbf{X} - \boldsymbol\mu = \mathbf{LF} + \boldsymbol\varepsilon$ de uma regressão multivariada de $\mathbf{X}$ em $\mathbf{F}$?</p>
+      <div class="alts">
+        <button data-op="a">(a) Na análise fatorial, a relação entre $\mathbf{X}$ e $\mathbf{F}$ pode ser não linear.</button>
+        <button data-op="b">(b) Na análise fatorial, os erros podem ser correlacionados entre si.</button>
+        <button data-op="c">(c) Os fatores $\mathbf{F}$ não são observados, então o modelo só pode ser conferido pela estrutura de covariância que ele implica.</button>
+        <button data-op="d">(d) Na análise fatorial há mais fatores do que variáveis.</button>
+      </div>
+      <div class="fb" data-op="a">O modelo fatorial clássico também é linear nos fatores; uma relação não linear quebra a estrutura de covariância.</div>
+      <div class="fb" data-op="b">Ao contrário: $\boldsymbol\Psi$ é diagonal, os fatores específicos não têm correlação entre si. Toda a correlação vem dos fatores comuns.</div>
+      <div class="fb" data-op="c">Isso: com preditoras observadas, os coeficientes saem de mínimos quadrados. Com fatores escondidos, só resta comparar $\boldsymbol\Sigma$ com a forma que o modelo impõe.</div>
+      <div class="fb" data-op="d">O interesse é justamente o contrário: poucos fatores ($m$ bem menor que $p$) explicando muitas variáveis.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Σ = LL' + Ψ">
+   <div class="texto">
+    <h2>O modelo impõe $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$: comunalidade mais variância específica</h2>
+    <p>Multiplique $\mathbf{X} - \boldsymbol\mu = \mathbf{LF} + \boldsymbol\varepsilon$ pela própria transposta e tome a esperança. Os termos cruzados somem porque $\mathbf{F}$ e $\boldsymbol\varepsilon$ não têm correlação:</p>
+    <div class="formula" data-ref-id="f-fat-cov" data-ref-tipo="formula" data-ref-nome="Estrutura de covariância do modelo fatorial">
+      $$\mathrm{Cov}(\mathbf{X}) = \mathbf{LL}' + \boldsymbol\Psi$$
+      $$\mathrm{Cov}(\mathbf{X}, \mathbf{F}) = \mathbf{L}$$
+      $$\sigma_{ii} = \underbrace{\ell_{i1}^2 + \ell_{i2}^2 + \cdots + \ell_{im}^2}_{h_i^2\ (\text{comunalidade})} + \underbrace{\psi_i}_{\text{variância específica}}$$
+      $$\sigma_{ik} = \ell_{i1}\ell_{k1} + \cdots + \ell_{im}\ell_{km},\quad i \ne k$$
+    </div>
+    <p>A <strong>comunalidade</strong> $h_i^2$ é a parte da variância de $X_i$ que vem dos fatores comuns; $\psi_i$ é a parte própria dela. As covariâncias vêm só dos fatores. E $\ell_{ij} = \mathrm{Cov}(X_i, F_j)$: com variáveis padronizadas, a carga é a correlação entre a variável e o fator.</p>
+    <p>A vantagem está na contagem. $\boldsymbol\Sigma$ tem $p(p + 1)/2$ números; o modelo usa $mp + p$. Com $p = 12$ e $m = 2$: 78 contra 36. Com $m = p$, qualquer $\boldsymbol\Sigma$ se escreve como $\mathbf{LL}'$ (com $\boldsymbol\Psi = \mathbf{0}$); a análise fatorial só ajuda quando $m$ é pequeno.</p>
+    <details class="demo">
+      <summary>A conta</summary>
+      $$\begin{aligned} (\mathbf{X} - \boldsymbol\mu)(\mathbf{X} - \boldsymbol\mu)' &= \mathbf{LFF}'\mathbf{L}' + \boldsymbol\varepsilon\mathbf{F}'\mathbf{L}' \\ &\quad + \mathbf{LF}\boldsymbol\varepsilon' + \boldsymbol\varepsilon\boldsymbol\varepsilon' \end{aligned}$$
+      <p>Tomando a esperança: $E(\mathbf{FF}') = \mathbf{I}$, $E(\boldsymbol\varepsilon\mathbf{F}') = \mathbf{0}$ e $E(\boldsymbol\varepsilon\boldsymbol\varepsilon') = \boldsymbol\Psi$, logo $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$. Do mesmo jeito, $(\mathbf{X} - \boldsymbol\mu)\mathbf{F}' = \mathbf{LFF}' + \boldsymbol\varepsilon\mathbf{F}'$ tem esperança $\mathbf{L}$.</p>
+    </details>
+    <div class="ideia">O modelo fatorial implica $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$: cada variância é comunalidade ($h_i^2 = \sum_j\ell_{ij}^2$) mais variância específica ($\psi_i$), e as covariâncias vêm só das cargas.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-fat4" data-ref-tipo="exemplo" data-ref-nome="Quatro variáveis com dois fatores">
+      <p>Uma matriz de covariância que tem exatamente a estrutura de dois fatores:</p>
+      $$\boldsymbol\Sigma = \begin{bmatrix} 19 & 30 & 2 & 12 \\ 30 & 57 & 5 & 23 \\ 2 & 5 & 38 & 47 \\ 12 & 23 & 47 & 68 \end{bmatrix}$$
+      $$\mathbf{L} = \begin{bmatrix} 4 & 1 \\ 7 & 2 \\ -1 & 6 \\ 1 & 8 \end{bmatrix}\qquad \boldsymbol\Psi = \begin{bmatrix} 2 & 0 & 0 & 0 \\ 0 & 4 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 3 \end{bmatrix}$$
+      <p>Dá para conferir que $\mathbf{LL}' + \boldsymbol\Psi = \boldsymbol\Sigma$.</p>
+    </div>
+    <div class="lacunas">
+      <p>Com as <span class="ref" data-ref="ex-fat4">quatro variáveis com dois fatores</span>:</p>
+      <p>Comunalidade de $X_1$: <input class="lacuna" data-resp="17" data-tol="0.01" aria-label="comunalidade de X1"><br>Comunalidade de $X_4$: <input class="lacuna" data-resp="65" data-tol="0.01" aria-label="comunalidade de X4"><br>$\sigma_{34}$ pelas cargas: <input class="lacuna" data-resp="47" data-tol="0.01" aria-label="sigma 34"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $h_i^2$ é a soma dos quadrados da linha $i$ de $\mathbf{L}$; $\sigma_{34}$ é o produto interno das linhas 3 e 4.</p>
+      <div class="resolucao" hidden><p>$h_1^2 = 4^2 + 1^2 = 17$, e $\sigma_{11} = 17 + 2 = 19$. $h_4^2 = 1 + 64 = 65$, e $65 + 3 = 68$. $\sigma_{34} = (-1)(1) + (6)(8) = 47$, sem nenhuma contribuição de $\boldsymbol\Psi$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Nem sempre existe">
+   <div class="texto">
+    <h2>Nem toda matriz de covariância tem uma solução fatorial que faça sentido</h2>
+    <p>A maioria das matrizes de covariância não se escreve como $\mathbf{LL}' + \boldsymbol\Psi$ com $m$ pequeno. E às vezes as equações têm solução, mas ela não pode ser verdade. Com três variáveis padronizadas e um fator, $\boldsymbol\rho = \mathbf{LL}' + \boldsymbol\Psi$ dá seis equações:</p>
+    $$r_{12} = \ell_{11}\ell_{21}\qquad r_{13} = \ell_{11}\ell_{31}\qquad r_{23} = \ell_{21}\ell_{31}$$
+    $$1 = \ell_{i1}^2 + \psi_i,\quad i = 1, 2, 3$$
+    <p>Das três primeiras, $\ell_{11}^2 = r_{12}r_{13}/r_{23}$. Com $r_{12} = 0{,}9$, $r_{13} = 0{,}7$ e $r_{23} = 0{,}4$ (uma matriz positiva definida, sem nada de estranho), sai $\ell_{11}^2 = 1{,}575$. Mas $\ell_{11}$ é a correlação de $X_1$ com o fator e não pode passar de 1 em módulo; e $\psi_1 = 1 - 1{,}575 = -0{,}575$ seria uma variância negativa.</p>
+    <p>Uma solução numérica com variância específica negativa (ou carga acima de 1 em variáveis padronizadas) é chamada <strong>imprópria</strong>, ou <strong>caso de Heywood</strong>. Programas de computador costumam trocar o $\psi_i$ negativo por um número pequeno positivo; quando isso acontece, desconfie do modelo.</p>
+    <div class="ideia">As equações $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$ podem ter solução numérica com variância específica negativa: um caso de Heywood, que mostra que o modelo não serve.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-heywood">
+      <p>Três variáveis padronizadas com $r_{12} = 0{,}9$, $r_{13} = 0{,}7$ e $r_{23} = 0{,}4$. A matriz é positiva definida. Existe um modelo de um fator para elas?</p>
+      <div class="alts">
+        <button data-op="a">Sim: toda matriz positiva definida 3 × 3 tem um modelo de um fator</button>
+        <button data-op="b" data-certa>As equações têm solução, mas com variância específica negativa: não existe um modelo de verdade</button>
+        <button data-op="c">Não: as equações não têm solução nenhuma</button>
+      </div>
+      <div class="explica" hidden><p>$\ell_{11}^2 = 0{,}9 \times 0{,}7/0{,}4 = 1{,}575 > 1$, então $\psi_1 < 0$. A correlação de $X_1$ com as outras é forte demais para o quanto $X_2$ e $X_3$ se correlacionam entre si. Mova $r_{23}$ para cima: entre $0{,}63$ e $0{,}78$ a solução vira própria.</p></div>
+    </div>
+    <div class="sim" id="sim-heywood">
+      <label>$r_{12}$ <input type="range" id="hw-a" min="0.05" max="0.95" step="0.01" value="0.9"> <strong id="hw-a-v">0,90</strong></label>
+      <label>$r_{13}$ <input type="range" id="hw-b" min="0.05" max="0.95" step="0.01" value="0.7"> <strong id="hw-b-v">0,70</strong></label>
+      <label>$r_{23}$ <input type="range" id="hw-c" min="0.05" max="0.95" step="0.01" value="0.4"> <strong id="hw-c-v">0,40</strong></label>
+      <svg viewBox="0 0 340 220" id="hw-svg" role="img" aria-label="Para cada variável, a barra da comunalidade e da variância específica, que somam 1"></svg>
+      <p id="hw-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Rotação">
+   <div class="texto">
+    <h2>Com dois ou mais fatores, as cargas só estão definidas a menos de uma rotação</h2>
+    <p>Seja $\mathbf{T}$ uma matriz ortogonal $m \times m$ (<span class="ref" data-ref="f-ort">cap. 2</span>), $\mathbf{TT}' = \mathbf{T}'\mathbf{T} = \mathbf{I}$. Então</p>
+    <div class="formula" data-ref-id="f-fat-rot" data-ref-tipo="formula" data-ref-nome="Cargas definidas a menos de rotação">
+      $$\mathbf{X} - \boldsymbol\mu = \mathbf{LF} + \boldsymbol\varepsilon = \mathbf{L}^*\mathbf{F}^* + \boldsymbol\varepsilon$$
+      $$\mathbf{L}^* = \mathbf{LT},\qquad \mathbf{F}^* = \mathbf{T}'\mathbf{F}$$
+      $$\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi = \mathbf{L}^*\mathbf{L}^{*\prime} + \boldsymbol\Psi$$
+    </div>
+    <p>Os fatores girados $\mathbf{F}^*$ também têm média zero e covariância $\mathbf{T}'\mathbf{IT} = \mathbf{I}$. Nada nos dados distingue $\mathbf{L}$ de $\mathbf{L}^*$: as duas geram a mesma $\boldsymbol\Sigma$, as mesmas comunalidades (a diagonal de $\mathbf{LL}' = \mathbf{L}^*\mathbf{L}^{*\prime}$) e as mesmas variâncias específicas.</p>
+    <p>Isso, que parece um defeito, é usado a favor. Primeiro se estima $\mathbf{L}$ e $\boldsymbol\Psi$ com alguma condição que torne a solução única; depois se gira $\mathbf{L}$ até as cargas ficarem fáceis de interpretar; por fim, se quiser, estimam-se os valores dos fatores para cada observação. As próximas seções seguem essa ordem.</p>
+    <div class="ideia">Para qualquer matriz ortogonal $\mathbf{T}$, as cargas $\mathbf{LT}$ reproduzem a mesma $\boldsymbol\Sigma$, as mesmas comunalidades e as mesmas variâncias específicas; por isso as cargas podem ser giradas para facilitar a interpretação.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="d">
+      <p class="enunciado">Num modelo de dois fatores, troca-se $\mathbf{L}$ por $\mathbf{L}^* = \mathbf{LT}$, com $\mathbf{T}$ uma rotação de 30°. O que muda?</p>
+      <div class="alts">
+        <button data-op="a">(a) As comunalidades $h_i^2$.</button>
+        <button data-op="b">(b) As variâncias específicas $\psi_i$.</button>
+        <button data-op="c">(c) A matriz $\boldsymbol\Sigma$ implicada pelo modelo.</button>
+        <button data-op="d">(d) Só as cargas individuais e, com elas, a interpretação de cada fator.</button>
+      </div>
+      <div class="fb" data-op="a">A comunalidade é a soma dos quadrados da linha $i$ de $\mathbf{L}$, e girar uma linha não muda seu comprimento.</div>
+      <div class="fb" data-op="b">$\boldsymbol\Psi$ fica igual: a rotação só mexe nos fatores comuns.</div>
+      <div class="fb" data-op="c">$\mathbf{L}^*\mathbf{L}^{*\prime} = \mathbf{LTT}'\mathbf{L}' = \mathbf{LL}'$: a matriz implicada não muda.</div>
+      <div class="fb" data-op="d">Isso: muda como a comunalidade de cada variável se divide entre os fatores, e é isso que se escolhe para interpretar melhor.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 9.2 ================= -->
+  <div class="secao" data-numero="9.2" data-titulo="Estimação por componentes" data-livro="§9.3">
+
+  <section class="passo" data-titulo="Solução por componentes">
+   <div class="texto">
+    <h2>Primeira estimativa: as cargas são os componentes principais, reescalados</h2>
+    <p>Se a variação não vem de fatores escondidos, a análise fatorial não serve: com $\mathbf{R}$ perto da identidade, os fatores específicos dominam. Com correlações apreciáveis, uma primeira estimativa sai da <span class="ref" data-ref="f-espectral">decomposição espectral</span>: $\mathbf{S} = \sum_i\hat\lambda_i\hat{\mathbf{e}}_i\hat{\mathbf{e}}_i'$. Guardando só os $m$ primeiros termos e pondo o resto na diagonal:</p>
+    <div class="formula" data-ref-id="f-fat-cp" data-ref-tipo="formula" data-ref-nome="Solução por componentes principais">
+      $$\tilde{\mathbf{L}} = \Big[\sqrt{\hat\lambda_1}\,\hat{\mathbf{e}}_1 \ \Big|\ \sqrt{\hat\lambda_2}\,\hat{\mathbf{e}}_2 \ \Big|\ \cdots \ \Big|\ \sqrt{\hat\lambda_m}\,\hat{\mathbf{e}}_m\Big]$$
+      $$\tilde\psi_i = s_{ii} - \sum_{j=1}^m\tilde\ell_{ij}^2\qquad \tilde h_i^2 = \sum_{j=1}^m\tilde\ell_{ij}^2$$
+      $$\text{proporção do fator } j = \frac{\hat\lambda_j}{s_{11} + \cdots + s_{pp}}$$
+      $$\text{com } \mathbf{R}\text{: } \frac{\hat\lambda_j}{p}$$
+    </div>
+    <p>A carga de cada variável no fator $j$ é o coeficiente do <span class="ref" data-ref="f-cpr-amostra">$j$-ésimo componente principal (cap. 8)</span> vezes $\sqrt{\hat\lambda_j}$. Com variáveis em unidades diferentes, use $\mathbf{R}$ em vez de $\mathbf{S}$, pelo mesmo motivo dos componentes. Uma propriedade prática: aumentar $m$ não muda as cargas dos fatores que já estavam.</p>
+    <p>Por construção, a diagonal de $\tilde{\mathbf{L}}\tilde{\mathbf{L}}' + \tilde{\boldsymbol\Psi}$ reproduz exatamente a de $\mathbf{S}$. O que mede a qualidade do ajuste é o quanto ela reproduz o resto (próximo passo).</p>
+    <div class="ideia">Na solução por componentes principais, a coluna $j$ de $\tilde{\mathbf{L}}$ é $\sqrt{\hat\lambda_j}\,\hat{\mathbf{e}}_j$, e $\tilde\psi_i = s_{ii} - \tilde h_i^2$; a diagonal sai certa e o ajuste se julga fora dela.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-consumidor" data-ref-tipo="exemplo" data-ref-nome="Preferência de consumidores por um produto">
+      <p>Clientes deram notas (de 1 a 7) a cinco atributos de um produto novo: 1 = sabor, 2 = bom custo-benefício, 3 = aroma, 4 = bom para lanche, 5 = dá energia.</p>
+      $$\mathbf{R} = \begin{bmatrix} 1 & 0{,}02 & 0{,}96 & 0{,}42 & 0{,}01 \\ 0{,}02 & 1 & 0{,}13 & 0{,}71 & 0{,}85 \\ 0{,}96 & 0{,}13 & 1 & 0{,}50 & 0{,}11 \\ 0{,}42 & 0{,}71 & 0{,}50 & 1 & 0{,}79 \\ 0{,}01 & 0{,}85 & 0{,}11 & 0{,}79 & 1 \end{bmatrix}$$
+      <p>Os grupos saltam à vista: {1, 3} e {2, 5}, com 4 mais perto de {2, 5}. Os dois primeiros autovalores, 2,85 e 1,81, são os únicos maiores que 1.</p>
+      <table>
+        <thead><tr><th></th><th>$\tilde\ell_{i1}$</th><th>$\tilde\ell_{i2}$</th><th>$\tilde h_i^2$</th><th>$\tilde\psi_i$</th></tr></thead>
+        <tbody>
+          <tr><th>1</th><td>0,56</td><td>0,82</td><td>0,98</td><td>0,02</td></tr>
+          <tr><th>2</th><td>0,78</td><td>−0,52</td><td>0,88</td><td>0,12</td></tr>
+          <tr><th>3</th><td>0,65</td><td>0,75</td><td>0,98</td><td>0,02</td></tr>
+          <tr><th>4</th><td>0,94</td><td>−0,10</td><td>0,89</td><td>0,11</td></tr>
+          <tr><th>5</th><td>0,80</td><td>−0,54</td><td>0,93</td><td>0,07</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lacunas">
+      <p>Na <span class="ref" data-ref="ex-consumidor">preferência de consumidores</span>, com $\hat\lambda_1 = 2{,}853$, $\hat\lambda_2 = 1{,}806$ e $\hat{\mathbf{e}}_1$ começando com 0,331:</p>
+      <p>Carga $\tilde\ell_{11}$: <input class="lacuna" data-resp="0.56" data-tol="0.005" aria-label="carga l11"><br>Proporção acumulada dos dois fatores: <input class="lacuna" data-resp="0.932" data-tol="0.003" aria-label="proporção acumulada"><br>$\tilde\psi_4$ (cargas 0,94 e −0,10): <input class="lacuna" data-resp="0.11" data-tol="0.006" aria-label="psi 4"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\tilde\ell_{11} = 0{,}331\sqrt{2{,}853}$; com $\mathbf{R}$, a variância total é 5.</p>
+      <div class="resolucao" hidden><p>$0{,}331 \times 1{,}689 = 0{,}56$. $(2{,}853 + 1{,}806)/5 = 0{,}932$. $\tilde\psi_4 = 1 - (0{,}94^2 + 0{,}10^2)$ $= 1 - 0{,}894 = 0{,}11$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Resíduos">
+   <div class="texto">
+    <h2>Quantos fatores: olhe a matriz de resíduos e os autovalores descartados</h2>
+    <p>A matriz de resíduos $\mathbf{S} - (\tilde{\mathbf{L}}\tilde{\mathbf{L}}' + \tilde{\boldsymbol\Psi})$ tem diagonal zero. Se as outras entradas também forem pequenas, o modelo com $m$ fatores parece adequado. E existe uma garantia:</p>
+    <div class="formula" data-ref-id="f-fat-res" data-ref-tipo="formula" data-ref-nome="Resíduos da solução por componentes">
+      $$\begin{aligned} &\text{soma dos quadrados de } \mathbf{S} - (\tilde{\mathbf{L}}\tilde{\mathbf{L}}' + \tilde{\boldsymbol\Psi}) \\ &\quad\le \hat\lambda_{m+1}^2 + \cdots + \hat\lambda_p^2 \end{aligned}$$
+    </div>
+    <p>Autovalores descartados pequenos garantem resíduos pequenos. Na <span class="ref" data-ref="ex-consumidor">preferência de consumidores</span>, a soma dos quadrados dos resíduos é 0,022, abaixo de $0{,}204^2 + 0{,}102^2 + 0{,}034^2 = 0{,}053$. Como nos componentes, guarde fatores até uma proporção satisfatória; os programas costumam usar "autovalores de $\mathbf{R}$ maiores que 1". Prefira poucos fatores, desde que interpretáveis e com bom ajuste.</p>
+    <p>Nas <span class="ref" data-ref="ex-acoes">cinco ações (cap. 8)</span>, a solução com $m = 1$ explica 57% e a com $m = 2$, 73%. Com dois fatores, as cargas repetem a leitura dos componentes: um fator de <strong>mercado</strong> (todas as ações com carga alta, perto de 0,75) e um de <strong>setor</strong> (químicas negativas, petrolíferas positivas). Mas os resíduos não são tão pequenos: o de Exxon com Texaco é −0,23, isto é, $\tilde{\mathbf{L}}\tilde{\mathbf{L}}'$ exagera essa correlação.</p>
+    <details class="demo">
+      <summary>De onde vem a desigualdade</summary>
+      <p>Fora da diagonal, o resíduo é igual ao de $\mathbf{S} - \tilde{\mathbf{L}}\tilde{\mathbf{L}}'$; na diagonal, $\tilde{\boldsymbol\Psi}$ zera o resíduo. Logo a soma dos quadrados de $\mathbf{S} - \tilde{\mathbf{L}}\tilde{\mathbf{L}}' - \tilde{\boldsymbol\Psi}$ é no máximo a de $\mathbf{S} - \tilde{\mathbf{L}}\tilde{\mathbf{L}}' = \sum_{i > m}\hat\lambda_i\hat{\mathbf{e}}_i\hat{\mathbf{e}}_i'$. A soma dos quadrados de uma matriz simétrica é o traço do seu quadrado, e aqui o quadrado é $\sum_{i > m}\hat\lambda_i^2\hat{\mathbf{e}}_i\hat{\mathbf{e}}_i'$, de traço $\sum_{i > m}\hat\lambda_i^2$.</p>
+    </details>
+    <div class="ideia">A matriz de resíduos tem diagonal zero, e a soma dos quadrados das outras entradas é no máximo a soma dos quadrados dos autovalores descartados; guarde poucos fatores, interpretáveis e com resíduos pequenos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Numa análise com $\mathbf{R}$ de 6 variáveis, os autovalores são 3,1; 1,4; 0,7; 0,4; 0,25; 0,15. Um colega diz: "com $m = 2$, a soma dos quadrados dos resíduos fora da diagonal pode passar de 1". Está certo?</p>
+      <div class="alts">
+        <button data-op="a">(a) Sim: a desigualdade só vale para matrizes de covariância, não de correlação.</button>
+        <button data-op="b">(b) Não: ela é no máximo $0{,}7^2 + 0{,}4^2 + 0{,}25^2 + 0{,}15^2 = 0{,}74$.</button>
+        <button data-op="c">(c) Não: ela é no máximo $0{,}7 + 0{,}4 + 0{,}25 + 0{,}15 = 1{,}5$, e pode passar de 1.</button>
+        <button data-op="d">(d) Sim: os resíduos fora da diagonal não têm limite.</button>
+      </div>
+      <div class="fb" data-op="a">A desigualdade vale para a solução por componentes de qualquer matriz simétrica, $\mathbf{S}$ ou $\mathbf{R}$.</div>
+      <div class="fb" data-op="b">Isso: o limite usa os quadrados dos autovalores descartados, e $0{,}49 + 0{,}16 + 0{,}0625 + 0{,}0225 = 0{,}735 &lt; 1$.</div>
+      <div class="fb" data-op="c">O limite é a soma dos <em>quadrados</em> dos autovalores descartados, que dá 0,74; a soma simples (1,5) não é o limite.</div>
+      <div class="fb" data-op="d">Na solução por componentes há o limite pelos autovalores descartados.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Fator principal">
+   <div class="texto">
+    <h2>Uma variante: tirar a variância específica da diagonal antes de decompor</h2>
+    <p>Se $\boldsymbol\rho = \mathbf{LL}' + \boldsymbol\Psi$, os fatores comuns devem explicar as correlações fora da diagonal e só a comunalidade na diagonal ($1 = h_i^2 + \psi_i$). O método do <strong>fator principal</strong> troca o 1 da diagonal de $\mathbf{R}$ por uma estimativa inicial da comunalidade e decompõe essa matriz "reduzida":</p>
+    <div class="formula" data-ref-id="f-fat-principal" data-ref-tipo="formula" data-ref-nome="Método do fator principal">
+      $$\mathbf{R}_r = \begin{bmatrix} h_1^{*2} & r_{12} & \cdots & r_{1p} \\ r_{12} & h_2^{*2} & \cdots & r_{2p} \\ \vdots & \vdots & \ddots & \vdots \\ r_{1p} & r_{2p} & \cdots & h_p^{*2} \end{bmatrix}$$
+      $$\mathbf{L}_r^* = \Big[\sqrt{\hat\lambda_1^*}\,\hat{\mathbf{e}}_1^* \ \Big|\ \cdots \ \Big|\ \sqrt{\hat\lambda_m^*}\,\hat{\mathbf{e}}_m^*\Big]$$
+      $$\text{início mais comum: } h_i^{*2} = 1 - \frac{1}{r^{ii}}$$
+      <p>$(\hat\lambda_j^*, \hat{\mathbf{e}}_j^*)$ são os pares de $\mathbf{R}_r$; $r^{ii}$ é a entrada $i$ da diagonal de $\mathbf{R}^{-1}$.</p>
+    </div>
+    <p>O valor inicial $1 - 1/r^{ii}$ é o quadrado da <span class="ref" data-ref="f-melhor-preditor">correlação múltipla (cap. 7)</span> de $X_i$ com as outras $p - 1$ variáveis: a parte de $X_i$ que as outras explicam, um bom palpite para a parte comum. Depois, as comunalidades novas, $\sum_j\ell_{ij}^{*2}$, entram na diagonal e o processo se repete.</p>
+    <p>Uma complicação: com a diagonal reduzida, alguns autovalores de $\mathbf{R}_r$ podem ser negativos. A solução por componentes é o caso com comunalidades iniciais iguais a 1; as duas costumam dar cargas parecidas quando $p$ é grande e $m$ pequeno.</p>
+    <div class="ideia">O fator principal decompõe $\mathbf{R}$ com estimativas das comunalidades na diagonal (de início, $1 - 1/r^{ii}$, a correlação múltipla ao quadrado) e itera; sem os fatores específicos na diagonal, só a parte comum é decomposta.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>Nas <span class="ref" data-ref="ex-acoes">cinco ações</span>, as comunalidades iniciais $1 - 1/r^{ii}$ dão 0,43; 0,47; 0,45; 0,35; 0,37. Os autovalores de $\mathbf{R}_r$ saem 2,28; 0,21; −0,05; −0,14; −0,23. O que os negativos querem dizer, e quantos fatores esses números sugerem?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>$\mathbf{R}_r$ não é uma matriz de covariância de verdade (a diagonal foi trocada por palpites), então nada impede autovalores negativos. Idealmente, $m$ seria o posto da matriz reduzida da população; aqui um autovalor domina (2,28) e o segundo é pequeno (0,21), sugerindo um fator forte, talvez dois. Esse posto raramente fica bem determinado, e é preciso julgamento.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 9.3 ================= -->
+  <div class="secao" data-numero="9.3" data-titulo="Máxima verossimilhança" data-livro="§9.3, Supl. 9A">
+
+  <section class="passo" data-titulo="Estimação por verossimilhança">
+   <div class="texto">
+    <h2>Com dados normais: estimadores de máxima verossimilhança</h2>
+    <p>Se $\mathbf{F}$ e $\boldsymbol\varepsilon$ são normais, $\mathbf{X}$ é $N_p(\boldsymbol\mu, \mathbf{LL}' + \boldsymbol\Psi)$, e a verossimilhança da <span class="ref" data-ref="f-emv">normal (cap. 4)</span> depende de $\mathbf{L}$ e $\boldsymbol\Psi$ por meio de $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$. Como as rotações deixam $\boldsymbol\Sigma$ igual, impõe-se uma condição que fixa uma solução:</p>
+    <div class="formula" data-ref-id="f-fat-emv" data-ref-tipo="formula" data-ref-nome="Estimadores de máxima verossimilhança do modelo fatorial">
+      $$\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}} = \boldsymbol\Delta\quad (\text{diagonal})$$
+      $$\hat h_i^2 = \hat\ell_{i1}^2 + \hat\ell_{i2}^2 + \cdots + \hat\ell_{im}^2$$
+      $$\text{proporção do fator } j = \frac{\hat\ell_{1j}^2 + \hat\ell_{2j}^2 + \cdots + \hat\ell_{pj}^2}{s_{11} + \cdots + s_{pp}}$$
+      <p>$\hat{\boldsymbol\mu} = \bar{\mathbf{x}}$; $\hat{\mathbf{L}}$ e $\hat{\boldsymbol\Psi}$ saem de uma maximização numérica.</p>
+    </div>
+    <p>As comunalidades estimadas vêm de graça, pela invariância dos estimadores de máxima verossimilhança. Na prática, quase sempre se analisa $\mathbf{R}$. Surpreendentemente, isso é equivalente a estimar com $\mathbf{S}$ e depois padronizar: $\hat{\mathbf{L}}_z = \hat{\mathbf{V}}^{-1/2}\hat{\mathbf{L}}$ e $\hat{\boldsymbol\Psi}_z = \hat{\mathbf{V}}^{-1/2}\hat{\boldsymbol\Psi}\hat{\mathbf{V}}^{-1/2}$. A condição $\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}}$ diagonal é só uma conveniência de conta; as cargas que ela produz raramente são as mais fáceis de ler, e por isso se costuma girar depois.</p>
+    <details class="demo">
+      <summary>Como o computador acha as estimativas</summary>
+      <p>Maximizar a verossimilhança equivale a minimizar $\ln|\mathbf{LL}' + \boldsymbol\Psi|$ $+ \mathrm{tr}[(\mathbf{LL}' + \boldsymbol\Psi)^{-1}\mathbf{S}_n]$ $- \ln|\mathbf{S}_n| - p$. As soluções satisfazem $(\hat{\boldsymbol\Psi}^{-1/2}\mathbf{S}_n\hat{\boldsymbol\Psi}^{-1/2})(\hat{\boldsymbol\Psi}^{-1/2}\hat{\mathbf{L}})$ $= (\hat{\boldsymbol\Psi}^{-1/2}\hat{\mathbf{L}})(\mathbf{I} + \boldsymbol\Delta)$: as colunas de $\hat{\boldsymbol\Psi}^{-1/2}\hat{\mathbf{L}}$ são autovetores da matriz reescalada, com autovalores $1 + \delta_j$. Um esquema:</p>
+      <ol>
+        <li>Comece com $\psi_i = (1 - m/2p)/s^{ii}$, onde $s^{ii}$ é a diagonal de $\mathbf{S}^{-1}$.</li>
+        <li>Dado $\boldsymbol\Psi$, ache os $m$ maiores autovalores $\theta_j$ e autovetores $\mathbf{e}_j$ de $\boldsymbol\Psi^{-1/2}\mathbf{S}_n\boldsymbol\Psi^{-1/2}$, e faça $\hat{\mathbf{L}} = \boldsymbol\Psi^{1/2}\mathbf{E}(\boldsymbol\Theta - \mathbf{I})^{1/2}$.</li>
+        <li>Com esse $\hat{\mathbf{L}}$, minimize a função acima em $\boldsymbol\Psi$ (busca numérica) e volte ao passo 2 até estabilizar.</li>
+      </ol>
+      <p>Se o mínimo pede algum $\psi_i$ negativo, a solução é imprópria (caso de Heywood); os programas trocam o valor por um número pequeno positivo.</p>
+    </details>
+    <div class="ideia">Com dados normais, $\hat{\mathbf{L}}$ e $\hat{\boldsymbol\Psi}$ maximizam a verossimilhança sob a condição $\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}}$ diagonal; analisar $\mathbf{R}$ equivale a estimar com $\mathbf{S}$ e padronizar.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><span class="ref" data-ref="ex-acoes">Cinco ações</span>, $m = 2$: máxima verossimilhança (MV) e componentes principais (CP).</p>
+      <table>
+        <thead><tr><th>MV</th><th>$\hat\ell_{i1}$</th><th>$\hat\ell_{i2}$</th><th>$\hat\psi_i$</th></tr></thead>
+        <tbody>
+          <tr><th>Allied</th><td>0,684</td><td>0,189</td><td>0,50</td></tr>
+          <tr><th>du Pont</th><td>0,694</td><td>0,517</td><td>0,25</td></tr>
+          <tr><th>Union C.</th><td>0,681</td><td>0,248</td><td>0,47</td></tr>
+          <tr><th>Exxon</th><td>0,621</td><td>−0,073</td><td>0,61</td></tr>
+          <tr><th>Texaco</th><td>0,792</td><td>−0,442</td><td>0,18</td></tr>
+          <tr><th>acum.</th><td>0,485</td><td>0,598</td><td></td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>CP</th><th>$\tilde\ell_{i1}$</th><th>$\tilde\ell_{i2}$</th><th>$\tilde\psi_i$</th></tr></thead>
+        <tbody>
+          <tr><th>Allied</th><td>0,783</td><td>−0,217</td><td>0,34</td></tr>
+          <tr><th>du Pont</th><td>0,773</td><td>−0,458</td><td>0,19</td></tr>
+          <tr><th>Union C.</th><td>0,794</td><td>−0,234</td><td>0,31</td></tr>
+          <tr><th>Exxon</th><td>0,713</td><td>0,473</td><td>0,27</td></tr>
+          <tr><th>Texaco</th><td>0,712</td><td>0,524</td><td>0,22</td></tr>
+          <tr><th>acum.</th><td>0,571</td><td>0,733</td><td></td></tr>
+        </tbody>
+      </table>
+      <p>O maior resíduo da solução MV é 0,031 em módulo; o da CP, 0,232.</p>
+    </div>
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Nas cinco ações, a solução por componentes explica 73% da variância total e a de máxima verossimilhança, 60%; mas os resíduos da segunda são bem menores. Qual preferir para descrever a estrutura de correlação?</p>
+      <div class="alts">
+        <button data-op="a">(a) A de componentes, porque explica mais variância.</button>
+        <button data-op="b">(b) Tanto faz, porque as duas usam dois fatores.</button>
+        <button data-op="c">(c) A de máxima verossimilhança: o objetivo é reproduzir as correlações, e a proporção explicada favorece por construção a solução por componentes.</button>
+        <button data-op="d">(d) A de máxima verossimilhança, porque suas cargas são sempre mais fáceis de interpretar.</button>
+      </div>
+      <div class="fb" data-op="a">Os componentes maximizam variância por definição, então esse critério sempre os favorece. Ele não mede o ajuste das correlações.</div>
+      <div class="fb" data-op="b">Com o mesmo $m$, as soluções diferem, e os resíduos mostram que uma reproduz $\mathbf{R}$ bem melhor.</div>
+      <div class="fb" data-op="c">Isso: o modelo fatorial é sobre $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$, e resíduos pequenos dizem que a estrutura foi bem reproduzida.</div>
+      <div class="fb" data-op="d">Aqui o 2º fator de MV ficou até mais confuso (um contraste du Pont contra Texaco). A interpretação costuma melhorar só depois da rotação.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Teste do número de fatores">
+   <div class="texto">
+    <h2>Teste de razão de verossimilhanças: $m$ fatores bastam?</h2>
+    <p>Com normalidade, dá para testar $H_0$: $\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$ com $m$ fatores, contra $H_1$: $\boldsymbol\Sigma$ é uma positiva definida qualquer. A <span class="ref" data-ref="f-rv-geral">razão de verossimilhanças (cap. 5)</span> compara variâncias generalizadas; com a correção de Bartlett:</p>
+    <div class="formula" data-ref-id="f-fat-teste" data-ref-tipo="formula" data-ref-nome="Teste do número de fatores">
+      $$\begin{aligned} &\Big(n - 1 - \frac{2p + 4m + 5}{6}\Big)\ln\frac{|\hat{\mathbf{L}}\hat{\mathbf{L}}' + \hat{\boldsymbol\Psi}|}{|\mathbf{S}_n|} \\ &\quad > \chi^2_{\nu}(\alpha) \end{aligned}$$
+      $$\nu = \frac{(p - m)^2 - p - m}{2}$$
+      $$\nu > 0 \iff m < \frac{2p + 1 - \sqrt{8p + 1}}{2}$$
+    </div>
+    <p>Os graus de liberdade são os $p(p + 1)/2$ parâmetros de $\boldsymbol\Sigma$ livre menos os do modelo: $mp + p$ cargas e variâncias, menos as $m(m - 1)/2$ restrições da condição de unicidade. Com variáveis padronizadas, a razão de determinantes é a mesma usando $\hat{\mathbf{L}}_z\hat{\mathbf{L}}_z' + \hat{\boldsymbol\Psi}_z$ e $\mathbf{R}$.</p>
+    <p>Cuidado na leitura: com $n$ grande e $m$ pequeno, o teste quase sempre rejeita, pedindo mais fatores, mesmo quando os fatores extras não acrescentam nada que se entenda. É preciso julgamento.</p>
+    <div class="ideia">O teste do número de fatores compara $|\hat{\mathbf{L}}\hat{\mathbf{L}}' + \hat{\boldsymbol\Psi}|$ com $|\mathbf{S}_n|$ e usa $[(p - m)^2 - p - m]/2$ graus de liberdade; com amostras grandes, rejeita com facilidade.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Nas <span class="ref" data-ref="ex-acoes">cinco ações</span> ($n = 100$, $p = 5$, $m = 2$), a solução de máxima verossimilhança dá $|\hat{\mathbf{L}}_z\hat{\mathbf{L}}_z' + \hat{\boldsymbol\Psi}_z| = 0{,}194414$ e $|\mathbf{R}| = 0{,}193163$.</p>
+      <p>Graus de liberdade $\nu$: <input class="lacuna" data-resp="1" data-tol="0" aria-label="graus de liberdade"><br>Estatística do teste: <input class="lacuna" data-resp="0.62" data-tol="0.02" aria-label="estatística"><br>Rejeita a 5%? (1 = sim, 0 = não) <input class="lacuna" data-resp="0" data-tol="0" aria-label="rejeita"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: o fator de Bartlett é $100 - 1 - (10 + 8 + 5)/6 = 95{,}17$; a razão é $1{,}0065$; $\chi^2_1(0{,}05) = 3{,}84$.</p>
+      <div class="resolucao" hidden><p>$\nu = [(5 - 2)^2 - 5 - 2]/2 = 1$. Estatística: $95{,}17 \times \ln(1{,}0065) = 0{,}62 &lt; 3{,}84$: não se rejeita; os dados não contradizem dois fatores (valor p de 0,43).</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 9.4 ================= -->
+  <div class="secao" data-numero="9.4" data-titulo="Rotação" data-livro="§9.4">
+
+  <section class="passo" data-titulo="Girar à mão">
+   <div class="texto">
+    <h2>Girar os eixos dos fatores até as cargas formarem grupos claros</h2>
+    <p>Qualquer $\hat{\mathbf{L}}^* = \hat{\mathbf{L}}\mathbf{T}$, com $\mathbf{T}$ ortogonal, reproduz a mesma matriz estimada, os mesmos resíduos, comunalidades e variâncias específicas (<span class="ref" data-ref="f-fat-rot">passo 4</span>). Do ponto de vista matemático tanto faz qual usar; então escolhe-se a que for mais simples de interpretar. O ideal é cada variável com carga alta num só fator e cargas pequenas nos outros.</p>
+    <p>Com dois fatores, desenhe cada variável como o ponto $(\hat\ell_{i1}, \hat\ell_{i2})$ e gire os eixos por um ângulo $\phi$:</p>
+    <div class="formula" data-ref-id="f-fat-rot2" data-ref-tipo="formula" data-ref-nome="Rotação de dois fatores por um ângulo">
+      $$\hat{\mathbf{L}}^* = \hat{\mathbf{L}}\mathbf{T}$$
+      $$\mathbf{T} = \begin{bmatrix} \cos\phi & \sin\phi \\ -\sin\phi & \cos\phi \end{bmatrix}\ (\text{horário})$$
+      <p>Para o sentido anti-horário, troque o sinal de $\sin\phi$.</p>
+    </div>
+    <p>Nas <span class="ref" data-ref="ex-notas">notas de seis matérias</span>, antes de girar todas as matérias têm carga positiva no 1º fator (um fator "geral"), e o 2º é <strong>bipolar</strong>: positivo nas matérias de letras, negativo nas de matemática (os sinais de uma coluna podem ser trocados sem mudar nada). Girando cerca de 20° no sentido horário, um eixo passa pela aritmética, todas as cargas ficam positivas, e aparecem dois fatores: <strong>habilidade matemática</strong> e <strong>habilidade verbal</strong>. O fator geral some, diluído nos dois.</p>
+    <div class="ideia">Girar os eixos dos fatores não muda o ajuste; escolhe-se o ângulo em que cada variável carrega num só fator, o que revela grupos de variáveis.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-notas" data-ref-tipo="exemplo" data-ref-nome="Notas de 220 alunos em seis matérias">
+      <p>Notas de 220 alunos em gaélico (1), inglês (2), história (3), aritmética (4), álgebra (5) e geometria (6). Cargas de máxima verossimilhança com $m = 2$:</p>
+      <table>
+        <thead><tr><th></th><th>$\hat\ell_{i1}$</th><th>$\hat\ell_{i2}$</th><th>$\hat h_i^2$</th></tr></thead>
+        <tbody>
+          <tr><th>1 gaélico</th><td>0,553</td><td>0,429</td><td>0,490</td></tr>
+          <tr><th>2 inglês</th><td>0,568</td><td>0,288</td><td>0,406</td></tr>
+          <tr><th>3 história</th><td>0,392</td><td>0,450</td><td>0,356</td></tr>
+          <tr><th>4 aritmética</th><td>0,740</td><td>−0,273</td><td>0,623</td></tr>
+          <tr><th>5 álgebra</th><td>0,724</td><td>−0,211</td><td>0,569</td></tr>
+          <tr><th>6 geometria</th><td>0,595</td><td>−0,132</td><td>0,372</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prever" data-sim="sim-rot">
+      <p>Ao girar os eixos, o que acontece com a comunalidade de cada matéria?</p>
+      <div class="alts">
+        <button data-op="a">Aumenta para as matérias que ficam perto de um eixo</button>
+        <button data-op="b" data-certa>Não muda: é a distância do ponto à origem</button>
+        <button data-op="c">Muda, mas a soma das comunalidades fica igual</button>
+      </div>
+      <div class="explica" hidden><p>$\hat h_i^2 = \hat\ell_{i1}^2 + \hat\ell_{i2}^2$ é o quadrado da distância do ponto à origem, e girar os eixos não muda distâncias. Muda só como essa distância se divide entre os dois eixos. Repare também no critério varimax (próximo passo): ele é máximo perto de 33°, não nos 20° escolhidos a olho.</p></div>
+    </div>
+    <div class="sim" id="sim-rot">
+      <label>Ângulo $\phi$ (horário) <input type="range" id="rot-f" min="0" max="60" step="1" value="0"> <strong id="rot-f-v">0°</strong></label>
+      <svg viewBox="0 0 340 280" id="rot-svg" role="img" aria-label="As seis matérias como pontos no plano das cargas, com os eixos originais e os girados"></svg>
+      <p id="rot-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Varimax">
+   <div class="texto">
+    <h2>Varimax: a rotação que espalha ao máximo os quadrados das cargas</h2>
+    <p>Com mais de dois fatores, girar a olho não funciona. Kaiser propôs um critério. Divida as cargas giradas pela raiz da comunalidade, $\tilde\ell_{ij}^* = \hat\ell_{ij}^*/\hat h_i$, e escolha $\mathbf{T}$ que maximiza</p>
+    <div class="formula" data-ref-id="f-varimax" data-ref-tipo="formula" data-ref-nome="Critério varimax">
+      $$V = \frac{1}{p}\sum_{j=1}^m\Big[\sum_{i=1}^p\tilde\ell_{ij}^{*4} - \frac{1}{p}\Big(\sum_{i=1}^p\tilde\ell_{ij}^{*2}\Big)^2\Big]$$
+      <p>Em palavras: $V$ é a soma, nos fatores, da variância dos quadrados das cargas (reescaladas) de cada coluna.</p>
+    </div>
+    <p>Maximizar $V$ espalha os quadrados das cargas em cada coluna: alguns grandes, outros perto de zero, que é exatamente o padrão fácil de ler. Reescalar por $\hat h_i$ dá mais peso às variáveis de comunalidade pequena; no fim, multiplica-se de volta por $\hat h_i$.</p>
+    <p>Na <span class="ref" data-ref="ex-consumidor">preferência de consumidores</span>, depois do varimax as variáveis 2, 4 e 5 carregam no fator 1 (0,94; 0,84; 0,97) e 1 e 3 no fator 2 (0,99 e 0,98): um fator <strong>nutricional</strong> e um de <strong>paladar</strong>. Nas <span class="ref" data-ref="ex-acoes">ações</span>, a rotação separa químicas (fator 1) de petrolíferas (fator 2), e o fator de mercado desaparece. É um efeito geral: <strong>um fator em que todas as variáveis carregam alto tende a ser destruído pela rotação</strong>; quando ele é evidente, pode-se mantê-lo fixo e girar só os outros.</p>
+    <div class="ideia">O varimax escolhe a rotação que maximiza a variância dos quadrados das cargas (reescaladas) em cada fator, produzindo cargas grandes ou quase nulas; ele tende a desfazer um fator geral.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><span class="ref" data-ref="ex-consumidor">Preferência de consumidores</span>: cargas por componentes, antes e depois do varimax.</p>
+      <table>
+        <thead><tr><th></th><th>$F_1$</th><th>$F_2$</th><th>$F_1^*$</th><th>$F_2^*$</th></tr></thead>
+        <tbody>
+          <tr><th>1 sabor</th><td>0,56</td><td>0,82</td><td>0,02</td><td><strong>0,99</strong></td></tr>
+          <tr><th>2 custo-benefício</th><td>0,78</td><td>−0,52</td><td><strong>0,94</strong></td><td>−0,01</td></tr>
+          <tr><th>3 aroma</th><td>0,65</td><td>0,75</td><td>0,13</td><td><strong>0,98</strong></td></tr>
+          <tr><th>4 lanche</th><td>0,94</td><td>−0,10</td><td><strong>0,84</strong></td><td>0,43</td></tr>
+          <tr><th>5 energia</th><td>0,80</td><td>−0,54</td><td><strong>0,97</strong></td><td>−0,02</td></tr>
+          <tr><th>acum.</th><td>0,571</td><td>0,932</td><td>0,507</td><td>0,932</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="quiz" data-correta="a">
+      <p class="enunciado">Na tabela ao lado, a proporção explicada pelo 1º fator caiu de 0,571 para 0,507 com a rotação, e a acumulada ficou em 0,932. Por quê?</p>
+      <div class="alts">
+        <button data-op="a">(a) A rotação redistribui a variância explicada entre os fatores, mas o total (soma das comunalidades) não muda.</button>
+        <button data-op="b">(b) O varimax perde informação; por isso o 1º fator explica menos.</button>
+        <button data-op="c">(c) É erro de arredondamento: as proporções deveriam ser iguais.</button>
+        <button data-op="d">(d) A rotação aumenta as variâncias específicas.</button>
+      </div>
+      <div class="fb" data-op="a">Isso: a soma de todas as cargas ao quadrado é a soma das comunalidades, que a rotação preserva; só a divisão entre as colunas muda.</div>
+      <div class="fb" data-op="b">Nada se perde: $\hat{\mathbf{L}}^*\hat{\mathbf{L}}^{*\prime} = \hat{\mathbf{L}}\hat{\mathbf{L}}'$, e a acumulada continua 0,932.</div>
+      <div class="fb" data-op="c">A diferença é real. O que não muda é a proporção acumulada de todos os fatores.</div>
+      <div class="fb" data-op="d">As variâncias específicas $1 - \hat h_i^2$ ficam iguais, porque as comunalidades ficam iguais.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Decatlo">
+   <div class="texto">
+    <h2>No decatlo, dois métodos discordam antes de girar e concordam depois</h2>
+    <p>No <span class="ref" data-ref="ex-decatlo">decatlo olímpico</span>, os quatro primeiros autovalores de $\mathbf{R}$ são 3,78; 1,52; 1,11; 0,91, e a interpretação apoia $m = 4$. Antes da rotação, as soluções por componentes e por máxima verossimilhança dão cargas muito diferentes. Na de componentes, todas as provas menos os 1500 m carregam alto no 1º fator ("habilidade atlética geral"), e os outros fatores são difíceis de ler. A de máxima verossimilhança sai como caso de Heywood: variâncias específicas zero no arremesso de peso e nos 1500 m.</p>
+    <p>Depois do varimax, os dois métodos apontam os mesmos quatro fatores (só a ordem muda): <strong>velocidade</strong> (100 m, 400 m, salto em distância), <strong>força explosiva dos braços</strong> (peso, disco, dardo), <strong>força explosiva das pernas</strong> (salto em altura, barreiras, vara) e <strong>resistência</strong> (1500 m, e em parte os 400 m). É a classificação tradicional das provas de atletismo. A rotação muda só as cargas e a divisão da variância explicada entre os fatores; a acumulada não muda.</p>
+    <p><strong>Rotações oblíquas.</strong> Se os grupos de variáveis não ficam em ângulo reto, há rotações em que os eixos novos deixam de ser perpendiculares e passam pelos grupos. Elas não vêm do modelo ortogonal (fatores correlacionados), mas são uma ajuda comum na prática; não vamos segui-las aqui.</p>
+    <div class="ideia">Métodos de estimação diferentes podem discordar nas cargas originais e concordar depois da rotação; quando isso acontece, a estrutura encontrada merece confiança.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-decatlo" data-ref-tipo="exemplo" data-ref-nome="Decatlo olímpico: 160 participações">
+      <p>Pontos padronizados de 160 participações no decatlo olímpico. Cargas por componentes depois do varimax ($m = 4$):</p>
+      <table>
+        <thead><tr><th></th><th>$F_1^*$</th><th>$F_2^*$</th><th>$F_3^*$</th><th>$F_4^*$</th></tr></thead>
+        <tbody>
+          <tr><th>100 m</th><td><strong>0,88</strong></td><td>0,14</td><td>0,16</td><td>−0,11</td></tr>
+          <tr><th>distância</th><td><strong>0,63</strong></td><td>0,19</td><td>0,52</td><td>−0,01</td></tr>
+          <tr><th>peso</th><td>0,25</td><td><strong>0,83</strong></td><td>0,22</td><td>−0,15</td></tr>
+          <tr><th>altura</th><td>0,24</td><td>0,15</td><td><strong>0,75</strong></td><td>0,08</td></tr>
+          <tr><th>400 m</th><td><strong>0,80</strong></td><td>0,08</td><td>0,10</td><td>0,47</td></tr>
+          <tr><th>barreiras</th><td>0,40</td><td>0,15</td><td><strong>0,64</strong></td><td>−0,17</td></tr>
+          <tr><th>disco</th><td>0,19</td><td><strong>0,81</strong></td><td>0,15</td><td>−0,08</td></tr>
+          <tr><th>vara</th><td>−0,04</td><td>0,18</td><td><strong>0,76</strong></td><td>0,22</td></tr>
+          <tr><th>dardo</th><td>−0,05</td><td><strong>0,74</strong></td><td>0,11</td><td>0,14</td></tr>
+          <tr><th>1500 m</th><td>0,05</td><td>−0,04</td><td>0,11</td><td><strong>0,93</strong></td></tr>
+          <tr><th>acum.</th><td>0,21</td><td>0,42</td><td>0,61</td><td>0,73</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pare">
+      <p>Antes da rotação, a solução por componentes tinha um fator de "habilidade geral" em que quase todas as provas carregavam alto. Depois do varimax, ele sumiu. A habilidade geral deixou de existir?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>Não. As duas soluções reproduzem a mesma matriz; o varimax só redistribui as cargas. A parte comum a todas as provas agora aparece espalhada nos quatro fatores girados (por isso quase todas as cargas fora dos destaques são positivas). Escolher entre "um fator geral e três contrastes" ou "quatro habilidades" é uma decisão de interpretação, não algo que os dados decidam.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 9.5 ================= -->
+  <div class="secao" data-numero="9.5" data-titulo="Escores fatoriais" data-livro="§9.5">
+
+  <section class="passo" data-titulo="Mínimos quadrados ponderados">
+   <div class="texto">
+    <h2>Escores fatoriais: estimar o valor dos fatores em cada observação</h2>
+    <p>Às vezes interessa o valor $\mathbf{f}_j$ que os fatores assumiram na observação $j$, para diagnóstico ou para usar em outra análise. Não é um parâmetro, e há mais incógnitas ($\mathbf{f}_j$ e $\boldsymbol\varepsilon_j$) que dados. As propostas tratam as cargas e variâncias estimadas como se fossem as verdadeiras e usam transformações lineares dos dados.</p>
+    <p><strong>Bartlett: mínimos quadrados ponderados.</strong> Veja $\mathbf{x} - \boldsymbol\mu = \mathbf{Lf} + \boldsymbol\varepsilon$ como uma regressão em que $\mathbf{L}$ faz o papel de matriz de planejamento e os erros têm variâncias diferentes $\psi_i$. Minimize a soma dos erros ao quadrado, cada um dividido por sua variância, $\sum_i\varepsilon_i^2/\psi_i$ $= (\mathbf{x} - \boldsymbol\mu - \mathbf{Lf})'\boldsymbol\Psi^{-1}(\mathbf{x} - \boldsymbol\mu - \mathbf{Lf})$:</p>
+    <div class="formula" data-ref-id="f-fat-mqp" data-ref-tipo="formula" data-ref-nome="Escores por mínimos quadrados ponderados">
+      $$\hat{\mathbf{f}}_j = (\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}})^{-1}\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$$
+      <p>Com $\mathbf{R}$, troque $\hat{\mathbf{L}}$, $\hat{\boldsymbol\Psi}$ e $\mathbf{x}_j - \bar{\mathbf{x}}$ por $\hat{\mathbf{L}}_z$, $\hat{\boldsymbol\Psi}_z$ e $\mathbf{z}_j$.</p>
+    </div>
+    <p>Com as estimativas de máxima verossimilhança, $\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}} = \boldsymbol\Delta$ é diagonal, e a inversa é imediata; os escores têm média amostral zero e covariâncias amostrais zero. Com a solução por componentes, costuma-se usar mínimos quadrados comuns (como se os $\psi_i$ fossem iguais): $\hat{\mathbf{f}}_j = (\tilde{\mathbf{L}}'\tilde{\mathbf{L}})^{-1}\tilde{\mathbf{L}}'(\mathbf{x}_j - \bar{\mathbf{x}})$, que dá exatamente os $m$ primeiros componentes principais, cada um dividido por $\sqrt{\hat\lambda_i}$. Com cargas giradas, os escores giram junto: $\hat{\mathbf{f}}_j^* = \mathbf{T}'\hat{\mathbf{f}}_j$.</p>
+    <div class="ideia">Os escores de Bartlett estimam $\mathbf{f}_j$ por mínimos quadrados ponderados pelo inverso das variâncias específicas, $(\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}})^{-1}\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Por que os escores de Bartlett dividem cada erro ao quadrado por $\psi_i$?</p>
+      <div class="alts">
+        <button data-op="a">(a) Para os escores terem variância 1.</button>
+        <button data-op="b">(b) Porque os fatores específicos têm variâncias diferentes: uma variável com $\psi_i$ grande é medida com mais ruído e deve pesar menos.</button>
+        <button data-op="c">(c) Para que os escores não dependam da rotação.</button>
+        <button data-op="d">(d) Porque $\boldsymbol\Psi$ é a covariância dos fatores comuns.</button>
+      </div>
+      <div class="fb" data-op="a">A ponderação não é para fixar a variância dos escores; ela vem da variância desigual dos erros.</div>
+      <div class="fb" data-op="b">Isso: é a mesma ideia dos mínimos quadrados ponderados na regressão. Variáveis quase sem fator específico informam mais sobre os fatores comuns.</div>
+      <div class="fb" data-op="c">Os escores dependem da rotação: com cargas giradas, giram junto ($\hat{\mathbf{f}}^* = \mathbf{T}'\hat{\mathbf{f}}$).</div>
+      <div class="fb" data-op="d">$\boldsymbol\Psi$ é a covariância dos fatores <em>específicos</em>; a dos comuns é $\mathbf{I}$.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Regressão">
+   <div class="texto">
+    <h2>O método de regressão: a média condicional dos fatores dados os dados</h2>
+    <p>Se $\mathbf{F}$ e $\boldsymbol\varepsilon$ são normais, o vetor $(\mathbf{X} - \boldsymbol\mu, \mathbf{F})$ é normal com covariâncias $\mathbf{LL}' + \boldsymbol\Psi$, $\mathbf{L}$ e $\mathbf{I}$. Pela <span class="ref" data-ref="f-condicional">distribuição condicional da normal (cap. 4)</span>:</p>
+    <div class="formula" data-ref-id="f-fat-reg" data-ref-tipo="formula" data-ref-nome="Escores pelo método de regressão">
+      $$E(\mathbf{F} \mid \mathbf{x}) = \mathbf{L}'(\mathbf{LL}' + \boldsymbol\Psi)^{-1}(\mathbf{x} - \boldsymbol\mu)$$
+      $$\mathrm{Cov}(\mathbf{F} \mid \mathbf{x}) = \mathbf{I} - \mathbf{L}'(\mathbf{LL}' + \boldsymbol\Psi)^{-1}\mathbf{L}$$
+      $$\hat{\mathbf{f}}_j = \hat{\mathbf{L}}'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})\quad \text{ou}\quad \hat{\mathbf{f}}_j = \hat{\mathbf{L}}_z'\mathbf{R}^{-1}\mathbf{z}_j$$
+    </div>
+    <p>$\mathbf{L}'(\mathbf{LL}' + \boldsymbol\Psi)^{-1}$ são os coeficientes da regressão dos fatores nas variáveis, como na <span class="ref" data-ref="f-reg-cond">regressão como média condicional (cap. 7)</span>. Na prática usa-se $\mathbf{S}$ (ou $\mathbf{R}$) no lugar de $\hat{\mathbf{L}}\hat{\mathbf{L}}' + \hat{\boldsymbol\Psi}$, para diminuir o efeito de um $m$ mal escolhido.</p>
+    <p>Os dois métodos se relacionam por $\hat{\mathbf{f}}^{\text{MQ}} = [\mathbf{I} + (\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}})^{-1}]\hat{\mathbf{f}}^{\text{R}}$: se as entradas de $\boldsymbol\Delta^{-1}$ são pequenas, os escores quase coincidem. Nenhum método é melhor em todos os casos; a correlação entre os escores dos dois métodos mede o quanto concordam.</p>
+    <div class="ideia">Pelo método de regressão, o escore é a média condicional estimada, $\hat{\mathbf{L}}'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$; ele encolhe os escores de mínimos quadrados ponderados em direção a zero.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><span class="ref" data-ref="ex-acoes">Cinco ações</span>: cargas de máxima verossimilhança giradas e variâncias específicas.</p>
+      $$\hat{\mathbf{L}}_z^* = \begin{bmatrix} 0{,}601 & 0{,}377 \\ 0{,}850 & 0{,}164 \\ 0{,}643 & 0{,}335 \\ 0{,}365 & 0{,}507 \\ 0{,}208 & 0{,}883 \end{bmatrix}$$
+      $$\hat{\boldsymbol\Psi}_z = \begin{bmatrix} 0{,}50 & 0 & 0 & 0 & 0 \\ 0 & 0{,}25 & 0 & 0 & 0 \\ 0 & 0 & 0{,}47 & 0 & 0 \\ 0 & 0 & 0 & 0{,}61 & 0 \\ 0 & 0 & 0 & 0 & 0{,}18 \end{bmatrix}$$
+      <p>Para uma semana com</p>
+      $$\mathbf{z} = \begin{bmatrix} 0{,}50 \\ -1{,}40 \\ -0{,}20 \\ -0{,}70 \\ 1{,}40 \end{bmatrix},$$
+      <p>os coeficientes da regressão são</p>
+      $$\small\hat{\mathbf{L}}_z^{*\prime}\mathbf{R}^{-1} = \begin{bmatrix} 0{,}187 & 0{,}657 & 0{,}222 & 0{,}050 & -0{,}210 \\ 0{,}037 & -0{,}185 & 0{,}013 & 0{,}107 & 0{,}864 \end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>Calcule os escores pelo método de regressão para essa semana.</p>
+      <p>$\hat f_1$: <input class="lacuna" data-resp="-1.2" data-tol="0.03" aria-label="escore 1"><br>$\hat f_2$: <input class="lacuna" data-resp="1.4" data-tol="0.03" aria-label="escore 2"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: cada escore é o produto interno de uma linha da matriz de coeficientes com $\mathbf{z}$.</p>
+      <div class="resolucao" hidden><p>$\hat f_1 = 0{,}094 - 0{,}920 - 0{,}044$ $- 0{,}035 - 0{,}294 = -1{,}20$; $\hat f_2 = 0{,}019 + 0{,}259 - 0{,}003$ $- 0{,}075 + 1{,}210 = 1{,}41$. Por mínimos quadrados ponderados, os escores saem $(-1{,}8;\ 2{,}0)$: mesma direção, maiores em módulo, como a relação entre os métodos prevê.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Escores simples">
+   <div class="texto">
+    <h2>Escores simples: somar as variáveis de carga alta</h2>
+    <p>Uma alternativa intuitiva: para cada fator, junte as variáveis com carga alta (digamos, acima de 0,40) e some seus valores padronizados, com o sinal da carga. Esses escores costumam ter correlação alta com os de mínimos quadrados e de regressão, e são fáceis de explicar.</p>
+    <p>Nas <span class="ref" data-ref="ex-acoes">ações</span>, com as cargas por componentes sem girar (mercado e setor), os escores simples seriam $\hat f_1 = x_1 + x_2 + x_3 + x_4 + x_5$ e $\hat f_2 = x_4 + x_5 - x_2$. Com as cargas giradas pelo varimax (químicas e petrolíferas), $\hat f_1 = x_1 + x_2 + x_3$ e $\hat f_2 = x_4 + x_5$. Na prática, padronize as variáveis antes de somar.</p>
+    <p>Separar cargas "altas" de "desprezíveis" é bem subjetivo; combinações que façam sentido no assunto são preferíveis. E antes de usar escores em outra análise, faça gráficos deles: podem revelar observações atípicas e formatos nada elípticos.</p>
+    <div class="ideia">Escores simples somam as variáveis padronizadas de carga alta em cada fator, com o sinal da carga; são fáceis de interpretar e costumam concordar com os escores mais elaborados.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Um colega montou escores simples para as <span class="ref" data-ref="ex-acoes">ações</span> a partir das cargas por componentes sem girar (2º fator: −0,22; −0,46; −0,23; 0,47; 0,52). Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: todas as cargas do 1º fator passam de 0,7.">Fator 1: todas as cargas são altas, então $\hat f_1 = x_1 + x_2 + x_3 + x_4 + x_5$.</li>
+        <li data-errada data-fb="Aqui. O sinal da carga entra no escore: du Pont tem carga −0,46, então entra subtraindo. O certo é f₂ = x₄ + x₅ − x₂ (Allied e Union Carbide, com cargas −0,22 e −0,23, ficam fora pelo corte de 0,40).">Fator 2: as cargas altas em módulo são de du Pont, Exxon e Texaco, então $\hat f_2 = x_2 + x_4 + x_5$.</li>
+        <li data-fb="Certo: somar variáveis em escalas diferentes daria peso maior às de maior variância.">Antes de somar, padronizo as cinco variáveis.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 9.6 ================= -->
+  <div class="secao" data-numero="9.6" data-titulo="Estratégia" data-livro="§9.6">
+
+  <section class="passo" data-titulo="Uma estratégia">
+   <div class="texto">
+    <h2>Uma estratégia: comparar métodos, números de fatores e metades dos dados</h2>
+    <p>A decisão mais importante é $m$. O teste só serve para dados quase normais e rejeita fácil com muitos dados; na prática, $m$ sai de uma combinação de proporção explicada, conhecimento do assunto e resultados razoáveis. O método e a rotação pesam menos: as análises mais convincentes são as em que vários métodos confirmam a mesma estrutura.</p>
+    <div class="definicao" data-ref-id="d-fat-estrategia" data-ref-tipo="definicao" data-ref-nome="Estratégia para uma análise fatorial">
+      <ol>
+        <li>Faça a solução por componentes (não exige $\mathbf{R}$ ou $\mathbf{S}$ invertível). Procure observações suspeitas nos gráficos dos escores e nas <span class="ref" data-ref="f-dj2">distâncias generalizadas</span>; tente o varimax.</li>
+        <li>Faça a solução de máxima verossimilhança, com varimax.</li>
+        <li>Compare: as cargas agrupam as variáveis do mesmo jeito? Faça o gráfico dos escores de um método contra os do outro.</li>
+        <li>Repita para outros valores de $m$. Os fatores extras ajudam a entender os dados?</li>
+        <li>Com muitos dados, divida-os em duas metades, analise cada uma e compare entre si e com a análise completa.</li>
+      </ol>
+    </div>
+    <p>No <span class="ref" data-ref="ex-frango">esqueleto de galinhas</span>, com $m = 3$, a solução por componentes girada mostra um fator de <strong>tamanho do corpo</strong> (pernas e asas) e dois de crânio (largura e comprimento). A de máxima verossimilhança concorda no 1º fator, mas não nos outros, e tem $\hat\psi = 0$ na tíbia (Heywood). Nos gráficos de escores de um método contra o outro, os pontos do 1º e do 2º fator ficam perto da reta de 45°, os do 3º não: sinal de que três fatores são demais. Um ponto com escore muito grande no 2º fator aparece como atípico. Nas duas metades (137 e 139 galinhas), a estrutura se repete. No fim, vale o "critério do uau": a análise deu certo se, olhando os fatores, dá para dizer "agora eu entendo".</p>
+    <div class="ideia">Escolha $m$ por proporção explicada, conhecimento do assunto e razoabilidade; confie na estrutura que sobrevive à troca de método, de rotação e de metade dos dados.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-frango" data-ref-tipo="exemplo" data-ref-nome="Ossos de 276 galinhas">
+      <p>Seis medidas de 276 galinhas: comprimento e largura do crânio, fêmur, tíbia, úmero e ulna.</p>
+      $$\small\mathbf{R} = \begin{bmatrix} 1 & 0{,}505 & 0{,}569 & 0{,}602 & 0{,}621 & 0{,}603 \\ 0{,}505 & 1 & 0{,}422 & 0{,}467 & 0{,}482 & 0{,}450 \\ 0{,}569 & 0{,}422 & 1 & 0{,}926 & 0{,}877 & 0{,}878 \\ 0{,}602 & 0{,}467 & 0{,}926 & 1 & 0{,}874 & 0{,}894 \\ 0{,}621 & 0{,}482 & 0{,}877 & 0{,}874 & 1 & 0{,}937 \\ 0{,}603 & 0{,}450 & 0{,}878 & 0{,}894 & 0{,}937 & 1 \end{bmatrix}$$
+      <p>Solução por componentes girada ($m = 3$): fêmur, tíbia, úmero e ulna com cargas 0,89 a 0,92 no 1º fator; largura do crânio 0,95 no 2º; comprimento do crânio 0,90 no 3º. Acumulada: 0,576; 0,763; 0,950.</p>
+    </div>
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">No gráfico dos escores do 3º fator por componentes contra os do 3º fator por máxima verossimilhança, os pontos se espalham longe da reta de 45°. O que isso sugere?</p>
+      <div class="alts">
+        <button data-op="a">(a) Que um dos métodos tem erro de conta.</button>
+        <button data-op="b">(b) Que há muitas observações atípicas.</button>
+        <button data-op="c">(c) Que os dois métodos não concordam sobre o 3º fator; provavelmente ele não tem significado e $m$ está grande demais.</button>
+        <button data-op="d">(d) Que é preciso mais um fator para os métodos concordarem.</button>
+      </div>
+      <div class="fb" data-op="a">Discordâncias entre métodos são esperadas quando um fator é fraco; não indicam erro de conta.</div>
+      <div class="fb" data-op="b">Atípicos aparecem como pontos isolados perto da reta e longe da nuvem; uma nuvem toda espalhada indica discordância no fator.</div>
+      <div class="fb" data-op="c">Isso: quando as cargas de um fator concordam, os escores ficam perto da reta de 45°. Fatores finais que discordam geralmente sobram.</div>
+      <div class="fb" data-op="d">Acrescentar fatores tende a piorar: os últimos fatores são justamente os menos estáveis.</div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 9.7 ================= -->
+  <div class="secao" data-numero="9.7" data-titulo="Equações estruturais" data-livro="§9.7">
+
+  <section class="passo" data-titulo="Diagrama de caminhos">
+   <div class="texto">
+    <h2>Modelos de equações estruturais: causa e efeito entre variáveis latentes</h2>
+    <p>Um modelo de equações estruturais descreve relações de causa e efeito presumidas, que podem envolver variáveis não medidas diretamente (<strong>latentes</strong>). É muito usado em ciências sociais e do comportamento, com o sistema LISREL de Jöreskog e Sörbom:</p>
+    <div class="formula" data-ref-id="f-lisrel" data-ref-tipo="formula" data-ref-nome="Modelo LISREL">
+      $$\underset{(m\times 1)}{\boldsymbol\eta} = \mathbf{B}\boldsymbol\eta + \boldsymbol\Gamma\boldsymbol\xi + \boldsymbol\zeta$$
+      $$\underset{(p\times 1)}{\mathbf{Y}} = \boldsymbol\Lambda_y\boldsymbol\eta + \boldsymbol\varepsilon\qquad \underset{(q\times 1)}{\mathbf{X}} = \boldsymbol\Lambda_x\boldsymbol\xi + \boldsymbol\delta$$
+      <ul class="legenda">
+        <li>$\boldsymbol\xi$ ($n$ variáveis): causas latentes, com $\mathrm{Cov}(\boldsymbol\xi) = \boldsymbol\Phi$</li>
+        <li>$\boldsymbol\eta$ ($m$ variáveis): efeitos latentes; $\boldsymbol\zeta$ é o resíduo, com $\mathrm{Cov}(\boldsymbol\zeta) = \boldsymbol\Psi$</li>
+        <li>$\mathbf{Y}$ e $\mathbf{X}$: variáveis medidas; $\boldsymbol\varepsilon$ e $\boldsymbol\delta$ têm covariâncias $\boldsymbol\Theta_\varepsilon$ e $\boldsymbol\Theta_\delta$</li>
+      </ul>
+    </div>
+    <p>A primeira equação é a estrutural; as outras duas, as de medida. Todos os termos aleatórios têm média zero e não têm correlação entre si (nem com $\boldsymbol\xi$); $\mathbf{B}$ tem zeros na diagonal, e $\mathbf{I} - \mathbf{B}$ é invertível. Aqui $\boldsymbol\Psi$ é a covariância de $\boldsymbol\zeta$, não as variâncias específicas da análise fatorial (é a notação do LISREL). Escolhendo bem as dimensões, o modelo inclui a regressão multivariada e o próprio modelo fatorial como casos particulares.</p>
+    <p>O <strong>diagrama de caminhos</strong> obriga a pensar no sentido das causas. Variáveis que não sofrem influência de outras do sistema são exógenas; as influenciadas, endógenas. Regras: (1) uma seta reta para cada variável endógena, saindo de cada causa dela; (2) uma seta reta do resíduo para cada endógena; (3) uma seta curva de duas pontas entre exógenas com correlação diferente de zero.</p>
+    <div class="ideia">Um modelo de equações estruturais liga variáveis latentes por equações lineares de causa e efeito ($\boldsymbol\eta = \mathbf{B}\boldsymbol\eta + \boldsymbol\Gamma\boldsymbol\xi + \boldsymbol\zeta$) e as liga aos dados por equações de medida; o diagrama de caminhos mostra o sentido das causas.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p>Um diagrama com três causas e dois efeitos ($n = 3$, $m = 2$):</p>
+      <svg viewBox="0 0 330 250" class="fig" id="cam-svg" role="img" aria-label="Diagrama de caminhos: ξ1, ξ2, ξ3 à esquerda, ligados por setas curvas; setas γ para η1 e η2; seta β de η2 para η1; resíduos ζ1 e ζ2">
+        <defs><marker id="cam-seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+        <g fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="80" cy="40" r="18"/><circle cx="80" cy="125" r="18"/><circle cx="80" cy="210" r="18"/>
+          <circle cx="225" cy="80" r="18"/><circle cx="225" cy="170" r="18"/>
+          <line x1="98" y1="44" x2="206" y2="76" marker-end="url(#cam-seta)"/>
+          <line x1="98" y1="120" x2="206" y2="86" marker-end="url(#cam-seta)"/>
+          <line x1="98" y1="130" x2="206" y2="164" marker-end="url(#cam-seta)"/>
+          <line x1="98" y1="206" x2="206" y2="176" marker-end="url(#cam-seta)"/>
+          <line x1="225" y1="152" x2="225" y2="99" marker-end="url(#cam-seta)"/>
+          <line x1="300" y1="80" x2="244" y2="80" marker-end="url(#cam-seta)"/>
+          <line x1="300" y1="170" x2="244" y2="170" marker-end="url(#cam-seta)"/>
+          <path d="M66 54 Q50 82 66 112" marker-start="url(#cam-seta)" marker-end="url(#cam-seta)"/>
+          <path d="M66 139 Q50 167 66 196" marker-start="url(#cam-seta)" marker-end="url(#cam-seta)"/>
+          <path d="M62 36 Q8 125 62 214" marker-start="url(#cam-seta)" marker-end="url(#cam-seta)"/>
+        </g>
+        <g fill="currentColor" font-size="13" text-anchor="middle">
+          <text x="80" y="45">ξ₁</text><text x="80" y="130">ξ₂</text><text x="80" y="215">ξ₃</text>
+          <text x="225" y="85">η₁</text><text x="225" y="175">η₂</text>
+          <text x="152" y="50">γ₁</text><text x="160" y="100">γ₂</text><text x="160" y="140">γ₃</text><text x="152" y="205">γ₄</text>
+          <text x="238" y="130">β</text><text x="312" y="84">ζ₁</text><text x="312" y="174">ζ₂</text>
+          <text x="64" y="86">φ₁</text><text x="64" y="171">φ₂</text><text x="22" y="129">φ₃</text>
+        </g>
+      </svg>
+    </div>
+    <div class="pare">
+      <p>Escreva as matrizes $\mathbf{B}$ e $\boldsymbol\Gamma$ da equação estrutural desse diagrama.</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden>
+        $$\mathbf{B} = \begin{bmatrix} 0 & \beta \\ 0 & 0 \end{bmatrix}\qquad \boldsymbol\Gamma = \begin{bmatrix} \gamma_1 & \gamma_2 & 0 \\ 0 & \gamma_3 & \gamma_4 \end{bmatrix}$$
+        <p>$\eta_1$ depende de $\xi_1$, $\xi_2$ e $\eta_2$; $\eta_2$ depende de $\xi_2$ e $\xi_3$. As setas curvas dão $\mathrm{Cov}(\xi_1, \xi_2) = \phi_1$, $\mathrm{Cov}(\xi_2, \xi_3) = \phi_2$ e $\mathrm{Cov}(\xi_1, \xi_3) = \phi_3$; e $\mathrm{Cov}(\zeta_1, \zeta_2) = 0$.</p>
+      </div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Estimação">
+   <div class="texto">
+    <h2>Estimar igualando a covariância do modelo à covariância amostral</h2>
+    <p>Como na análise fatorial, as variáveis latentes não se observam, mas o modelo implica uma estrutura de covariância para $[\mathbf{Y}', \mathbf{X}']'$. Com $\mathbf{B} = \mathbf{0}$, para simplificar:</p>
+    <div class="formula" data-ref-id="f-lisrel-cov" data-ref-tipo="formula" data-ref-nome="Estrutura de covariância do LISREL (B = 0)">
+      $$\mathrm{Cov}(\mathbf{Y}) = \boldsymbol\Lambda_y(\boldsymbol\Gamma\boldsymbol\Phi\boldsymbol\Gamma' + \boldsymbol\Psi)\boldsymbol\Lambda_y' + \boldsymbol\Theta_\varepsilon$$
+      $$\mathrm{Cov}(\mathbf{X}) = \boldsymbol\Lambda_x\boldsymbol\Phi\boldsymbol\Lambda_x' + \boldsymbol\Theta_\delta$$
+      $$\mathrm{Cov}(\mathbf{Y}, \mathbf{X}) = \boldsymbol\Lambda_y\boldsymbol\Gamma\boldsymbol\Phi\boldsymbol\Lambda_x'$$
+      $$t \text{ parâmetros: } t \le \frac{(p + q)(p + q + 1)}{2}$$
+    </div>
+    <p>Estima-se fazendo $\hat{\boldsymbol\Sigma} = \mathbf{S}$ e resolvendo. Em geral as equações não têm solução explícita, e o programa procura numericamente a $\hat{\boldsymbol\Sigma}$ mais próxima de $\mathbf{S}$ (por mínimos quadrados ou máxima verossimilhança). A condição de contagem é necessária, mas não garante que todos os parâmetros sejam identificáveis.</p>
+    <p>Para avaliar: confira sinais e tamanhos das estimativas (variâncias precisam sair positivas) e a matriz de resíduos $\mathbf{S} - \hat{\boldsymbol\Sigma}$, que deve ser pequena em toda parte. Estratégia: (1) estime com mais de um critério e compare; (2) faça a análise com $\mathbf{S}$ e com $\mathbf{R}$; (3) divida dados grandes ao meio e repita. Resultados consistentes indicam um modelo razoável; inconsistentes, um modelo a mudar.</p>
+    <div class="ideia">Os parâmetros de um modelo de equações estruturais se estimam igualando a covariância implicada a $\mathbf{S}$; é preciso ter no máximo $(p + q)(p + q + 1)/2$ parâmetros e conferir sinais, variâncias positivas e resíduos.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-lisrel" data-ref-tipo="exemplo" data-ref-nome="Desempenho de empresas e talento gerencial">
+      <p>Um efeito latente $\eta$ (desempenho da empresa) causado por $\xi$ (talento gerencial): $\eta = \gamma\xi + \zeta$, com</p>
+      $$\begin{bmatrix} Y_1 \\ Y_2 \end{bmatrix} = \begin{bmatrix} 1 \\ \lambda_1 \end{bmatrix}\eta + \begin{bmatrix} \varepsilon_1 \\ \varepsilon_2 \end{bmatrix}$$
+      $$\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} = \begin{bmatrix} \lambda_2 \\ 1 \end{bmatrix}\xi + \begin{bmatrix} \delta_1 \\ \delta_2 \end{bmatrix}$$
+      <p>$Y_1$ = lucro, $Y_2$ = preço da ação, $X_1$ = anos como executivo, $X_2$ = participação em conselhos. Os uns fixam a escala das latentes. $\mathrm{Var}(\xi) = \phi$, $\mathrm{Var}(\zeta) = \psi$, $\boldsymbol\Theta_\varepsilon = \mathrm{diag}(\theta_1, \theta_2)$, $\boldsymbol\Theta_\delta = \mathrm{diag}(\theta_3, \theta_4)$. Dados hipotéticos:</p>
+      $$\mathbf{S} = \begin{bmatrix} 14{,}3 & -27{,}6 & 6{,}4 & 3{,}2 \\ -27{,}6 & 55{,}4 & -12{,}8 & -6{,}4 \\ 6{,}4 & -12{,}8 & 3{,}7 & 1{,}6 \\ 3{,}2 & -6{,}4 & 1{,}6 & 1{,}1 \end{bmatrix}$$
+    </div>
+    <div class="lacunas">
+      <p>Pela estrutura de covariância: $\mathrm{Cov}(Y_1, X_2) = \gamma\phi = 3{,}2$, $\mathrm{Cov}(Y_1, X_1) = \lambda_2\gamma\phi = 6{,}4$, $\mathrm{Cov}(X_1, X_2) = \phi\lambda_2 = 1{,}6$ e $\mathrm{Cov}(Y_2, X_2) = \lambda_1\gamma\phi = -6{,}4$.</p>
+      <p>$\hat\lambda_2$: <input class="lacuna" data-resp="2" data-tol="0.01" aria-label="lambda 2"><br>$\hat\phi$: <input class="lacuna" data-resp="0.8" data-tol="0.01" aria-label="phi"><br>$\hat\gamma$: <input class="lacuna" data-resp="4" data-tol="0.01" aria-label="gama"><br>$\hat\lambda_1$: <input class="lacuna" data-resp="-2" data-tol="0.01" aria-label="lambda 1"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: divida a segunda equação pela primeira; depois use $\phi\lambda_2 = 1{,}6$.</p>
+      <div class="resolucao" hidden><p>$\hat\lambda_2 = 6{,}4/3{,}2 = 2$; $\hat\phi = 1{,}6/2 = 0{,}8$; $\hat\gamma = 3{,}2/0{,}8 = 4$; $\hat\lambda_1 = -6{,}4/3{,}2 = -2$. Com as variâncias: $\mathrm{Var}(Y_2) = \lambda_1^2(\gamma^2\phi + \psi) + \theta_2$ e $\mathrm{Cov}(Y_1, Y_2)$ $= \lambda_1(\gamma^2\phi + \psi) = -27{,}6$ dão $\gamma^2\phi + \psi = 13{,}8$, logo $\hat\psi = 1$; o resto sai $\hat\theta_1 = 0{,}5$, $\hat\theta_2 = 0{,}2$, $\hat\theta_3 = 0{,}5$, $\hat\theta_4 = 0{,}3$, todas positivas.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>$\mathbf{X} - \boldsymbol\mu = \mathbf{LF} + \boldsymbol\varepsilon$, fatores comuns não observados, padronizados e sem correlação.</li>
+    <li>$\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi$; variância = comunalidade + variância específica.</li>
+    <li>Solução com variância específica negativa: caso de Heywood.</li>
+    <li>Cargas definidas a menos de rotação: $\mathbf{LT}$ dá o mesmo ajuste.</li>
+    <li>Solução por componentes: a coluna $j$ de $\tilde{\mathbf{L}}$ é $\sqrt{\hat\lambda_j}\hat{\mathbf{e}}_j$; resíduos limitados pelos autovalores descartados.</li>
+    <li>Fator principal: comunalidades estimadas na diagonal, começando por $1 - 1/r^{ii}$.</li>
+    <li>Máxima verossimilhança: condição $\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}}$ diagonal; teste do número de fatores.</li>
+    <li>Rotação (à mão ou varimax) para cada variável carregar num só fator.</li>
+    <li>Escores: mínimos quadrados ponderados, regressão ou somas simples.</li>
+    <li>Confie na estrutura que se repete entre métodos, valores de $m$ e metades dos dados.</li>
+    <li>Equações estruturais: causas e efeitos latentes, estimados igualando $\hat{\boldsymbol\Sigma}$ a $\mathbf{S}$.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$\boldsymbol\Sigma = \mathbf{LL}' + \boldsymbol\Psi\qquad \sigma_{ii} = h_i^2 + \psi_i$$</p>
+  <p>$$\tilde{\mathbf{L}} = \Big[\sqrt{\hat\lambda_1}\,\hat{\mathbf{e}}_1 \ \Big|\ \cdots \ \Big|\ \sqrt{\hat\lambda_m}\,\hat{\mathbf{e}}_m\Big]$$</p>
+  <p>$$\Big(n - 1 - \frac{2p + 4m + 5}{6}\Big)\ln\frac{|\hat{\mathbf{L}}\hat{\mathbf{L}}' + \hat{\boldsymbol\Psi}|}{|\mathbf{S}_n|}$$</p>
+  <p>$$\hat{\mathbf{f}}_j = (\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}\hat{\mathbf{L}})^{-1}\hat{\mathbf{L}}'\hat{\boldsymbol\Psi}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$$
+  $$\hat{\mathbf{f}}_j = \hat{\mathbf{L}}'\mathbf{S}^{-1}(\mathbf{x}_j - \bar{\mathbf{x}})$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Componentes principais</strong><ul class="resumo-lista"><li>resumir a variação com combinações das variáveis</li><li>nenhum modelo por trás</li></ul></div>
+    <div><strong>Análise fatorial</strong><ul class="resumo-lista"><li>explicar as correlações por fatores latentes</li><li>conferir se os dados admitem a estrutura</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>Com $\mathbf{R}$ perto da identidade, não há fatores comuns a achar.</li>
+    <li>Variância específica negativa: solução imprópria.</li>
+    <li>A rotação não muda comunalidades, resíduos nem a proporção acumulada.</li>
+    <li>Proporção explicada favorece sempre a solução por componentes; julgue pelos resíduos.</li>
+    <li>O teste do número de fatores rejeita fácil com $n$ grande.</li>
+    <li>O varimax tende a desfazer um fator geral.</li>
+    <li>Escores simples levam o sinal da carga.</li>
+    <li>No LISREL, contar parâmetros é necessário, não suficiente.</li>
+  </ul>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+
+/* ===== 9.1 Um fator para três variáveis: solução própria ou caso de Heywood ===== */
+(function () {
+  var sa = document.getElementById('hw-a');
+  if (!sa) return;
+  var sb = document.getElementById('hw-b'), sc = document.getElementById('hw-c'), svg = document.getElementById('hw-svg');
+  function desenhar() {
+    var a = +sa.value, b = +sb.value, c = +sc.value;
+    document.getElementById('hw-a-v').textContent = fmt(a, 2); document.getElementById('hw-b-v').textContent = fmt(b, 2); document.getElementById('hw-c-v').textContent = fmt(c, 2);
+    var h = [a * b / c, a * c / b, b * c / a];
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), roxo = corVar('--roxo'), err = corVar('--err'), txt = corVar('--text');
+    limpar(svg);
+    var y0 = 186, esc = 70, py = function (v) { return y0 - v * esc; };
+    svg.appendChild(svgEl('line', { x1: 30, y1: py(0), x2: 330, y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: 30, y1: py(1), x2: 330, y2: py(1), stroke: m, 'stroke-dasharray': '4 3' }));
+    svg.appendChild(svgEl('text', { x: 26, y: py(1) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, '1'));
+    svg.appendChild(svgEl('text', { x: 26, y: py(0) + 4, 'font-size': 10, fill: m, 'text-anchor': 'end' }, '0'));
+    var propria = true;
+    h.forEach(function (hh, i) {
+      var x = 60 + i * 95, w = 50, hv = Math.min(hh, 2.3), psi = 1 - hh;
+      if (psi < 0) propria = false;
+      svg.appendChild(svgEl('rect', { x: x, y: py(hv), width: w, height: hv * esc, fill: psi < 0 ? err : acc, 'fill-opacity': 0.85 }));
+      if (psi > 0) svg.appendChild(svgEl('rect', { x: x, y: py(1), width: w, height: psi * esc, fill: roxo, 'fill-opacity': 0.35 }));
+      svg.appendChild(svgEl('text', { x: x + w / 2, y: py(0) + 14, 'font-size': 11, fill: txt, 'text-anchor': 'middle' }, 'X' + '₁₂₃'[i]));
+      svg.appendChild(svgEl('text', { x: x + w / 2, y: Math.max(12, py(hv) - 5), 'font-size': 10.5, fill: psi < 0 ? err : txt, 'text-anchor': 'middle' }, 'h² = ' + fmt(hh, 2)));
+    });
+    svg.appendChild(svgEl('text', { x: 30, y: 214, 'font-size': 10, fill: m }, 'azul = comunalidade; roxo = específica; vermelho = h² > 1'));
+    var t = 'Comunalidades $h_i^2$ = ' + h.map(function (v) { return fmt(v, 3); }).join('; ') + '. Variâncias específicas $\\psi_i$ = ' + h.map(function (v) { return fmt(1 - v, 3); }).join('; ') + '. ';
+    t += propria ? '<strong>Solução própria.</strong>' : '<strong>Solução imprópria (caso de Heywood):</strong> alguma variância específica é negativa.';
+    document.getElementById('hw-txt').innerHTML = t;
+    tipografar(document.getElementById('hw-txt'));
+  }
+  [sa, sb, sc].forEach(function (s) { s.addEventListener('input', desenhar); }); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 9.4 Rotação das cargas das seis matérias ===== */
+(function () {
+  var sf = document.getElementById('rot-f');
+  if (!sf) return;
+  var svg = document.getElementById('rot-svg');
+  var L = [[0.553, 0.429], [0.568, 0.288], [0.392, 0.450], [0.740, -0.273], [0.724, -0.211], [0.595, -0.132]];
+  function vari(Lr) {
+    var p = Lr.length, V = 0;
+    for (var j = 0; j < 2; j++) {
+      var s2 = 0, s4 = 0;
+      Lr.forEach(function (l) { var h2 = l[0] * l[0] + l[1] * l[1], q = l[j] * l[j] / h2; s2 += q; s4 += q * q; });
+      V += (s4 - s2 * s2 / p) / p;
+    }
+    return V;
+  }
+  function desenhar() {
+    var fg = +sf.value, f = fg * Math.PI / 180, c = Math.cos(f), s = Math.sin(f);
+    document.getElementById('rot-f-v').textContent = fg + '°';
+    var Lr = L.map(function (l) { return [l[0] * c - l[1] * s, l[0] * s + l[1] * c]; });
+    var k = 230, px = function (x) { return 70 + x * k; }, py = function (y) { return 150 - y * k; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo'), txt = corVar('--text');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: px(-0.2), y1: py(0), x2: px(1.1), y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0.55), x2: px(0), y2: py(-0.5), stroke: bo }));
+    svg.appendChild(svgEl('text', { x: px(1.1), y: py(0) - 5, 'font-size': 11, fill: m, 'text-anchor': 'end' }, 'F₁'));
+    svg.appendChild(svgEl('text', { x: px(0) + 5, y: py(0.55) + 10, 'font-size': 11, fill: m }, 'F₂'));
+    [0.5, 1].forEach(function (v) { svg.appendChild(svgEl('text', { x: px(v), y: py(0) + 13, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, fmt(v, 1))); });
+    var g = recorte(svg, 4, 4, 332, 272);
+    /* eixos girados: F1* na direção (cos, −sin), F2* na direção (sin, cos) */
+    g.appendChild(svgEl('line', { x1: px(-0.2 * c), y1: py(0.2 * s), x2: px(1.05 * c), y2: py(-1.05 * s), stroke: lar, 'stroke-width': 2 }));
+    g.appendChild(svgEl('line', { x1: px(-0.45 * s), y1: py(-0.45 * c), x2: px(0.55 * s), y2: py(0.55 * c), stroke: lar, 'stroke-width': 2 }));
+    svg.appendChild(svgEl('text', { x: Math.min(318, px(0.85 * c) + 2), y: Math.min(272, py(-0.85 * s) - 8), 'font-size': 11, fill: lar }, 'F₁*'));
+    svg.appendChild(svgEl('text', { x: px(0.5 * s) - 22, y: py(0.5 * c) + 4, 'font-size': 11, fill: lar }, 'F₂*'));
+    L.forEach(function (l, i) {
+      var cor = i < 3 ? roxo : acc;
+      svg.appendChild(svgEl('circle', { cx: px(l[0]), cy: py(l[1]), r: 5, fill: cor }));
+      svg.appendChild(svgEl('text', { x: px(l[0]) + 7, y: py(l[1]) - 5, 'font-size': 11, fill: txt }, String(i + 1)));
+    });
+    var neg = Lr.filter(function (l) { return l[0] < -0.005 || l[1] < -0.005; }).length;
+    document.getElementById('rot-txt').innerHTML = 'Cargas giradas ($F_1^*$; $F_2^*$): ' + Lr.map(function (l, i) { return (i + 1) + ' (' + fmt(l[0], 2) + '; ' + fmt(l[1], 2) + ')'; }).join(', ') + '. ' + (neg ? neg + ' carga(s) negativa(s).' : 'Todas positivas.') + ' Critério varimax $V$ = ' + fmt(vari(Lr), 3) + ' (máximo 0,321, perto de 33°).';
+    tipografar(document.getElementById('rot-txt'));
+  }
+  sf.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>

@@ -408,8 +408,44 @@ window.SITE = {
    "titulo": "Análise fatorial e matrizes de covariância estruturadas",
    "arquivo": "capitulos/cap-09.html",
    "paginas": "514-586",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "9.1",
+     "titulo": "O modelo fatorial",
+     "livro": "§9.1–9.2"
+    },
+    {
+     "numero": "9.2",
+     "titulo": "Estimação por componentes",
+     "livro": "§9.3"
+    },
+    {
+     "numero": "9.3",
+     "titulo": "Máxima verossimilhança",
+     "livro": "§9.3, Supl. 9A"
+    },
+    {
+     "numero": "9.4",
+     "titulo": "Rotação",
+     "livro": "§9.4"
+    },
+    {
+     "numero": "9.5",
+     "titulo": "Escores fatoriais",
+     "livro": "§9.5"
+    },
+    {
+     "numero": "9.6",
+     "titulo": "Estratégia",
+     "livro": "§9.6"
+    },
+    {
+     "numero": "9.7",
+     "titulo": "Equações estruturais",
+     "livro": "§9.7"
+    }
+   ]
   },
   {
    "id": "cap-10",
