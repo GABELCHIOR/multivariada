@@ -453,8 +453,34 @@ window.SITE = {
    "titulo": "Análise de correlação canônica",
    "arquivo": "capitulos/cap-10.html",
    "paginas": "587-628",
-   "status": "pendente",
-   "secoes": []
+   "status": "pronto",
+   "secoes": [
+    {
+     "numero": "10.1",
+     "titulo": "A ideia",
+     "livro": "§10.1–10.2"
+    },
+    {
+     "numero": "10.2",
+     "titulo": "Interpretação",
+     "livro": "§10.3"
+    },
+    {
+     "numero": "10.3",
+     "titulo": "Na amostra",
+     "livro": "§10.4"
+    },
+    {
+     "numero": "10.4",
+     "titulo": "Medidas descritivas",
+     "livro": "§10.5"
+    },
+    {
+     "numero": "10.5",
+     "titulo": "Inferência",
+     "livro": "§10.6"
+    }
+   ]
   },
   {
    "id": "cap-11",

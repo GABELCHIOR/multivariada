@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="estudo-chave" content="multivariada/cap-10">
+<title>Cap. 10 — Correlação canônica</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" defer></script>
+<link rel="stylesheet" href="../assets/estudo.css">
+</head>
+<body>
+<!-- ============ TRILHO LATERAL (sumário do capítulo) ============ -->
+<nav class="trilho" id="trilho" tabindex="0" aria-label="Sumário do capítulo" aria-expanded="false">
+  <div class="trilho-tracos" id="trilho-tracos" aria-hidden="true"></div>
+  <div class="trilho-painel">
+    <p class="trilho-cap" id="trilho-cap"></p>
+    <div class="trilho-lista" id="trilho-lista"></div>
+    <div class="trilho-rodape" id="trilho-rodape">
+      <button class="btn pequeno" id="btn-formulas">Fórmulas até aqui</button>
+      <button class="btn pequeno" id="btn-ir-resumo">Resumo</button>
+      <a class="btn pequeno" id="btn-inicio" href="../index.html" hidden>Início</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>Cap. 10 — Correlação canônica</h1>
+<p class="contexto">Onde isso se encaixa: a <span class="ref" data-ref="f-melhor-preditor">correlação múltipla (cap. 7)</span> mede o quanto uma variável se associa a um grupo de variáveis. A correlação canônica faz o mesmo entre <strong>dois grupos</strong>: procura a combinação de um grupo e a combinação do outro que têm a maior correlação possível. A conta é da mesma família dos <span class="ref" data-ref="f-cpr-pop">componentes principais (cap. 8)</span>: autovalores e autovetores de uma matriz montada com as covariâncias.</p>
+
+<div class="abas" role="tablist">
+  <button role="tab" aria-selected="true" data-aba="trilha">Trilha</button>
+  <button role="tab" aria-selected="false" data-aba="resumo">Resumo</button>
+</div>
+
+<!-- ============ TRILHA ============ -->
+<div id="trilha">
+  <nav class="subtopicos" id="subtopicos" aria-label="Passos desta seção"></nav>
+  <div class="retomada" id="retomada" hidden></div>
+
+  <!-- ================= SEÇÃO 10.1 ================= -->
+  <div class="secao" data-numero="10.1" data-titulo="A ideia" data-livro="§10.1–10.2">
+
+  <section class="passo" data-titulo="Dois grupos">
+   <div class="texto">
+    <h2>Duas listas de variáveis: qual par de combinações está mais correlacionado?</h2>
+    <p>Hotelling, que criou a técnica, queria relacionar velocidade e capacidade em aritmética com velocidade e capacidade em leitura. Outros exemplos: características do trabalho e satisfação no trabalho; medidas da cabeça e medidas das pernas de um animal. Com $p$ variáveis num grupo e $q$ no outro, há $pq$ correlações entre grupos, difíceis de ler juntas. A ideia é resumir tudo em poucas correlações entre combinações bem escolhidas.</p>
+    <div class="formula" data-ref-id="f-cc-def" data-ref-tipo="definicao" data-ref-nome="Variáveis e correlações canônicas (definição)">
+      $$\boldsymbol\Sigma = \begin{bmatrix} \boldsymbol\Sigma_{11} & \boldsymbol\Sigma_{12} \\ \boldsymbol\Sigma_{21} & \boldsymbol\Sigma_{22} \end{bmatrix}\qquad \mathbf{X} = \begin{bmatrix} \mathbf{X}^{(1)} \\ \mathbf{X}^{(2)} \end{bmatrix}$$
+      $$U = \mathbf{a}'\mathbf{X}^{(1)},\qquad V = \mathbf{b}'\mathbf{X}^{(2)}$$
+      $$\mathrm{Corr}(U, V) = \frac{\mathbf{a}'\boldsymbol\Sigma_{12}\mathbf{b}}{\sqrt{\mathbf{a}'\boldsymbol\Sigma_{11}\mathbf{a}}\sqrt{\mathbf{b}'\boldsymbol\Sigma_{22}\mathbf{b}}}$$
+      <p><strong>1º par canônico:</strong> $U_1$, $V_1$ com variância 1 e a maior correlação possível.<br><strong>$k$-ésimo par:</strong> a maior correlação entre os pares sem correlação com os $k - 1$ anteriores.<br>A correlação do $k$-ésimo par é a <strong>$k$-ésima correlação canônica</strong>, $\rho_k^*$.</p>
+    </div>
+    <p>$\mathbf{X}^{(1)}$ tem $p$ variáveis e $\mathbf{X}^{(2)}$ tem $q$, com $p \le q$ (o grupo menor vem primeiro). As variâncias e a covariância vêm da regra da <span class="ref" data-ref="f-cx">variância de $\mathbf{c}'\mathbf{X}$ (cap. 2)</span> e da <span class="ref" data-ref="f-part">partição de $\boldsymbol\Sigma$</span>. Multiplicar $\mathbf{a}$ ou $\mathbf{b}$ por uma constante positiva não muda a correlação; por isso se fixa variância 1.</p>
+    <div class="ideia">A análise de correlação canônica procura combinações $U = \mathbf{a}'\mathbf{X}^{(1)}$ e $V = \mathbf{b}'\mathbf{X}^{(2)}$ de máxima correlação; os pares seguintes maximizam a correlação sem correlação com os anteriores.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-cc4" data-ref-tipo="exemplo" data-ref-nome="Dois pares de variáveis padronizadas">
+      <p>Dois grupos de duas variáveis padronizadas, $\mathbf{Z}^{(1)} = [Z_1^{(1)}, Z_2^{(1)}]'$ e $\mathbf{Z}^{(2)} = [Z_1^{(2)}, Z_2^{(2)}]'$:</p>
+      $$\boldsymbol\rho = \begin{bmatrix} 1 & 0{,}4 & 0{,}5 & 0{,}6 \\ 0{,}4 & 1 & 0{,}3 & 0{,}4 \\ 0{,}5 & 0{,}3 & 1 & 0{,}2 \\ 0{,}6 & 0{,}4 & 0{,}2 & 1 \end{bmatrix}$$
+      <p>As quatro correlações entre grupos ($\boldsymbol\rho_{12}$, o bloco de cima à direita) vão de 0,3 a 0,6.</p>
+    </div>
+    <div class="prever" data-sim="sim-cc">
+      <p>A maior das correlações individuais entre os grupos é 0,6. A maior correlação entre uma combinação de $\mathbf{Z}^{(1)}$ e uma de $\mathbf{Z}^{(2)}$ pode ser menor que 0,6?</p>
+      <div class="alts">
+        <button data-op="a">Pode: misturar variáveis dilui a correlação</button>
+        <button data-op="b" data-certa>Não: ela é pelo menos 0,6, porque as variáveis sozinhas também são combinações</button>
+        <button data-op="c">É sempre exatamente 0,6</button>
+      </div>
+      <div class="explica" hidden><p>$Z_1^{(1)}$ e $Z_2^{(2)}$ sozinhas são combinações (pesos 1 e 0), com correlação 0,6. O máximo entre todas as combinações não pode ser menor; aqui ele chega a 0,74, perto das direções 18° e 54°.</p></div>
+    </div>
+    <div class="sim" id="sim-cc">
+      <label>Direção de $\mathbf{a}$ <input type="range" id="cc-a" min="0" max="180" step="1" value="90"> <strong id="cc-a-v">90°</strong></label>
+      <label>Direção de $\mathbf{b}$ <input type="range" id="cc-b" min="0" max="180" step="1" value="0"> <strong id="cc-b-v">0°</strong></label>
+      <svg viewBox="0 0 340 250" id="cc-svg" role="img" aria-label="Mapa da correlação entre U e V para cada par de direções, com o ponto atual marcado"></svg>
+      <p id="cc-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="A solução">
+   <div class="texto">
+    <h2>A solução: autovalores e autovetores de uma matriz feita com as covariâncias</h2>
+    <div class="formula" data-ref-id="f-cc-sol" data-ref-tipo="formula" data-ref-nome="Correlações e variáveis canônicas">
+      $$\rho_1^{*2} \ge \rho_2^{*2} \ge \cdots \ge \rho_p^{*2}:\ \text{autovalores de}$$
+      $$\boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}$$
+      $$U_k = \underbrace{\class{s1}{\mathbf{e}_k}'\boldsymbol\Sigma_{11}^{-1/2}}_{\mathbf{a}_k'}\mathbf{X}^{(1)},\qquad V_k = \underbrace{\class{s2}{\mathbf{f}_k}'\boldsymbol\Sigma_{22}^{-1/2}}_{\mathbf{b}_k'}\mathbf{X}^{(2)}$$
+      $$\mathbf{f}_k \propto \boldsymbol\Sigma_{22}^{-1/2}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}\mathbf{e}_k$$
+      $$\mathrm{Var}(U_k) = \mathrm{Var}(V_k) = 1$$
+      $$\mathrm{Corr}(U_k, V_k) = \rho_k^*$$
+      <p>Para $k \ne \ell$: $\mathrm{Corr}(U_k, U_\ell) = 0$, $\mathrm{Corr}(V_k, V_\ell) = 0$ e $\mathrm{Corr}(U_k, V_\ell) = 0$.</p>
+    </div>
+    <p>$\mathbf{e}_k$ são os autovetores (comprimento 1) da matriz $p \times p$ acima; $\mathbf{f}_k$ são os autovetores de $\boldsymbol\Sigma_{22}^{-1/2}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1/2}$, que tem os mesmos $p$ autovalores não nulos. As raízes quadradas vêm da <span class="ref" data-ref="f-raiz">raiz de uma matriz positiva definida (cap. 2)</span>. Há no máximo $p = \min(p, q)$ correlações canônicas.</p>
+    <p>Para conta à mão, há um atalho: os mesmos $\rho_k^{*2}$ são os autovalores de $\boldsymbol\Sigma_{11}^{-1}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}$, com autovetor $\mathbf{a}_k$ (essa matriz não é simétrica, mas evita as raízes).</p>
+    <details class="demo">
+      <summary>Demonstração</summary>
+      <p>Faça $\mathbf{c} = \boldsymbol\Sigma_{11}^{1/2}\mathbf{a}$ e $\mathbf{d} = \boldsymbol\Sigma_{22}^{1/2}\mathbf{b}$. Então</p>
+      $$\mathrm{Corr}(U, V) = \frac{\mathbf{c}'\boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1/2}\mathbf{d}}{\sqrt{\mathbf{c}'\mathbf{c}}\sqrt{\mathbf{d}'\mathbf{d}}}.$$
+      <p>Por <span class="ref" data-ref="f-cs">Cauchy–Schwarz</span>, o numerador é no máximo $(\mathbf{c}'\mathbf{M}\mathbf{c})^{1/2}(\mathbf{d}'\mathbf{d})^{1/2}$, com $\mathbf{M} = \boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}$, com igualdade quando $\mathbf{d}$ é proporcional a $\boldsymbol\Sigma_{22}^{-1/2}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}\mathbf{c}$. Sobra maximizar uma forma quadrática em $\mathbf{c}$ sobre $\mathbf{c}'\mathbf{c}$: pelo <span class="ref" data-ref="f-max">máximo de forma quadrática</span>, o máximo é o maior autovalor $\rho_1^{*2}$, em $\mathbf{c} = \mathbf{e}_1$.</p>
+      <p>Para o $k$-ésimo par: $U = \mathbf{c}'\boldsymbol\Sigma_{11}^{-1/2}\mathbf{X}^{(1)}$ não tem correlação com $U_\ell$ se, e só se, $\mathbf{c}'\mathbf{e}_\ell = 0$. Perpendicular a $\mathbf{e}_1, \dots, \mathbf{e}_{k-1}$, o máximo é $\rho_k^{*2}$, em $\mathbf{e}_k$. As outras covariâncias zeram porque os $\mathbf{f}_k$ também são autovetores perpendiculares, e $\mathrm{Cov}(U_k, V_\ell) = \mathbf{e}_k'\boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1/2}\mathbf{f}_\ell$ é múltiplo de $\mathbf{f}_k'\mathbf{f}_\ell$.</p>
+    </details>
+    <div class="ideia">As correlações canônicas ao quadrado são os autovalores de $\boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}$; os coeficientes são $\mathbf{a}_k = \boldsymbol\Sigma_{11}^{-1/2}\mathbf{e}_k$ e $\mathbf{b}_k = \boldsymbol\Sigma_{22}^{-1/2}\mathbf{f}_k$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="c">
+      <p class="enunciado">Um grupo tem 3 variáveis e o outro, 8. Quantas correlações canônicas há, no máximo?</p>
+      <div class="alts">
+        <button data-op="a">(a) 24, uma para cada par de variáveis.</button>
+        <button data-op="b">(b) 11, o total de variáveis.</button>
+        <button data-op="c">(c) 3, o tamanho do grupo menor.</button>
+        <button data-op="d">(d) 8, o tamanho do grupo maior.</button>
+      </div>
+      <div class="fb" data-op="a">São 24 correlações entre variáveis, mas as canônicas resumem tudo em poucas.</div>
+      <div class="fb" data-op="b">As canônicas vêm de uma matriz $p \times p$, com $p$ o tamanho do grupo menor.</div>
+      <div class="fb" data-op="c">Isso: a matriz $\boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}$ é $3 \times 3$. A matriz do outro lado é $8 \times 8$, mas só tem 3 autovalores não nulos.</div>
+      <div class="fb" data-op="d">Dá para formar 8 combinações no grupo maior, mas só 3 podem ter correlação não nula com o grupo menor.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Uma conta inteira">
+   <div class="texto">
+    <h2>A conta completa nos dois pares de variáveis padronizadas</h2>
+    <p>Com variáveis padronizadas, troca-se $\boldsymbol\Sigma$ por $\boldsymbol\rho$. Nos <span class="ref" data-ref="ex-cc4">dois pares de variáveis padronizadas</span>:</p>
+    $$\boldsymbol\rho_{11}^{-1/2} = \begin{bmatrix} 1{,}0681 & -0{,}2229 \\ -0{,}2229 & 1{,}0681 \end{bmatrix}$$
+    $$\boldsymbol\rho_{11}^{-1/2}\boldsymbol\rho_{12}\boldsymbol\rho_{22}^{-1}\boldsymbol\rho_{21}\boldsymbol\rho_{11}^{-1/2} = \begin{bmatrix} 0{,}4371 & 0{,}2178 \\ 0{,}2178 & 0{,}1096 \end{bmatrix}$$
+    <p>Os autovalores saem de $\lambda^2 - 0{,}5467\lambda + 0{,}0005 = 0$: $\rho_1^{*2} = 0{,}5458$ e $\rho_2^{*2} = 0{,}0009$. Com $\mathbf{e}_1 = [0{,}8947;\ 0{,}4466]'$:</p>
+    $$\mathbf{a}_1 = \boldsymbol\rho_{11}^{-1/2}\mathbf{e}_1 = \begin{bmatrix} 0{,}856 \\ 0{,}278 \end{bmatrix}\qquad \mathbf{b}_1 = \begin{bmatrix} 0{,}545 \\ 0{,}737 \end{bmatrix}$$
+    <p>$\mathbf{b}_1$ sai de $\boldsymbol\rho_{22}^{-1}\boldsymbol\rho_{21}\mathbf{a}_1 = [0{,}4026;\ 0{,}5443]'$, reescalado para $\mathbf{b}_1'\boldsymbol\rho_{22}\mathbf{b}_1 = 1$. Então $U_1 = 0{,}86Z_1^{(1)} + 0{,}28Z_2^{(1)}$, $V_1 = 0{,}54Z_1^{(2)} + 0{,}74Z_2^{(2)}$, com correlação 0,74. A segunda correlação, 0,03, é desprezível: o segundo par quase não diz nada sobre a associação entre os grupos.</p>
+    <div class="ideia">Na prática: monte a matriz, ache os autovalores (correlações canônicas ao quadrado) e o autovetor; $\mathbf{a}_1 = \boldsymbol\Sigma_{11}^{-1/2}\mathbf{e}_1$, e $\mathbf{b}_1$ é proporcional a $\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\mathbf{a}_1$, com variância 1.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Combinações simples parecidas com as canônicas: $\tilde U = 3Z_1^{(1)} + Z_2^{(1)}$ e $\tilde V = Z_1^{(2)} + Z_2^{(2)}$, nos <span class="ref" data-ref="ex-cc4">dois pares padronizados</span>.</p>
+      <p>$\mathrm{Var}(\tilde U)$: <input class="lacuna" data-resp="12.4" data-tol="0.01" aria-label="variância de U"><br>$\mathrm{Var}(\tilde V)$: <input class="lacuna" data-resp="2.4" data-tol="0.01" aria-label="variância de V"><br>$\mathrm{Cov}(\tilde U, \tilde V)$: <input class="lacuna" data-resp="4" data-tol="0.01" aria-label="covariância"><br>$\mathrm{Corr}(\tilde U, \tilde V)$: <input class="lacuna" data-resp="0.733" data-tol="0.003" aria-label="correlação"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\mathrm{Var}(\tilde U) = 9 + 1 + 2 \times 3 \times 0{,}4$; a covariância é $[3, 1]\boldsymbol\rho_{12}[1, 1]'$.</p>
+      <div class="resolucao" hidden><p>$9 + 1 + 2{,}4 = 12{,}4$; $1 + 1 + 0{,}4 = 2{,}4$; $3(0{,}5 + 0{,}6) + (0{,}3 + 0{,}4) = 4{,}0$; correlação $4/\sqrt{12{,}4 \times 2{,}4} = 0{,}73$, quase o máximo de 0,74 com pesos bem mais fáceis de explicar.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 10.2 ================= -->
+  <div class="secao" data-numero="10.2" data-titulo="Interpretação" data-livro="§10.3">
+
+  <section class="passo" data-titulo="Padronizar">
+   <div class="texto">
+    <h2>Padronizar muda os coeficientes de um jeito simples e não muda as correlações</h2>
+    <p>As variáveis canônicas são artificiais: não têm significado físico próprio. Com as variáveis originais, os coeficientes carregam as unidades delas; com as padronizadas, não têm unidade e se interpretam em termos das variáveis padronizadas. A ligação entre os dois é direta:</p>
+    <div class="formula" data-ref-id="f-cc-padr" data-ref-tipo="formula" data-ref-nome="Coeficientes canônicos padronizados">
+      $$\mathbf{a}_k'(\mathbf{X}^{(1)} - \boldsymbol\mu^{(1)}) = \mathbf{a}_k'\mathbf{V}_{11}^{1/2}\mathbf{Z}^{(1)}$$
+      $$\text{coeficientes para } \mathbf{Z}^{(1)}\text{: } \mathbf{a}_k'\mathbf{V}_{11}^{1/2}$$
+      $$\text{coeficientes para } \mathbf{Z}^{(2)}\text{: } \mathbf{b}_k'\mathbf{V}_{22}^{1/2}$$
+      <p>$\mathbf{V}_{11}^{1/2}$ e $\mathbf{V}_{22}^{1/2}$: matrizes diagonais dos desvios padrão de cada grupo. As correlações canônicas são as mesmas.</p>
+    </div>
+    <p>Isso é particular da correlação canônica. Nos <span class="ref" data-ref="f-cpr-padr">componentes principais (cap. 8)</span>, padronizar mudava a resposta de forma imprevisível; aqui, multiplicar cada variável por uma constante só reescala o coeficiente dela. Mais geral ainda: as correlações canônicas não mudam com nenhuma transformação linear invertível de cada grupo ($\mathbf{CX}^{(1)}$ e $\mathbf{DX}^{(2)}$).</p>
+    <div class="ideia">Padronizar as variáveis multiplica cada coeficiente canônico pelo desvio padrão da variável e deixa as correlações canônicas iguais; nos componentes principais não é assim.</div>
+   </div>
+   <aside class="apoio">
+    <div class="quiz" data-correta="d">
+      <p class="enunciado">Numa análise canônica com as variáveis originais, o coeficiente de "renda (em reais)" em $U_1$ é 0,0004, e o desvio padrão da renda é 2500 reais. Qual o coeficiente da renda padronizada?</p>
+      <div class="alts">
+        <button data-op="a">(a) 0,0004: padronizar não muda os coeficientes.</button>
+        <button data-op="b">(b) Não dá para saber sem refazer toda a análise com $\mathbf{R}$.</button>
+        <button data-op="c">(c) 0,0004/2500.</button>
+        <button data-op="d">(d) $0{,}0004 \times 2500 = 1{,}0$.</button>
+      </div>
+      <div class="fb" data-op="a">O coeficiente depende da unidade: o mesmo $U_1$ escrito com renda padronizada precisa de outro peso.</div>
+      <div class="fb" data-op="b">Na correlação canônica dá: o coeficiente padronizado é o original vezes o desvio padrão. (Nos componentes principais é que seria preciso refazer.)</div>
+      <div class="fb" data-op="c">É o contrário: renda $= \mu + 2500Z$, então o termo $0{,}0004 \times \text{renda}$ vira $0{,}0004 \times 2500 \times Z$ (mais constante).</div>
+      <div class="fb" data-op="d">Isso: $\mathbf{a}_k'\mathbf{V}_{11}^{1/2}$ multiplica cada coeficiente pelo desvio padrão da variável. Um coeficiente "minúsculo" pode ser grande na escala padronizada.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Correlações com as variáveis">
+   <div class="texto">
+    <h2>Correlações entre variáveis canônicas e variáveis originais ajudam a dar nome</h2>
+    <p>Para "identificar" as variáveis canônicas, olha-se a correlação de cada uma com as variáveis de cada grupo. Com $\mathbf{A}$ e $\mathbf{B}$ as matrizes cujas linhas são os $\mathbf{a}_k'$ e $\mathbf{b}_k'$ ($\mathbf{U} = \mathbf{AX}^{(1)}$, $\mathbf{V} = \mathbf{BX}^{(2)}$):</p>
+    <div class="formula" data-ref-id="f-cc-corr" data-ref-tipo="formula" data-ref-nome="Correlações entre variáveis canônicas e originais">
+      $$\boldsymbol\rho_{\mathbf{U}, \mathbf{X}^{(1)}} = \mathbf{A}\boldsymbol\Sigma_{11}\mathbf{V}_{11}^{-1/2}$$
+      $$\boldsymbol\rho_{\mathbf{V}, \mathbf{X}^{(2)}} = \mathbf{B}\boldsymbol\Sigma_{22}\mathbf{V}_{22}^{-1/2}$$
+      $$\boldsymbol\rho_{\mathbf{U}, \mathbf{X}^{(2)}} = \mathbf{A}\boldsymbol\Sigma_{12}\mathbf{V}_{22}^{-1/2}$$
+      $$\boldsymbol\rho_{\mathbf{V}, \mathbf{X}^{(1)}} = \mathbf{B}\boldsymbol\Sigma_{21}\mathbf{V}_{11}^{-1/2}$$
+      <p>Com variáveis padronizadas: $\boldsymbol\rho_{\mathbf{U}, \mathbf{Z}^{(1)}} = \mathbf{A}_z\boldsymbol\rho_{11}$, $\boldsymbol\rho_{\mathbf{V}, \mathbf{Z}^{(2)}} = \mathbf{B}_z\boldsymbol\rho_{22}$ e assim por diante; os valores são os mesmos.</p>
+    </div>
+    <p>Cuidado: como nos <span class="ref" data-ref="f-cpr-corr">componentes (cap. 8)</span>, essas correlações são informação de uma variável por vez; não mostram como as variáveis contribuem juntas. Muitos preferem julgar pelos coeficientes padronizados. O ideal é olhar os dois.</p>
+    <div class="ideia">A correlação de $U_k$ com as variáveis do próprio grupo é a linha $k$ de $\mathbf{A}\boldsymbol\Sigma_{11}\mathbf{V}_{11}^{-1/2}$ (com dados padronizados, $\mathbf{A}_z\boldsymbol\rho_{11}$); ela ajuda a nomear, mas ignora a contribuição conjunta.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Nos <span class="ref" data-ref="ex-cc4">dois pares padronizados</span>, $\mathbf{a}_1' = [0{,}86;\ 0{,}28]$ e $\mathbf{b}_1' = [0{,}54;\ 0{,}74]$.</p>
+      <p>$\mathrm{Corr}(U_1, Z_1^{(1)})$: <input class="lacuna" data-resp="0.97" data-tol="0.005" aria-label="corr U1 Z11"><br>$\mathrm{Corr}(U_1, Z_2^{(1)})$: <input class="lacuna" data-resp="0.62" data-tol="0.005" aria-label="corr U1 Z21"><br>$\mathrm{Corr}(V_1, Z_2^{(2)})$: <input class="lacuna" data-resp="0.85" data-tol="0.005" aria-label="corr V1 Z22"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $\mathbf{a}_1'\boldsymbol\rho_{11}$ $= [0{,}86 + 0{,}28 \times 0{,}4;$ $0{,}86 \times 0{,}4 + 0{,}28]$.</p>
+      <div class="resolucao" hidden><p>$\mathbf{a}_1'\boldsymbol\rho_{11} = [0{,}97;\ 0{,}62]$ e $\mathbf{b}_1'\boldsymbol\rho_{22} = [0{,}69;\ 0{,}85]$. A primeira variável de $\mathbf{Z}^{(1)}$ e a segunda de $\mathbf{Z}^{(2)}$ são as mais ligadas a $U_1$ e $V_1$, como os coeficientes já diziam; as correlações só exageram essa importância, porque ignoram a outra variável do grupo.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Generaliza outras">
+   <div class="texto">
+    <h2>A correlação canônica generaliza a correlação simples e a múltipla</h2>
+    <ul>
+      <li><strong>Simples:</strong> com uma variável em cada grupo, $\rho_1^* = |\mathrm{Corr}(X^{(1)}, X^{(2)})|$. Com mais variáveis, escolhendo $\mathbf{a}$ e $\mathbf{b}$ com um só 1, vê-se que $\rho_1^*$ é pelo menos o maior $|\rho_{ik}|$ entre grupos.</li>
+      <li><strong>Múltipla:</strong> com uma só variável no primeiro grupo, $\rho_1^*$ é a <span class="ref" data-ref="f-melhor-preditor">correlação múltipla</span> dela com o segundo grupo.</li>
+      <li><strong>De novo múltipla:</strong> $\rho_k^*$ é a correlação múltipla de $U_k$ com $\mathbf{X}^{(2)}$ e de $V_k$ com $\mathbf{X}^{(1)}$.</li>
+    </ul>
+    <div class="formula" data-ref-id="f-cc-multipla" data-ref-tipo="formula" data-ref-nome="Correlação canônica como correlação múltipla">
+      $$\rho_{U_k(\mathbf{X}^{(2)})} = \max_{\mathbf{b}}\mathrm{Corr}(U_k, \mathbf{b}'\mathbf{X}^{(2)}) = \rho_k^*$$
+      $$\rho_{V_k(\mathbf{X}^{(1)})} = \max_{\mathbf{a}}\mathrm{Corr}(\mathbf{a}'\mathbf{X}^{(1)}, V_k) = \rho_k^*$$
+    </div>
+    <p>Por isso $\rho_k^{*2}$ é a fração da variância de $U_k$ explicada pelo outro grupo, e de $V_k$ pelo primeiro: a <strong>variância compartilhada</strong>. A maior, $\rho_1^{*2}$, é às vezes usada como medida de "sobreposição" entre os grupos.</p>
+    <p>Um uso curioso: medidas em ângulo, como a direção do vento $\theta$, entram como o par $[\cos\theta, \sin\theta]$. Uma combinação $b_1\cos\theta + b_2\sin\theta$ é proporcional a $\cos(\theta - \beta)$, então a análise canônica escolhe a melhor "origem" $\beta$ para o ângulo.</p>
+    <div class="ideia">A 1ª correlação canônica é pelo menos a maior correlação entre variáveis dos dois grupos, vira a correlação múltipla quando um grupo tem uma variável, e seu quadrado é a variância compartilhada.</div>
+   </div>
+   <aside class="apoio">
+    <div class="prever" data-sim="sim-vento">
+      <p>Em 19 dias, mediu-se o ozônio no centro de uma cidade e a direção do vento $\theta$ (a partir do norte). A correlação do ozônio é 0,166 com $\cos\theta$ e 0,694 com $\sin\theta$. A correlação canônica fica perto de qual valor?</p>
+      <div class="alts">
+        <button data-op="a">0,694, a maior das duas</button>
+        <button data-op="b" data-certa>Um pouco acima de 0,694</button>
+        <button data-op="c">0,86, a soma das duas</button>
+      </div>
+      <div class="explica" hidden><p>Com uma variável no primeiro grupo, é a correlação múltipla do ozônio com $\cos\theta$ e $\sin\theta$: 0,72 ($R^2 = 0{,}52$). A combinação ótima aponta $\beta \approx 74°$: o ozônio é mais alto com vento vindo dessa direção (perto do leste).</p></div>
+    </div>
+    <div class="sim" id="sim-vento">
+      <label>Origem $\beta$ do ângulo <input type="range" id="vt-b" min="0" max="180" step="1" value="0"> <strong id="vt-b-v">0°</strong></label>
+      <svg viewBox="0 0 340 200" id="vt-svg" role="img" aria-label="Correlação entre ozônio e cos(θ − β) para cada origem β"></svg>
+      <p id="vt-txt" style="margin:.4rem 0 0;font-size:.93rem"></p>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Resumo ruim">
+   <div class="texto">
+    <h2>Correlação canônica alta não quer dizer que as variáveis canônicas resumem bem cada grupo</h2>
+    <p>Os coeficientes são escolhidos para maximizar correlações, não para representar a variação dentro de cada grupo. Quando os primeiros pares resumem mal $\boldsymbol\Sigma_{11}$ e $\boldsymbol\Sigma_{22}$, fica difícil interpretar uma correlação canônica alta. Um exemplo extremo:</p>
+    $$\boldsymbol\Sigma = \begin{bmatrix} 100 & 0 & 0 & 0 \\ 0 & 1 & 0{,}95 & 0 \\ 0 & 0{,}95 & 1 & 0 \\ 0 & 0 & 0 & 100 \end{bmatrix}$$
+    <p>O 1º par é $U_1 = X_2^{(1)}$ e $V_1 = X_1^{(2)}$, com $\rho_1^* = 0{,}95$. Mas quase toda a variação do primeiro grupo está em $X_1^{(1)}$ (variância 100), sem correlação com $U_1$; o mesmo no segundo grupo com $X_2^{(2)}$.</p>
+    <p><strong>Geometria.</strong> Com $\boldsymbol\Sigma_{11} = \mathbf{P}_1\boldsymbol\Lambda_1\mathbf{P}_1'$, a matriz de coeficientes é $\mathbf{A} = \mathbf{E}'\mathbf{P}_1\boldsymbol\Lambda_1^{-1/2}\mathbf{P}_1'$. Ler da direita para a esquerda: (1) $\boldsymbol\Lambda_1^{-1/2}\mathbf{P}_1'\mathbf{X}^{(1)}$ são os componentes principais do primeiro grupo, padronizados; (2) $\mathbf{P}_1$ gira; (3) $\mathbf{E}'$ gira de novo, agora com uma rotação que depende da matriz de covariância inteira. Ao padronizar os componentes, a análise trata uma direção de variância minúscula com o mesmo peso de uma enorme, e é isso que permite exemplos como o acima.</p>
+    <div class="ideia">As variáveis canônicas maximizam correlação entre grupos, não variância dentro do grupo; um par com correlação alta pode viver numa direção de pouca variação.</div>
+   </div>
+   <aside class="apoio">
+    <div class="pare">
+      <p>No exemplo ao lado, que fração da variância total do primeiro grupo $U_1 = X_2^{(1)}$ representa? E o que se deveria relatar junto com $\rho_1^* = 0{,}95$?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>A variância total do grupo é $100 + 1 = 101$, e $U_1$ carrega 1 dela: menos de 1%. Junto com a correlação canônica, convém relatar quanto da variância de cada grupo as variáveis canônicas representam; aqui, isso mostraria que o par mais correlacionado diz muito pouco sobre cada grupo.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 10.3 ================= -->
+  <div class="secao" data-numero="10.3" data-titulo="Na amostra" data-livro="§10.4">
+
+  <section class="passo" data-titulo="Correlações amostrais">
+   <div class="texto">
+    <h2>Na amostra: os mesmos passos com as partes de $\mathbf{S}$ (ou de $\mathbf{R}$)</h2>
+    <p>Com $n$ observações dos dois grupos, particione $\mathbf{S}$ do mesmo jeito: $\mathbf{S}_{11}$, $\mathbf{S}_{12} = \mathbf{S}_{21}'$, $\mathbf{S}_{22}$. As correlações e variáveis canônicas amostrais saem como na população:</p>
+    <div class="formula" data-ref-id="f-cc-amostra" data-ref-tipo="formula" data-ref-nome="Correlações e variáveis canônicas amostrais">
+      $$\hat\rho_1^{*2} \ge \cdots \ge \hat\rho_p^{*2}:\ \text{autovalores de}$$
+      $$\mathbf{S}_{11}^{-1/2}\mathbf{S}_{12}\mathbf{S}_{22}^{-1}\mathbf{S}_{21}\mathbf{S}_{11}^{-1/2}$$
+      $$\hat U_k = \hat{\mathbf{a}}_k'\mathbf{x}^{(1)} = \hat{\mathbf{e}}_k'\mathbf{S}_{11}^{-1/2}\mathbf{x}^{(1)}$$
+      $$\hat V_k = \hat{\mathbf{b}}_k'\mathbf{x}^{(2)} = \hat{\mathbf{f}}_k'\mathbf{S}_{22}^{-1/2}\mathbf{x}^{(2)}$$
+      $$\mathbf{R}_{\hat{\mathbf{U}}, \mathbf{x}^{(1)}} = \hat{\mathbf{A}}\mathbf{S}_{11}\mathbf{D}_{11}^{-1/2}$$
+      $$\mathbf{R}_{\hat{\mathbf{V}}, \mathbf{x}^{(2)}} = \hat{\mathbf{B}}\mathbf{S}_{22}\mathbf{D}_{22}^{-1/2}$$
+      <p>$\mathbf{D}_{11}^{-1/2}$ e $\mathbf{D}_{22}^{-1/2}$ têm na diagonal o inverso dos desvios padrão amostrais. Com dados padronizados, use $\mathbf{R}$ e $\mathbf{D} = \mathbf{I}$.</p>
+    </div>
+    <p>As variáveis canônicas amostrais têm variância amostral 1 e correlações amostrais zero fora dos pares correspondentes. Gráficos de $(\hat U_1, \hat V_1)$ podem mostrar observações atípicas; com $n$ grande, vale construir a análise numa metade dos dados e conferir na outra.</p>
+    <p>Nos <span class="ref" data-ref="ex-frango-cc">ossos de galinha</span>, entre medidas da cabeça e das pernas: $\hat\rho_1^* = 0{,}631$ e $\hat\rho_2^* = 0{,}057$. $\hat V_1$ é quase só a tíbia, e $\hat U_1$ pesa mais o comprimento do crânio.</p>
+    <div class="ideia">Na amostra, as correlações canônicas e os coeficientes saem dos autovalores e autovetores de $\mathbf{S}_{11}^{-1/2}\mathbf{S}_{12}\mathbf{S}_{22}^{-1}\mathbf{S}_{21}\mathbf{S}_{11}^{-1/2}$ (ou da mesma matriz com $\mathbf{R}$), exatamente como na população.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-frango-cc" data-ref-tipo="exemplo" data-ref-nome="Ossos de galinha: cabeça contra pernas">
+      <p>As <span class="ref" data-ref="ex-frango">276 galinhas do cap. 9</span>, agora em dois grupos: cabeça ($z_1^{(1)}$ = comprimento do crânio, $z_2^{(1)}$ = largura do crânio) e pernas ($z_1^{(2)}$ = fêmur, $z_2^{(2)}$ = tíbia).</p>
+      $$\mathbf{R} = \begin{bmatrix} 1 & 0{,}505 & 0{,}569 & 0{,}602 \\ 0{,}505 & 1 & 0{,}422 & 0{,}467 \\ 0{,}569 & 0{,}422 & 1 & 0{,}926 \\ 0{,}602 & 0{,}467 & 0{,}926 & 1 \end{bmatrix}$$
+      $$\hat U_1 = 0{,}781z_1^{(1)} + 0{,}345z_2^{(1)}$$
+      $$\hat V_1 = 0{,}060z_1^{(2)} + 0{,}944z_2^{(2)}$$
+      $$\hat U_2 = -0{,}856z_1^{(1)} + 1{,}106z_2^{(1)}$$
+      $$\hat V_2 = -2{,}648z_1^{(2)} + 2{,}475z_2^{(2)}$$
+      <p>Correlações com as variáveis do próprio grupo: $\hat U_1$: 0,95 e 0,74; $\hat V_1$: 0,93 e 1,00.</p>
+    </div>
+    <div class="quiz" data-correta="b">
+      <p class="enunciado">Nos ossos de galinha, $\hat V_1 = 0{,}060z_1^{(2)} + 0{,}944z_2^{(2)}$, mas a correlação de $\hat V_1$ com o fêmur ($z_1^{(2)}$) é 0,93. Como conciliar?</p>
+      <div class="alts">
+        <button data-op="a">(a) Há um erro: correlação alta exige coeficiente alto.</button>
+        <button data-op="b">(b) Fêmur e tíbia têm correlação 0,926; a tíbia já carrega quase toda a informação do fêmur, que por isso recebe peso pequeno, mas continua muito correlacionado com $\hat V_1$.</button>
+        <button data-op="c">(c) O fêmur não tem relação com a cabeça.</button>
+        <button data-op="d">(d) Os coeficientes estão em unidades diferentes das correlações.</button>
+      </div>
+      <div class="fb" data-op="a">Com variáveis muito correlacionadas, coeficiente e correlação podem discordar bastante. Não há erro.</div>
+      <div class="fb" data-op="b">Isso: o coeficiente mede o que o fêmur acrescenta além da tíbia (quase nada); a correlação mede a relação dele sozinho com $\hat V_1$ (forte). É o aviso sobre correlações ignorarem a contribuição conjunta.</div>
+      <div class="fb" data-op="c">O fêmur tem correlação 0,57 com o comprimento do crânio. O peso pequeno vem da redundância com a tíbia.</div>
+      <div class="fb" data-op="d">Aqui tudo está padronizado; coeficientes e correlações estão na mesma escala.</div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Satisfação no trabalho">
+   <div class="texto">
+    <h2>Satisfação no trabalho: coeficientes e correlações contam histórias diferentes</h2>
+    <p>Num estudo com 784 executivos de uma rede varejista, mediram-se $p = 5$ características do trabalho e $q = 7$ aspectos da satisfação (<span class="ref" data-ref="ex-trabalho">detalhes ao lado</span>). A primeira correlação canônica é $\hat\rho_1^* = 0{,}55$.</p>
+    <p><strong>Pelos coeficientes</strong> (padronizados), $\hat U_1$ é sobretudo retorno e autonomia (0,42 e 0,55; as tarefas pesam pouco), e $\hat V_1$ junta satisfação com o supervisor, com o futuro na carreira, com o tipo de trabalho e identificação com a empresa.</p>
+    <p><strong>Pelas correlações</strong>, as cinco características têm correlações parecidas com $\hat U_1$ (de 0,62 a 0,85): $\hat U_1$ parece um "índice" geral das características do trabalho. Para $\hat V_1$ as duas leituras concordam: um índice de satisfação e identificação com a empresa. A correlação de 0,55 entre os dois índices indica alguma sobreposição entre características e satisfação.</p>
+    <p>As correlações cruzadas (de uma variável com a variável canônica do <em>outro</em> grupo) também aparecem na tabela: as de $\hat U_1$ com as satisfações são as de $\hat V_1$ vezes 0,55, aproximadamente.</p>
+    <div class="ideia">Coeficientes padronizados e correlações podem sugerir nomes diferentes para a mesma variável canônica; relate os dois e prefira os coeficientes para a contribuição conjunta.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo" data-ref-id="ex-trabalho" data-ref-tipo="exemplo" data-ref-nome="Características do trabalho e satisfação de 784 executivos">
+      <p>Correlações amostrais com o 1º par canônico.</p>
+      <table>
+        <thead><tr><th>Características</th><th>$\hat U_1$</th><th>$\hat V_1$</th></tr></thead>
+        <tbody>
+          <tr><th>retorno</th><td>0,83</td><td>0,46</td></tr>
+          <tr><th>importância da tarefa</th><td>0,74</td><td>0,41</td></tr>
+          <tr><th>variedade da tarefa</th><td>0,75</td><td>0,42</td></tr>
+          <tr><th>identidade da tarefa</th><td>0,62</td><td>0,34</td></tr>
+          <tr><th>autonomia</th><td>0,85</td><td>0,48</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>Satisfação</th><th>$\hat U_1$</th><th>$\hat V_1$</th></tr></thead>
+        <tbody>
+          <tr><th>supervisor</th><td>0,42</td><td>0,75</td></tr>
+          <tr><th>futuro na carreira</th><td>0,35</td><td>0,65</td></tr>
+          <tr><th>salário</th><td>0,21</td><td>0,39</td></tr>
+          <tr><th>carga de trabalho</th><td>0,21</td><td>0,37</td></tr>
+          <tr><th>identificação com a empresa</th><td>0,36</td><td>0,65</td></tr>
+          <tr><th>tipo de trabalho</th><td>0,44</td><td>0,80</td></tr>
+          <tr><th>geral</th><td>0,28</td><td>0,50</td></tr>
+        </tbody>
+      </table>
+      <p>Correlações canônicas: 0,55; 0,23; 0,12; 0,08; 0,05.</p>
+    </div>
+    <div class="pare">
+      <p>A correlação entre "autonomia" e $\hat V_1$ é 0,48, e entre "autonomia" e $\hat U_1$ é 0,85. Por que $0{,}85 \times 0{,}55 \approx 0{,}47$ dá quase o primeiro número?</p>
+      <button class="btn" data-revelar>Ver resposta</button>
+      <div class="resposta" hidden><p>$\hat V_1$ se relaciona com o primeiro grupo praticamente só por meio de $\hat U_1$ (é o par mais correlacionado, e os outros pares têm correlação pequena). Então a correlação de uma variável do primeiro grupo com $\hat V_1$ é, aproximadamente, a correlação dela com $\hat U_1$ vezes $\hat\rho_1^* = 0{,}55$.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 10.4 ================= -->
+  <div class="secao" data-numero="10.4" data-titulo="Medidas descritivas" data-livro="§10.5">
+
+  <section class="passo" data-titulo="Erros de aproximação">
+   <div class="texto">
+    <h2>Quanto os primeiros pares reproduzem as matrizes de covariância</h2>
+    <p>Como $\hat{\mathbf{U}} = \hat{\mathbf{A}}\mathbf{x}^{(1)}$ e $\hat{\mathbf{V}} = \hat{\mathbf{B}}\mathbf{x}^{(2)}$, vale $\mathbf{x}^{(1)} = \hat{\mathbf{A}}^{-1}\hat{\mathbf{U}}$ e $\mathbf{x}^{(2)} = \hat{\mathbf{B}}^{-1}\hat{\mathbf{V}}$. Com $\hat{\mathbf{a}}^{(i)}$ e $\hat{\mathbf{b}}^{(i)}$ as colunas de $\hat{\mathbf{A}}^{-1}$ e $\hat{\mathbf{B}}^{-1}$ (covariâncias das variáveis com a $i$-ésima variável canônica):</p>
+    <div class="formula" data-ref-id="f-cc-erro" data-ref-tipo="formula" data-ref-nome="Matrizes de erro de aproximação">
+      $$\begin{aligned} \mathbf{S}_{12} &= \hat\rho_1^*\hat{\mathbf{a}}^{(1)}\hat{\mathbf{b}}^{(1)\prime} + \hat\rho_2^*\hat{\mathbf{a}}^{(2)}\hat{\mathbf{b}}^{(2)\prime} \\ &\quad + \cdots + \hat\rho_p^*\hat{\mathbf{a}}^{(p)}\hat{\mathbf{b}}^{(p)\prime} \end{aligned}$$
+      $$\mathbf{S}_{11} = \hat{\mathbf{a}}^{(1)}\hat{\mathbf{a}}^{(1)\prime} + \cdots + \hat{\mathbf{a}}^{(p)}\hat{\mathbf{a}}^{(p)\prime}$$
+      $$\mathbf{S}_{22} = \hat{\mathbf{b}}^{(1)}\hat{\mathbf{b}}^{(1)\prime} + \cdots + \hat{\mathbf{b}}^{(q)}\hat{\mathbf{b}}^{(q)\prime}$$
+      <p>Usando só os $r$ primeiros pares, os erros são as somas dos termos de $r + 1$ em diante.</p>
+    </div>
+    <p>O erro em $\mathbf{S}_{12}$ vem multiplicado pelas correlações canônicas descartadas, que costumam ser pequenas; o erro em $\mathbf{S}_{11}$ e $\mathbf{S}_{22}$ depende só dos últimos vetores de coeficientes, que podem ser grandes. Por isso, em geral, os primeiros pares reproduzem bem a covariância <em>entre</em> grupos e mal a covariância <em>dentro</em> de cada grupo.</p>
+    <p>Nos <span class="ref" data-ref="ex-frango-cc">ossos de galinha</span>, com só o 1º par, o erro em $\mathbf{R}_{12}$ tem entradas de no máximo 0,014; mas o erro em $\mathbf{R}_{11}$ chega a 0,454 (na variância da largura do crânio) e o em $\mathbf{R}_{22}$, a 0,127. O 1º par resume bem a ligação cabeça–pernas e mal a variação de cada grupo, sobretudo da cabeça.</p>
+    <div class="ideia">Os $r$ primeiros pares reproduzem $\mathbf{S}_{12}$ com erro proporcional às correlações canônicas descartadas (pequenas), mas podem reproduzir mal $\mathbf{S}_{11}$ e $\mathbf{S}_{22}$.</div>
+   </div>
+   <aside class="apoio">
+    <div class="exemplo">
+      <p><span class="ref" data-ref="ex-frango-cc">Ossos de galinha</span>, com dados padronizados:</p>
+      $$\hat{\mathbf{A}}_z^{-1} = \begin{bmatrix} 0{,}955 & -0{,}297 \\ 0{,}739 & 0{,}674 \end{bmatrix}$$
+      $$\hat{\mathbf{B}}_z^{-1} = \begin{bmatrix} 0{,}934 & -0{,}356 \\ 1{,}000 & 0{,}023 \end{bmatrix}$$
+      <p>A primeira coluna de cada uma traz as correlações das variáveis com $\hat U_1$ e $\hat V_1$.</p>
+    </div>
+    <div class="lacunas">
+      <p>Erro em $\mathbf{R}_{11}$ usando só o 1º par: $\hat{\mathbf{a}}_z^{(2)}\hat{\mathbf{a}}_z^{(2)\prime}$, com $\hat{\mathbf{a}}_z^{(2)} = [-0{,}297;\ 0{,}674]'$.</p>
+      <p>Entrada (1, 1): <input class="lacuna" data-resp="0.088" data-tol="0.002" aria-label="erro 11"><br>Entrada (1, 2): <input class="lacuna" data-resp="-0.2" data-tol="0.002" aria-label="erro 12"><br>Entrada (2, 2): <input class="lacuna" data-resp="0.454" data-tol="0.002" aria-label="erro 22"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: é o produto externo do vetor por ele mesmo: $(-0{,}297)^2$, $(-0{,}297)(0{,}674)$, $0{,}674^2$.</p>
+      <div class="resolucao" hidden><p>$0{,}088$; $-0{,}200$; $0{,}454$. O erro em $\mathbf{R}_{12}$, por outro lado, é $0{,}057\,\hat{\mathbf{a}}_z^{(2)}\hat{\mathbf{b}}_z^{(2)\prime}$, com entradas de no máximo 0,014: multiplicado pela segunda correlação canônica, quase nula.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Proporção explicada">
+   <div class="texto">
+    <h2>Que fração da variância de cada grupo as variáveis canônicas explicam</h2>
+    <p>Com dados padronizados, as colunas de $\hat{\mathbf{A}}_z^{-1}$ e $\hat{\mathbf{B}}_z^{-1}$ são as correlações das variáveis com as variáveis canônicas. As variâncias totais são $\mathrm{tr}(\mathbf{R}_{11}) = p$ e $\mathrm{tr}(\mathbf{R}_{22}) = q$, e a parte devida aos $r$ primeiros pares dá:</p>
+    <div class="formula" data-ref-id="f-cc-prop" data-ref-tipo="formula" data-ref-nome="Proporção da variância explicada pelas variáveis canônicas">
+      $$R^2_{\mathbf{z}^{(1)} \mid \hat U_1, \dots, \hat U_r} = \frac{1}{p}\sum_{i=1}^r\sum_{k=1}^p r^2_{\hat U_i, z_k^{(1)}}$$
+      $$R^2_{\mathbf{z}^{(2)} \mid \hat V_1, \dots, \hat V_r} = \frac{1}{q}\sum_{i=1}^r\sum_{k=1}^q r^2_{\hat V_i, z_k^{(2)}}$$
+    </div>
+    <p>São números únicos que resumem as matrizes de erro: um menos a proporção é o traço da matriz de erro dividido por $p$ (ou $q$). Medem o quanto as variáveis canônicas representam o próprio grupo, que é diferente de o quanto se correlacionam com o outro grupo.</p>
+    <p>Na <span class="ref" data-ref="ex-trabalho">satisfação no trabalho</span>: $\hat U_1$ explica 58% da variância padronizada das características, e $\hat V_1$, 37% da das satisfações; $\hat U_1$ representa melhor seu grupo do que $\hat V_1$. Nos <span class="ref" data-ref="ex-frango-cc">ossos de galinha</span>: $\hat U_1$ explica 73% da variância da cabeça, e $\hat V_1$, 94% da das pernas.</p>
+    <div class="ideia">A proporção da variância padronizada de um grupo explicada por suas $r$ primeiras variáveis canônicas é a média, nas variáveis do grupo, das correlações ao quadrado com elas.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Na <span class="ref" data-ref="ex-trabalho">satisfação no trabalho</span>, as correlações de $\hat U_1$ com as cinco características são 0,83; 0,74; 0,75; 0,62; 0,85.</p>
+      <p>Proporção da variância das características explicada por $\hat U_1$: <input class="lacuna" data-resp="0.58" data-tol="0.005" aria-label="proporção U1"></p>
+      <p>Nos ossos de galinha, $\hat U_1$ tem correlações 0,955 e 0,739 com as medidas da cabeça. Proporção: <input class="lacuna" data-resp="0.73" data-tol="0.005" aria-label="proporção cabeça"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: média dos quadrados das correlações.</p>
+      <div class="resolucao" hidden><p>$(0{,}689 + 0{,}548 + 0{,}563$ $+ 0{,}384 + 0{,}723)/5 = 0{,}58$. $(0{,}912 + 0{,}546)/2 = 0{,}73$; e $1 - 0{,}73 = 0{,}27$ é o traço da matriz de erro de $\mathbf{R}_{11}$ ($0{,}088 + 0{,}454$) dividido por 2.</p></div>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <!-- ================= SEÇÃO 10.5 ================= -->
+  <div class="secao" data-numero="10.5" data-titulo="Inferência" data-livro="§10.6">
+
+  <section class="passo" data-titulo="Teste de independência">
+   <div class="texto">
+    <h2>Testar se os grupos têm alguma relação: $\boldsymbol\Sigma_{12} = \mathbf{0}$</h2>
+    <p>Se $\boldsymbol\Sigma_{12} = \mathbf{0}$, toda combinação de um grupo tem covariância zero com toda combinação do outro, e todas as correlações canônicas são zero: não há por que seguir. Com dados normais, a <span class="ref" data-ref="f-rv-geral">razão de verossimilhanças (cap. 5)</span> compara a variância generalizada com e sem a restrição, $|\mathbf{S}_{11}||\mathbf{S}_{22}|$ contra $|\mathbf{S}|$:</p>
+    <div class="formula" data-ref-id="f-cc-teste" data-ref-tipo="formula" data-ref-nome="Teste de que todas as correlações canônicas são zero">
+      $$\begin{aligned} -2\ln\Lambda &= n\ln\frac{|\mathbf{S}_{11}||\mathbf{S}_{22}|}{|\mathbf{S}|} \\ &= -n\ln\prod_{i=1}^p(1 - \hat\rho_i^{*2}) \end{aligned}$$
+      $$\text{rejeita } H_0\!: \boldsymbol\Sigma_{12} = \mathbf{0} \text{ se}$$
+      $$\begin{aligned} &-\Big(n - 1 - \frac{p + q + 1}{2}\Big)\ln\prod_{i=1}^p(1 - \hat\rho_i^{*2}) \\ &\quad > \chi^2_{pq}(\alpha) \end{aligned}$$
+    </div>
+    <p>O fator $n - 1 - (p + q + 1)/2$ é a correção de Bartlett, que melhora a aproximação qui-quadrado; vale para $n$ e $n - (p + q)$ grandes. Os $pq$ graus de liberdade são as entradas de $\boldsymbol\Sigma_{12}$ que $H_0$ zera.</p>
+    <p>Nas <span class="ref" data-ref="ex-acoes">cinco ações (cap. 8)</span>, separando químicas ($p = 3$) de petrolíferas ($q = 2$): $\hat\rho_1^* = 0{,}566$ e $\hat\rho_2^* = 0{,}155$. Com $n = 100$, a estatística é 39,5, muito acima de $\chi^2_6(0{,}05) = 12{,}59$: os dois setores estão associados.</p>
+    <div class="ideia">Para testar se não há relação nenhuma entre os grupos, use $-(n - 1 - (p + q + 1)/2)\ln\prod(1 - \hat\rho_i^{*2})$ contra uma qui-quadrado com $pq$ graus de liberdade.</div>
+   </div>
+   <aside class="apoio">
+    <div class="lacunas">
+      <p>Nas <span class="ref" data-ref="ex-acoes">ações</span>, químicas contra petrolíferas: $n = 100$, $p = 3$, $q = 2$, $\hat\rho_1^* = 0{,}566$, $\hat\rho_2^* = 0{,}155$.</p>
+      <p>$\prod(1 - \hat\rho_i^{*2})$: <input class="lacuna" data-resp="0.663" data-tol="0.003" aria-label="produto"><br>Fator de Bartlett: <input class="lacuna" data-resp="96" data-tol="0.01" aria-label="fator"><br>Estatística: <input class="lacuna" data-resp="39.5" data-tol="0.4" aria-label="estatística"><br>Graus de liberdade: <input class="lacuna" data-resp="6" data-tol="0" aria-label="graus de liberdade"></p>
+      <button class="btn" data-conferir>Conferir</button>
+      <p class="dica" hidden>Dica: $(1 - 0{,}320)(1 - 0{,}024)$; o fator é $100 - 1 - (3 + 2 + 1)/2$.</p>
+      <div class="resolucao" hidden><p>$0{,}680 \times 0{,}976 = 0{,}663$; fator $= 96$; $-96\ln(0{,}663) = 39{,}5$, com $3 \times 2 = 6$ graus de liberdade. Como $39{,}5 > 12{,}59$, rejeita-se $\boldsymbol\Sigma_{12} = \mathbf{0}$.</p></div>
+    </div>
+   </aside>
+  </section>
+
+  <section class="passo" data-titulo="Testes em sequência">
+   <div class="texto">
+    <h2>Quantas correlações canônicas são diferentes de zero? Testes em sequência</h2>
+    <p>Rejeitado $\boldsymbol\Sigma_{12} = \mathbf{0}$, a pergunta seguinte é quantas correlações importam. Supõe-se que a 1ª é diferente de zero e testa-se se as outras são zero; se rejeitar, supõe-se as duas primeiras, e assim por diante:</p>
+    <div class="formula" data-ref-id="f-cc-seq" data-ref-tipo="formula" data-ref-nome="Testes sequenciais das correlações canônicas">
+      $$H_0^{(k)}\!: \rho_1^*, \dots, \rho_k^* \ne 0$$
+      $$\rho_{k+1}^* = \cdots = \rho_p^* = 0$$
+      $$\text{rejeita se}$$
+      $$\begin{aligned} &-\Big(n - 1 - \frac{p + q + 1}{2}\Big)\ln\prod_{i=k+1}^p(1 - \hat\rho_i^{*2}) \\ &\quad > \chi^2_{(p-k)(q-k)}(\alpha) \end{aligned}$$
+    </div>
+    <p>O produto agora começa em $k + 1$: é o que sobra depois de tirar as $k$ primeiras correlações. Dois cuidados. Testando um depois do outro até não rejeitar, o nível global não é $\alpha$ e é difícil de calcular. E não rejeitar não prova que a hipótese é verdadeira. Use esses testes como guia para escolher quantos pares olhar.</p>
+    <p>Na <span class="ref" data-ref="ex-trabalho">satisfação no trabalho</span> ($n = 784$), a 1% rejeita-se $\boldsymbol\Sigma_{12} = \mathbf{0}$ (340,1 contra 57,3 com 35 graus de liberdade) e rejeita-se que só a 1ª seja não nula (60,4 contra 43,0 com 24); não se rejeita que só as duas primeiras sejam (18,2 contra 30,6 com 15). Mas com uma amostra tão grande, desvios pequenos já são "significativos"; na prática a 2ª correlação (0,23) pouco acrescenta.</p>
+    <div class="ideia">Para ver quantas correlações canônicas importam, teste em sequência $\rho_{k+1}^* = \cdots = \rho_p^* = 0$ com $(p - k)(q - k)$ graus de liberdade; trate o resultado como guia, não como prova.</div>
+   </div>
+   <aside class="apoio">
+    <div class="acheerro">
+      <p>Um colega testou, a 5%, se só a 1ª correlação canônica é não nula nas <span class="ref" data-ref="ex-acoes">ações</span> ($p = 3$, $q = 2$, $\hat\rho_2^* = 0{,}155$). Toque na linha com erro.</p>
+      <ol class="linhas">
+        <li data-fb="Certo: tirada a 1ª correlação, sobra só a 2ª (com p = 3 e q = 2 há no máximo duas).">O produto que sobra é $1 - 0{,}155^2 = 0{,}976$.</li>
+        <li data-fb="Certo: −96 × ln(0,976) ≈ 2,34.">A estatística é $-96\ln(0{,}976) = 2{,}34$.</li>
+        <li data-errada data-fb="Aqui. Os graus de liberdade são (p − k)(q − k) = (3 − 1)(2 − 1) = 2, e χ²₂(0,05) = 5,99. Com 2,34 < 5,99 não se rejeita, e a conclusão (só a 1ª importa) se mantém, mas o valor de referência estava errado.">Comparo com $\chi^2_6(0{,}05) = 12{,}59$, os mesmos $pq = 6$ graus de liberdade do teste geral.</li>
+      </ol>
+    </div>
+   </aside>
+  </section>
+  </div>
+
+  <div class="nav">
+    <button id="anterior">Anterior</button>
+    <button id="proximo" class="primario">Próximo</button>
+  </div>
+</div>
+
+<!-- ============ RESUMO ============ -->
+<div id="resumo" hidden>
+  <h2>Resumo</h2>
+  <div class="revisao" id="revisao">
+    <h3>Antes de reler, teste-se</h3>
+    <p class="rev-info"></p>
+    <div id="rev-palco"></div>
+    <div class="rev-acoes">
+      <button class="btn primario" id="rev-iniciar">Começar</button>
+      <button class="btn" id="rev-proxima" hidden>Próxima</button>
+    </div>
+  </div>
+  <div class="resumo-grid">
+  <div>
+  <h3>Ideias centrais</h3>
+  <ul class="resumo-lista">
+    <li>Pares $U_k = \mathbf{a}_k'\mathbf{X}^{(1)}$, $V_k = \mathbf{b}_k'\mathbf{X}^{(2)}$ de máxima correlação, sem correlação com os pares anteriores.</li>
+    <li>$\rho_k^{*2}$ = autovalores de $\boldsymbol\Sigma_{11}^{-1/2}\boldsymbol\Sigma_{12}\boldsymbol\Sigma_{22}^{-1}\boldsymbol\Sigma_{21}\boldsymbol\Sigma_{11}^{-1/2}$; no máximo $\min(p, q)$.</li>
+    <li>Padronizar reescala os coeficientes e não muda as correlações canônicas.</li>
+    <li>Correlações com as variáveis originais ajudam a nomear, mas ignoram a contribuição conjunta.</li>
+    <li>$\rho_1^*$ é pelo menos a maior correlação entre grupos; com uma variável num grupo, é a correlação múltipla.</li>
+    <li>Correlação canônica alta pode morar numa direção de pouca variância.</li>
+    <li>Os primeiros pares reproduzem bem $\mathbf{S}_{12}$, nem sempre $\mathbf{S}_{11}$ e $\mathbf{S}_{22}$.</li>
+    <li>Proporção explicada = média das correlações ao quadrado com as variáveis do grupo.</li>
+    <li>Teste de $\boldsymbol\Sigma_{12} = \mathbf{0}$ com $pq$ graus de liberdade; testes em sequência como guia.</li>
+  </ul>
+  <h3>Fórmulas</h3>
+  <p>$$\mathrm{Corr}(U, V) = \frac{\mathbf{a}'\boldsymbol\Sigma_{12}\mathbf{b}}{\sqrt{\mathbf{a}'\boldsymbol\Sigma_{11}\mathbf{a}}\sqrt{\mathbf{b}'\boldsymbol\Sigma_{22}\mathbf{b}}}$$</p>
+  <p>$$\mathbf{a}_k = \boldsymbol\Sigma_{11}^{-1/2}\mathbf{e}_k\qquad \mathbf{b}_k = \boldsymbol\Sigma_{22}^{-1/2}\mathbf{f}_k$$</p>
+  <p>$$\begin{aligned} &-\Big(n - 1 - \frac{p + q + 1}{2}\Big)\ln\prod_{i=k+1}^p(1 - \hat\rho_i^{*2}) \\ &\quad \sim \chi^2_{(p-k)(q-k)} \end{aligned}$$</p>
+  </div>
+  <div>
+  <h3>Quando usar e quando não usar</h3>
+  <div class="lado">
+    <div><strong>Correlação canônica</strong><ul class="resumo-lista"><li>associação entre dois grupos</li><li>os dois lados com o mesmo papel</li></ul></div>
+    <div><strong>Regressão multivariada</strong><ul class="resumo-lista"><li>prever um grupo a partir do outro</li><li>preditoras e respostas</li></ul></div>
+  </div>
+  <h3>Armadilhas</h3>
+  <ul class="resumo-lista">
+    <li>A 1ª correlação canônica nunca é menor que a maior correlação individual entre grupos.</li>
+    <li>Coeficiente pequeno pode vir de redundância, não de irrelevância.</li>
+    <li>Coeficiente padronizado = original vezes desvio padrão.</li>
+    <li>Correlação canônica alta não garante bom resumo de cada grupo.</li>
+    <li>Testes em sequência: graus de liberdade $(p - k)(q - k)$, nível global incerto.</li>
+    <li>Com $n$ muito grande, correlações pequenas já dão "significativas".</li>
+  </ul>
+  </div>
+  </div>
+</div>
+
+<!-- ============ PAINEL (lista longa de referências, no fluxo da página) ============ -->
+<div id="painel" hidden>
+  <button class="btn pequeno" id="painel-voltar">← Voltar</button>
+  <h2 id="painel-titulo" style="margin-top:1rem"></h2>
+  <div id="painel-corpo"></div>
+</div>
+
+</div>
+
+<div class="balao" id="balao" role="dialog" aria-live="polite" hidden></div>
+<div class="gaveta" id="gaveta" role="dialog" aria-modal="false" hidden>
+  <div class="gaveta-interno">
+    <div class="gaveta-topo"><strong id="gaveta-titulo"></strong><button class="btn pequeno" id="gaveta-fechar" aria-label="Fechar">✕</button></div>
+    <div id="gaveta-corpo"></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/refs.js"></script>
+<script src="../assets/estudo.js"></script>
+<script>
+/* Simulações deste capítulo. Utilitários disponíveis: svgEl, corVar, fmt, tipografar, recorte. */
+function limpar(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function quandoTema(f) { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', f); }
+
+/* ===== 10.1 Mapa da correlação entre U = a'Z(1) e V = b'Z(2) ===== */
+(function () {
+  var sa = document.getElementById('cc-a');
+  if (!sa) return;
+  var sb = document.getElementById('cc-b'), svg = document.getElementById('cc-svg');
+  var R11 = [[1, 0.4], [0.4, 1]], R22 = [[1, 0.2], [0.2, 1]], R12 = [[0.5, 0.6], [0.3, 0.4]];
+  function qf(M, u, v) { return u[0] * (M[0][0] * v[0] + M[0][1] * v[1]) + u[1] * (M[1][0] * v[0] + M[1][1] * v[1]); }
+  function corr(al, be) {
+    var a = [Math.cos(al), Math.sin(al)], b = [Math.cos(be), Math.sin(be)];
+    return qf(R12, a, b) / Math.sqrt(qf(R11, a, a) * qf(R22, b, b));
+  }
+  var N = 36, grade = [];
+  for (var i = 0; i < N; i++) { grade.push([]); for (var j = 0; j < N; j++) grade[i].push(corr((i + 0.5) / N * Math.PI, (j + 0.5) / N * Math.PI)); }
+  function desenhar() {
+    var ag = +sa.value, bg = +sb.value;
+    document.getElementById('cc-a-v').textContent = ag + '°'; document.getElementById('cc-b-v').textContent = bg + '°';
+    var x0 = 50, y0 = 14, w = 200, h = 200, cel = w / N;
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), err = corVar('--err'), txt = corVar('--text'), lar = corVar('--s1');
+    limpar(svg);
+    for (var i = 0; i < N; i++) for (var j = 0; j < N; j++) {
+      var c = grade[i][j];
+      svg.appendChild(svgEl('rect', { x: x0 + i * cel, y: y0 + h - (j + 1) * cel, width: cel + 0.4, height: cel + 0.4, fill: c >= 0 ? acc : err, 'fill-opacity': Math.min(1, Math.abs(c) / 0.74) * 0.85 }));
+    }
+    svg.appendChild(svgEl('rect', { x: x0, y: y0, width: w, height: h, fill: 'none', stroke: bo }));
+    [0, 90, 180].forEach(function (g) {
+      svg.appendChild(svgEl('text', { x: x0 + g / 180 * w, y: y0 + h + 13, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, g + '°'));
+      svg.appendChild(svgEl('text', { x: x0 - 4, y: y0 + h - g / 180 * h + 3.5, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, g + '°'));
+    });
+    svg.appendChild(svgEl('text', { x: x0 + w / 2, y: y0 + h + 28, 'font-size': 10.5, fill: txt, 'text-anchor': 'middle' }, 'direção de a'));
+    svg.appendChild(svgEl('text', { x: 14, y: y0 + h / 2, 'font-size': 10.5, fill: txt, 'text-anchor': 'middle', transform: 'rotate(-90 14 ' + (y0 + h / 2) + ')' }, 'direção de b'));
+    var px = x0 + ag / 180 * w, py = y0 + h - bg / 180 * h;
+    svg.appendChild(svgEl('circle', { cx: px, cy: py, r: 6, fill: 'none', stroke: txt, 'stroke-width': 2.2 }));
+    svg.appendChild(svgEl('circle', { cx: x0 + 18 / 180 * w, cy: y0 + h - 53.5 / 180 * h, r: 3, fill: lar }));
+    svg.appendChild(svgEl('text', { x: 262, y: 30, 'font-size': 10, fill: acc }, '■ positiva'));
+    svg.appendChild(svgEl('text', { x: 262, y: 46, 'font-size': 10, fill: err }, '■ negativa'));
+    svg.appendChild(svgEl('text', { x: 262, y: 62, 'font-size': 10, fill: lar }, '● máximo'));
+    var c = corr(ag * Math.PI / 180, bg * Math.PI / 180);
+    document.getElementById('cc-txt').innerHTML = '$\\mathbf{a} \\propto (\\cos, \\sin)$ de ' + ag + '° e $\\mathbf{b}$ de ' + bg + '°: $\\mathrm{Corr}(U, V)$ = <strong>' + fmt(c, 3) + '</strong>. A maior correlação individual entre os grupos é 0,6; o máximo entre combinações é 0,739.';
+    tipografar(document.getElementById('cc-txt'));
+  }
+  sa.addEventListener('input', desenhar); sb.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+
+/* ===== 10.2 Ozônio e direção do vento: Corr(ozônio, cos(θ − β)) ===== */
+(function () {
+  var sb = document.getElementById('vt-b');
+  if (!sb) return;
+  var svg = document.getElementById('vt-svg'), r1 = 0.166, r2 = 0.694, r12 = -0.051;
+  function corr(b) { var c = Math.cos(b), s = Math.sin(b); return (r1 * c + r2 * s) / Math.sqrt(1 + 2 * r12 * c * s); }
+  function desenhar() {
+    var bg = +sb.value, b = bg * Math.PI / 180;
+    document.getElementById('vt-b-v').textContent = bg + '°';
+    var px = function (g) { return 40 + g / 180 * 280; }, py = function (v) { return 100 - v * 100; };
+    var bo = corVar('--border'), m = corVar('--muted'), acc = corVar('--accent'), lar = corVar('--s1'), roxo = corVar('--roxo');
+    limpar(svg);
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0), x2: px(180), y2: py(0), stroke: bo }));
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0.8), x2: px(0), y2: py(-0.8), stroke: bo }));
+    [-0.5, 0.5].forEach(function (v) { svg.appendChild(svgEl('text', { x: px(0) - 4, y: py(v) + 3.5, 'font-size': 9.5, fill: m, 'text-anchor': 'end' }, fmt(v, 1))); });
+    [0, 90, 180].forEach(function (g) { svg.appendChild(svgEl('text', { x: px(g), y: py(-0.8) + 12, 'font-size': 9.5, fill: m, 'text-anchor': 'middle' }, g + '°')); });
+    svg.appendChild(svgEl('line', { x1: px(0), y1: py(0.7227), x2: px(180), y2: py(0.7227), stroke: roxo, 'stroke-dasharray': '4 3' }));
+    var cam = '';
+    for (var g = 0; g <= 180; g += 2) cam += (g ? 'L' : 'M') + px(g).toFixed(1) + ' ' + py(corr(g * Math.PI / 180)).toFixed(1);
+    svg.appendChild(svgEl('path', { d: cam, fill: 'none', stroke: acc, 'stroke-width': 2 }));
+    var c = corr(b);
+    svg.appendChild(svgEl('circle', { cx: px(bg), cy: py(c), r: 5, fill: lar }));
+    svg.appendChild(svgEl('text', { x: px(180), y: py(0.7227) - 5, 'font-size': 10, fill: roxo, 'text-anchor': 'end' }, 'máximo 0,72'));
+    document.getElementById('vt-txt').innerHTML = 'Origem $\\beta$ = ' + bg + '°: $\\mathrm{Corr}(\\text{ozônio}, \\cos(\\theta - \\beta))$ = <strong>' + fmt(c, 3) + '</strong>. O máximo, 0,723, é a correlação canônica, em $\\beta \\approx 74°$.';
+    tipografar(document.getElementById('vt-txt'));
+  }
+  sb.addEventListener('input', desenhar); desenhar(); quandoTema(desenhar);
+})();
+</script>
+</body>
+</html>
